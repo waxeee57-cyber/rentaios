@@ -17,7 +17,31 @@
       "Bash(git config *)",
       "Bash(git branch *)",
       "WebSearch",
-      "WebFetch(domain:unsplash.com)"
+      "WebFetch(domain:unsplash.com)",
+      "PowerShell(head *)",
+      "PowerShell(\\(Get-Content \"C:\\\\projects\\\\costasol\\\\package.json\" | ConvertFrom-Json\\).dependencies.next)",
+      "PowerShell(cmd /c \"dir C:\\\\projects\\\\costasol\\\\node_modules\\\\next\\\\dist\" 2>&1 | Select-Object -First 20)",
+      "PowerShell(cmd /c \"dir C:\\\\projects\\\\costasol\\\\node_modules\\\\next\\\\dist\\\\docs\" 2>&1)",
+      "PowerShell(cmd /c \"dir C:\\\\projects\\\\costasol\\\\node_modules\\\\next\\\\dist\\\\docs\\\\01-app\\\\02-components\" 2>&1)",
+      "PowerShell(cmd /c \"dir C:\\\\projects\\\\costasol\\\\node_modules\\\\next\\\\dist\\\\docs\\\\01-app\" 2>&1)",
+      "PowerShell(cmd /c \"dir C:\\\\projects\\\\costasol\\\\node_modules\\\\next\\\\dist\\\\docs\\\\01-app\\\\03-api-reference\" 2>&1)",
+      "PowerShell(cmd /c \"dir C:\\\\projects\\\\costasol\\\\node_modules\\\\next\\\\dist\\\\docs\\\\01-app\\\\03-api-reference\\\\02-components\" 2>&1)",
+      "PowerShell(Test-Path \"C:\\\\projects\\\\costasol\\\\PLACEHOLDERS.md\"; cmd /c \"dir C:\\\\projects\\\\costasol\\\\supabase\\\\migrations\" 2>&1)",
+      "PowerShell(cmd /c \"dir C:\\\\projects\\\\costasol\\\\supabase\" 2>&1)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\projects\\\\costasol\" -Force | Select-Object Name, @{Name='Type'; Expression={if \\($_.PSIsContainer\\) { 'dir' } else { 'file' }}} | Format-Table -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\projects\\\\costasol\\\\public\" -Force | Select-Object Name, @{Name='Type'; Expression={if \\($_.PSIsContainer\\) { 'dir' } else { 'file' }}} | Format-Table -AutoSize)",
+      "PowerShell(Copy-Item *)",
+      "Bash(node *)",
+      "PowerShell($bytes = [System.IO.File]::ReadAllBytes\\(\"C:\\\\projects\\\\costasol\\\\public\\\\brand\\\\costasol_logo_transparent.png\"\\); $w = [System.BitConverter]::ToUInt32\\([byte[]]@\\($bytes[19],$bytes[18],$bytes[17],$bytes[16]\\), 0\\); $h = [System.BitConverter]::ToUInt32\\([byte[]]@\\($bytes[23],$bytes[22],$bytes[21],$bytes[20]\\), 0\\); Write-Host \"$w x $h\")",
+      "PowerShell(public *)",
+      "Bash(vercel whoami *)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(git stash *)",
+      "Bash(npx skills *)",
+      "PowerShell(python --version; python \"C:\\\\projects\\\\costasol\\\\.claude\\\\skills\\\\skill-security-auditor\\\\scripts\\\\skill_security_auditor.py\" \"C:\\\\projects\\\\costasol\\\\.claude\\\\skills\\\\skill-security-auditor\" --json 2>&1 | Select-Object -First 20)",
+      "PowerShell(py *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\projects\\\\costasol\" -Directory)",
+      "Bash(Select-Object Name)"
     ]
   }
 }
