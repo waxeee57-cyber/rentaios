@@ -4,7 +4,9 @@ import { parseISO } from 'date-fns'
 
 const BRAND_GOLD = '#C8A96B'
 const BRAND_DARK = '#0F0F10'
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://drivecostasol.com'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'
+const BUSINESS_NAME = process.env.NEXT_PUBLIC_BUSINESS_NAME ?? 'RentalOS'
+const BUSINESS_EMAIL = process.env.ADMIN_EMAIL ?? 'hello@rentaios.com'
 
 function firstName(fullName: string): string {
   return fullName.trim().split(' ')[0] || fullName
@@ -36,9 +38,9 @@ function layout(content: string): string {
       <tr>
         <td style="background:${BRAND_DARK};padding:28px 36px;border-bottom:3px solid ${BRAND_GOLD};">
           <p style="margin:0 0 4px;font-size:10px;letter-spacing:4px;text-transform:uppercase;
-            color:${BRAND_GOLD};font-family:Arial,sans-serif;font-weight:700;">COSTASOL CAR RENT</p>
+            color:${BRAND_GOLD};font-family:Arial,sans-serif;font-weight:700;">${BUSINESS_NAME.toUpperCase()}</p>
           <p style="margin:0;font-size:11px;color:#666;font-family:Arial,sans-serif;letter-spacing:0.5px;">
-            Costa del Sol, Spain</p>
+            Luxury Rental Service</p>
         </td>
       </tr>
 
@@ -51,11 +53,11 @@ function layout(content: string): string {
       <tr>
         <td style="background:#f8f5f0;padding:20px 36px;border-top:1px solid #ede8e0;text-align:center;">
           <p style="margin:0 0 6px;font-size:12px;color:#aaa;font-family:Arial,sans-serif;">
-            CostaSol Car Rent · Costa del Sol, Spain
+            ${BUSINESS_NAME}
           </p>
           <p style="margin:0;font-size:12px;font-family:Arial,sans-serif;">
-            <a href="mailto:rent@drivecostasol.com"
-              style="color:${BRAND_GOLD};text-decoration:none;">rent@drivecostasol.com</a>
+            <a href="mailto:${BUSINESS_EMAIL}"
+              style="color:${BRAND_GOLD};text-decoration:none;">${BUSINESS_EMAIL}</a>
           </p>
         </td>
       </tr>
@@ -173,7 +175,7 @@ ${btn('View My Reservation', `${SITE_URL}/booking/${data.bookingCode}?email=${en
     : ''} — we're happy to help.
 </p>
 <p style="margin:16px 0 0;font-size:14px;color:#1a1a1a;font-family:Arial,sans-serif;">
-  The CostaSol Team
+  The ${BUSINESS_NAME} Team
 </p>`
 
   return layout(content)
@@ -322,7 +324,7 @@ ${btn('View My Reservation', `${SITE_URL}/booking/${data.bookingCode}?email=${en
     : ''} — we'll get back to you straight away.
 </p>
 <p style="margin:16px 0 0;font-size:14px;color:#1a1a1a;font-family:Arial,sans-serif;">
-  The CostaSol Team
+  The ${BUSINESS_NAME} Team
 </p>`
 
   return layout(content)
@@ -397,10 +399,10 @@ ${divider}
   If you'd like to make a new reservation or have any questions, we're here to help.
 </p>
 
-${btn('Get in Touch', 'mailto:rent@drivecostasol.com')}
+${btn('Get in Touch', `mailto:${BUSINESS_EMAIL}`)}
 
 <p style="margin:28px 0 0;font-size:14px;color:#1a1a1a;font-family:Arial,sans-serif;">
-  The CostaSol Team
+  The ${BUSINESS_NAME} Team
 </p>`
 
   return layout(content)

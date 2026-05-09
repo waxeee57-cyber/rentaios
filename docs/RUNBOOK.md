@@ -1,4 +1,4 @@
-# CostaSol Car Rent — Operations Runbook
+# RentalOS — Operations Runbook
 
 ## Daily Workflow
 
@@ -43,11 +43,11 @@ Every morning: open `/admin/bookings` → check **Inquiries** tab (red dot = wai
 
 ## Return Procedure
 
-**When the car comes back:**
+**When the vehicle comes back:**
 
-1. Open `/admin/bookings` → **Today Returns** tab (or **Active** for currently out cars)
+1. Open `/admin/bookings` → **Today Returns** tab (or **Active** for currently out vehicles)
 2. Expand the booking
-3. Inspect the car
+3. Inspect the vehicle
 4. Fill in **Return Notes** — any damage, fuel level, mileage, observations. This auto-saves.
 5. Click **Mark as Returned** — status moves to `returned`
 6. Return the deposit (or deduct for damage — note the deduction in Return Notes)
@@ -66,11 +66,11 @@ Every morning: open `/admin/bookings` → check **Inquiries** tab (red dot = wai
 
 ## Conflict Resolution (Date Overlap)
 
-The system prevents two confirmed bookings for the same car on overlapping dates. If you try to confirm a booking that overlaps, the API returns an error and the status does not change.
+The system prevents two confirmed bookings for the same vehicle on overlapping dates. If you try to confirm a booking that overlaps, the API returns an error and the status does not change.
 
 **If a conflict appears:**
-1. Check which booking is confirmed for those dates (Admin → Bookings → filter by car / dates)
-2. Contact the newer inquiry customer to offer alternative dates or a different car
+1. Check which booking is confirmed for those dates (Admin → Bookings → filter by vehicle / dates)
+2. Contact the newer inquiry customer to offer alternative dates or a different vehicle
 3. If the earlier booking needs to move, cancel it first, then re-confirm both
 
 **Important:** `inquiry` status does NOT lock dates. Only `confirmed`, `picked_up`, and `returned` prevent overlaps. You can have multiple inquiries for the same dates — first one confirmed wins.
@@ -82,7 +82,7 @@ The system prevents two confirmed bookings for the same car on overlapping dates
 For customers who don't go through the website inquiry form:
 
 1. `/admin/bookings` → **New Booking** (top-right button)
-2. Fill in: car, dates, customer name, email, phone, pickup location, price, deposit
+2. Fill in: vehicle, dates, customer name, email, phone, pickup location, price, deposit
 3. Set source to `manual`
 4. Submit — booking is created directly in `confirmed` status
 5. The system sends a confirmation email to the customer
@@ -101,20 +101,20 @@ SQL Editor:
 ```sql
 update bookings
 set status = 'confirmed'  -- or any valid status
-where booking_code = 'CS-XXXXXX';
+where booking_code = '[YOUR-BOOKING-CODE]';
 ```
 Valid statuses: `inquiry`, `confirmed`, `picked_up`, `returned`, `completed`, `cancelled`
 
 ### Delete a test booking
 ```sql
-delete from bookings where booking_code = 'CS-XXXXXX';
+delete from bookings where booking_code = '[YOUR-BOOKING-CODE]';
 ```
 
 ### View uploaded documents
 Storage → `documents` bucket → browse by booking ID folder
 
-### Add a new car
-Insert a row into the `cars` table with all required fields. Add photos to Supabase Storage or update the `image_url` field to point to the hosted image.
+### Add a new vehicle
+Insert a row into the `cars` table with all required fields. Add photos to Supabase Storage or update the `photos` column to point to hosted image URLs.
 
 ---
 
@@ -124,7 +124,7 @@ There is no automated deposit tracking in this system. Keep a simple record (spr
 
 | Booking Code | Customer | Amount | Received | Returned | Notes |
 |---|---|---|---|---|---|
-| CS-000001 | John Smith | €500 | ✓ cash | ✓ full | — |
-| CS-000002 | Maria García | €500 | ✓ transfer | partial | scratch on bumper, €100 deducted |
+| [CODE-001] | John Smith | €500 | ✓ cash | ✓ full | — |
+| [CODE-002] | Maria García | €500 | ✓ transfer | partial | scratch on bumper, €100 deducted |
 
 Add deposit info to **Admin Notes** on each booking so everything is in one place.

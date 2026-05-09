@@ -19,22 +19,22 @@ const cormorant = Cormorant_Garamond({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.drivecostasol.com'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'),
   title: {
-    default: 'CostaSol Car Rent — Luxury Car Rental Marbella',
-    template: '%s — CostaSol Car Rent',
+    default: 'RentalOS — Luxury Rental Booking System',
+    template: '%s — RentalOS',
   },
   description:
-    'Luxury car rental in Marbella and the Costa del Sol. Concierge service, hotel delivery, personally confirmed reservations.',
+    'A complete luxury rental booking system. Inquiry, confirm, pickup, return — all in one mobile-first admin panel. Built for car rental, yacht, villa, and motorcycle businesses.',
   keywords: [
-    'luxury car rental marbella',
-    'luxury car rental costa del sol',
-    'car hire marbella',
-    'lamborghini rental marbella',
-    'range rover rental costa del sol',
+    'luxury rental booking system',
+    'car rental booking software',
+    'nextjs rental saas',
+    'luxury rental management',
+    'rental booking template',
   ],
   openGraph: {
-    siteName: 'CostaSol Car Rent',
+    siteName: 'RentalOS',
     locale: 'en_GB',
     type: 'website',
     images: [
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
         url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200&q=80',
         width: 1200,
         height: 800,
-        alt: 'CostaSol Car Rent — Luxury Car Rental Marbella',
+        alt: 'RentalOS — Luxury Rental Booking System',
       },
     ],
   },

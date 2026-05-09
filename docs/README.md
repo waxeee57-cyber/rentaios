@@ -1,14 +1,21 @@
-# CostaSol Car Rent
+# RentalOS
 
-Luxury car rental website for Marbella & Costa del Sol.
+White-label luxury rental booking SaaS. Built for car rental, yacht, villa, and motorcycle rental businesses.
+
+## What it is
+
+A complete, production-ready booking system that turns inquiry chaos (WhatsApp, spreadsheets, email threads) into a structured workflow with a professional customer-facing site and a mobile-first admin panel.
+
+**Live reference deployment:** [costasol.vercel.app](https://costasol.vercel.app)
 
 ## Stack
 
-- **Framework:** Next.js 16 (App Router), TypeScript
+- **Framework:** Next.js 15 (App Router), TypeScript
 - **Styling:** Tailwind CSS v4
 - **Database + Auth + Storage:** Supabase
 - **Email:** Resend
-- **Automation:** n8n (single workflow)
+- **Payments:** Stripe (optional — graceful degradation without it)
+- **Automation:** n8n (optional webhook workflow)
 - **Analytics:** Vercel Analytics
 - **Hosting:** Vercel
 
@@ -18,7 +25,7 @@ Luxury car rental website for Marbella & Costa del Sol.
 
 ```bash
 git clone <repo>
-cd costasol
+cd rentaios
 npm install
 ```
 
@@ -32,18 +39,17 @@ See `docs/ENV.md` for full documentation.
 1. Create a Supabase project at supabase.com
 2. Run `supabase/schema.sql` in the Supabase SQL editor
 3. Run `supabase/policies.sql` in the SQL editor
-4. (Dev only) Run `supabase/seed.sql` to add the 2 demo cars
+4. (Dev only) Run `supabase/seed.sql` to add demo vehicles
 5. Create storage bucket: `documents` (private) — required for pickup document uploads
-   - `car-photos` bucket is optional at launch; car photos are served from URLs stored in the `photos` column
 
 ### 4. Admin user
 
 In Supabase:
 1. Go to Authentication > Users > Add user
 2. Create with your admin email + password
-3. Run `supabase/admin-seed.sql` in the SQL editor (email is pre-filled)
+3. Run `supabase/admin-seed.sql` in the SQL editor
 
-### 5. n8n workflow
+### 5. n8n workflow (optional)
 
 1. Sign up at n8n.cloud or self-host
 2. Import `n8n/workflows/inquiry-created.json`
@@ -69,3 +75,28 @@ npm run build
 Push to GitHub → connect to Vercel → set env vars in Vercel dashboard → deploy.
 
 See `docs/GO_LIVE.md` for the full launch checklist.
+
+## Business model
+
+| Product | Price | What they get |
+|---|---|---|
+| Template | €299 once | Full source code, MIT license, deploy yourself |
+| Done-for-you | €499 once | We deploy and configure it on your domain |
+| Starter SaaS | €99/month | Hosted, up to 50 bookings/mo, 1 vehicle category |
+| Pro SaaS | €199/month | Unlimited bookings and vehicles, all features |
+| White Glove | €299/month | Everything managed, monthly check-in, custom domain |
+
+## Booking flow
+
+```
+Customer browses fleet
+  → submits inquiry (dates, location, message)
+    → admin receives email alert
+      → admin confirms via admin panel (or declines)
+        → confirmation email sent to customer
+          → pickup: admin marks picked_up, uploads documents
+            → return: admin marks returned, adds notes
+              → complete: admin closes booking
+```
+
+No online payment. Payment collected in person at pickup.

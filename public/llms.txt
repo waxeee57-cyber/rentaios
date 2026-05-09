@@ -1,15 +1,23 @@
-# CostaSol Car Rent
-> Luxury car rental service in Marbella and the Costa del Sol, Spain. Concierge service with hotel delivery.
+# RentalOS
+> White-label luxury rental booking SaaS.
+> Built for car rental, yacht, villa, and motorcycle rental businesses.
 
-## Services
-- Luxury car rental (Lamborghini, Range Rover)
-- Hotel delivery within 25km of San Juan de los Terreros
-- Personally confirmed reservations
-- Comprehensive insurance included
+## What it does
+- Complete booking system: inquiry → confirm → pickup → return
+- Mobile-first admin panel for managing bookings and fleet
+- Email notifications (customer confirmation + admin alerts)
+- Transfer/delivery fee management
+- Document upload at pickup (licence, passport)
+- Rate limiting and security hardened
 
-## Coverage
-- Marbella, Puerto Banús, Málaga Airport, Estepona, Almeria, Alicante, San Juan de los Terreros
+## Tech stack
+- Next.js 15 App Router, TypeScript
+- Supabase (database, auth, storage)
+- Resend (transactional email)
+- Vercel (hosting)
+- Stripe (subscription billing, optional)
 
-## Contact
-- Email: rent@drivecostasol.com
-- Website: https://www.drivecostasol.com
+## Business model
+- Template sale: €299 one-time
+- SaaS subscription: €99–299/month
+- Done-for-you setup: €499 one-time
