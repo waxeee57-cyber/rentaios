@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { rateLimit, getClientIp } from '@/lib/rate-limit'
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
 
@@ -22,6 +23,11 @@ const VALID_PLANS: Plan[] = ['starter', 'growth', 'pro']
 export async function POST(req: NextRequest) {
   if (!STRIPE_SECRET_KEY) {
     return NextResponse.json({ error: 'Billing not configured' }, { status: 400 })
+  }
+
+  const ip = getClientIp(req)
+  if (!rateLimit(`checkout:${ip}`, 20, 3_600_000)) {
+    return NextResponse.json({ error: 'Too many requests. Try again shortly.' }, { status: 429 })
   }
 
   let body: { plan?: unknown; cadence?: unknown }
