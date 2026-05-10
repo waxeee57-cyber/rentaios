@@ -165,19 +165,19 @@ const FAQ_ITEMS = [
 function AdminPanelMockup() {
   const bookings = [
     {
-      vehicle: 'Ferrari Roma',
+      vehicle: 'Mercedes E-Class',
       dates: 'Jul 12–14',
       status: 'Confirmed',
       pill: 'bg-success/10 text-success border-success/20',
     },
     {
-      vehicle: 'Lamborghini Urus',
+      vehicle: 'Jeep Wrangler',
       dates: 'Jul 15–18',
       status: 'Inquiry',
       pill: 'bg-gold/10 text-gold border-gold/20',
     },
     {
-      vehicle: 'Porsche 911',
+      vehicle: 'BMW 5 Series',
       dates: 'Jul 10–12',
       status: 'Picked up',
       pill: 'bg-white/5 text-muted border-border',
@@ -222,7 +222,7 @@ function AdminPanelMockup() {
         {/* Document expiry alert row */}
         <div className="flex items-center gap-2 px-5 py-3" style={{ background: 'rgba(251,191,36,0.05)' }}>
           <span className="font-sans text-[11px] text-gold/70">⚠</span>
-          <span className="font-sans text-xs text-gold/80 flex-1">Insurance expiring — Ferrari 488</span>
+          <span className="font-sans text-xs text-gold/80 flex-1">Insurance expiring — Mercedes E-Class</span>
           <span className="font-sans text-[11px] text-gold/70 tabular-nums">12 days</span>
         </div>
       </div>

@@ -36,7 +36,7 @@ const PAIN_CARDS = [
   {
     Icon: Star,
     tag: 'Premium fleets',
-    headline: "Your cars are premium. Your booking process isn't.",
+    headline: "Your rentals command premium rates. Your booking process doesn't.",
     copy: "Your customers expect a professional response. They deserve a confirmation within seconds — not a WhatsApp voice note the next morning.",
   },
   {
@@ -71,7 +71,7 @@ const FOR_WHO = [
   {
     scale: 'Premium fleet',
     label: 'Premium fleet operators',
-    body: 'Your fleet is your business. Your booking experience should reflect the standard you set. Branded confirmations, professional document handling, a system that matches the quality of your operation.',
+    body: 'Your fleet represents your business. A booking experience that reflects the standard you set — automatic confirmations, professional document handling, a system that earns the trust your operation deserves.',
     cta: 'See the admin panel →',
     href: '/demo/admin',
   },
