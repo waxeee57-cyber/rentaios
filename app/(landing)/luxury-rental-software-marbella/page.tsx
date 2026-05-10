@@ -3,11 +3,11 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Car Rental Software Marbella — RentalOS',
-  description: 'Luxury car rental software built and deployed in Marbella. The booking system behind CostaSol Car Rent. Available for any rental business on the Costa del Sol.',
+  description: 'Luxury car rental software built and deployed in Marbella. The booking system powering Costa del Sol rental businesses. Available for any luxury rental operation.',
   alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'}/luxury-rental-software-marbella` },
   openGraph: {
     title: 'Car Rental Software Marbella — RentalOS',
-    description: 'Luxury rental booking system, Costa del Sol. Deployed at CostaSol Car Rent. Available for your business.',
+    description: 'Luxury rental booking system, Costa del Sol. Live at a Marbella car rental business. Available for your operation.',
   },
 }
 
@@ -29,7 +29,7 @@ const faqSchema = {
     {
       '@type': 'Question',
       name: 'Is RentalOS used by real businesses in Marbella?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. It is live at CostaSol Car Rent (drivecostasol.com) — a luxury car rental business operating in Marbella and along the Costa del Sol.' },
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes. RentalOS is live at a luxury car rental business operating in Marbella and along the Costa del Sol.' },
     },
     {
       '@type': 'Question',
@@ -78,8 +78,8 @@ function LandingPage() {
           The booking system behind Costa del Sol luxury rentals.
         </h1>
         <p className="font-sans text-base text-muted leading-relaxed max-w-xl mb-10">
-          RentalOS was built for CostaSol Car Rent in Marbella. Now available for any luxury
-          rental business on the Costa del Sol and beyond.
+          RentalOS was built for a luxury car rental business in Marbella. Now available for any
+          rental operation on the Costa del Sol and beyond.
         </p>
         <div className="flex flex-wrap gap-4">
           <Link href="#how-it-works" className="inline-flex items-center gap-2 min-h-[48px] rounded-md bg-gold px-8 font-sans text-sm font-medium text-black hover:opacity-90 transition-opacity">
@@ -150,7 +150,7 @@ function LandingPage() {
       <section className="border-t border-white/5 bg-white/[0.02] px-6 py-16">
         <div className="max-w-2xl mx-auto text-center">
           <blockquote className="font-display text-2xl font-light text-white/80 italic mb-4">
-            "Built for CostaSol Car Rent, Marbella. Live at drivecostasol.com"
+            "A live Marbella luxury car rental business runs entirely on RentalOS."
           </blockquote>
           <p className="font-sans text-xs text-muted">Real deployment. Costa del Sol. Running since 2024.</p>
         </div>
@@ -165,7 +165,7 @@ function LandingPage() {
         <h2 className="font-display text-3xl font-light text-white mb-10">Questions</h2>
         <div className="space-y-8">
           {[
-            ['Is RentalOS used by real businesses in Marbella?', 'Yes. It is live at CostaSol Car Rent (drivecostasol.com) — a luxury car rental business in Marbella.'],
+            ['Is RentalOS used by real businesses in Marbella?', 'Yes. It is live at a luxury car rental business operating in Marbella and along the Costa del Sol.'],
             ['Can you deploy this for my business?', 'Yes. The done-for-you setup (€499 one-time) deploys and configures everything within 48 hours.'],
             ['Does it support multiple pickup locations across the Costa del Sol?', 'Yes. List as many locations as you serve. Delivery to custom addresses is also supported.'],
             ['What languages are supported?', 'English, Spanish, French, German, Italian — configurable per deployment.'],

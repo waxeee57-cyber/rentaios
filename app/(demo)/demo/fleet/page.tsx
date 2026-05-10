@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { supabaseAdmin } from '@/lib/supabase'
 import { formatPrice } from '@/lib/formatters'
+import { TrackEventOnMount } from '@/components/TrackEventOnMount'
 
 export const dynamic = 'force-dynamic'
 
@@ -38,6 +39,7 @@ export default async function DemoFleetPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
+      <TrackEventOnMount event="demo_view" />
       <div className="mb-12">
         <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-3">Demo fleet</p>
         <h1 className="font-display text-4xl font-light text-white tracking-tight">Sample vehicles</h1>

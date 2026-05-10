@@ -4,10 +4,22 @@ import { supabaseAdmin } from '@/lib/supabase'
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
 
-const PRICE_IDS: Record<string, string | undefined> = {
+type Plan = 'starter' | 'growth' | 'pro'
+type Cadence = 'monthly' | 'annual'
+
+const MONTHLY_PRICE_IDS: Record<Plan, string | undefined> = {
   starter: process.env.STRIPE_STARTER_PRICE_ID,
+  growth: process.env.STRIPE_GROWTH_PRICE_ID,
   pro: process.env.STRIPE_PRO_PRICE_ID,
 }
+
+const ANNUAL_PRICE_IDS: Record<Plan, string | undefined> = {
+  starter: process.env.STRIPE_STARTER_ANNUAL_PRICE_ID,
+  growth: process.env.STRIPE_GROWTH_ANNUAL_PRICE_ID,
+  pro: process.env.STRIPE_PRO_ANNUAL_PRICE_ID,
+}
+
+const VALID_PLANS: Plan[] = ['starter', 'growth', 'pro']
 
 export async function POST(req: NextRequest) {
   if (!STRIPE_SECRET_KEY) {
@@ -17,10 +29,23 @@ export async function POST(req: NextRequest) {
   const auth = await requireAdmin()
   if ('error' in auth) return auth.error
 
-  const { plan } = await req.json() as { plan: 'starter' | 'pro' }
-  const priceId = PRICE_IDS[plan]
+  let body: { plan?: unknown; cadence?: unknown }
+  try {
+    body = await req.json()
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
+  }
+
+  const plan = body.plan as Plan
+  const cadence: Cadence = body.cadence === 'annual' ? 'annual' : 'monthly'
+
+  if (!VALID_PLANS.includes(plan)) {
+    return NextResponse.json({ error: `Invalid plan: ${plan}` }, { status: 400 })
+  }
+
+  const priceId = cadence === 'annual' ? ANNUAL_PRICE_IDS[plan] : MONTHLY_PRICE_IDS[plan]
   if (!priceId) {
-    return NextResponse.json({ error: `No price ID configured for plan: ${plan}` }, { status: 400 })
+    return NextResponse.json({ error: `No price ID configured for ${plan} ${cadence}` }, { status: 400 })
   }
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
@@ -28,10 +53,9 @@ export async function POST(req: NextRequest) {
   const Stripe = (await import('stripe')).default
   const stripe = new Stripe(STRIPE_SECRET_KEY)
 
-  // Look up existing customer
   const { data: subscription } = await supabaseAdmin
     .from('subscriptions')
-    .select('stripe_customer_id')
+    .select('id, stripe_customer_id')
     .single()
 
   let customerId = subscription?.stripe_customer_id ?? undefined
@@ -43,23 +67,11 @@ export async function POST(req: NextRequest) {
     })
     customerId = customer.id
 
-    await supabaseAdmin
-      .from('subscriptions')
-      .update({ stripe_customer_id: customerId })
-      .eq('stripe_customer_id' as string, customerId)
-      .is('stripe_customer_id', null)
-
-    // Upsert approach: find the row and update it
-    const { data: sub } = await supabaseAdmin
-      .from('subscriptions')
-      .select('id')
-      .single()
-
-    if (sub?.id) {
+    if (subscription?.id) {
       await supabaseAdmin
         .from('subscriptions')
         .update({ stripe_customer_id: customerId })
-        .eq('id', sub.id)
+        .eq('id', subscription.id)
     }
   }
 

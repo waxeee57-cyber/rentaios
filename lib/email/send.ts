@@ -11,6 +11,7 @@ import {
   onboardingClientEmail,
   onboardingAdminEmail,
   weeklyReportEmail,
+  reviewRequestEmail,
 } from '@/lib/email/templates'
 
 function fn(fullName: string): string {
@@ -179,6 +180,34 @@ export async function sendWeeklyReport(data: {
   })
   if (!result.success) {
     console.error('[Email] Weekly report failed:', result.error)
+  }
+}
+
+export async function sendReviewRequest(data: {
+  customerEmail: string
+  customerName: string
+  carLabel: string
+  businessName: string
+  reviewUrl: string
+  siteUrl: string
+  bookingId: string
+}) {
+  const firstName = data.customerName.split(' ')[0] || data.customerName
+  const unsubscribeUrl = `${data.siteUrl}/api/unsubscribe?ref=${data.bookingId}`
+  const result = await sendEmail({
+    to: data.customerEmail,
+    subject: `How was your ${data.carLabel}, ${firstName}?`,
+    html: reviewRequestEmail({
+      firstName,
+      carLabel: data.carLabel,
+      businessName: data.businessName,
+      reviewUrl: data.reviewUrl,
+      unsubscribeUrl,
+    }),
+    replyTo: ADMIN_EMAIL,
+  })
+  if (!result.success) {
+    console.error('[Email] Review request failed')
   }
 }
 

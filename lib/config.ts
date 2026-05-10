@@ -27,6 +27,14 @@ export type BusinessConfig = {
   cancel_tier2_days: number
   cancel_tier2_pct: number
   cancel_tier3_pct: number
+  google_review_url: string | null
+  review_email_enabled: boolean
+  business_slug: string | null
+  slug_locked: boolean
+  show_powered_by: boolean
+  white_label_fee_paid: boolean
+  featured_on_showcase: boolean
+  showcase_vehicle_type: string | null
 }
 
 export const DEFAULT_CONFIG: BusinessConfig = {
@@ -55,6 +63,14 @@ export const DEFAULT_CONFIG: BusinessConfig = {
   cancel_tier2_days: 2,
   cancel_tier2_pct: 50,
   cancel_tier3_pct: 0,
+  google_review_url: null,
+  review_email_enabled: true,
+  business_slug: null,
+  slug_locked: false,
+  show_powered_by: true,
+  white_label_fee_paid: false,
+  featured_on_showcase: false,
+  showcase_vehicle_type: null,
 }
 
 export const getBusinessConfig = unstable_cache(

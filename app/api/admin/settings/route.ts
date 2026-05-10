@@ -29,6 +29,11 @@ const settingsSchema = z.object({
   cancel_tier2_days:      z.number().int().min(0).max(365).optional().nullable(),
   cancel_tier2_pct:       z.number().int().min(0).max(100).optional().nullable(),
   cancel_tier3_pct:       z.number().int().min(0).max(100).optional().nullable(),
+  google_review_url:      z.string().url().max(500).optional().nullable(),
+  review_email_enabled:   z.boolean().optional(),
+  show_powered_by:        z.boolean().optional(),
+  featured_on_showcase:   z.boolean().optional(),
+  showcase_vehicle_type:  z.enum(['car', 'yacht', 'villa', 'motorcycle', 'other']).optional().nullable(),
 })
 
 export async function PATCH(req: NextRequest) {

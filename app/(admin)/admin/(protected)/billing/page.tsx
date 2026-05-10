@@ -1,8 +1,10 @@
 export const dynamic = 'force-dynamic'
 
 import { supabaseAdmin } from '@/lib/supabase'
+import { AddonsSection } from './AddonsSection'
 
 const STRIPE_CONFIGURED = !!process.env.STRIPE_SECRET_KEY
+const TWILIO_CONFIGURED = !!process.env.TWILIO_ACCOUNT_SID
 
 type Subscription = {
   id: string
@@ -97,6 +99,14 @@ export default async function BillingPage() {
   const isActive = subscription?.status === 'active'
   const hasStripeSubscription = !!subscription?.stripe_subscription_id
 
+  const { data: activeAddons } = await supabaseAdmin
+    .from('subscription_addons')
+    .select('id, addon_key, status, activated_at')
+    .eq('status', 'active')
+
+  const plan = subscription?.plan ?? null
+  const addonPlanEligible = plan === 'growth' || plan === 'pro' || plan === 'agency'
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-6">
       <h1 className="font-display text-2xl font-medium text-white mb-6">Billing</h1>
@@ -148,6 +158,14 @@ export default async function BillingPage() {
           />
         </div>
       )}
+
+      {/* Add-ons */}
+      <AddonsSection
+        activeAddons={activeAddons ?? []}
+        stripeConfigured={STRIPE_CONFIGURED}
+        twilioConfigured={TWILIO_CONFIGURED}
+        planEligible={addonPlanEligible}
+      />
 
       {/* Invoice history */}
       {invoices.length > 0 && (

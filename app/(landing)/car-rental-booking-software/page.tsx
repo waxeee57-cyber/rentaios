@@ -189,7 +189,7 @@ function LandingPage() {
       <section className="border-t border-white/5 bg-white/[0.02] px-6 py-16">
         <div className="max-w-2xl mx-auto text-center">
           <blockquote className="font-display text-2xl font-light text-white/80 italic mb-4">
-            "Built for CostaSol Car Rent, Marbella. Live at drivecostasol.com"
+            "A live luxury car rental business in Marbella runs entirely on RentalOS."
           </blockquote>
           <p className="font-sans text-xs text-muted">Real deployment. Real bookings. See the live system.</p>
         </div>

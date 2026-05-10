@@ -25,6 +25,7 @@ function isValidPhone(num: string): boolean {
 export async function Footer() {
   const config = await getBusinessConfig()
   const phone = config.business_phone ?? ''
+  const showPoweredBy = config.show_powered_by !== false
 
   return (
     <footer className="border-t border-border bg-black">
@@ -70,9 +71,21 @@ export async function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col gap-4 border-t border-border pt-8 md:flex-row md:items-center md:justify-between">
-          <p className="text-xs font-sans text-muted">
-            © {new Date().getFullYear()} {config.business_name}. All rights reserved.
-          </p>
+          <div>
+            <p className="text-xs font-sans text-muted">
+              © {new Date().getFullYear()} {config.business_name}. All rights reserved.
+            </p>
+            {showPoweredBy && (
+              <a
+                href="https://rentaios.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-sans text-muted/40 hover:text-muted/70 transition-colors mt-1 inline-block"
+              >
+                Powered by RentalOS
+              </a>
+            )}
+          </div>
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             {legal.map((l) => (
               <Link

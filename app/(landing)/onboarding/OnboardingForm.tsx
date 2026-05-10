@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { trackEvent } from '@/lib/analytics'
 
 type FormData = {
   business_name: string
@@ -135,6 +136,10 @@ function RadioCard({ label, checked, onChange }: { label: string; checked: boole
 export function OnboardingForm() {
   const router = useRouter()
   const [step, setStep] = useState(1)
+
+  useEffect(() => {
+    trackEvent('form_start', '/onboarding')
+  }, [])
   const [form, setForm] = useState<FormData>(INITIAL)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)

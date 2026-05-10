@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { TrackEventOnMount } from '@/components/TrackEventOnMount'
 
 export const metadata: Metadata = {
   title: 'Setup request received — RentalOS',
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 export default function OnboardingThankYouPage() {
   return (
     <div className="min-h-screen bg-[#0F0F10] flex flex-col items-center justify-center px-6">
+      <TrackEventOnMount event="form_complete" />
       <div className="w-full max-w-md text-center">
         <p className="font-sans text-xs uppercase tracking-[0.3em] text-gold mb-10">RentalOS</p>
 

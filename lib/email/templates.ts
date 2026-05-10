@@ -611,6 +611,45 @@ ${btn('Open admin panel', data.adminUrl)}
   return layout(content)
 }
 
+// ─── TEMPLATE 9: Review request ──────────────────────────────────────────────
+
+export function reviewRequestEmail(data: {
+  firstName: string
+  carLabel: string
+  businessName: string
+  reviewUrl: string
+  unsubscribeUrl: string
+}): string {
+  const content = `
+<h1 style="margin:0 0 16px;font-size:22px;color:#1a1a1a;font-weight:700;
+  font-family:Arial,sans-serif;">Hi ${data.firstName},</h1>
+<p style="margin:0 0 20px;font-size:15px;color:#1a1a1a;line-height:1.65;font-family:Arial,sans-serif;">
+  Thank you for choosing ${data.businessName}.
+</p>
+<p style="margin:0 0 28px;font-size:15px;color:#1a1a1a;line-height:1.65;font-family:Arial,sans-serif;">
+  If you have a moment, we'd love to hear about your experience with the
+  <strong>${data.carLabel}</strong>. It takes 30 seconds:
+</p>
+
+${btn('Share your experience', data.reviewUrl)}
+
+<p style="margin:28px 0 0;font-size:13px;color:#888;line-height:1.65;font-family:Arial,sans-serif;">
+  Your feedback genuinely helps us and helps other travellers make the right choice.
+</p>
+<p style="margin:16px 0 0;font-size:14px;color:#1a1a1a;font-family:Arial,sans-serif;">
+  The ${data.businessName} Team
+</p>
+
+${divider}
+
+<p style="margin:0;font-size:11px;color:#aaa;line-height:1.65;font-family:Arial,sans-serif;">
+  You're receiving this because you recently completed a rental with ${data.businessName}.
+  <a href="${data.unsubscribeUrl}" style="color:#aaa;text-decoration:underline;">Unsubscribe</a>
+</p>`
+
+  return layout(content)
+}
+
 // ─── TEMPLATE 5: Customer cancellation ───────────────────────────────────────
 
 export function bookingCancelledEmail(data: {

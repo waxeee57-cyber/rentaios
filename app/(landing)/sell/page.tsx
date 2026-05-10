@@ -200,14 +200,11 @@ export default function SellPage() {
                 Built for a real business
               </h2>
               <p className="mb-8 font-sans text-sm leading-relaxed text-muted">
-                The reference deployment is CostaSol Car Rent — a luxury car rental
-                business in Marbella, running this exact codebase in production.
-                Same admin panel. Same booking flow. Your branding.
+                A live luxury car rental business in Marbella is running this exact
+                codebase in production. Same admin panel. Same booking flow. Your branding.
               </p>
               <a
-                href="https://costasol.vercel.app"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/demo"
                 className="inline-flex items-center gap-1.5 font-sans text-sm text-gold underline-offset-4 hover:underline focus-visible:outline-none focus-visible:underline"
               >
                 Visit the demo <ExternalLink className="h-3.5 w-3.5" />
@@ -215,9 +212,7 @@ export default function SellPage() {
             </div>
 
             <a
-              href="https://costasol.vercel.app"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/demo"
               className="group flex min-h-[200px] aspect-video items-center justify-center rounded-md border border-border bg-graphite transition-colors hover:border-gold/30 focus-visible:outline-none focus-visible:border-gold/50"
             >
               <div className="flex flex-col items-center gap-2 text-center">
@@ -225,7 +220,7 @@ export default function SellPage() {
                   Demo →
                 </span>
                 <span className="font-sans text-xs uppercase tracking-[0.15em] text-muted/50">
-                  costasol.vercel.app
+                  rentaios.com/demo
                 </span>
               </div>
             </a>
@@ -270,13 +265,10 @@ export default function SellPage() {
             &ldquo;
           </p>
           <blockquote className="font-display text-2xl font-light italic leading-relaxed text-white md:text-3xl">
-            Built for CostaSol Car Rent, Marbella. Live at drivecostasol.com
+            Running in production at a luxury rental business in Marbella. Real bookings. Real customers.
           </blockquote>
           <p className="mt-6 font-sans text-xs uppercase tracking-[0.2em] text-muted">
             — Reference deployment
-          </p>
-          <p className="mt-6 font-sans text-xs text-muted/40">
-            Replace with customer testimonials as they arrive
           </p>
         </div>
       </section>
