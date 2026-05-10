@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   robots: { index: false },
 }
 
+type CarPhoto = { url: string; alt: string }
+
 type DemoCar = {
   id: string
   slug: string
@@ -21,17 +23,22 @@ type DemoCar = {
   category: string
   daily_price_eur: number
   deposit_eur: number
-  photos: string[]
+  photos: CarPhoto[]
   features: string[]
 }
 
 async function getDemoCars(): Promise<DemoCar[]> {
-  const { data } = await supabaseAdmin
-    .from('cars')
-    .select('id, slug, brand, model, year, category, daily_price_eur, deposit_eur, photos, features')
-    .eq('is_demo', true)
-    .eq('status', 'available')
-  return (data ?? []) as DemoCar[]
+  try {
+    const { data, error } = await supabaseAdmin
+      .from('cars')
+      .select('id, slug, brand, model, year, category, daily_price_eur, deposit_eur, photos, features')
+      .eq('is_demo', true)
+      .eq('status', 'available')
+    if (error) return []
+    return (data ?? []) as DemoCar[]
+  } catch {
+    return []
+  }
 }
 
 export default async function DemoFleetPage() {
@@ -58,7 +65,8 @@ export default async function DemoFleetPage() {
       ) : (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {cars.map(car => {
-            const photos = Array.isArray(car.photos) ? car.photos as string[] : []
+            const photos = Array.isArray(car.photos) ? car.photos : []
+            const thumb = photos[0]
             return (
               <Link
                 key={car.id}
@@ -68,11 +76,11 @@ export default async function DemoFleetPage() {
               >
                 {/* Photo */}
                 <div className="aspect-[4/3] bg-graphite/40 overflow-hidden">
-                  {photos[0] ? (
+                  {thumb ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
-                      src={photos[0]}
-                      alt={`${car.brand} ${car.model}`}
+                      src={thumb.url}
+                      alt={thumb.alt || `${car.brand} ${car.model}`}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                   ) : (

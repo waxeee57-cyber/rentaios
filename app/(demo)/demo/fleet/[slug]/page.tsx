@@ -6,6 +6,8 @@ import { formatPrice } from '@/lib/formatters'
 
 export const dynamic = 'force-dynamic'
 
+type CarPhoto = { url: string; alt: string }
+
 type DemoCar = {
   id: string
   slug: string
@@ -15,19 +17,24 @@ type DemoCar = {
   category: string
   daily_price_eur: number
   deposit_eur: number
-  photos: string[]
+  photos: CarPhoto[]
   features: string[]
   description: string | null
 }
 
 async function getDemoCar(slug: string): Promise<DemoCar | null> {
-  const { data } = await supabaseAdmin
-    .from('cars')
-    .select('id, slug, brand, model, year, category, daily_price_eur, deposit_eur, photos, features, description')
-    .eq('slug', slug)
-    .eq('is_demo', true)
-    .single()
-  return (data as DemoCar | null) ?? null
+  try {
+    const { data, error } = await supabaseAdmin
+      .from('cars')
+      .select('id, slug, brand, model, year, category, daily_price_eur, deposit_eur, photos, features, description')
+      .eq('slug', slug)
+      .eq('is_demo', true)
+      .single()
+    if (error) return null
+    return (data as DemoCar | null) ?? null
+  } catch {
+    return null
+  }
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -45,7 +52,7 @@ export default async function DemoCarDetailPage({ params }: { params: Promise<{ 
   const car = await getDemoCar(slug)
   if (!car) notFound()
 
-  const photos = Array.isArray(car.photos) ? car.photos as string[] : []
+  const photos = Array.isArray(car.photos) ? car.photos : []
   const features = Array.isArray(car.features) ? car.features as string[] : []
 
   return (
@@ -61,7 +68,7 @@ export default async function DemoCarDetailPage({ params }: { params: Promise<{ 
           <div className="aspect-[4/3] rounded-md overflow-hidden bg-graphite/40 mb-3">
             {photos[0] ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={photos[0]} alt={`${car.brand} ${car.model}`} className="w-full h-full object-cover" />
+              <img src={photos[0].url} alt={photos[0].alt || `${car.brand} ${car.model}`} className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
                 <span className="font-sans text-xs text-muted/40">{car.brand}</span>
@@ -70,10 +77,10 @@ export default async function DemoCarDetailPage({ params }: { params: Promise<{ 
           </div>
           {photos.length > 1 && (
             <div className="grid grid-cols-3 gap-2">
-              {photos.slice(1, 4).map((url, i) => (
+              {photos.slice(1, 4).map((photo, i) => (
                 // eslint-disable-next-line @next/next/no-img-element
                 <div key={i} className="aspect-[4/3] rounded-md overflow-hidden bg-graphite/40">
-                  <img src={url} alt="" className="w-full h-full object-cover" />
+                  <img src={photo.url} alt={photo.alt || ''} className="w-full h-full object-cover" />
                 </div>
               ))}
             </div>
