@@ -102,7 +102,7 @@ const TIERS: Tier[] = [
       'Custom domain setup included',
       'SMS notifications add-on available',
       'Agency reseller eligible',
-      '"Powered by RentalOS" badge removable',
+      'Custom design and branding',
     ],
     cta: 'Start free trial',
     href: '/admin/billing',
@@ -186,8 +186,8 @@ const COMPARISON_ROWS: Array<{
     pro: true,
   },
   {
-    feature: 'Badge removable',
-    tooltip: 'Remove the "Powered by RentalOS" attribution from your public site footer.',
+    feature: 'Custom design',
+    tooltip: 'Tailored colour scheme, typography, and layout to match your brand identity. Delivered as part of setup.',
     starter: false,
     growth: false,
     pro: true,
@@ -253,73 +253,45 @@ const CURRENCY_LABELS: Record<CurrencyCode, string> = {
 }
 
 function RoiCalculator() {
-  const [bookingValue, setBookingValue] = useState(300)
-  const [missedPerMonth, setMissedPerMonth] = useState(2)
-
-  const monthlyLoss = bookingValue * missedPerMonth
-  const monthsOfStarter = Math.round(monthlyLoss / 49)
-  const annualLoss = monthlyLoss * 12
-
   return (
     <div className="mb-10 max-w-xl">
       <h3 className="mb-6 font-display text-2xl font-light text-white">
         What does one missed booking cost you?
       </h3>
-
-      <div className="flex flex-col gap-5 mb-6">
-        <div>
-          <p className="mb-2 font-sans text-xs uppercase tracking-[0.15em] text-muted">
-            Your average booking value
-          </p>
-          <div className="relative max-w-[200px]">
-            <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 font-sans text-sm text-muted">
-              €
-            </span>
-            <input
-              type="number"
-              min={1}
-              value={bookingValue}
-              onChange={e => setBookingValue(Math.max(1, parseInt(e.target.value) || 1))}
-              className="w-full rounded-md border border-border bg-black/40 py-2.5 pl-7 pr-4 font-sans text-sm text-white focus:border-gold/40 focus:outline-none"
-            />
-          </div>
-        </div>
-
-        <div>
-          <p className="mb-2 font-sans text-xs uppercase tracking-[0.15em] text-muted">
-            Missed bookings per month —{' '}
-            <span className="text-white">{missedPerMonth}</span>
-          </p>
-          <input
-            type="range"
-            min={1}
-            max={5}
-            value={missedPerMonth}
-            onChange={e => setMissedPerMonth(parseInt(e.target.value))}
-            className="w-full max-w-[200px] accent-gold"
-          />
-          <div className="flex max-w-[200px] justify-between">
-            <span className="font-sans text-[10px] text-muted/50">1</span>
-            <span className="font-sans text-[10px] text-muted/50">5</span>
-          </div>
-        </div>
+      <div className="mb-2">
+        <span className="font-display leading-none text-gold" style={{ fontSize: '4rem' }}>€300</span>
+        <p className="mt-2 font-sans text-sm text-muted">The average value of one missed booking.</p>
       </div>
-
-      <div className="rounded-md border border-gold/20 bg-gold/5 px-5 py-4 max-w-xl">
-        <p className="font-sans text-sm text-gold/80">
-          {missedPerMonth} missed booking{missedPerMonth !== 1 ? 's' : ''} per month at €{bookingValue.toLocaleString()} each
-        </p>
-        <p className="mt-1 font-display text-2xl font-light text-white">
-          = {monthsOfStarter} months of RentalOS Starter
-        </p>
-        <p className="mt-2 font-sans text-xs text-muted/60">
-          €{annualLoss.toLocaleString()} per year in missed revenue.
-        </p>
+      <div className="mt-8 rounded-md border border-white/5 overflow-hidden">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-white/5 bg-white/[0.02]">
+              <th className="py-2.5 px-4 text-left font-sans text-[10px] uppercase tracking-[0.15em] text-muted">Missed / month</th>
+              <th className="py-2.5 px-4 text-right font-sans text-[10px] uppercase tracking-[0.15em] text-muted">Lost / year</th>
+              <th className="py-2.5 px-4 text-right font-sans text-[10px] uppercase tracking-[0.15em] text-gold">RentalOS / year</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-white/5">
+            <tr>
+              <td className="py-3 px-4 font-sans text-sm text-white">1</td>
+              <td className="py-3 px-4 text-right font-sans text-sm text-muted">€3,600</td>
+              <td className="py-3 px-4 text-right font-sans text-sm text-gold">€588</td>
+            </tr>
+            <tr>
+              <td className="py-3 px-4 font-sans text-sm text-white">2</td>
+              <td className="py-3 px-4 text-right font-sans text-sm text-muted">€7,200</td>
+              <td className="py-3 px-4 text-right font-sans text-sm text-gold">€588</td>
+            </tr>
+            <tr>
+              <td className="py-3 px-4 font-sans text-sm text-white">5</td>
+              <td className="py-3 px-4 text-right font-sans text-sm text-muted">€18,000</td>
+              <td className="py-3 px-4 text-right font-sans text-sm text-gold">€588</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-
       <p className="mt-4 font-sans text-xs text-muted/60 leading-relaxed">
-        RentalOS captures bookings at 11pm, on weekends, and while you&apos;re with a customer.
-        The question is not whether it pays for itself — it&apos;s how quickly.
+        RentalOS costs €588/year. One recovered booking pays for it.
       </p>
     </div>
   )

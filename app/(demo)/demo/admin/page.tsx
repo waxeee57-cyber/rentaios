@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { supabaseAdmin } from '@/lib/supabase'
 import { formatPrice } from '@/lib/formatters'
+import { DemoTabs } from '@/app/(demo)/DemoTabs'
 
 export const dynamic = 'force-dynamic'
 
@@ -75,7 +76,9 @@ export default async function DemoAdminPage() {
     .reduce((sum, b) => sum + b.total_eur, 0)
 
   return (
+    <>
     <div className="mx-auto max-w-5xl px-4 py-6">
+      <DemoTabs active="admin" />
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h1 className="font-display text-2xl font-medium text-white">Admin Panel</h1>
@@ -191,5 +194,6 @@ export default async function DemoAdminPage() {
         </div>
       </div>
     </div>
+    </>
   )
 }
