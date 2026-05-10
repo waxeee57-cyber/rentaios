@@ -21,6 +21,7 @@ const legal = [
 export async function Footer() {
   const config = await getBusinessConfig()
   const showPoweredBy = config.show_powered_by !== false
+  const tagline = process.env.NEXT_PUBLIC_BUSINESS_TAGLINE || config.tagline
 
   return (
     <footer className="border-t border-border bg-black">
@@ -29,7 +30,7 @@ export async function Footer() {
           <div className="flex flex-col gap-4">
             <Logo height={36} />
             <p className="max-w-xs text-xs font-sans leading-relaxed text-muted">
-              {config.tagline}
+              {tagline}
             </p>
           </div>
 
@@ -64,7 +65,7 @@ export async function Footer() {
             </p>
             {showPoweredBy && (
               <a
-                href="https://rentaios.com"
+                href={process.env.NEXT_PUBLIC_SITE_URL ?? 'https://rentaios.vercel.app'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs font-sans text-muted/40 hover:text-muted/70 transition-colors mt-1 inline-block"

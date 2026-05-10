@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { Check, ExternalLink, MessageCircle, Calendar, FileText } from 'lucide-react'
 import { getBusinessConfig } from '@/lib/config'
 
@@ -114,59 +115,7 @@ const FEATURES = [
   },
 ]
 
-const PRICING_PLANS = [
-  {
-    tag: 'One-time',
-    name: 'Template',
-    price: '€299',
-    cadence: '',
-    sub: 'Pay once. Own forever.',
-    features: [
-      'Full source code (Next.js)',
-      'Deploy to any host',
-      'MIT licence — resell to clients',
-      'Complete documentation',
-      '30-day email support',
-    ],
-    cta: 'Buy template',
-    href: '/onboarding?type=template',
-    accent: false,
-  },
-  {
-    tag: 'Most popular',
-    name: 'Starter',
-    price: '€49',
-    cadence: '/month',
-    sub: '1–3 vehicles. Up to 30 bookings/month.',
-    features: [
-      'Everything hosted for you',
-      'Admin panel included',
-      'Email notifications',
-      'Updates included',
-      '14-day free trial',
-    ],
-    cta: 'Start free trial',
-    href: '/pricing',
-    accent: true,
-  },
-  {
-    tag: 'Service',
-    name: 'Done for you',
-    price: '€499',
-    cadence: '',
-    sub: 'One-time. Ready in 48 hours.',
-    features: [
-      'We deploy everything',
-      'Your domain configured',
-      'Admin account created',
-      'Your vehicles added',
-      '30-day support included',
-    ],
-    cta: 'Get started',
-    href: '/onboarding',
-    accent: false,
-  },
-]
+// PRICING_PLANS is defined inside SellPage to access gumroadUrl
 
 const FAQ_ITEMS = [
   {
@@ -250,6 +199,12 @@ function AdminPanelMockup() {
             </span>
           </div>
         ))}
+        {/* Document expiry alert row */}
+        <div className="flex items-center gap-2 px-5 py-3" style={{ background: 'rgba(251,191,36,0.05)' }}>
+          <span className="font-sans text-[11px] text-gold/70">⚠</span>
+          <span className="font-sans text-xs text-gold/80 flex-1">Insurance expiring — Ferrari 488</span>
+          <span className="font-sans text-[11px] text-gold/70 tabular-nums">12 days</span>
+        </div>
       </div>
     </div>
   )
@@ -270,6 +225,80 @@ function Label({ children }: { children: React.ReactNode }) {
 export default async function SellPage() {
   const config = await getBusinessConfig()
   const adminEmail = config.business_email
+  const gumroadUrl = process.env.NEXT_PUBLIC_GUMROAD_URL || '#'
+
+  const PRICING_PLANS: {
+    tag: string
+    name: string
+    price: string
+    cadence: string
+    sub: string
+    features: string[]
+    cta: string
+    href: string
+    accent: boolean
+    external?: boolean
+    licenceLink?: boolean
+    belowCta?: string
+  }[] = [
+    {
+      tag: 'One-time',
+      name: 'Template',
+      price: '€299',
+      cadence: '',
+      sub: 'Pay once. Own forever.',
+      features: [
+        'Full source code (Next.js)',
+        'Deploy to any host',
+        'RentalOS Commercial Licence',
+        'Single deployment included',
+        'Complete documentation',
+        '30-day email support',
+      ],
+      cta: 'Buy on Gumroad',
+      href: gumroadUrl,
+      accent: false,
+      external: true,
+      licenceLink: true,
+      belowCta: 'Instant download · Full source code · Commercial licence',
+    },
+    {
+      tag: 'Most popular',
+      name: 'Starter',
+      price: '€49',
+      cadence: '/month',
+      sub: '1–3 vehicles. Up to 30 bookings/month.',
+      features: [
+        'Everything hosted for you',
+        'Admin panel included',
+        'Email notifications',
+        'Updates included',
+        '14-day free trial',
+      ],
+      cta: 'Start free trial',
+      href: '/pricing',
+      accent: true,
+      belowCta: '14 days free · No credit card required',
+    },
+    {
+      tag: 'Service',
+      name: 'Done for you',
+      price: '€499',
+      cadence: '',
+      sub: 'One-time. Ready in 48 hours.',
+      features: [
+        'We deploy everything',
+        'Your domain configured',
+        'Admin account created',
+        'Your vehicles added',
+        '30-day support included',
+      ],
+      cta: 'Get started',
+      href: '/onboarding',
+      accent: false,
+      belowCta: 'We handle everything · Ready in 48 hours',
+    },
+  ]
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -517,7 +546,7 @@ export default async function SellPage() {
             </h2>
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-              {PRICING_PLANS.map(({ tag, name, price, cadence, sub, features, cta, href, accent }) => (
+              {PRICING_PLANS.map(({ tag, name, price, cadence, sub, features, cta, href, accent, external, licenceLink, belowCta }) => (
                 <div
                   key={name}
                   className={`flex flex-col p-8 ${
@@ -552,7 +581,7 @@ export default async function SellPage() {
                   <p className="mb-8 font-sans text-xs text-muted/60">{sub}</p>
 
                   {/* Features */}
-                  <ul className="mb-8 flex flex-1 flex-col gap-3.5">
+                  <ul className="mb-5 flex flex-1 flex-col gap-3.5">
                     {features.map((f) => (
                       <li key={f} className="flex items-start gap-3">
                         <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" strokeWidth={2.5} />
@@ -561,17 +590,32 @@ export default async function SellPage() {
                     ))}
                   </ul>
 
+                  {licenceLink && (
+                    <Link
+                      href="/terms"
+                      className="mb-5 font-sans text-xs text-muted/50 underline-offset-2 hover:text-gold hover:underline"
+                    >
+                      See licence terms →
+                    </Link>
+                  )}
+
                   {/* CTA */}
                   <a
                     href={href}
-                    className={`btn-3d inline-flex items-center justify-center rounded-sm px-6 py-3.5 font-sans text-xs font-medium uppercase tracking-[0.1em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 ${
+                    {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                    className={`btn-3d inline-flex items-center justify-center gap-2 rounded-sm px-6 py-3.5 font-sans text-xs font-medium uppercase tracking-[0.1em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 ${
                       accent
                         ? 'bg-gold text-black'
                         : 'border border-border text-muted transition-colors hover:border-gold/40 hover:text-white'
                     }`}
                   >
                     {cta}
+                    {external && <ExternalLink className="h-3.5 w-3.5" />}
                   </a>
+
+                  {belowCta && (
+                    <p className="mt-3 text-center font-sans text-[11px] text-muted/40">{belowCta}</p>
+                  )}
                 </div>
               ))}
             </div>

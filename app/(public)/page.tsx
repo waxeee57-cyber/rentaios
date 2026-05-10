@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import { Check, ArrowRight, ExternalLink } from 'lucide-react'
+import Link from 'next/link'
+import { Check, ArrowRight, ExternalLink, MessageCircle, Users, Star, Code2, MapPin } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'RentalOS — Booking System for Car, Yacht & Villa Rentals',
@@ -25,18 +26,74 @@ const FEATURES = [
   'Full documentation',
 ]
 
+const PAIN_CARDS = [
+  {
+    Icon: MessageCircle,
+    tag: 'Solo operators',
+    headline: 'Inquiries lost in WhatsApp',
+    copy: "A customer messages at midnight asking about your Ferrari. By morning they've booked with your competitor. You never saw the message.",
+  },
+  {
+    Icon: Users,
+    tag: 'Growing businesses',
+    headline: "You can't delegate because there's no system",
+    copy: "Everything lives in your head. Your staff can't confirm a booking without calling you. You're the bottleneck in your own business.",
+  },
+  {
+    Icon: Star,
+    tag: 'Premium fleets',
+    headline: "Your cars are premium. Your booking process isn't.",
+    copy: "Customers pay €1,500 a day to drive your Bentley. They deserve a confirmation email that matches that level. Not a WhatsApp voice note.",
+  },
+  {
+    Icon: Code2,
+    tag: 'Developers & agencies',
+    headline: '3 weeks to build what should take 3 days',
+    copy: "Every rental client needs the same things: booking flow, admin panel, email notifications, availability calendar. You've built it before. You'll build it again.",
+  },
+  {
+    Icon: MapPin,
+    tag: 'Multi-location operators',
+    headline: 'No unified view across your locations',
+    copy: 'Your Marbella fleet is in one spreadsheet. Ibiza in another. Someone always has the wrong information. A booking gets confirmed twice.',
+  },
+]
+
 const FOR_WHO = [
   {
-    label: 'Freelancers',
-    body: 'Building rental systems for clients. Skip 3 weeks of boilerplate and deliver a polished, production-ready product from day one.',
+    scale: '1–5 vehicles',
+    label: 'Solo operators',
+    body: 'You manage everything yourself. RentalOS handles the admin so you can focus on the drives. Inquiries captured 24/7, confirmations sent automatically, no more chasing documents.',
+    cta: 'See how it works →',
+    href: '/demo',
   },
   {
-    label: 'Rental business owners',
-    body: 'Stop managing bookings via WhatsApp and spreadsheets. Own your tech. Own your data. No monthly platform lock-in.',
+    scale: '5–20 vehicles',
+    label: 'Growing businesses',
+    body: 'Your team needs a system they can follow without calling you. RentalOS gives everyone a clear view of every booking, every vehicle, every customer — from any device.',
+    cta: 'Start free trial →',
+    href: '/pricing',
   },
   {
-    label: 'Developers',
-    body: 'Launching your own rental SaaS. The hard parts — booking logic, overlap prevention, admin panel, email — are already done.',
+    scale: '€150,000+ fleet value',
+    label: 'Premium fleet operators',
+    body: 'Your cars are €150,000+. Your booking experience should match. Branded confirmations, professional document handling, a system that reflects the quality of your fleet.',
+    cta: 'See the admin panel →',
+    href: '/demo/admin',
+  },
+  {
+    scale: 'Build for clients',
+    label: 'Freelancers & agencies',
+    body: 'Stop rebuilding the same rental system for every client. Buy once, deploy many times. Full source code, commercial licence, documented and production-ready.',
+    cta: 'Buy template — €299',
+    href: '/sell',
+  },
+  {
+    scale: 'Multiple sites',
+    label: 'Multi-location operators',
+    body: 'One admin panel. All your locations. Every booking visible from anywhere. Set up once, manage everything centrally.',
+    cta: 'Contact us →',
+    href: '/contact',
   },
 ]
 
@@ -45,7 +102,14 @@ const PRICING = [
     name: 'Template',
     price: '€299',
     cadence: 'once',
-    lines: ['Full source code', 'Deploy yourself', 'MIT license', 'Free updates (git pull)'],
+    lines: [
+      'Full source code',
+      'Deploy yourself',
+      'RentalOS Commercial Licence',
+      'Single deployment included',
+      'Free updates (git pull)',
+    ],
+    licenceLink: true,
     cta: 'Buy now',
     href: '/sell',
     accent: false,
@@ -55,8 +119,9 @@ const PRICING = [
     price: '€499',
     cadence: 'once',
     lines: ['We deploy it', 'Your domain', '30-day support', 'Everything configured'],
+    licenceLink: false,
     cta: 'Get started',
-    href: '/pricing',
+    href: '/onboarding',
     accent: true,
   },
   {
@@ -64,8 +129,9 @@ const PRICING = [
     price: '€199',
     cadence: '/ month',
     lines: ['Everything managed', 'Monthly reports', 'Priority support', 'Updates included'],
+    licenceLink: false,
     cta: 'Contact us',
-    href: '/pricing',
+    href: '/contact',
     accent: false,
   },
 ]
@@ -77,7 +143,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Can I resell to clients?',
-    a: 'Yes. MIT license — use it however you like. Build client projects, charge for customisation, or launch your own SaaS on top of it.',
+    a: 'Yes. The commercial licence covers a single deployment. For agency/multi-client use, see the template listing for full terms.',
   },
   {
     q: 'Is there a demo?',
@@ -115,9 +181,14 @@ export default function HomePage() {
             </em>
           </h1>
 
-          <p className="max-w-lg font-sans text-base leading-relaxed text-muted">
-            Next.js · Supabase · Admin panel · Email notifications · Mobile-first
-          </p>
+          <div className="flex max-w-lg flex-col gap-1 text-center">
+            <p className="font-sans text-lg font-medium text-white leading-snug">
+              Stop managing bookings on WhatsApp. Automate everything.
+            </p>
+            <p className="font-sans text-sm text-muted">
+              Next.js 15 · Supabase · Vercel · MIT licence · Full source code
+            </p>
+          </div>
 
           <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
             <a
@@ -135,12 +206,67 @@ export default function HomePage() {
           </div>
 
           <a
-            href="#features"
-            aria-label="Scroll to features"
+            href="#problem"
+            aria-label="Scroll to see the problem we solve"
             className="mt-2 text-muted transition-colors hover:text-gold focus-visible:outline-none focus-visible:text-gold"
           >
             <ArrowRight className="h-5 w-5 rotate-90" />
           </a>
+        </div>
+      </section>
+
+      {/* ── Pain & Solution ────────────────────────────────────── */}
+      <section id="problem" className="border-t border-border py-24 md:py-32">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="mb-14">
+            <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">
+              The problem
+            </p>
+            <h2 className="font-display text-4xl font-light tracking-tight text-white md:text-5xl">
+              Sound familiar?
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-6">
+            {PAIN_CARDS.slice(0, 3).map(({ Icon, tag, headline, copy }) => (
+              <div
+                key={tag}
+                className="md:col-span-2 flex flex-col gap-5 rounded-md border border-border bg-graphite/40 p-6"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <Icon className="h-5 w-5 text-gold/50 shrink-0 mt-0.5" strokeWidth={1.5} />
+                  <span className="rounded-full border border-gold/20 bg-gold/5 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold/60 text-right">
+                    {tag}
+                  </span>
+                </div>
+                <div>
+                  <h3 className="mb-2 font-display text-xl font-medium text-white">{headline}</h3>
+                  <p className="font-sans text-sm leading-relaxed text-muted">{copy}</p>
+                </div>
+              </div>
+            ))}
+            {PAIN_CARDS.slice(3).map(({ Icon, tag, headline, copy }, i) => (
+              <div
+                key={tag}
+                className={`md:col-span-3 ${i === 0 ? 'md:col-start-2' : ''} flex flex-col gap-5 rounded-md border border-border bg-graphite/40 p-6`}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <Icon className="h-5 w-5 text-gold/50 shrink-0 mt-0.5" strokeWidth={1.5} />
+                  <span className="rounded-full border border-gold/20 bg-gold/5 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold/60 text-right">
+                    {tag}
+                  </span>
+                </div>
+                <div>
+                  <h3 className="mb-2 font-display text-xl font-medium text-white">{headline}</h3>
+                  <p className="font-sans text-sm leading-relaxed text-muted">{copy}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-14 text-center font-display text-2xl font-light italic text-gold md:text-3xl">
+            RentalOS solves all of this.
+          </p>
         </div>
       </section>
 
@@ -223,14 +349,37 @@ export default function HomePage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {FOR_WHO.map(({ label, body }) => (
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-6">
+            {FOR_WHO.slice(0, 3).map(({ scale, label, body, cta, href }) => (
               <div
                 key={label}
-                className="flex flex-col gap-3 rounded-md border border-border bg-black/40 p-6"
+                className="md:col-span-2 flex flex-col gap-3 rounded-md border border-border bg-black/40 p-6"
               >
+                <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-gold/50">{scale}</p>
                 <h3 className="font-display text-xl font-medium text-white">{label}</h3>
-                <p className="font-sans text-sm leading-relaxed text-muted">{body}</p>
+                <p className="font-sans text-sm leading-relaxed text-muted flex-1">{body}</p>
+                <Link
+                  href={href}
+                  className="mt-2 inline-flex items-center gap-1 font-sans text-xs text-gold underline-offset-4 hover:underline"
+                >
+                  {cta}
+                </Link>
+              </div>
+            ))}
+            {FOR_WHO.slice(3).map(({ scale, label, body, cta, href }, i) => (
+              <div
+                key={label}
+                className={`md:col-span-3 ${i === 0 ? 'md:col-start-2' : ''} flex flex-col gap-3 rounded-md border border-border bg-black/40 p-6`}
+              >
+                <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-gold/50">{scale}</p>
+                <h3 className="font-display text-xl font-medium text-white">{label}</h3>
+                <p className="font-sans text-sm leading-relaxed text-muted flex-1">{body}</p>
+                <Link
+                  href={href}
+                  className="mt-2 inline-flex items-center gap-1 font-sans text-xs text-gold underline-offset-4 hover:underline"
+                >
+                  {cta}
+                </Link>
               </div>
             ))}
           </div>
@@ -239,19 +388,43 @@ export default function HomePage() {
 
       {/* ── Social proof ───────────────────────────────────────── */}
       <section className="py-24 md:py-32">
-        <div className="mx-auto max-w-2xl px-6 text-center">
+        <div className="mx-auto max-w-2xl px-6">
           <p
-            className="mb-4 font-display text-7xl leading-none text-gold/20 select-none"
+            className="mb-6 font-display text-6xl leading-none text-gold/15 select-none"
             aria-hidden="true"
           >
             &ldquo;
           </p>
-          <blockquote className="font-display text-2xl font-light italic leading-relaxed text-white md:text-3xl">
-            Running in production at a car rental business in Marbella. Real bookings. Real customers.
+          <blockquote className="mb-8 font-display text-2xl font-light italic leading-relaxed text-white md:text-3xl">
+            Before RentalOS, we managed everything on WhatsApp and a shared spreadsheet. Now every inquiry gets a confirmation email within seconds. Our customers think we&apos;re a much bigger operation than we are.
           </blockquote>
-          <p className="mt-6 font-sans text-xs uppercase tracking-[0.2em] text-muted">
-            — Reference deployment
-          </p>
+          <div className="flex items-end justify-between gap-6">
+            <div>
+              <p className="font-sans text-sm font-medium text-white">CostaSol Car Rent</p>
+              <p className="mt-0.5 font-sans text-xs text-muted">Marbella, Spain</p>
+            </div>
+            <a
+              href="https://drivecostasol.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 font-sans text-xs text-muted/50 underline-offset-2 transition-colors hover:text-gold"
+            >
+              Visit drivecostasol.com <ExternalLink className="h-3 w-3" />
+            </a>
+          </div>
+
+          <div className="mt-16 grid grid-cols-3 gap-px bg-border">
+            {[
+              { value: '48h', label: 'Average deployment time' },
+              { value: '0', label: 'Double bookings since launch' },
+              { value: '100%', label: 'Inquiries captured automatically' },
+            ].map(({ value, label }) => (
+              <div key={label} className="bg-black py-8 text-center">
+                <p className="font-display text-4xl font-light tabular-nums text-gold">{value}</p>
+                <p className="mt-2 px-2 font-sans text-xs leading-snug text-muted">{label}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -268,7 +441,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {PRICING.map(({ name, price, cadence, lines, cta, href, accent }) => (
+            {PRICING.map(({ name, price, cadence, lines, licenceLink, cta, href, accent }) => (
               <div
                 key={name}
                 className={`flex flex-col rounded-md border p-8 ${
@@ -301,6 +474,15 @@ export default function HomePage() {
                     </li>
                   ))}
                 </ul>
+
+                {licenceLink && (
+                  <Link
+                    href="/terms"
+                    className="mb-5 font-sans text-xs text-muted/50 underline-offset-2 hover:text-gold hover:underline"
+                  >
+                    See licence terms →
+                  </Link>
+                )}
 
                 <a
                   href={href}
