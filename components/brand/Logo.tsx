@@ -1,23 +1,28 @@
-import Image from 'next/image'
 import Link from 'next/link'
-import logoSrc from '@/public/brand/costasol_logo_transparent.png'
 
 interface LogoProps {
   height?: number
   className?: string
 }
 
-export function Logo({ height = 40, className }: LogoProps) {
+export function Logo({ className }: LogoProps) {
   const name = process.env.NEXT_PUBLIC_BUSINESS_NAME ?? 'RentalOS'
   return (
     <Link href="/" aria-label={`${name} — Home`} className={className}>
-      <Image
-        src={logoSrc}
-        alt={name}
-        height={height}
-        style={{ width: 'auto' }}
-        priority
-      />
+      <div className="flex flex-col leading-none">
+        <span
+          className="font-serif tracking-wide"
+          style={{ color: '#C8A96B', fontFamily: 'Cormorant Garamond, serif', fontSize: '1.5rem', fontWeight: 600 }}
+        >
+          {name}
+        </span>
+        <span
+          className="tracking-widest uppercase"
+          style={{ color: '#C8A96B', fontFamily: 'DM Sans, sans-serif', fontSize: '0.55rem', fontWeight: 400, letterSpacing: '0.2em', opacity: 0.8 }}
+        >
+          Booking System
+        </span>
+      </div>
     </Link>
   )
 }
