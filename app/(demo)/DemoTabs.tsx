@@ -14,7 +14,7 @@ export function DemoTabs({ active }: { active: Tab }) {
         <Link
           key={tab.key}
           href={tab.href}
-          className={`px-5 py-3 font-sans text-xs uppercase tracking-[0.15em] border-b-2 transition-colors ${
+          className={`inline-flex items-center min-h-[44px] px-5 font-sans text-xs uppercase tracking-[0.15em] border-b-2 transition-colors ${
             active === tab.key
               ? 'border-gold text-white'
               : 'border-transparent text-muted hover:text-white'

@@ -192,8 +192,12 @@ export function CarDetailClient({
 
           {/* Image counter */}
           {photos.length > 1 && (
-            <div className="absolute top-3 right-3 bg-black/60 text-white
-              font-sans text-xs px-2.5 py-1 rounded-sm z-10 tabular-nums">
+            <div
+              aria-live="polite"
+              aria-atomic="true"
+              className="absolute top-3 right-3 bg-black/60 text-white
+                font-sans text-xs px-2.5 py-1 rounded-sm z-10 tabular-nums"
+            >
               {photoIdx + 1} / {photos.length}
             </div>
           )}
@@ -205,12 +209,13 @@ export function CarDetailClient({
                 <button
                   key={i}
                   onClick={() => setPhotoIdx(i)}
+                  aria-label={`View photo ${i + 1} of ${photos.length}${p.alt ? `: ${p.alt}` : ''}`}
                   className={cn(
                     'h-12 w-16 overflow-hidden rounded-sm border-2 transition-all shrink-0',
                     i === photoIdx ? 'border-gold' : 'border-transparent opacity-60 hover:opacity-100'
                   )}
                 >
-                  <Image src={p.url} alt={p.alt} width={64} height={48} className="object-cover h-full w-full" />
+                  <Image src={p.url} alt="" width={64} height={48} className="object-cover h-full w-full" />
                 </button>
               ))}
             </div>
@@ -286,8 +291,8 @@ export function CarDetailClient({
                 </div>
 
                 {/* Date picker */}
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-sans uppercase tracking-[0.15em] text-muted">Dates</label>
+                <div className="space-y-1.5" role="group" aria-labelledby="label-dates">
+                  <p id="label-dates" className="text-[10px] font-sans uppercase tracking-[0.15em] text-muted">Dates</p>
                   <DateRangePicker
                     value={range}
                     onChange={handleRangeChange}
@@ -298,9 +303,9 @@ export function CarDetailClient({
 
                 {/* Location */}
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-sans uppercase tracking-[0.15em] text-muted">Pickup location</label>
+                  <label htmlFor="pickup-select" className="text-[10px] font-sans uppercase tracking-[0.15em] text-muted">Pickup location</label>
                   <Select value={pickup} onValueChange={setPickup}>
-                    <SelectTrigger>
+                    <SelectTrigger id="pickup-select">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>

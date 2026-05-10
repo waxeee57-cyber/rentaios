@@ -111,6 +111,7 @@ export default async function DemoFleetPage() {
                     <img
                       src={thumb.url}
                       alt={thumb.alt || `${car.brand} ${car.model}`}
+                      loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                   ) : (

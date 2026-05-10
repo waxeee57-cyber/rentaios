@@ -74,7 +74,7 @@ export function Header() {
               href={l.href}
               onClick={() => setOpen(false)}
               className={cn(
-                'font-sans text-sm uppercase tracking-[0.15em] py-1 transition-colors duration-200',
+                'font-sans text-sm uppercase tracking-[0.15em] py-3 transition-colors duration-200',
                 pathname === l.href ? 'text-gold' : 'text-muted hover:text-white'
               )}
             >
