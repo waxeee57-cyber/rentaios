@@ -38,11 +38,10 @@ export async function POST(req: NextRequest) {
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rentalos.domrol.com'
 
-  const Stripe = (await import('stripe')).default
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
-
-  let session: Awaited<ReturnType<typeof stripe.checkout.sessions.create>>
+  let session: { url: string | null }
   try {
+    const Stripe = (await import('stripe')).default
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
     session = await stripe.checkout.sessions.create({
       mode: 'subscription',
       line_items: [{ price: priceId, quantity: 1 }],
@@ -56,7 +55,10 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err)
     console.error('[checkout] stripe error:', msg)
-    return NextResponse.json({ error: 'Unable to start checkout. Please try again.' }, { status: 502 })
+    return NextResponse.json(
+      { error: 'Unable to start checkout. Please try again.', stripeError: msg },
+      { status: 502 }
+    )
   }
 
   if (!session.url) {
