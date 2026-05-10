@@ -3,10 +3,11 @@ import { Logo } from '@/components/brand/Logo'
 import { getBusinessConfig } from '@/lib/config'
 
 const nav = [
-  { href: '/fleet', label: 'Our Fleet' },
-  { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/sell', label: 'Buy template' },
+  { href: '/demo', label: 'Demo' },
   { href: '/faq', label: 'FAQ' },
+  { href: '/about', label: 'About' },
 ]
 
 const legal = [
@@ -17,14 +18,8 @@ const legal = [
   { href: '/cancellation', label: 'Cancellation' },
 ]
 
-function isValidPhone(num: string): boolean {
-  const clean = num.replace(/\D/g, '')
-  return clean.length > 0 && !clean.startsWith('36')
-}
-
 export async function Footer() {
   const config = await getBusinessConfig()
-  const phone = config.business_phone ?? ''
   const showPoweredBy = config.show_powered_by !== false
 
   return (
@@ -59,14 +54,6 @@ export async function Footer() {
             >
               {config.business_email}
             </a>
-            {isValidPhone(phone) && (
-              <a
-                href={`tel:${phone}`}
-                className="text-sm font-sans text-muted hover:text-white transition-colors"
-              >
-                {phone}
-              </a>
-            )}
           </div>
         </div>
 

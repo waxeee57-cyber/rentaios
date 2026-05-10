@@ -8,9 +8,10 @@ import { Logo } from '@/components/brand/Logo'
 import { cn } from '@/lib/utils'
 
 const navLinks = [
-  { href: '/fleet', label: 'Fleet' },
-  { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/#features', label: 'Features' },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/demo', label: 'Demo' },
+  { href: '/sell', label: 'Buy template' },
 ]
 
 export function Header() {
@@ -30,12 +31,20 @@ export function Header() {
               href={l.href}
               className={cn(
                 'nav-link font-sans text-xs uppercase tracking-[0.15em] transition-colors duration-200',
-                pathname.startsWith(l.href) ? 'text-gold' : 'text-muted hover:text-white'
+                pathname === l.href || (l.href !== '/' && pathname.startsWith(l.href.replace('/#features', '')))
+                  ? 'text-gold'
+                  : 'text-muted hover:text-white'
               )}
             >
               {l.label}
             </Link>
           ))}
+          <Link
+            href="/pricing"
+            className="rounded-md bg-gold px-5 py-2 font-sans text-xs font-medium uppercase tracking-[0.1em] text-black transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          >
+            Start free trial
+          </Link>
         </nav>
 
         {/* Mobile toggle */}
@@ -55,7 +64,7 @@ export function Header() {
         id="mobile-nav"
         className={cn(
           'border-t border-border bg-black transition-all duration-200 md:hidden',
-          open ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+          open ? 'max-h-72 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
         )}
       >
         <nav className="flex flex-col px-6 py-4 gap-4">
@@ -66,12 +75,19 @@ export function Header() {
               onClick={() => setOpen(false)}
               className={cn(
                 'font-sans text-sm uppercase tracking-[0.15em] py-1 transition-colors duration-200',
-                pathname.startsWith(l.href) ? 'text-gold' : 'text-muted hover:text-white'
+                pathname === l.href ? 'text-gold' : 'text-muted hover:text-white'
               )}
             >
               {l.label}
             </Link>
           ))}
+          <Link
+            href="/pricing"
+            onClick={() => setOpen(false)}
+            className="mt-1 inline-flex items-center justify-center rounded-md bg-gold px-5 py-2.5 font-sans text-xs font-medium uppercase tracking-[0.1em] text-black transition-opacity hover:opacity-90"
+          >
+            Start free trial
+          </Link>
         </nav>
       </div>
     </header>
