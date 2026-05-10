@@ -144,6 +144,24 @@ export default async function DemoFleetPage() {
           </Link>
         </div>
       </div>
+
+      {/* Admin preview bar — appears after 3s, desktop only */}
+      <div
+        className="hidden md:flex fixed bottom-0 inset-x-0 z-40 items-center justify-between
+          border-t border-border bg-[#0A0A0B]/95 backdrop-blur-md px-6 py-3"
+        style={{ opacity: 0, animation: 'fadeUp 0.4s ease 3s both' }}
+      >
+        <p className="font-sans text-sm text-muted">
+          Want to see the admin panel?
+        </p>
+        <Link
+          href="/demo/admin"
+          className="inline-flex items-center gap-1.5 rounded-sm border border-border px-4 py-2
+            font-sans text-xs text-muted transition-colors hover:border-gold/30 hover:text-white"
+        >
+          View admin panel →
+        </Link>
+      </div>
     </div>
   )
 }

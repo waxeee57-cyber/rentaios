@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Check, ExternalLink, MessageCircle, Calendar, FileText } from 'lucide-react'
 import { getBusinessConfig } from '@/lib/config'
+import { Logo } from '@/components/brand/Logo'
 
 export const revalidate = false
 
@@ -338,6 +339,23 @@ export default async function SellPage() {
       />
 
       <div className="min-h-screen bg-black text-white">
+
+        {/* ── Nav ──────────────────────────────────────────────── */}
+        <nav className="sticky top-0 z-50 border-b border-border bg-black/95 backdrop-blur-md">
+          <div className="mx-auto flex max-w-[1100px] items-center justify-between px-6 py-3">
+            <Logo />
+            <div className="flex items-center gap-6">
+              <Link href="/pricing" className="font-sans text-sm text-muted transition-colors hover:text-white hidden sm:block">Pricing</Link>
+              <Link href="/demo" className="font-sans text-sm text-muted transition-colors hover:text-white hidden sm:block">Demo</Link>
+              <Link
+                href="/pricing"
+                className="rounded-sm bg-gold px-4 py-2 font-sans text-xs font-medium text-black transition-opacity hover:opacity-90"
+              >
+                Start free trial
+              </Link>
+            </div>
+          </div>
+        </nav>
 
         {/* ─────────────────────────────────────────── 1. HERO ── */}
         <section className="relative flex min-h-screen flex-col items-center justify-center px-6 pb-20 pt-28 text-center">

@@ -6,11 +6,16 @@ export default function DemoLayout({ children }: { children: React.ReactNode }) 
       {/* Demo banner */}
       <div className="sticky top-0 z-50 border-b border-gold/20 bg-gold/10 backdrop-blur-sm">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-3">
-          <div className="flex items-center gap-3">
-            <div className="h-1.5 w-1.5 rounded-full bg-gold animate-pulse" />
-            <p className="font-sans text-xs text-gold">
-              Live demo — data resets daily
-            </p>
+          <div className="flex items-center gap-4">
+            <Link href="/" className="font-serif text-lg font-semibold text-[#C8A96B] mr-4 shrink-0">
+              RentalOS
+            </Link>
+            <div className="flex items-center gap-3">
+              <div className="h-1.5 w-1.5 rounded-full bg-gold animate-pulse" />
+              <p className="font-sans text-xs text-gold">
+                Live demo — data resets daily
+              </p>
+            </div>
           </div>
           <Link
             href="/pricing"
