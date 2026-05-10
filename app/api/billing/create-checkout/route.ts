@@ -30,9 +30,9 @@ export async function POST(req: NextRequest) {
     process.env.STRIPE_STARTER_ANNUAL_PRICE_ID,
     process.env.STRIPE_GROWTH_ANNUAL_PRICE_ID,
     process.env.STRIPE_PRO_ANNUAL_PRICE_ID,
-  ].filter((id): id is string => typeof id === 'string')
+  ].filter((id): id is string => typeof id === 'string').map((id) => id.trim())
 
-  if (!validPriceIds.includes(priceId)) {
+  if (!validPriceIds.includes(priceId.trim())) {
     return NextResponse.json({ error: 'Invalid price' }, { status: 400 })
   }
 
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
     session = await stripe.checkout.sessions.create({
       mode: 'subscription',
-      line_items: [{ price: priceId, quantity: 1 }],
+      line_items: [{ price: priceId.trim(), quantity: 1 }],
       success_url: `${siteUrl}/admin?checkout=success`,
       cancel_url: `${siteUrl}/pricing`,
       allow_promotion_codes: true,
