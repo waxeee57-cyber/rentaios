@@ -7,8 +7,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Too many requests. Try again shortly.' }, { status: 429 })
   }
 
-  if (!process.env.STRIPE_SECRET_KEY) {
-    return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 })
+  const stripeKey = process.env.STRIPE_SECRET_KEY?.trim()
+  if (!stripeKey) {
+    return NextResponse.json({ error: 'Payment system is not configured yet.' }, { status: 503 })
+  }
+  if (!/^sk_(test|live)_/.test(stripeKey)) {
+    console.error('[checkout] Invalid STRIPE_SECRET_KEY format')
+    return NextResponse.json({ error: 'Payment configuration error. Contact support.' }, { status: 503 })
   }
 
   let body: { priceId?: unknown }
@@ -32,19 +37,21 @@ export async function POST(req: NextRequest) {
     process.env.STRIPE_PRO_ANNUAL_PRICE_ID,
   ].filter((id): id is string => typeof id === 'string').map((id) => id.trim())
 
-  if (!validPriceIds.includes(priceId.trim())) {
-    return NextResponse.json({ error: 'Invalid price' }, { status: 400 })
+  const cleanPriceId = priceId.trim()
+  if (!validPriceIds.includes(cleanPriceId)) {
+    return NextResponse.json({ error: 'Invalid plan selected.' }, { status: 400 })
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rentalos.domrol.com'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://rentalos.domrol.com'
 
   let session: { url: string | null }
   try {
     const Stripe = (await import('stripe')).default
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+    const stripe = new Stripe(stripeKey)
     session = await stripe.checkout.sessions.create({
       mode: 'subscription',
-      line_items: [{ price: priceId.trim(), quantity: 1 }],
+      payment_method_types: ['card'],
+      line_items: [{ price: cleanPriceId, quantity: 1 }],
       success_url: `${siteUrl}/admin?checkout=success`,
       cancel_url: `${siteUrl}/pricing`,
       allow_promotion_codes: true,

@@ -410,7 +410,7 @@ export default async function SellPage() {
 
             {/* Social proof micro-line */}
             <p className="font-sans text-xs text-muted/50">
-              Built for CostaSol Car Rent, Marbella
+              Running live in Marbella, Spain
               <span className="mx-2 text-muted/25">·</span>
               <a
                 href="https://drivecostasol.com"
@@ -667,7 +667,7 @@ export default async function SellPage() {
               </blockquote>
               <div className="flex items-end justify-between gap-6">
                 <div>
-                  <p className="font-sans text-sm font-medium text-white">CostaSol Car Rent</p>
+                  <p className="font-sans text-sm font-medium text-white">Car rental business</p>
                   <p className="mt-0.5 font-sans text-xs text-muted">Marbella, Spain</p>
                 </div>
                 <a

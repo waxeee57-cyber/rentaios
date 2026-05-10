@@ -202,7 +202,7 @@ export default function HomePage() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 font-sans text-xs text-muted/50 underline-offset-2 transition-colors hover:text-gold"
           >
-            ↗ Running live: CostaSol Car Rent, Marbella · drivecostasol.com
+            ↗ Running live in Marbella, Spain · drivecostasol.com
           </a>
 
           <a
@@ -400,7 +400,7 @@ export default function HomePage() {
           </blockquote>
           <div className="flex items-end justify-between gap-6">
             <div>
-              <p className="font-sans text-sm font-medium text-white">CostaSol Car Rent</p>
+              <p className="font-sans text-sm font-medium text-white">Car rental business</p>
               <p className="mt-0.5 font-sans text-xs text-muted">Marbella, Spain</p>
             </div>
             <a

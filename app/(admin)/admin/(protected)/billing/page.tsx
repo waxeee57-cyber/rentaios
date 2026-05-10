@@ -78,11 +78,11 @@ export default async function BillingPage() {
             Add your Stripe keys to enable subscription billing. All features remain available while unconfigured.
           </p>
           <div className="rounded-md border border-border bg-black/40 p-4 font-mono text-xs text-muted space-y-1">
-            <p>STRIPE_SECRET_KEY=sk_live_...</p>
-            <p>STRIPE_WEBHOOK_SECRET=whsec_...</p>
-            <p>STRIPE_STARTER_PRICE_ID=price_...</p>
-            <p>STRIPE_PRO_PRICE_ID=price_...</p>
-            <p>NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...</p>
+            <p>STRIPE_SECRET_KEY — from Stripe Dashboard → API keys</p>
+            <p>STRIPE_WEBHOOK_SECRET — from Stripe Dashboard → Webhooks</p>
+            <p>STRIPE_STARTER_PRICE_ID — price_...</p>
+            <p>STRIPE_PRO_PRICE_ID — price_...</p>
+            <p>NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY — from Stripe Dashboard → API keys</p>
           </div>
           <p className="mt-4 font-sans text-xs text-muted">
             Set these in Vercel → Project → Settings → Environment Variables, then redeploy.
