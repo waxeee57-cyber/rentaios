@@ -6,6 +6,7 @@ const nav = [
   { href: '/fleet', label: 'Our Fleet' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
+  { href: '/faq', label: 'FAQ' },
 ]
 
 const legal = [
