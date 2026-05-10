@@ -183,10 +183,10 @@ export default function HomePage() {
 
           <div className="flex max-w-lg flex-col gap-1 text-center">
             <p className="font-sans text-lg font-medium text-white leading-snug">
-              Stop managing bookings on WhatsApp. Automate everything.
+              Every inquiry captured. Every customer confirmed. Automatically.
             </p>
             <p className="font-sans text-sm text-muted">
-              Next.js 15 · Supabase · Vercel · MIT licence · Full source code
+              Next.js 15 · Supabase · Vercel · Full source code
             </p>
           </div>
 

@@ -215,7 +215,7 @@ const ONE_TIME = [
     name: 'Template',
     price: '€299',
     cadence: 'once',
-    desc: 'Full source code. Deploy it yourself. MIT licence — use it commercially, resell to clients, white-label freely.',
+    desc: 'Full source code. Deploy it yourself. Commercial licence — use it commercially, resell to clients, white-label freely.',
     cta: 'Buy template',
     href: '/sell',
   },

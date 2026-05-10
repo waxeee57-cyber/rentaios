@@ -110,11 +110,11 @@ const FAQ_CATEGORIES = [
       },
       {
         q: 'Can I self-host it?',
-        a: 'Yes. Buy the template and deploy wherever you want. The MIT licence allows commercial use.',
+        a: 'Yes. Buy the template and deploy wherever you want. The Commercial licence allows commercial use.',
       },
       {
         q: 'Can I buy the source code?',
-        a: 'Yes. See /sell. MIT licence — use it commercially, modify it, resell your work.',
+        a: 'Yes. See /sell. Commercial licence — use it commercially, modify it, resell your work.',
       },
       {
         q: 'Do you offer white-label for agencies?',

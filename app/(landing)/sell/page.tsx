@@ -110,7 +110,7 @@ const FEATURES = [
     desc: 'Authentication, RLS policies, rate limiting on all public endpoints. No exposed data.',
   },
   {
-    label: 'Full source code (MIT licence)',
+    label: 'Full source code (Commercial licence)',
     desc: 'Own the code. Deploy it yourself or hand it to a developer. No vendor lock-in. Ever.',
   },
 ]
@@ -128,7 +128,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Can I resell this to my clients?',
-    a: 'Yes. The template includes an MIT licence. You can deploy it for clients, charge for setup, and keep 100% of what you earn.',
+    a: 'Yes. The template includes a Commercial licence. You can deploy it for clients, charge for setup, and keep 100% of what you earn.',
   },
   {
     q: 'What happens after I buy the template?',
