@@ -7,7 +7,8 @@ import { cn } from '@/lib/utils'
 const links = [
   { href: '/admin', label: 'Dashboard', exact: true },
   { href: '/admin/bookings', label: 'Bookings', exact: false },
-  { href: '/admin/cars', label: 'Cars', exact: false },
+  { href: '/admin/cars', label: 'Fleet', exact: false },
+  { href: '/admin/clients', label: 'Clients', exact: false },
   { href: '/admin/settings', label: 'Settings', exact: false },
   { href: '/admin/billing', label: 'Billing', exact: false },
 ]

@@ -8,6 +8,9 @@ import {
   bookingConfirmedEmail,
   bookingConfirmedAdminEmail,
   bookingCancelledEmail,
+  onboardingClientEmail,
+  onboardingAdminEmail,
+  weeklyReportEmail,
 } from '@/lib/email/templates'
 
 function fn(fullName: string): string {
@@ -97,6 +100,85 @@ export async function sendConfirmationEmails(data: {
   }
   if (adminResult.status === 'rejected') {
     console.error('[Email] Admin confirmation alert failed:', adminResult.reason)
+  }
+}
+
+export async function sendOnboardingEmails(data: {
+  leadId: string
+  contactName: string
+  contactEmail: string
+  businessName: string
+  businessType: string
+  businessTypeCustom?: string
+  businessCity: string
+  businessCountry: string
+  currentBookingMethod?: string
+  monthlyBookingsEstimate?: string
+  vehicleCount?: number
+  domainName?: string
+  preferredLanguage: string
+  logoUrl?: string
+  brandColor: string
+  tagline?: string
+  deliveryLocation?: string
+  deliveryRadius: string
+  minDriverAge: number
+  minLicenseYears: number
+  maxRentalDays: number
+  cancellationPolicy: string
+  notes?: string
+  referralSource?: string
+}) {
+  console.log('[Email] sendOnboardingEmails called:', data.leadId)
+  const [clientResult, adminResult] = await Promise.allSettled([
+    sendEmail({
+      to: data.contactEmail,
+      subject: `We're on it — setup starts within 24 hours`,
+      html: onboardingClientEmail({
+        contactName: data.contactName,
+        businessName: data.businessName,
+        businessType: data.businessType === 'other' ? (data.businessTypeCustom ?? 'rental') : data.businessType,
+        leadId: data.leadId,
+      }),
+      replyTo: ADMIN_EMAIL,
+    }),
+    sendEmail({
+      to: ADMIN_EMAIL,
+      subject: `Setup request — ${data.businessName} — ${data.businessType}`,
+      html: onboardingAdminEmail(data),
+    }),
+  ])
+
+  if (clientResult.status === 'rejected') {
+    console.error('[Email] Onboarding client email failed:', clientResult.reason)
+  }
+  if (adminResult.status === 'rejected') {
+    console.error('[Email] Onboarding admin alert failed:', adminResult.reason)
+  }
+}
+
+export async function sendWeeklyReport(data: {
+  dateRange: string
+  inquiriesCount: number
+  confirmedCount: number
+  revenueWeek: number
+  upcomingPickups: Array<{
+    carLabel: string
+    customerFirstName: string
+    startAt: string
+    pickupTime: string | null
+  }>
+  adminUrl: string
+  adminEmail: string
+}) {
+  console.log('[Email] sendWeeklyReport called:', data.dateRange)
+  const result = await sendEmail({
+    to: data.adminEmail,
+    subject: `Your week — ${data.dateRange}`,
+    html: weeklyReportEmail(data),
+  })
+  if (!result.success) {
+    console.error('[Email] Weekly report failed:', result.error)
   }
 }
 

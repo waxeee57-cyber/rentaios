@@ -374,6 +374,243 @@ ${btn('Open Admin Panel', adminUrl)}`
   return layout(content)
 }
 
+// ─── TEMPLATE 6: Onboarding — client receipt ─────────────────────────────────
+
+export function onboardingClientEmail(data: {
+  contactName: string
+  businessName: string
+  businessType: string
+  leadId: string
+}): string {
+  const name = firstName(data.contactName)
+  const adminEmail = BUSINESS_EMAIL
+
+  const content = `
+<h1 style="margin:0 0 16px;font-size:22px;color:#1a1a1a;font-weight:700;
+  font-family:Arial,sans-serif;">Hi ${name},</h1>
+<p style="margin:0;font-size:15px;color:#1a1a1a;line-height:1.65;font-family:Arial,sans-serif;">
+  We've received everything we need to set up your
+  <strong>${data.businessType}</strong> booking system for
+  <strong>${data.businessName}</strong>.
+</p>
+
+${divider}
+
+<p style="margin:0 0 12px;font-size:14px;color:#1a1a1a;line-height:1.65;font-family:Arial,sans-serif;">
+  Here's what happens next:
+</p>
+<ol style="margin:0 0 20px;padding:0 0 0 20px;font-size:14px;color:#1a1a1a;line-height:2;font-family:Arial,sans-serif;">
+  <li>We set up your Supabase database and configure your system</li>
+  <li>We connect your domain (if provided) and configure email</li>
+  <li>We run a test booking end-to-end</li>
+  <li>We send you your admin login details</li>
+</ol>
+
+<p style="margin:0 0 20px;font-size:14px;color:#888;line-height:1.65;font-family:Arial,sans-serif;">
+  Expect your system within 48 hours. We'll email you the moment it's live.
+  Reference: <strong style="color:#1a1a1a;">${data.leadId}</strong>
+</p>
+
+${divider}
+
+<p style="margin:0;font-size:14px;color:#888;line-height:1.65;font-family:Arial,sans-serif;">
+  Questions? Reply to this email or contact us at
+  <a href="mailto:${adminEmail}" style="color:${BRAND_GOLD};text-decoration:none;">${adminEmail}</a>.
+</p>
+<p style="margin:16px 0 0;font-size:14px;color:#1a1a1a;font-family:Arial,sans-serif;">
+  The ${BUSINESS_NAME} Team
+</p>`
+
+  return layout(content)
+}
+
+// ─── TEMPLATE 7: Onboarding — admin alert ────────────────────────────────────
+
+type OnboardingData = {
+  leadId: string
+  businessName: string
+  contactName: string
+  contactEmail: string
+  businessType: string
+  businessTypeCustom?: string
+  businessCity: string
+  businessCountry: string
+  currentBookingMethod?: string
+  monthlyBookingsEstimate?: string
+  vehicleCount?: number
+  domainName?: string
+  preferredLanguage: string
+  logoUrl?: string
+  brandColor: string
+  tagline?: string
+  deliveryLocation?: string
+  deliveryRadius: string
+  minDriverAge: number
+  minLicenseYears: number
+  maxRentalDays: number
+  cancellationPolicy: string
+  notes?: string
+  referralSource?: string
+}
+
+export function onboardingAdminEmail(data: OnboardingData): string {
+  const checklist = [
+    'Payment confirmed',
+    'Supabase project created',
+    'Domain configured',
+    'Business config set',
+    'Fleet data entered',
+    'Test booking done',
+    'Login credentials sent',
+    'Client signed off',
+  ]
+
+  const checkboxStyle = `display:inline-block;width:14px;height:14px;border:2px solid #ccc;
+    border-radius:2px;margin-right:8px;vertical-align:middle;`
+
+  const checklist_html = checklist
+    .map(item => `<li style="padding:6px 0;font-size:13px;color:#1a1a1a;font-family:Arial,sans-serif;
+      list-style:none;"><span style="${checkboxStyle}"></span>${item}</li>`)
+    .join('')
+
+  const content = `
+<p style="margin:0 0 6px;font-size:16px;color:#1a1a1a;font-weight:600;font-family:Arial,sans-serif;">
+  New setup request.</p>
+<p style="margin:0;font-size:13px;color:#888;font-family:Arial,sans-serif;">
+  Reference: <strong style="color:#1a1a1a;">${data.leadId}</strong>
+</p>
+
+${divider}
+
+${section('Business')}
+<table cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 20px;">
+  ${row('Business', data.businessName)}
+  ${row('Contact', data.contactName)}
+  ${row('Email', `<a href="mailto:${data.contactEmail}" style="color:${BRAND_GOLD};text-decoration:none;">${data.contactEmail}</a>`)}
+  ${row('Type', data.businessType === 'other' ? `Other: ${data.businessTypeCustom}` : data.businessType)}
+  ${row('Location', `${data.businessCity}, ${data.businessCountry}`)}
+</table>
+
+${section('Current situation')}
+<table cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 20px;">
+  ${row('Books now via', data.currentBookingMethod || '—')}
+  ${row('Monthly bookings', data.monthlyBookingsEstimate || '—')}
+  ${row('Fleet size', data.vehicleCount ? `${data.vehicleCount} units` : '—')}
+</table>
+
+${section('System setup')}
+<table cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 20px;">
+  ${row('Domain', data.domainName || 'Not provided')}
+  ${row('Language', data.preferredLanguage)}
+  ${row('Logo URL', data.logoUrl ? `<a href="${data.logoUrl}" style="color:${BRAND_GOLD};text-decoration:none;">View</a>` : 'Not provided')}
+  ${row('Brand color', `<span style="background:${data.brandColor};padding:2px 8px;border-radius:2px;font-size:11px;">${data.brandColor}</span>`)}
+  ${row('Tagline', data.tagline || 'None')}
+</table>
+
+${section('Service rules')}
+<table cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 20px;">
+  ${row('Delivery base', data.deliveryLocation || '—')}
+  ${row('Delivery radius', data.deliveryRadius)}
+  ${row('Min driver age', `${data.minDriverAge}`)}
+  ${row('Min licence', `${data.minLicenseYears} year${data.minLicenseYears !== 1 ? 's' : ''}`)}
+  ${row('Max rental', `${data.maxRentalDays} days`)}
+  ${row('Cancellation', data.cancellationPolicy)}
+</table>
+
+${data.notes ? `
+${section('Notes from client')}
+<p style="margin:0 0 20px;font-size:14px;color:#1a1a1a;line-height:1.65;
+  font-style:italic;font-family:Arial,sans-serif;">"${data.notes}"</p>
+` : ''}
+
+${row('Heard via', data.referralSource || '—')}
+
+${divider}
+
+${section('Deployment checklist')}
+<ul style="margin:0 0 20px;padding:0;">
+  ${checklist_html}
+</ul>`
+
+  return layout(content)
+}
+
+// ─── TEMPLATE 8: Weekly business report ──────────────────────────────────────
+
+export function weeklyReportEmail(data: {
+  dateRange: string
+  inquiriesCount: number
+  confirmedCount: number
+  revenueWeek: number
+  upcomingPickups: Array<{
+    carLabel: string
+    customerFirstName: string
+    startAt: string
+    pickupTime: string | null
+  }>
+  adminUrl: string
+}): string {
+  const pickupRows = data.upcomingPickups.length > 0
+    ? data.upcomingPickups.map(p => {
+        const date = new Date(p.startAt).toLocaleDateString('en-GB', {
+          weekday: 'short', day: 'numeric', month: 'short',
+        })
+        return `<tr>
+          <td style="padding:6px 0;font-size:13px;color:#1a1a1a;font-family:Arial,sans-serif;
+            width:50%;vertical-align:top;">${p.carLabel}</td>
+          <td style="padding:6px 0;font-size:13px;color:#888;font-family:Arial,sans-serif;
+            width:25%;vertical-align:top;">${p.customerFirstName}</td>
+          <td style="padding:6px 0;font-size:13px;color:#888;font-family:Arial,sans-serif;
+            width:25%;vertical-align:top;">${date}${p.pickupTime ? ` · ${p.pickupTime}` : ''}</td>
+        </tr>`
+      }).join('')
+    : `<tr><td colspan="3" style="padding:6px 0;font-size:13px;color:#aaa;font-family:Arial,sans-serif;">
+        No pickups scheduled this week.</td></tr>`
+
+  const content = `
+<p style="margin:0 0 4px;font-size:13px;color:#888;font-family:Arial,sans-serif;">Good morning.</p>
+<p style="margin:0 0 24px;font-size:15px;color:#1a1a1a;font-family:Arial,sans-serif;font-weight:600;">
+  Here's your summary for the week.</p>
+
+${divider}
+
+${section('This week — ' + data.dateRange)}
+<table cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 20px;">
+  ${row('New inquiries', `${data.inquiriesCount}`)}
+  ${row('Confirmed bookings', `${data.confirmedCount}`)}
+  ${row('Revenue', formatPriceDecimals(data.revenueWeek))}
+</table>
+
+${divider}
+
+${section('Upcoming pickups')}
+<table cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 20px;">
+  <thead>
+    <tr>
+      <th style="text-align:left;padding:4px 0;font-size:10px;letter-spacing:1.5px;
+        text-transform:uppercase;color:#aaa;font-family:Arial,sans-serif;font-weight:400;">Vehicle</th>
+      <th style="text-align:left;padding:4px 0;font-size:10px;letter-spacing:1.5px;
+        text-transform:uppercase;color:#aaa;font-family:Arial,sans-serif;font-weight:400;">Customer</th>
+      <th style="text-align:left;padding:4px 0;font-size:10px;letter-spacing:1.5px;
+        text-transform:uppercase;color:#aaa;font-family:Arial,sans-serif;font-weight:400;">Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    ${pickupRows}
+  </tbody>
+</table>
+
+${divider}
+
+${btn('Open admin panel', data.adminUrl)}
+
+<p style="margin:28px 0 0;font-size:12px;color:#aaa;font-family:Arial,sans-serif;">
+  ${BUSINESS_NAME} · Your automated booking system
+</p>`
+
+  return layout(content)
+}
+
 // ─── TEMPLATE 5: Customer cancellation ───────────────────────────────────────
 
 export function bookingCancelledEmail(data: {
