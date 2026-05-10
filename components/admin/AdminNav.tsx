@@ -9,6 +9,7 @@ const links = [
   { href: '/admin/bookings', label: 'Bookings', exact: false },
   { href: '/admin/cars', label: 'Fleet', exact: false },
   { href: '/admin/clients', label: 'Clients', exact: false },
+  { href: '/admin/outreach', label: 'Outreach', exact: false },
   { href: '/admin/waitlist', label: 'Waitlist', exact: false },
   { href: '/admin/reseller', label: 'Reseller', exact: false },
   { href: '/admin/analytics', label: 'Analytics', exact: false },

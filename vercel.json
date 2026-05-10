@@ -15,6 +15,14 @@
     {
       "path": "/api/cron/document-expiry",
       "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/cold-email-followup",
+      "schedule": "0 9 * * 2"
+    },
+    {
+      "path": "/api/cron/dunning",
+      "schedule": "0 10 * * *"
     }
   ]
 }
