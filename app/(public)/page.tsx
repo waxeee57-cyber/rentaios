@@ -111,7 +111,7 @@ const PRICING = [
     ],
     licenceLink: true,
     cta: 'Buy now',
-    href: '/sell',
+    href: process.env.NEXT_PUBLIC_GUMROAD_URL || '/sell',
     accent: false,
   },
   {

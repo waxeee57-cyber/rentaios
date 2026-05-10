@@ -20,8 +20,10 @@ const legal = [
 
 export async function Footer() {
   const config = await getBusinessConfig()
-  const showPoweredBy = config.show_powered_by !== false
-  const tagline = process.env.NEXT_PUBLIC_BUSINESS_TAGLINE || config.tagline
+  const businessName = process.env.NEXT_PUBLIC_BUSINESS_NAME ?? 'RentalOS'
+  const isWhiteLabel = businessName !== 'RentalOS'
+  const showPoweredBy = config.show_powered_by !== false && isWhiteLabel
+  const tagline = process.env.NEXT_PUBLIC_BUSINESS_TAGLINE || 'Your rental business, automated.'
 
   return (
     <footer className="border-t border-border bg-black">
