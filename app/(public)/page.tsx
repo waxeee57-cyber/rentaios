@@ -25,7 +25,7 @@ const PAIN_CARDS = [
     Icon: MessageCircle,
     tag: 'Solo operators',
     headline: 'Inquiries lost in WhatsApp',
-    copy: "A customer messages at midnight asking about your Ferrari. By morning they've booked with your competitor. You never saw the message.",
+    copy: "A customer messages at midnight asking about your vehicle. By morning they've booked with your competitor. You never saw the message.",
   },
   {
     Icon: Users,
@@ -37,7 +37,7 @@ const PAIN_CARDS = [
     Icon: Star,
     tag: 'Premium fleets',
     headline: "Your cars are premium. Your booking process isn't.",
-    copy: "Customers pay €1,500 a day to drive your Bentley. They deserve a confirmation email that matches that level. Not a WhatsApp voice note.",
+    copy: "Your customers expect a professional response. They deserve a confirmation within seconds — not a WhatsApp voice note the next morning.",
   },
   {
     Icon: Code2,
@@ -69,9 +69,9 @@ const FOR_WHO = [
     href: '/pricing',
   },
   {
-    scale: '€150,000+ fleet value',
+    scale: 'Premium fleet',
     label: 'Premium fleet operators',
-    body: 'Your cars are €150,000+. Your booking experience should match. Branded confirmations, professional document handling, a system that reflects the quality of your fleet.',
+    body: 'Your fleet is your business. Your booking experience should reflect the standard you set. Branded confirmations, professional document handling, a system that matches the quality of your operation.',
     cta: 'See the admin panel →',
     href: '/demo/admin',
   },
