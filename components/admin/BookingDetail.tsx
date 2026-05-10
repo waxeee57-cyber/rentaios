@@ -7,6 +7,8 @@ import { Textarea } from '@/components/ui/textarea'
 import { formatDateRange, formatDateTime, formatPriceDecimals, formatTime } from '@/lib/formatters'
 import { buildBookingLink, buildWhatsAppLink } from '@/lib/whatsapp'
 import { cn } from '@/lib/utils'
+import { BookingDocuments } from '@/components/admin/BookingDocuments'
+import { CustomerDocuments } from '@/components/admin/CustomerDocuments'
 
 type BookingStatus = 'inquiry' | 'confirmed' | 'picked_up' | 'returned' | 'completed' | 'cancelled'
 
@@ -32,7 +34,7 @@ interface BookingRow {
   transfer_address: string | null
   transfer_fee_eur: number | null
   car: { brand: string; model: string; year: number; slug: string } | null
-  customer: { full_name: string; email: string; phone: string | null; country: string | null } | null
+  customer: { id: string; full_name: string; email: string; phone: string | null; country: string | null } | null
 }
 
 interface BookingDetailProps {
@@ -470,7 +472,19 @@ export function BookingDetail({ booking: b, onStatusChange }: BookingDetailProps
         />
       </Section>
 
-      {/* Section 6: Status History */}
+      {/* Section 6: Booking Documents */}
+      <Section title="Booking Documents" defaultOpen={false}>
+        <BookingDocuments bookingId={b.id} status={b.status} />
+      </Section>
+
+      {/* Section 7: Customer Documents */}
+      {b.customer?.id && (
+        <Section title="Customer Documents" defaultOpen={false}>
+          <CustomerDocuments customerId={b.customer.id} />
+        </Section>
+      )}
+
+      {/* Section 8: Status History */}
       <Section title="Status History" defaultOpen={false}>
         {b.status_history.length === 0 ? (
           <p className="font-sans text-xs text-muted">No history.</p>

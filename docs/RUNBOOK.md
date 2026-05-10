@@ -1,5 +1,51 @@
 # RentalOS — Operations Runbook
 
+## Document Management
+
+### Supabase Storage Setup
+
+Three private storage buckets must be created manually in Supabase before document uploads will work:
+
+1. Go to **Supabase Dashboard → Storage → New Bucket**
+2. Create: `vehicle-documents` — Public: OFF, File size limit: 20MB
+3. Create: `customer-documents` — Public: OFF, File size limit: 20MB
+4. Create: `booking-documents` — Public: OFF, File size limit: 20MB
+
+All buckets must have Public access OFF. The service role key handles all reads/writes from API routes.
+
+### Running the Migration
+
+Run `supabase/migrations/12_documents.sql` in Supabase Studio → SQL Editor.
+This creates: `vehicle_documents`, `customer_documents`, `booking_documents` tables with RLS enabled.
+
+### Document Types Supported
+
+- **Vehicle**: Insurance, Registration, MOT Certificate, Service History, Purchase Invoice, Other
+- **Customer**: Driving Licence (Front/Back), Passport, National ID, Proof of Address, Other
+- **Booking**: Rental Agreement, Damage Report, Pickup Photo, Return Photo, Deposit Receipt, Other
+
+Accepted file formats: JPEG, PNG, WEBP, PDF. Max 20MB per file.
+
+### Expiry Alerts
+
+The `document-expiry` cron runs daily at 09:00 UTC. It sends one email per expiring document (vehicle and customer) within 60 days of expiry. Once an alert is sent, `expiry_alert_sent = true` prevents duplicate emails.
+
+To test manually:
+```
+POST /api/cron/document-expiry
+Authorization: Bearer {CRON_SECRET}
+```
+
+### Signed URLs
+
+All document view/download URLs are signed with a 1-hour expiry. This is intentional — documents contain sensitive PII. URLs are regenerated fresh on each GET request to the document list API.
+
+### Document Verification
+
+Customer documents have a `verified` boolean. Toggle it in the booking detail → Customer Documents section after visually inspecting the document. The dashboard shows a count of unverified documents as a reminder.
+
+---
+
 ## Daily Workflow
 
 Every morning: open `/admin/bookings` → check **Inquiries** tab (red dot = waiting >2 h) → check **Today Pickups** and **Today Returns**.

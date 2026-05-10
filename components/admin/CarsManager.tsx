@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Camera, ChevronUp, ChevronDown, X } from 'lucide-react'
 import { formatPrice } from '@/lib/formatters'
 import { cn } from '@/lib/utils'
+import { VehicleDocuments } from '@/components/admin/VehicleDocuments'
 
 interface CarPhoto {
   url: string
@@ -405,7 +406,12 @@ function CarCard({ car, expanded, onExpand, onUpdate }: CarCardProps) {
             )}
           </div>
 
-          {/* 5. Description */}
+          {/* 5. Documents */}
+          <div>
+            <VehicleDocuments carId={car.id} />
+          </div>
+
+          {/* 6. Description */}
           <div>
             <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-gold mb-3">Description</p>
             <textarea

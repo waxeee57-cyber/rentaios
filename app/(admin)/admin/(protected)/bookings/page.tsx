@@ -33,7 +33,7 @@ interface BookingRow {
   transfer_address: string | null
   transfer_fee_eur: number | null
   car: { brand: string; model: string; year: number; slug: string } | null
-  customer: { full_name: string; email: string; phone: string | null; country: string | null } | null
+  customer: { id: string; full_name: string; email: string; phone: string | null; country: string | null } | null
 }
 
 async function getBookings(filter?: string): Promise<{ rows: BookingRow[]; error: string | null }> {
@@ -46,7 +46,7 @@ async function getBookings(filter?: string): Promise<{ rows: BookingRow[]; error
         id_doc_url, return_notes, source, created_at, updated_at, status_history,
         transfer_requested, transfer_address, transfer_fee_eur,
         car:cars(brand, model, year, slug),
-        customer:customers(full_name, email, phone, country)
+        customer:customers(id, full_name, email, phone, country)
       `)
 
     const todayMadrid = formatInTimeZone(new Date(), TZ, 'yyyy-MM-dd')

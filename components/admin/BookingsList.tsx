@@ -33,7 +33,7 @@ interface BookingRow {
   transfer_address: string | null
   transfer_fee_eur: number | null
   car: { brand: string; model: string; year: number; slug: string } | null
-  customer: { full_name: string; email: string; phone: string | null; country: string | null } | null
+  customer: { id: string; full_name: string; email: string; phone: string | null; country: string | null } | null
 }
 
 const FILTERS = [
