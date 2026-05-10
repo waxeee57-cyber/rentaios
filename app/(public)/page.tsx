@@ -4,13 +4,7 @@ import { Check, ArrowRight, ExternalLink, MessageCircle, Users, Star, Code2, Map
 
 export const metadata: Metadata = {
   title: 'RentalOS — Booking System for Car, Yacht & Villa Rentals',
-  description:
-    'A complete rental booking system for car, yacht, villa, and motorcycle businesses. Inquiry to confirmation in minutes. Admin panel, email notifications, mobile-first.',
-  openGraph: {
-    title: 'RentalOS — Booking System for Car, Yacht & Villa Rentals',
-    description:
-      'Complete rental booking system with admin panel, email notifications, and fleet management. Deploy in one day.',
-  },
+  description: 'Stop managing rental bookings on WhatsApp. RentalOS automates every inquiry, confirmation, and follow-up. From €49/month or buy the template for €299.',
 }
 
 const FEATURES = [
@@ -245,10 +239,10 @@ export default function HomePage() {
                 </div>
               </div>
             ))}
-            {PAIN_CARDS.slice(3).map(({ Icon, tag, headline, copy }, i) => (
+            {PAIN_CARDS.slice(3).map(({ Icon, tag, headline, copy }) => (
               <div
                 key={tag}
-                className={`md:col-span-3 ${i === 0 ? 'md:col-start-2' : ''} flex flex-col gap-5 rounded-md border border-border bg-graphite/40 p-6`}
+                className="md:col-span-3 flex flex-col gap-5 rounded-md border border-border bg-graphite/40 p-6"
               >
                 <div className="flex items-start justify-between gap-3">
                   <Icon className="h-5 w-5 text-gold/50 shrink-0 mt-0.5" strokeWidth={1.5} />
@@ -366,10 +360,10 @@ export default function HomePage() {
                 </Link>
               </div>
             ))}
-            {FOR_WHO.slice(3).map(({ scale, label, body, cta, href }, i) => (
+            {FOR_WHO.slice(3).map(({ scale, label, body, cta, href }) => (
               <div
                 key={label}
-                className={`md:col-span-3 ${i === 0 ? 'md:col-start-2' : ''} flex flex-col gap-3 rounded-md border border-border bg-black/40 p-6`}
+                className="md:col-span-3 flex flex-col gap-3 rounded-md border border-border bg-black/40 p-6"
               >
                 <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-gold/50">{scale}</p>
                 <h3 className="font-display text-xl font-medium text-white">{label}</h3>

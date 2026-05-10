@@ -19,7 +19,7 @@ const cormorant = Cormorant_Garamond({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://rentaios.vercel.app'),
   title: {
     default: 'RentalOS — Rental Booking System',
     template: '%s — RentalOS',
