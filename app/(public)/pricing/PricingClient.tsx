@@ -337,6 +337,7 @@ export function PricingClient({
   const [cadence, setCadence] = useState<Cadence>('monthly')
   const [currency, setCurrency] = useState<CurrencyCode>('EUR')
   const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null)
+  const [checkoutError, setCheckoutError] = useState<string | null>(null)
 
   async function handleCheckout(tierKey: string) {
     const priceIdMap: Record<string, string | null> = {
@@ -347,6 +348,7 @@ export function PricingClient({
     const priceId = priceIdMap[tierKey] ?? null
     if (!priceId) return
     setCheckoutLoading(tierKey)
+    setCheckoutError(null)
     try {
       trackEvent('cta_click', undefined, { cta: 'start_trial', tier: tierKey, cadence })
       const res = await fetch('/api/billing/create-checkout', {
@@ -355,9 +357,13 @@ export function PricingClient({
         body: JSON.stringify({ priceId }),
       })
       const data = await res.json()
-      if (data.url) window.location.href = data.url
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        setCheckoutError('Unable to start checkout. Please try again or contact support.')
+      }
     } catch {
-      // stay on page — user can retry
+      setCheckoutError('Network error. Please check your connection and try again.')
     } finally {
       setCheckoutLoading(null)
     }
@@ -594,6 +600,12 @@ export function PricingClient({
               )
             })}
           </div>
+
+          {checkoutError && (
+            <p className="mt-6 font-sans text-sm text-center" style={{ color: 'oklch(0.65 0.18 25)' }}>
+              {checkoutError}
+            </p>
+          )}
 
           {cadence === 'annual' && (
             <p className="mt-6 font-sans text-xs text-muted text-center">

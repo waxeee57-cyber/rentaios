@@ -176,6 +176,7 @@ export function PlanQuiz({ starterPriceId, growthPriceId, proPriceId, stripeConf
   const [fleetSize, setFleetSize] = useState<FleetSize | null>(null)
   const [setupPref, setSetupPref] = useState<SetupPref | null>(null)
   const [checkoutLoading, setCheckoutLoading] = useState(false)
+  const [checkoutError, setCheckoutError] = useState<string | null>(null)
 
   function advance(nextStep: number) {
     setTimeout(() => setStep(nextStep), 150)
@@ -212,6 +213,7 @@ export function PlanQuiz({ starterPriceId, growthPriceId, proPriceId, stripeConf
 
   async function handleCheckout(priceId: string) {
     setCheckoutLoading(true)
+    setCheckoutError(null)
     try {
       trackEvent('cta_click', undefined, { cta: 'quiz_checkout', priceId })
       const res = await fetch('/api/billing/create-checkout', {
@@ -220,9 +222,13 @@ export function PlanQuiz({ starterPriceId, growthPriceId, proPriceId, stripeConf
         body: JSON.stringify({ priceId }),
       })
       const data = await res.json()
-      if (data.url) window.location.href = data.url
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        setCheckoutError('Unable to start checkout. Please try again.')
+      }
     } catch {
-      // stay on page — user can retry
+      setCheckoutError('Network error. Please check your connection and try again.')
     } finally {
       setCheckoutLoading(false)
     }
@@ -379,6 +385,12 @@ export function PlanQuiz({ starterPriceId, growthPriceId, proPriceId, stripeConf
             >
               {cfg.cta}
             </Link>
+          )}
+
+          {checkoutError && (
+            <p className="mt-3 font-sans text-xs text-center" style={{ color: 'oklch(0.65 0.18 25)' }}>
+              {checkoutError}
+            </p>
           )}
 
           <p className="mt-4 text-center">
