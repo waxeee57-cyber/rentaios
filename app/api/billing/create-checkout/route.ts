@@ -3,7 +3,7 @@ import { rateLimit, getClientIp } from '@/lib/rate-limit'
 
 export async function POST(req: NextRequest) {
   const ip = getClientIp(req)
-  if (!rateLimit(`checkout:${ip}`, 10, 3_600_000)) {
+  if (!rateLimit(`checkout:${ip}`, 20, 3_600_000)) {
     return NextResponse.json({ error: 'Too many requests. Try again shortly.' }, { status: 429 })
   }
 
