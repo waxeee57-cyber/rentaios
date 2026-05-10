@@ -6,15 +6,14 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin/', '/api/', '/booking/'],
+        disallow: ['/admin/', '/api/', '/booking/', '/demo/'],
       },
-      // Explicitly allow AI search crawlers
       {
         userAgent: ['GPTBot', 'PerplexityBot', 'ClaudeBot', 'Google-Extended', 'anthropic-ai', 'Applebot-Extended', 'cohere-ai'],
         allow: '/',
-        disallow: ['/admin/', '/api/', '/booking/'],
+        disallow: ['/admin/', '/api/', '/booking/', '/demo/'],
       },
     ],
-    sitemap: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'}/sitemap.xml`,
+    sitemap: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'}/sitemap.xml`,
   }
 }

@@ -117,6 +117,17 @@ export default async function DemoAdminPage() {
       {/* Bookings list */}
       <div>
         <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-muted mb-4">Demo bookings</p>
+        {bookings.length === 0 && (
+          <div className="rounded-sm border border-dashed border-border p-10 text-center">
+            <p className="font-sans text-sm text-muted mb-2">Demo data not loaded yet.</p>
+            <p className="font-sans text-xs text-muted/60 mb-6">
+              Run <code className="font-mono text-gold">supabase/demo-seed.sql</code> to populate sample bookings.
+            </p>
+            <Link href="/pricing" className="inline-flex items-center min-h-[40px] rounded-md bg-gold px-6 font-sans text-sm font-medium text-black hover:opacity-90 transition-opacity">
+              Start free trial — your data, not sample data
+            </Link>
+          </div>
+        )}
         <div className="divide-y divide-border">
           {bookings.map(booking => (
             <div key={booking.id} className="py-4">

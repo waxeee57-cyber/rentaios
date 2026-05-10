@@ -4,7 +4,7 @@ import { FAQAccordion } from './FAQAccordion'
 export const metadata: Metadata = {
   title: 'FAQ — RentalOS',
   description: 'Frequently asked questions about RentalOS — setup, features, billing, and technical details.',
-  alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'}/faq` },
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'}/faq` },
 }
 
 export const revalidate = 3600
@@ -73,7 +73,7 @@ const FAQ_CATEGORIES = [
     items: [
       {
         q: 'How much does it cost?',
-        a: 'Starter €99/month, Pro €199/month, or buy the template outright for €299. Done-for-you setup is €499 one-time. See /pricing for full details.',
+        a: 'From €49/month (Starter), or buy the template outright for €299. Done-for-you setup is €499 one-time. See /pricing for full details.',
       },
       {
         q: 'Can I cancel anytime?',

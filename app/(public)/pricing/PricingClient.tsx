@@ -437,7 +437,13 @@ export function PricingClient({ stripeConfigured }: { stripeConfigured: boolean 
                   </ul>
 
                   <Link
-                    href={tier.href}
+                    href={
+                      isAgency
+                        ? tier.href
+                        : stripeConfigured
+                        ? tier.href
+                        : '/onboarding'
+                    }
                     onClick={() => {
                       if (!isAgency) trackEvent('cta_click', undefined, { cta: 'start_trial', tier: tier.key, cadence })
                     }}
@@ -449,7 +455,9 @@ export function PricingClient({ stripeConfigured }: { stripeConfigured: boolean 
                         : 'border border-border text-muted hover:border-gold/40 hover:text-white'
                     }`}
                   >
-                    {tier.cta}
+                    {!isAgency && !stripeConfigured && !tier.agency
+                      ? 'Get started'
+                      : tier.cta}
                   </Link>
                 </div>
               )

@@ -2,13 +2,13 @@ import type { Metadata } from 'next'
 import { Check, ArrowRight, ExternalLink } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'RentalOS — Luxury Rental Booking System',
+  title: 'RentalOS — Booking System for Car, Yacht & Villa Rentals',
   description:
-    'A complete luxury rental booking system. Inquiry, confirm, pickup, return — all in one mobile-first admin panel. Built for car rental, yacht, villa, and motorcycle businesses.',
+    'A complete rental booking system for car, yacht, villa, and motorcycle businesses. Inquiry to confirmation in minutes. Admin panel, email notifications, mobile-first.',
   openGraph: {
-    title: 'RentalOS — Luxury Rental Booking System',
+    title: 'RentalOS — Booking System for Car, Yacht & Villa Rentals',
     description:
-      'Full Next.js booking system with admin panel, email notifications, and Supabase backend. Deploy in one day.',
+      'Complete rental booking system with admin panel, email notifications, and fleet management. Deploy in one day.',
   },
 }
 

@@ -7,16 +7,16 @@ export const revalidate = false
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'
 
 export const metadata: Metadata = {
-  title: 'RentalOS — Luxury Rental Booking System for Car, Yacht & Villa',
+  title: 'Buy RentalOS — Complete Rental Booking System from €299',
   description:
-    'Complete booking system for luxury rental businesses. Template from €299. Includes admin panel, email notifications, fleet management. Deploy in one day.',
+    'Complete rental booking system for car, yacht, villa, and motorcycle businesses. Template from €299. Admin panel, email notifications, fleet management. Deploy in one day.',
   alternates: {
     canonical: `${SITE_URL}/sell`,
   },
   openGraph: {
-    title: 'RentalOS — Luxury Rental Booking System for Car, Yacht & Villa',
+    title: 'Buy RentalOS — Complete Rental Booking System from €299',
     description:
-      'Complete booking system for luxury rental businesses. Template from €299. Includes admin panel, email notifications, fleet management. Deploy in one day.',
+      'Complete rental booking system for car, yacht, villa, and motorcycle businesses. Template from €299. Admin panel, email notifications, fleet management. Deploy in one day.',
     images: [
       {
         url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200&q=80',
