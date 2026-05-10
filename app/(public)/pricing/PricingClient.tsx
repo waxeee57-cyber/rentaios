@@ -317,6 +317,25 @@ function Tooltip({ text }: { text: string }) {
 export function PricingClient({ stripeConfigured }: { stripeConfigured: boolean }) {
   const [cadence, setCadence] = useState<Cadence>('monthly')
   const [currency, setCurrency] = useState<CurrencyCode>('EUR')
+  const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null)
+
+  async function handleCheckout(tierKey: string) {
+    setCheckoutLoading(tierKey)
+    try {
+      trackEvent('cta_click', undefined, { cta: 'start_trial', tier: tierKey, cadence })
+      const res = await fetch('/api/billing/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: tierKey, cadence }),
+      })
+      const data = await res.json()
+      if (data.url) window.location.href = data.url
+    } catch {
+      // stay on page — user can retry
+    } finally {
+      setCheckoutLoading(null)
+    }
+  }
 
   useEffect(() => {
     const stored = localStorage.getItem('pricing_currency') as CurrencyCode | null
@@ -495,29 +514,30 @@ export function PricingClient({ stripeConfigured }: { stripeConfigured: boolean 
                     ))}
                   </ul>
 
-                  <Link
-                    href={
-                      isAgency
-                        ? tier.href
-                        : stripeConfigured
-                        ? tier.href
-                        : '/onboarding'
-                    }
-                    onClick={() => {
-                      if (!isAgency) trackEvent('cta_click', undefined, { cta: 'start_trial', tier: tier.key, cadence })
-                    }}
-                    className={`inline-flex items-center justify-center min-h-[44px] rounded-md px-5 font-sans text-xs uppercase tracking-[0.1em] transition-colors ${
-                      tier.highlight
-                        ? 'bg-gold text-black hover:opacity-90'
-                        : isAgency
-                        ? 'border border-gold/40 text-gold hover:bg-gold hover:text-black'
-                        : 'border border-border text-muted hover:border-gold/40 hover:text-white'
-                    }`}
-                  >
-                    {!isAgency && !stripeConfigured && !tier.agency
-                      ? 'Get started'
-                      : tier.cta}
-                  </Link>
+                  {isAgency ? (
+                    <Link
+                      href={tier.href}
+                      className="inline-flex items-center justify-center min-h-[44px] rounded-md px-5 font-sans text-xs uppercase tracking-[0.1em] transition-colors border border-gold/40 text-gold hover:bg-gold hover:text-black"
+                    >
+                      {tier.cta}
+                    </Link>
+                  ) : stripeConfigured ? (
+                    <button
+                      onClick={() => handleCheckout(tier.key)}
+                      disabled={checkoutLoading === tier.key}
+                      className={`inline-flex items-center justify-center min-h-[44px] rounded-md px-5 font-sans text-xs uppercase tracking-[0.1em] transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+                        tier.highlight
+                          ? 'bg-gold text-black hover:opacity-90'
+                          : 'border border-border text-muted hover:border-gold/40 hover:text-white'
+                      }`}
+                    >
+                      {checkoutLoading === tier.key ? 'Redirecting…' : tier.cta}
+                    </button>
+                  ) : (
+                    <span className="inline-flex items-center justify-center min-h-[44px] rounded-md px-5 font-sans text-xs uppercase tracking-[0.1em] border border-border text-muted/40 cursor-default select-none">
+                      Coming soon
+                    </span>
+                  )}
                   {tier.key === 'starter' && (
                     <p className="mt-3 font-sans text-[11px] text-muted/50 text-center">
                       Less than the cost of one missed booking.

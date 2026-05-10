@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { requireAdmin } from '@/lib/auth'
-import { supabaseAdmin } from '@/lib/supabase'
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
 
@@ -26,9 +24,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Billing not configured' }, { status: 400 })
   }
 
-  const auth = await requireAdmin()
-  if ('error' in auth) return auth.error
-
   let body: { plan?: unknown; cadence?: unknown }
   try {
     body = await req.json()
@@ -53,34 +48,11 @@ export async function POST(req: NextRequest) {
   const Stripe = (await import('stripe')).default
   const stripe = new Stripe(STRIPE_SECRET_KEY)
 
-  const { data: subscription } = await supabaseAdmin
-    .from('subscriptions')
-    .select('id, stripe_customer_id')
-    .single()
-
-  let customerId = subscription?.stripe_customer_id ?? undefined
-
-  if (!customerId) {
-    const customer = await stripe.customers.create({
-      email: auth.user.email,
-      metadata: { user_id: auth.user.id },
-    })
-    customerId = customer.id
-
-    if (subscription?.id) {
-      await supabaseAdmin
-        .from('subscriptions')
-        .update({ stripe_customer_id: customerId })
-        .eq('id', subscription.id)
-    }
-  }
-
   const session = await stripe.checkout.sessions.create({
-    customer: customerId,
     mode: 'subscription',
     line_items: [{ price: priceId, quantity: 1 }],
-    success_url: `${siteUrl}/admin/billing?success=true`,
-    cancel_url: `${siteUrl}/admin/billing`,
+    success_url: `${siteUrl}/onboarding/thank-you?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${siteUrl}/pricing`,
     allow_promotion_codes: true,
   })
 
