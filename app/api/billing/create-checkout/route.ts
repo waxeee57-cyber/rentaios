@@ -1,65 +1,56 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { rateLimit, getClientIp } from '@/lib/rate-limit'
 
-const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
-
-type Plan = 'starter' | 'growth' | 'pro'
-type Cadence = 'monthly' | 'annual'
-
-const MONTHLY_PRICE_IDS: Record<Plan, string | undefined> = {
-  starter: process.env.STRIPE_STARTER_PRICE_ID,
-  growth: process.env.STRIPE_GROWTH_PRICE_ID,
-  pro: process.env.STRIPE_PRO_PRICE_ID,
-}
-
-const ANNUAL_PRICE_IDS: Record<Plan, string | undefined> = {
-  starter: process.env.STRIPE_STARTER_ANNUAL_PRICE_ID,
-  growth: process.env.STRIPE_GROWTH_ANNUAL_PRICE_ID,
-  pro: process.env.STRIPE_PRO_ANNUAL_PRICE_ID,
-}
-
-const VALID_PLANS: Plan[] = ['starter', 'growth', 'pro']
-
 export async function POST(req: NextRequest) {
-  if (!STRIPE_SECRET_KEY) {
-    return NextResponse.json({ error: 'Billing not configured' }, { status: 400 })
-  }
-
   const ip = getClientIp(req)
-  if (!rateLimit(`checkout:${ip}`, 20, 3_600_000)) {
+  if (!rateLimit(`checkout:${ip}`, 10, 3_600_000)) {
     return NextResponse.json({ error: 'Too many requests. Try again shortly.' }, { status: 429 })
   }
 
-  let body: { plan?: unknown; cadence?: unknown }
+  if (!process.env.STRIPE_SECRET_KEY) {
+    return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 })
+  }
+
+  let body: { priceId?: unknown }
   try {
     body = await req.json()
   } catch {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
   }
 
-  const plan = body.plan as Plan
-  const cadence: Cadence = body.cadence === 'annual' ? 'annual' : 'monthly'
-
-  if (!VALID_PLANS.includes(plan)) {
-    return NextResponse.json({ error: `Invalid plan: ${plan}` }, { status: 400 })
+  const priceId = body.priceId
+  if (typeof priceId !== 'string') {
+    return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
   }
 
-  const priceId = cadence === 'annual' ? ANNUAL_PRICE_IDS[plan] : MONTHLY_PRICE_IDS[plan]
-  if (!priceId) {
-    return NextResponse.json({ error: `No price ID configured for ${plan} ${cadence}` }, { status: 400 })
+  const validPriceIds = [
+    process.env.STRIPE_STARTER_PRICE_ID,
+    process.env.STRIPE_GROWTH_PRICE_ID,
+    process.env.STRIPE_PRO_PRICE_ID,
+    process.env.STRIPE_STARTER_ANNUAL_PRICE_ID,
+    process.env.STRIPE_GROWTH_ANNUAL_PRICE_ID,
+    process.env.STRIPE_PRO_ANNUAL_PRICE_ID,
+  ].filter((id): id is string => typeof id === 'string')
+
+  if (!validPriceIds.includes(priceId)) {
+    return NextResponse.json({ error: 'Invalid price' }, { status: 400 })
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rentalos.domrol.com'
 
   const Stripe = (await import('stripe')).default
-  const stripe = new Stripe(STRIPE_SECRET_KEY)
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
   const session = await stripe.checkout.sessions.create({
     mode: 'subscription',
+    payment_method_types: ['card'],
     line_items: [{ price: priceId, quantity: 1 }],
-    success_url: `${siteUrl}/onboarding/thank-you?session_id={CHECKOUT_SESSION_ID}`,
+    success_url: `${siteUrl}/admin?checkout=success`,
     cancel_url: `${siteUrl}/pricing`,
     allow_promotion_codes: true,
+    subscription_data: {
+      trial_period_days: 14,
+    },
   })
 
   return NextResponse.json({ url: session.url })

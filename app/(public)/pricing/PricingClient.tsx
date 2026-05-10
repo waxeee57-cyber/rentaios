@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Check, Info } from 'lucide-react'
 import { trackEvent } from '@/lib/analytics'
+import { PlanQuiz } from '@/components/marketing/PlanQuiz'
 
 type Cadence = 'monthly' | 'annual'
 type CurrencyCode = 'EUR' | 'GBP' | 'AED' | 'USD'
@@ -314,19 +315,44 @@ function Tooltip({ text }: { text: string }) {
   )
 }
 
-export function PricingClient({ stripeConfigured }: { stripeConfigured: boolean }) {
+type Props = {
+  stripeConfigured: boolean
+  starterPriceId: string | null
+  growthPriceId: string | null
+  proPriceId: string | null
+  starterAnnualPriceId: string | null
+  growthAnnualPriceId: string | null
+  proAnnualPriceId: string | null
+}
+
+export function PricingClient({
+  stripeConfigured,
+  starterPriceId,
+  growthPriceId,
+  proPriceId,
+  starterAnnualPriceId,
+  growthAnnualPriceId,
+  proAnnualPriceId,
+}: Props) {
   const [cadence, setCadence] = useState<Cadence>('monthly')
   const [currency, setCurrency] = useState<CurrencyCode>('EUR')
   const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null)
 
   async function handleCheckout(tierKey: string) {
+    const priceIdMap: Record<string, string | null> = {
+      starter: cadence === 'annual' ? starterAnnualPriceId : starterPriceId,
+      growth: cadence === 'annual' ? growthAnnualPriceId : growthPriceId,
+      pro: cadence === 'annual' ? proAnnualPriceId : proPriceId,
+    }
+    const priceId = priceIdMap[tierKey] ?? null
+    if (!priceId) return
     setCheckoutLoading(tierKey)
     try {
       trackEvent('cta_click', undefined, { cta: 'start_trial', tier: tierKey, cadence })
       const res = await fetch('/api/billing/create-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan: tierKey, cadence }),
+        body: JSON.stringify({ priceId }),
       })
       const data = await res.json()
       if (data.url) window.location.href = data.url
@@ -376,8 +402,26 @@ export function PricingClient({ stripeConfigured }: { stripeConfigured: boolean 
         </div>
       </section>
 
+      {/* Plan Quiz */}
+      <section className="bg-black py-16 md:py-20 border-t border-white/5">
+        <div className="mx-auto max-w-3xl px-6">
+          <div className="mb-10 text-center">
+            <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">Find your plan</p>
+            <h2 className="font-display text-3xl font-light tracking-tight text-white">
+              Three questions, one recommendation
+            </h2>
+          </div>
+          <PlanQuiz
+            starterPriceId={starterPriceId}
+            growthPriceId={growthPriceId}
+            proPriceId={proPriceId}
+            stripeConfigured={stripeConfigured}
+          />
+        </div>
+      </section>
+
       {/* Tier cards */}
-      <section className="bg-graphite py-16 md:py-24">
+      <section id="pricing-table" className="bg-graphite py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-6">
 
           {/* Toggles */}
