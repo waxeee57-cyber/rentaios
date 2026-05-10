@@ -480,6 +480,9 @@ export function PricingClient({
             {TIERS.map((tier) => {
               const price = displayPrice(tier)
               const isAgency = tier.agency
+              const tierPriceId = isAgency ? null : cadence === 'annual'
+                ? (tier.key === 'starter' ? starterAnnualPriceId : tier.key === 'growth' ? growthAnnualPriceId : proAnnualPriceId)
+                : (tier.key === 'starter' ? starterPriceId : tier.key === 'growth' ? growthPriceId : proPriceId)
               return (
                 <div
                   key={tier.key}
@@ -565,7 +568,7 @@ export function PricingClient({
                     >
                       {tier.cta}
                     </Link>
-                  ) : stripeConfigured ? (
+                  ) : stripeConfigured && tierPriceId ? (
                     <button
                       onClick={() => handleCheckout(tier.key)}
                       disabled={checkoutLoading === tier.key}
