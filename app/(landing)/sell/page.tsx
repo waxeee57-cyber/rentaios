@@ -22,7 +22,7 @@ export const metadata: Metadata = {
         url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200&q=80',
         width: 1200,
         height: 800,
-        alt: 'RentalOS — Luxury Rental Booking System',
+        alt: 'RentalOS — Rental Booking System',
       },
     ],
   },
@@ -317,7 +317,7 @@ export default async function SellPage() {
 
             {/* Sub */}
             <p className="max-w-[480px] font-sans text-base leading-relaxed text-muted">
-              A complete booking system for luxury rental businesses.
+              A complete booking system for rental businesses.
               Inquiry to confirmation in minutes — not hours.
             </p>
 

@@ -40,7 +40,7 @@ function layout(content: string): string {
           <p style="margin:0 0 4px;font-size:10px;letter-spacing:4px;text-transform:uppercase;
             color:${BRAND_GOLD};font-family:Arial,sans-serif;font-weight:700;">${BUSINESS_NAME.toUpperCase()}</p>
           <p style="margin:0;font-size:11px;color:#666;font-family:Arial,sans-serif;letter-spacing:0.5px;">
-            Luxury Rental Service</p>
+            Rental Booking Service</p>
         </td>
       </tr>
 

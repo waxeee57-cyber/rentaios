@@ -8,7 +8,7 @@ import { FleetFilters } from '@/components/marketing/FleetFilters'
 
 export const metadata: Metadata = {
   title: 'Fleet',
-  description: 'Browse our luxury rental fleet. Hotel delivery included.',
+  description: 'Browse our rental fleet. Hotel delivery included.',
 }
 
 interface PageProps {
@@ -108,8 +108,8 @@ export default async function FleetPage({ searchParams }: PageProps) {
   const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'Luxury Rental Fleet',
-    description: 'Available luxury vehicles for hire.',
+    name: 'Rental Fleet',
+    description: 'Available vehicles for hire.',
     numberOfItems: schemaCars.length,
     itemListElement: schemaCars.map((car, index) => ({
       '@type': 'ListItem',

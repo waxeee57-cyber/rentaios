@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'About — RentalOS',
-  description: 'RentalOS is a complete booking system built for luxury rental businesses. Car, yacht, villa, motorcycle — any fleet, any market.',
+  description: 'RentalOS is a complete booking system built for rental businesses. Car, yacht, villa, motorcycle — any fleet, any market.',
   alternates: {
     canonical: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'}/about`,
   },

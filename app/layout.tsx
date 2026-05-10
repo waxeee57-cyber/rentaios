@@ -21,16 +21,16 @@ const cormorant = Cormorant_Garamond({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'),
   title: {
-    default: 'RentalOS — Luxury Rental Booking System',
+    default: 'RentalOS — Rental Booking System',
     template: '%s — RentalOS',
   },
   description:
-    'A complete luxury rental booking system. Inquiry, confirm, pickup, return — all in one mobile-first admin panel. Built for car rental, yacht, villa, and motorcycle businesses.',
+    'A complete rental booking system. Inquiry, confirm, pickup, return — all in one mobile-first admin panel. Built for car rental, yacht, villa, and motorcycle businesses.',
   keywords: [
-    'luxury rental booking system',
+    'rental booking system',
     'car rental booking software',
     'nextjs rental saas',
-    'luxury rental management',
+    'rental management software',
     'rental booking template',
   ],
   openGraph: {
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
         url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200&q=80',
         width: 1200,
         height: 800,
-        alt: 'RentalOS — Luxury Rental Booking System',
+        alt: 'RentalOS — Rental Booking System',
       },
     ],
   },

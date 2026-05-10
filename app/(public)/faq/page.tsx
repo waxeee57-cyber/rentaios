@@ -52,7 +52,7 @@ const FAQ_CATEGORIES = [
       },
       {
         q: 'Can customers pay online?',
-        a: 'Not by default. Payment is collected in person at pickup — most luxury rental businesses prefer this for high-value transactions. Stripe integration is available for those who want online payment.',
+        a: 'Not by default. Payment is collected in person at pickup — most rental businesses prefer this for high-value transactions. Stripe integration is available for those who want online payment.',
       },
       {
         q: 'How does the transfer and delivery feature work?',

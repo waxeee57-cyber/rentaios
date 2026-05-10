@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: PageProps) {
     title,
     description,
     openGraph: {
-      title: `${car.brand} ${car.model} — Luxury Car Rental`,
+      title: `${car.brand} ${car.model} — Car Rental`,
       description,
       ...(car.photos?.[0]?.url && {
         images: [{ url: car.photos[0].url, width: 1200, height: 800, alt: `${car.brand} ${car.model}` }],
@@ -72,7 +72,7 @@ export default async function CarDetailPage({ params, searchParams }: PageProps)
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: `${car.brand} ${car.model} ${car.year}`,
-    description: car.description ?? `${car.brand} ${car.model} luxury car rental in Marbella and the Costa del Sol`,
+    description: car.description ?? `${car.brand} ${car.model} car rental in Marbella and the Costa del Sol`,
     ...(car.photos?.[0]?.url && { image: car.photos[0].url }),
     brand: { '@type': 'Brand', name: car.brand },
     offers: {

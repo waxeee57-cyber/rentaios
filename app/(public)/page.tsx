@@ -81,7 +81,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Is there a demo?',
-    a: 'Yes. Visit /demo to explore a live luxury car rental business running on this exact codebase.',
+    a: 'Yes. Visit /demo to explore a live car rental business running on this exact codebase.',
   },
   {
     q: 'How long to deploy?',
@@ -109,7 +109,7 @@ export default function HomePage() {
           </div>
 
           <h1 className="font-display text-5xl font-light leading-[1.06] tracking-[-0.02em] text-white md:text-6xl lg:text-[4.5rem]">
-            A complete luxury rental booking system.{' '}
+            A complete rental booking system.{' '}
             <em className="italic text-gold">
               Ready to deploy in one day.
             </em>
@@ -182,7 +182,7 @@ export default function HomePage() {
                 Built for a real business
               </h2>
               <p className="mb-8 font-sans text-sm leading-relaxed text-muted">
-                A live luxury car rental business in Marbella is running this exact
+                A car rental business in Marbella is running this exact
                 codebase in production. Same admin panel. Same booking flow. Your branding.
               </p>
               <a
@@ -247,7 +247,7 @@ export default function HomePage() {
             &ldquo;
           </p>
           <blockquote className="font-display text-2xl font-light italic leading-relaxed text-white md:text-3xl">
-            Running in production at a luxury rental business in Marbella. Real bookings. Real customers.
+            Running in production at a car rental business in Marbella. Real bookings. Real customers.
           </blockquote>
           <p className="mt-6 font-sans text-xs uppercase tracking-[0.2em] text-muted">
             — Reference deployment
