@@ -138,6 +138,26 @@ const FAQ_ITEMS = [
     q: 'Is there ongoing support?',
     a: 'Template purchases include 30-day email support. Subscription plans include ongoing support as long as you subscribe.',
   },
+  {
+    q: 'What if I set it up and don\'t use it?',
+    a: 'The 14-day trial is exactly for this. Set it up, run a test booking, decide if it fits. You pay nothing until day 15. If you don\'t upgrade, you walk away with nothing owed and nothing lost.',
+  },
+  {
+    q: 'How is this different from generic booking software?',
+    a: 'Generic booking platforms are built for any product that can be rented — furniture, equipment, cars, rooms. RentalOS is built specifically for vehicle, yacht, villa, and motorcycle rental: the booking flow, confirmation emails, and admin panel are designed around how these businesses actually operate. You use it as-is.',
+  },
+  {
+    q: 'Can I see the code before buying?',
+    a: 'The demo at /demo runs the exact codebase. For template buyers who want to review the source before purchase, contact us — we\'ll provide read-only GitHub access within 24 hours.',
+  },
+  {
+    q: 'What if I need a feature that isn\'t included?',
+    a: 'Template buyers have the full source code — add whatever you need. SaaS subscribers: email us. We\'re a small team and we build what customers actually use. If multiple people ask for the same thing, it ships.',
+  },
+  {
+    q: 'Is my customer data private and secure?',
+    a: 'Your customer data lives in your own Supabase database project. We do not have access to it. You are the data controller under GDPR — not us. The system uses Row Level Security on every table, rate limiting on every public endpoint, and no credentials are ever stored in client-side code.',
+  },
 ]
 
 // ── Admin panel mockup ────────────────────────────────────────────────────────
@@ -341,13 +361,15 @@ export default async function SellPage() {
 
             {/* H1 */}
             <h1 className="font-display text-5xl font-light leading-[1.05] tracking-[-0.02em] text-white md:text-6xl lg:text-7xl">
-              Your customers deserve better than a WhatsApp reply.
+              The booking that arrived at 11pm.
+              The one you missed because you had no system.
             </h1>
 
             {/* Sub */}
             <p className="max-w-[480px] font-sans text-base leading-relaxed text-muted">
-              A complete booking system for rental businesses.
-              Inquiry to confirmation in minutes — not hours.
+              RentalOS sends the confirmation automatically.
+              Your customer knows they&apos;re confirmed.
+              You wake up to a done deal.
             </p>
 
             {/* CTAs */}
@@ -414,6 +436,20 @@ export default async function SellPage() {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* ─── CUSTOMER BRIDGE (Objection 6) ── */}
+        <section className="py-12 border-b border-border" style={{ backgroundColor: '#0F0F10' }}>
+          <div className="mx-auto max-w-[1100px] px-6">
+            <p className="font-sans text-base leading-relaxed text-muted max-w-2xl">
+              Your customers booked their flight on their phone.
+              They chose their hotel on their phone at midnight.
+            </p>
+            <p className="mt-3 font-sans text-base leading-relaxed text-muted max-w-2xl">
+              They&apos;ll try to book your vehicle the same way.
+              The only question is whether you&apos;re ready when they do.
+            </p>
           </div>
         </section>
 
@@ -490,6 +526,112 @@ export default async function SellPage() {
           </div>
         </section>
 
+        {/* ─── COMPARISON (Objection 3) ── */}
+        <section className="py-24 md:py-32" style={{ backgroundColor: '#0A0A0B' }}>
+          <div className="mx-auto max-w-[1100px] px-6">
+            <Label>What most rental businesses use</Label>
+            <h2 className="mb-16 font-display text-4xl font-light tracking-tight text-white md:text-5xl">
+              The hidden cost of &ldquo;good enough&rdquo;
+            </h2>
+
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-4">
+              <div className="flex flex-col gap-4 rounded-sm border border-border bg-black/40 p-6">
+                <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-muted">WhatsApp + phone</p>
+                <ul className="flex flex-col gap-3">
+                  {[
+                    'No 24/7 coverage — you miss what arrives overnight',
+                    'No shared calendar — double bookings happen',
+                    'Customer history starts fresh every booking',
+                    'Every confirmation is a manual message you write',
+                  ].map(item => (
+                    <li key={item} className="flex items-start gap-2.5">
+                      <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-danger/50" />
+                      <span className="font-sans text-sm text-muted/70">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="flex flex-col gap-4 rounded-sm border border-border bg-black/40 p-6">
+                <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-muted">Spreadsheet + email</p>
+                <ul className="flex flex-col gap-3">
+                  {[
+                    'No customer-facing booking page',
+                    'Availability is whatever you last updated it to',
+                    'Confirmation emails you write one by one',
+                    "Breaks the moment you're away from your desk",
+                  ].map(item => (
+                    <li key={item} className="flex items-start gap-2.5">
+                      <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-danger/50" />
+                      <span className="font-sans text-sm text-muted/70">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="flex flex-col gap-4 rounded-sm border border-border bg-black/40 p-6">
+                <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-muted">Generic booking platform</p>
+                <ul className="flex flex-col gap-3">
+                  {[
+                    'Built for every business — optimised for none',
+                    'Your data on their servers, not yours',
+                    'Monthly fee whether you use it or not',
+                    'No vehicle document management',
+                  ].map(item => (
+                    <li key={item} className="flex items-start gap-2.5">
+                      <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-danger/50" />
+                      <span className="font-sans text-sm text-muted/70">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="flex flex-col gap-4 rounded-sm border border-gold/20 bg-gold/5 p-6">
+                <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-gold">RentalOS</p>
+                <ul className="flex flex-col gap-3">
+                  {[
+                    'Customer-facing booking site, your brand',
+                    'Automatic confirmations, 24/7',
+                    'Your data, your servers, your control',
+                    'Built specifically for rental businesses',
+                    'Done-for-you option available',
+                    'Own it for €299 or subscribe from €49/month',
+                  ].map(item => (
+                    <li key={item} className="flex items-start gap-2.5">
+                      <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" strokeWidth={2.5} />
+                      <span className="font-sans text-sm text-muted">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <p className="mt-12 text-center font-display text-xl font-light italic text-muted">
+              Most people who buy RentalOS weren&apos;t looking for new software.
+              They were tired of the workaround they had.
+            </p>
+          </div>
+        </section>
+
+        {/* ─── SUPPORT CARD (Objection 1) ── */}
+        <section className="py-16" style={{ backgroundColor: '#0F0F10' }}>
+          <div className="mx-auto max-w-[1100px] px-6">
+            <div className="rounded-sm border-l-2 border-gold bg-gold/5 px-8 py-7 max-w-2xl">
+              <p className="mb-3 font-sans text-[10px] uppercase tracking-[0.3em] text-gold">
+                What if I get stuck?
+              </p>
+              <p className="font-sans text-sm leading-relaxed text-muted">
+                Every template purchase includes 30 days of personal email support.
+                Not a chatbot. Not a help centre.
+              </p>
+              <p className="mt-2 font-sans text-sm leading-relaxed text-muted">
+                A person who wrote every line of this code will reply personally within 24 hours.
+                We have never had a customer who couldn&apos;t get live.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* ──────────────────────────────────── 6. SOCIAL PROOF ── */}
         <section className="py-24 md:py-32">
           <div className="mx-auto max-w-[1100px] px-6">
@@ -533,6 +675,40 @@ export default async function SellPage() {
                   <p className="mt-2 px-2 font-sans text-xs leading-snug text-muted">{label}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ─── VENDOR LOCK-IN (Objection 2) ── */}
+        <section className="py-24 md:py-32" style={{ backgroundColor: '#0A0A0B' }}>
+          <div className="mx-auto max-w-[1100px] px-6">
+            <div className="max-w-2xl">
+              <h3 className="mb-6 font-display text-3xl font-light text-white md:text-4xl">
+                What happens if RentalOS disappears tomorrow?
+              </h3>
+              <p className="mb-6 font-sans text-sm leading-relaxed text-muted">
+                Nothing. Because you own the code.
+              </p>
+              <div className="flex flex-col gap-3 mb-8">
+                {[
+                  'Template: complete Next.js codebase on your GitHub.',
+                  'Your data: in your Supabase database. We never touch it.',
+                  'Your domain: pointed to your Vercel deployment.',
+                  'Your customers: in your email system.',
+                ].map(item => (
+                  <div key={item} className="flex items-start gap-3">
+                    <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" strokeWidth={2.5} />
+                    <span className="font-sans text-sm text-muted">{item}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="font-sans text-sm leading-relaxed text-muted">
+                If we disappear tonight, your system runs tomorrow. And the day after. And forever.
+              </p>
+              <p className="mt-3 font-sans text-sm leading-relaxed text-muted">
+                We built it this way deliberately.
+                We would want the same thing if we were the customer.
+              </p>
             </div>
           </div>
         </section>

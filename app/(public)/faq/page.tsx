@@ -33,6 +33,10 @@ const FAQ_CATEGORIES = [
         q: 'Is there a free trial?',
         a: 'Yes. 14 days, no credit card required.',
       },
+      {
+        q: 'What if I set it up and don\'t use it?',
+        a: 'The 14-day trial is exactly for this. Set it up, run a test booking, decide if it fits. You pay nothing until day 15. If you don\'t upgrade, you walk away with nothing owed and nothing lost.',
+      },
     ],
   },
   {
@@ -65,6 +69,14 @@ const FAQ_CATEGORIES = [
       {
         q: 'Does it work on mobile?',
         a: 'Yes. The admin panel and the customer-facing site are both designed mobile-first. You can manage your entire business from your phone.',
+      },
+      {
+        q: 'How is this different from generic booking software?',
+        a: 'Generic booking platforms are built for any product that can be rented — furniture, equipment, cars, rooms. RentalOS is built specifically for vehicle, yacht, villa, and motorcycle rental: the booking flow, confirmation emails, and admin panel are designed around how these businesses actually operate. You use it as-is.',
+      },
+      {
+        q: 'What if I need a feature that isn\'t included?',
+        a: 'Template buyers have the full source code — add whatever you need. SaaS subscribers: email us. We\'re a small team and we build what customers actually use. If multiple people ask for the same thing, it ships.',
       },
     ],
   },
@@ -119,6 +131,14 @@ const FAQ_CATEGORIES = [
       {
         q: 'Do you offer white-label for agencies?',
         a: 'Yes. The template licence allows you to build and deploy for clients. Contact us for agency pricing on multiple deployments.',
+      },
+      {
+        q: 'Can I see the code before buying?',
+        a: 'The demo at /demo runs the exact codebase. For template buyers who want to review the source before purchase, contact us — we\'ll provide read-only GitHub access within 24 hours.',
+      },
+      {
+        q: 'Is my customer data private and secure?',
+        a: 'Your customer data lives in your own Supabase database project. We do not have access to it. You are the data controller under GDPR — not us. The system uses Row Level Security on every table, rate limiting on every public endpoint, and no credentials are ever stored in client-side code.',
       },
     ],
   },

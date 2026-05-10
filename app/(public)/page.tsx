@@ -169,15 +169,12 @@ export default function HomePage() {
           </div>
 
           <h1 className="font-display text-5xl font-light leading-[1.06] tracking-[-0.02em] text-white md:text-6xl lg:text-[4.5rem]">
-            A complete rental booking system.{' '}
-            <em className="italic text-gold">
-              Ready to deploy in one day.
-            </em>
+            While you slept, your competitor confirmed the booking you never saw.
           </h1>
 
           <div className="flex max-w-lg flex-col gap-1 text-center">
             <p className="font-sans text-lg font-medium text-white leading-snug">
-              Every inquiry captured. Every customer confirmed. Automatically.
+              RentalOS captures every inquiry automatically. Every customer confirmed. Every booking tracked.
             </p>
             <p className="font-sans text-sm text-muted">
               Next.js 15 · Supabase · Vercel · Full source code
@@ -198,6 +195,15 @@ export default function HomePage() {
               Buy template — €299
             </a>
           </div>
+
+          <a
+            href="https://drivecostasol.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 font-sans text-xs text-muted/50 underline-offset-2 transition-colors hover:text-gold"
+          >
+            ↗ Running live: CostaSol Car Rent, Marbella · drivecostasol.com
+          </a>
 
           <a
             href="#problem"

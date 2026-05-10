@@ -207,6 +207,24 @@ export function OnboardingForm() {
         </div>
       </div>
 
+      {/* Reassurance banner */}
+      <div className="border-b border-gold/10 bg-gold/5 px-6 py-4">
+        <div className="mx-auto max-w-lg">
+          <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-gold mb-2">
+            You don&apos;t need to do anything technical.
+          </p>
+          <div className="flex flex-col gap-1.5">
+            {['We read your form within 24 hours', 'We deploy your system', 'You receive your login details by email'].map((s, i) => (
+              <div key={s} className="flex items-center gap-2">
+                <span className="font-sans text-[10px] tabular-nums text-gold/40 shrink-0">{i + 1}.</span>
+                <span className="font-sans text-xs text-muted/80">{s}</span>
+              </div>
+            ))}
+          </div>
+          <p className="mt-2 font-sans text-[10px] text-muted/50">No servers. No code. No configuration.</p>
+        </div>
+      </div>
+
       {/* Content */}
       <div className="flex-1 mx-auto w-full max-w-lg px-6 py-12">
         <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-4">Setup — {step}/{TOTAL}</p>

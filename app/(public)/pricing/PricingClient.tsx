@@ -353,6 +353,37 @@ export function PricingClient({ stripeConfigured }: { stripeConfigured: boolean 
             </div>
           </div>
 
+          {/* Simplicity framing (Objection 5) */}
+          <div className="mb-8 rounded-md border border-border bg-black/30 px-5 py-4 max-w-lg">
+            <p className="font-sans text-sm text-muted leading-relaxed">
+              The only thing you do in the admin panel: click{' '}
+              <span className="font-medium text-white">Confirm</span> when a booking arrives.
+            </p>
+            <p className="mt-1.5 font-sans text-xs text-muted/60 leading-relaxed">
+              Everything else — the email to the customer, the calendar update, the weekly report — happens automatically.
+            </p>
+          </div>
+
+          {/* ROI framing (Objection 4) */}
+          <div className="mb-10 max-w-xl">
+            <h3 className="mb-4 font-display text-2xl font-light text-white">
+              What does one missed booking cost you?
+            </h3>
+            <div className="flex flex-col gap-2 mb-4">
+              {[
+                'One missed booking at €500 = 10 months of RentalOS Starter.',
+                'One missed booking at €1,000 = 20 months.',
+                'One missed booking at €2,000 = 40 months.',
+              ].map(line => (
+                <p key={line} className="font-sans text-sm text-muted">{line}</p>
+              ))}
+            </div>
+            <p className="font-sans text-sm text-muted/70 leading-relaxed">
+              RentalOS captures inquiries at 11pm, on weekends, and while you&apos;re with a customer.
+              The question is not whether it pays for itself. The question is how quickly.
+            </p>
+          </div>
+
           {/* Cards */}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {TIERS.map((tier) => {
@@ -459,6 +490,11 @@ export function PricingClient({ stripeConfigured }: { stripeConfigured: boolean 
                       ? 'Get started'
                       : tier.cta}
                   </Link>
+                  {tier.key === 'starter' && (
+                    <p className="mt-3 font-sans text-[11px] text-muted/50 text-center">
+                      Less than the cost of one missed booking.
+                    </p>
+                  )}
                 </div>
               )
             })}
@@ -475,6 +511,11 @@ export function PricingClient({ stripeConfigured }: { stripeConfigured: boolean 
               All plans billed in EUR. {currency} prices shown for reference and may vary with exchange rates.
             </p>
           )}
+
+          <p className="mt-6 font-sans text-xs text-muted/50 text-center">
+            Export all your data anytime from Admin → Settings.
+            Bookings, customers, fleet — your CSV, your records.
+          </p>
         </div>
       </section>
 

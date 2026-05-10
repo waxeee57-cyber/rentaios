@@ -77,9 +77,16 @@ export default async function DemoAdminPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-4">
         <h1 className="font-display text-2xl font-medium text-white">Admin Panel</h1>
         <span className="font-sans text-xs text-muted rounded-sm border border-border px-2 py-1">Demo mode</span>
+      </div>
+
+      {/* Automation banner (Objection 5) */}
+      <div className="mb-6 rounded-sm border border-gold/20 bg-gold/5 px-4 py-3">
+        <p className="font-sans text-xs text-gold/80">
+          Everything you see here runs automatically. Your job is to confirm bookings. That&apos;s it.
+        </p>
       </div>
 
       {/* Nav tabs (disabled) */}
