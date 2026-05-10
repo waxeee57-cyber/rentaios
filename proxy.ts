@@ -1,23 +1,19 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-const MAINTENANCE_EXCLUDED = [
-  '/admin',
-  '/api/admin',
-  '/api/health',
-  '/_next',
-  '/favicon.ico',
-]
-
-export function proxy(req: NextRequest) {
-  const { pathname } = req.nextUrl
-
+export function proxy(request: NextRequest) {
   if (process.env.MAINTENANCE_MODE === 'true') {
-    const isExcluded = MAINTENANCE_EXCLUDED.some((p) => pathname.startsWith(p))
-    if (!isExcluded) {
-      return NextResponse.rewrite(new URL('/maintenance', req.url))
+    const { pathname } = request.nextUrl
+    if (
+      pathname === '/maintenance' ||
+      pathname.startsWith('/admin') ||
+      pathname === '/api/health' ||
+      pathname.startsWith('/_next')
+    ) {
+      return NextResponse.next()
     }
+    return NextResponse.rewrite(new URL('/maintenance', request.url))
   }
-
   return NextResponse.next()
 }
 

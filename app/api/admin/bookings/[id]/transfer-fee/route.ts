@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
-import { getAuthUser } from '@/lib/supabase-server'
+import { requireAdmin } from '@/lib/auth'
 import { z } from 'zod'
 
 const schema = z.object({
@@ -8,8 +8,8 @@ const schema = z.object({
 })
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const user = await getAuthUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+  const auth = await requireAdmin()
+  if ('error' in auth) return auth.error
 
   const { id } = await params
   const body = await req.json()
@@ -31,7 +31,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const now = new Date().toISOString()
   const newHistory = [
     ...(booking.status_history ?? []),
-    { status: 'transfer_fee_set', at: now, by: user.email ?? 'admin', fee: transfer_fee_eur },
+    { status: 'transfer_fee_set', at: now, by: auth.user.email, fee: transfer_fee_eur },
   ]
 
   const { data: updated, error } = await supabaseAdmin

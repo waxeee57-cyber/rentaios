@@ -38,7 +38,7 @@ const STATUS_HEADLINES: Record<BookingStatus, (data: BookingData) => string> = {
   },
   picked_up: () => "You're on the road. Enjoy the coast.",
   returned:  () => 'Vehicle returned. Finalising paperwork.',
-  completed: () => 'Thank you for choosing CostaSol. We would love to see you again.',
+  completed: () => 'Thank you for your reservation. We would love to see you again.',
   cancelled: () => 'This reservation has been cancelled.',
 }
 

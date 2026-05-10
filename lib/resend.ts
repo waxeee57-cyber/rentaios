@@ -5,12 +5,12 @@ const apiKey = process.env.RESEND_API_KEY
 export const resend = apiKey ? new Resend(apiKey) : null
 
 export const FROM =
-  `${process.env.RESEND_FROM_NAME ?? 'CostaSol Car Rent'} <${
-    process.env.RESEND_FROM_EMAIL ?? 'noreply@drivecostasol.com'
+  `${process.env.RESEND_FROM_NAME ?? 'RentalOS'} <${
+    process.env.RESEND_FROM_EMAIL ?? 'noreply@rentaios.com'
   }>`
 
 export const ADMIN_EMAIL =
-  process.env.ADMIN_EMAIL ?? 'rent@drivecostasol.com'
+  process.env.ADMIN_EMAIL ?? 'hello@rentaios.com'
 
 export async function sendEmail({
   to,
@@ -23,13 +23,8 @@ export async function sendEmail({
   html: string
   replyTo?: string
 }): Promise<{ success: boolean; error?: string }> {
-  console.log('[Resend] Attempting to send email to:', to)
-  console.log('[Resend] From:', FROM)
-  console.log('[Resend] API key configured:', !!process.env.RESEND_API_KEY)
-  console.log('[Resend] Admin email:', process.env.ADMIN_EMAIL)
-
   if (!resend) {
-    console.log('[Resend] No API key — email not sent:', { to, subject })
+    console.log('[Resend] No API key — email skipped:', { subject })
     return { success: false, error: 'No API key configured' }
   }
 
@@ -43,11 +38,11 @@ export async function sendEmail({
     })
 
     if (error) {
-      console.error('[Resend] Send error:', error)
+      console.error('[Resend] Send error:', error.message)
       return { success: false, error: error.message }
     }
 
-    console.log('[Resend] Sent:', { to, subject })
+    console.log('[Resend] Sent:', { subject })
     return { success: true }
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error'

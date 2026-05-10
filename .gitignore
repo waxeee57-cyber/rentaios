@@ -43,3 +43,11 @@ next-env.d.ts
 
 .vercel
 .env*.local
+
+# npm lockfile — project uses pnpm
+package-lock.json
+
+# internal planning docs
+rentaios-phase*.md
+*-phase*.md
+skills-lock.json

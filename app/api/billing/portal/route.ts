@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getAuthUser } from '@/lib/supabase-server'
+import { requireAdmin } from '@/lib/auth'
 import { supabaseAdmin } from '@/lib/supabase'
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
@@ -9,8 +9,8 @@ export async function GET() {
     return NextResponse.json({ error: 'Billing not configured' }, { status: 400 })
   }
 
-  const user = await getAuthUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const auth = await requireAdmin()
+  if ('error' in auth) return auth.error
 
   const { data: subscription } = await supabaseAdmin
     .from('subscriptions')

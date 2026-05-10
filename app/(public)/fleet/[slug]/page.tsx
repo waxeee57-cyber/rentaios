@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic'
+export const revalidate = 60
 
 import { notFound } from 'next/navigation'
 import { supabaseAdmin } from '@/lib/supabase'
@@ -46,11 +46,9 @@ export async function generateMetadata({ params }: PageProps) {
   return {
     title,
     description,
-    alternates: { canonical: `https://www.drivecostasol.com/fleet/${slug}` },
     openGraph: {
-      title: `${car.brand} ${car.model} — Luxury Car Rental | CostaSol`,
+      title: `${car.brand} ${car.model} — Luxury Car Rental`,
       description,
-      url: `https://www.drivecostasol.com/fleet/${slug}`,
       ...(car.photos?.[0]?.url && {
         images: [{ url: car.photos[0].url, width: 1200, height: 800, alt: `${car.brand} ${car.model}` }],
       }),
@@ -83,7 +81,7 @@ export default async function CarDetailPage({ params, searchParams }: PageProps)
       priceCurrency: 'EUR',
       availability: 'https://schema.org/InStock',
       priceValidUntil: `${new Date().getFullYear() + 1}-12-31`,
-      seller: { '@type': 'Organization', name: 'CostaSol Car Rent' },
+      seller: { '@type': 'Organization', name: process.env.NEXT_PUBLIC_BUSINESS_NAME ?? 'RentalOS' },
     },
   }
 

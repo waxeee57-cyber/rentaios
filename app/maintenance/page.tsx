@@ -6,7 +6,7 @@ export default function MaintenancePage() {
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center px-6 text-center">
       <div className="space-y-6 max-w-md">
-        <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold">CostaSol Car Rent</p>
+        <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold">{process.env.NEXT_PUBLIC_BUSINESS_NAME ?? 'RentalOS'}</p>
         <h1 className="font-display text-5xl font-light text-white tracking-tight">
           We'll be back shortly
         </h1>

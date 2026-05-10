@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RentalOS — Luxury Rental Booking System
 
-## Getting Started
+A complete booking and management system for luxury rental businesses.
+Built with Next.js, Supabase, Resend, and Vercel.
 
-First, run the development server:
+**Live demo:** [costasol.vercel.app](https://costasol.vercel.app)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## What's included
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Customer-facing fleet and booking pages
+- Full admin panel (bookings, fleet, dashboard)
+- Email notifications (5 templates, Resend)
+- Transfer/delivery feature with fee management
+- Rate limiting and security hardening
+- SEO optimised (sitemap, JSON-LD schema, robots.txt)
+- Mobile-first, luxury design
+- Business config system (database-driven settings)
+- Stripe subscription billing (graceful degradation)
+- Complete documentation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Quick start
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Clone this repository
+2. Copy `.env.example` to `.env.local` and fill in your values
+3. Create a Supabase project and run the migrations in `supabase/migrations/`
+4. Deploy to Vercel
 
-## Learn More
+Full guide: [docs/RUNBOOK.md](docs/RUNBOOK.md)
 
-To learn more about Next.js, take a look at the following resources:
+## Documentation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [RUNBOOK.md](docs/RUNBOOK.md) — complete setup and operations guide
+- [ENV.md](docs/ENV.md) — environment variables reference
+- [GO_LIVE.md](docs/GO_LIVE.md) — pre-launch checklist
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Tech stack
 
-## Deploy on Vercel
+Next.js App Router · TypeScript · Tailwind CSS v4 · shadcn/ui ·
+Supabase · Resend · Stripe · Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT — use commercially, resell to clients, white-label freely.

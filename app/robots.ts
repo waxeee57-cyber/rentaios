@@ -15,6 +15,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/admin/', '/api/', '/booking/'],
       },
     ],
-    sitemap: 'https://www.drivecostasol.com/sitemap.xml',
+    sitemap: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'}/sitemap.xml`,
   }
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Insurance Policy',
-  description: 'All CostaSol Car Rent vehicles are covered by comprehensive insurance valid throughout Spain. Insurance details are confirmed at booking.',
+  description: 'All vehicles are covered by comprehensive insurance. Insurance details are confirmed at booking.',
 }
 
 export default function InsurancePage() {

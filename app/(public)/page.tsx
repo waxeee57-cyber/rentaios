@@ -1,17 +1,11 @@
-export const dynamic = 'force-dynamic'
+export const revalidate = 60
 
 import type { Metadata } from 'next'
 import type { CSSProperties } from 'react'
 
 export const metadata: Metadata = {
-  title: 'Luxury Car Rental Marbella & Costa del Sol',
-  description: 'Luxury car rental in Marbella and the Costa del Sol. Lamborghini, Range Rover and more. Hotel delivery, personally confirmed reservations, comprehensive insurance included.',
-  alternates: { canonical: 'https://www.drivecostasol.com' },
-  openGraph: {
-    title: 'CostaSol Car Rent — Luxury Car Rental Marbella',
-    description: 'Luxury car rental in Marbella and the Costa del Sol. Hotel delivery, concierge service, personally confirmed reservations.',
-    url: 'https://www.drivecostasol.com',
-  },
+  title: 'Luxury Car Rental',
+  description: 'Luxury car rental. Hotel delivery, personally confirmed reservations, comprehensive insurance included.',
 }
 
 import Image from 'next/image'
@@ -45,21 +39,19 @@ export default async function HomePage() {
 
   const phone = process.env.NEXT_PUBLIC_BUSINESS_PHONE ?? ''
 
+  const businessName = process.env.NEXT_PUBLIC_BUSINESS_NAME ?? 'RentalOS'
+  const businessEmail = process.env.ADMIN_EMAIL ?? 'hello@rentaios.com'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'
+
   const carRentalSchema = {
     '@context': 'https://schema.org',
     '@type': 'CarRental',
-    name: 'CostaSol Car Rent',
-    description: 'Luxury car rental in Marbella and the Costa del Sol, Spain. Concierge service with hotel delivery.',
-    url: 'https://www.drivecostasol.com',
+    name: businessName,
+    description: 'Luxury vehicle rental. Concierge service with hotel delivery.',
+    url: siteUrl,
     ...(phone && { telephone: phone }),
-    email: 'rent@drivecostasol.com',
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Marbella',
-      addressRegion: 'Andalucía',
-      addressCountry: 'ES',
-    },
-    areaServed: 'Costa del Sol, Spain',
+    email: businessEmail,
+    areaServed: 'Available in multiple locations.',
     priceRange: '€€€',
     currenciesAccepted: 'EUR',
     paymentAccepted: 'Cash, Credit Card',

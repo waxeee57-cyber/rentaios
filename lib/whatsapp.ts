@@ -40,7 +40,7 @@ export function buildBookingLink(opts: {
   customerName: string
   bookingCode: string
 }): string {
-  const msg = `Hi ${opts.customerName}, this is CostaSol about your reservation ${opts.bookingCode}.`
+  const msg = `Hi ${opts.customerName}, this is regarding your reservation ${opts.bookingCode}.`
   return buildWhatsAppLink(msg)
 }
 

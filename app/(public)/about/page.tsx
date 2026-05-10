@@ -1,36 +1,35 @@
+export const revalidate = 3600
+
 import { buildWhatsAppLink, isWhatsAppConfigured } from '@/lib/whatsapp'
 import { MessageCircle } from 'lucide-react'
-
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About CostaSol Car Rent',
-  description: 'CostaSol Car Rent is a personal, concierge luxury car rental service based in Marbella, Costa del Sol. Every reservation confirmed personally. Every car delivered to your hotel.',
-  alternates: { canonical: 'https://www.drivecostasol.com/about' },
+  title: 'About',
+  description: 'A personal, concierge luxury rental service. Every reservation confirmed personally. Every vehicle delivered to your location.',
 }
 
 export default function AboutPage() {
   const waConfigured = isWhatsAppConfigured()
-  const whatsappHref = buildWhatsAppLink('Hi, I have a question about renting a car with CostaSol.')
+  const whatsappHref = buildWhatsAppLink('Hi, I have a question about making a rental reservation.')
   return (
     <div className="min-h-screen bg-black py-24">
       <div className="mx-auto max-w-3xl px-6">
         <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-4">About</p>
         <h1 className="font-display text-5xl font-light text-white tracking-tight mb-10">
-          About CostaSol
+          About us
         </h1>
         <div className="space-y-6 font-sans text-base leading-relaxed text-muted max-w-2xl">
           <p>
-            CostaSol Car Rent was founded to offer something the large rental companies cannot:
+            We were founded to offer something the large rental companies cannot:
             a personal, unhurried experience in one of Europe's most beautiful destinations.
           </p>
           <p>
-            We are based in Marbella and serve the Costa del Sol. Every reservation is confirmed
-            personally. Every car is delivered to your hotel. Every question is answered by a
-            person, not an automated system.
+            Every reservation is confirmed personally. Every vehicle is delivered to your location.
+            Every question is answered by a person, not an automated system.
           </p>
           <p>
-            Our fleet is small by design. We would rather maintain two exceptional vehicles
+            Our fleet is small by design. We would rather maintain a few exceptional vehicles
             perfectly than manage a large fleet poorly.
           </p>
           <p>

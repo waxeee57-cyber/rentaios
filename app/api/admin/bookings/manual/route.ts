@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
-import { getAuthUser } from '@/lib/supabase-server'
+import { requireAdmin } from '@/lib/auth'
 import { generateBookingCode } from '@/lib/booking-code'
 import { isFutureOrToday, TZ } from '@/lib/formatters'
 import { sendInquiryEmails, sendConfirmationEmails } from '@/lib/email/send'
@@ -22,8 +22,8 @@ const schema = z.object({
 })
 
 export async function POST(req: NextRequest) {
-  const user = await getAuthUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+  const auth = await requireAdmin()
+  if ('error' in auth) return auth.error
 
   const body = await req.json()
   const parsed = schema.safeParse(body)
@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
         total_eur: total,
         deposit_eur: car.deposit_eur,
         status: initial_status,
-        status_history: [{ status: initial_status, at: new Date().toISOString(), by: user.email ?? 'admin' }],
+        status_history: [{ status: initial_status, at: new Date().toISOString(), by: auth.user.email }],
         source: 'manual',
       })
       .select('id')

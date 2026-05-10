@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
-import { getAuthUser } from '@/lib/supabase-server'
+import { requireAdmin } from '@/lib/auth'
 import { z } from 'zod'
 
 const createCarSchema = z.object({
@@ -18,8 +18,8 @@ const createCarSchema = z.object({
 })
 
 export async function GET() {
-  const user = await getAuthUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+  const auth = await requireAdmin()
+  if ('error' in auth) return auth.error
 
   const { data, error } = await supabaseAdmin
     .from('cars')
@@ -31,8 +31,8 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const user = await getAuthUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+  const auth = await requireAdmin()
+  if ('error' in auth) return auth.error
 
   const body = await req.json()
   const parsed = createCarSchema.safeParse(body)

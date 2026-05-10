@@ -3,6 +3,7 @@ import { supabaseAdmin } from '@/lib/supabase'
 import { generateBookingCode } from '@/lib/booking-code'
 import { isFutureOrToday, TZ } from '@/lib/formatters'
 import { sendInquiryEmails } from '@/lib/email/send'
+import { getBusinessConfig } from '@/lib/config'
 import { formatInTimeZone } from 'date-fns-tz'
 import { differenceInCalendarDays, parseISO } from 'date-fns'
 import { z } from 'zod'
@@ -25,6 +26,10 @@ const schema = z.object({
 })
 
 export async function POST(req: NextRequest) {
+  const config = await getBusinessConfig()
+  const maxDays = config.max_rental_days ?? 14
+  const minAge = config.min_driver_age ?? 21
+
   // Rate limit: 5 requests per IP per 15 minutes
   const ip = getClientIp(req)
   if (!rateLimit(ip, 5, 15 * 60 * 1000)) {
@@ -54,11 +59,13 @@ export async function POST(req: NextRequest) {
   if (days <= 0) {
     return NextResponse.json({ error: 'End date must be after start date.' }, { status: 400 })
   }
-  if (days > 14) {
+  if (days > maxDays) {
     return NextResponse.json({
-      error: 'Maximum rental duration is 14 days. For longer rentals, please contact us via WhatsApp.',
+      error: `Maximum rental duration is ${maxDays} days. For longer rentals, please contact us directly.`,
     }, { status: 400 })
   }
+
+  void minAge // available for future age-validation step
 
   // Get car
   const { data: car } = await supabaseAdmin

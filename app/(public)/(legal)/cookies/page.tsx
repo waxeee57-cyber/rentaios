@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Cookie Policy',
-  description: 'CostaSol Car Rent uses only essential cookies required for basic functionality. No advertising or tracking cookies.',
+  description: 'We use only essential cookies required for basic functionality. No advertising or tracking cookies.',
 }
 
 export default function CookiesPage() {
-  const email = process.env.ADMIN_EMAIL ?? 'rent@drivecostasol.com'
+  const email = process.env.ADMIN_EMAIL ?? 'hello@rentaios.com'
   return (
     <>
       <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-3">Legal</p>

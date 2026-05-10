@@ -53,7 +53,7 @@ export default function AdminLoginPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@costasol.com"
+              placeholder="admin@example.com"
               required
             />
           </div>
@@ -78,7 +78,7 @@ export default function AdminLoginPage() {
         </form>
 
         <p className="text-center text-xs font-sans text-muted">
-          CostaSol Admin — Authorised access only
+          Admin panel — Authorised access only
         </p>
       </div>
     </div>

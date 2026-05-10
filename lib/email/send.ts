@@ -36,7 +36,7 @@ export async function sendInquiryEmails(data: {
   transferRequested?: boolean
   transferAddress?: string
 }) {
-  console.log('[Email] sendInquiryEmails called for:', data.customerEmail)
+  console.log('[Email] sendInquiryEmails called:', data.bookingCode)
   const [customerResult, adminResult] = await Promise.allSettled([
     sendEmail({
       to: data.customerEmail,
@@ -77,7 +77,7 @@ export async function sendConfirmationEmails(data: {
   transferAddress?: string
   transferFeeEur?: number | null
 }) {
-  console.log('[Email] sendConfirmationEmails called for:', data.customerEmail)
+  console.log('[Email] sendConfirmationEmails called:', data.bookingCode)
   const [customerResult, adminResult] = await Promise.allSettled([
     sendEmail({
       to: data.customerEmail,

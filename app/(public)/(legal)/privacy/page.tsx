@@ -1,15 +1,15 @@
 import type { Metadata } from 'next'
-export const metadata: Metadata = { title: 'Privacy Policy', description: 'Privacy Policy — CostaSol Car Rent' }
+export const metadata: Metadata = { title: 'Privacy Policy', description: 'Privacy Policy' }
 
 export default function PrivacyPage() {
-  const email = process.env.ADMIN_EMAIL ?? 'rent@drivecostasol.com'
+  const email = process.env.ADMIN_EMAIL ?? 'hello@rentaios.com'
   return (
     <>
       <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-3">Legal</p>
       <h1 className="font-display text-4xl font-light text-white mb-8">Privacy Policy</h1>
       <div className="font-sans text-sm leading-relaxed text-muted space-y-4">
         <p>
-          CostaSol Car Rent is committed to protecting your privacy. Our full Privacy Policy
+          We are committed to protecting your privacy. Our full Privacy Policy
           is being finalised in accordance with GDPR and Spanish LSSI requirements, and will
           be published shortly.
         </p>

@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic'
+export const revalidate = 60
 
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
@@ -7,14 +7,8 @@ import { FleetGrid } from '@/components/marketing/FleetGrid'
 import { FleetFilters } from '@/components/marketing/FleetFilters'
 
 export const metadata: Metadata = {
-  title: 'Luxury Car Rental Fleet — Marbella & Costa del Sol',
-  description: 'Browse our luxury car hire fleet — Lamborghini, Range Rover and more. Available in Marbella, Puerto Banús, Málaga Airport and across the Costa del Sol. Hotel delivery included.',
-  alternates: { canonical: 'https://www.drivecostasol.com/fleet' },
-  openGraph: {
-    title: 'Luxury Car Rental Fleet — CostaSol Car Rent',
-    description: 'Lamborghini, Range Rover and more. Available in Marbella and across the Costa del Sol.',
-    url: 'https://www.drivecostasol.com/fleet',
-  },
+  title: 'Fleet',
+  description: 'Browse our luxury rental fleet. Hotel delivery included.',
 }
 
 interface PageProps {
@@ -114,15 +108,14 @@ export default async function FleetPage({ searchParams }: PageProps) {
   const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'Luxury Car Rental Fleet — CostaSol Car Rent',
-    description: 'Available luxury vehicles for hire on the Costa del Sol, Spain',
-    url: 'https://www.drivecostasol.com/fleet',
+    name: 'Luxury Rental Fleet',
+    description: 'Available luxury vehicles for hire.',
     numberOfItems: schemaCars.length,
     itemListElement: schemaCars.map((car, index) => ({
       '@type': 'ListItem',
       position: index + 1,
       name: `${car.brand} ${car.model} ${car.year}`,
-      url: `https://www.drivecostasol.com/fleet/${car.slug}`,
+      url: `${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/fleet/${car.slug}`,
     })),
   }
 

@@ -5,8 +5,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Contact & Pickup Locations',
-  description: 'Contact CostaSol Car Rent for luxury car hire in Marbella. Email rent@drivecostasol.com or message on WhatsApp. Delivery to Marbella, Puerto Banús, Málaga Airport and more.',
-  alternates: { canonical: 'https://www.drivecostasol.com/contact' },
+  description: 'Contact us for luxury rental enquiries. Email or message on WhatsApp. Delivery available to multiple locations.',
 }
 
 const PICKUP_LOCATIONS = [
@@ -20,7 +19,7 @@ const PICKUP_LOCATIONS = [
 ]
 
 export default function ContactPage() {
-  const email = process.env.ADMIN_EMAIL ?? 'rent@drivecostasol.com'
+  const email = process.env.ADMIN_EMAIL ?? 'hello@rentaios.com'
   const phone = process.env.NEXT_PUBLIC_BUSINESS_PHONE ?? ''
   const waConfigured = isWhatsAppConfigured()
 

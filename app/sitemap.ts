@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { supabaseAdmin } from '@/lib/supabase'
 
-const BASE_URL = 'https://www.drivecostasol.com'
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data: cars } = await supabaseAdmin

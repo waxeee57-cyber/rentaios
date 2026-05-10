@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
-export const metadata: Metadata = { title: 'Terms & Conditions', description: 'Terms and Conditions — CostaSol Car Rent' }
+export const metadata: Metadata = { title: 'Terms & Conditions', description: 'Terms and Conditions' }
 
 export default function TermsPage() {
-  const email = process.env.ADMIN_EMAIL ?? 'rent@drivecostasol.com'
+  const email = process.env.ADMIN_EMAIL ?? 'hello@rentaios.com'
   return (
     <>
       <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-3">Legal</p>

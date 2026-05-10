@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback, useRef } from 'react'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { format, differenceInCalendarDays } from 'date-fns'
@@ -9,7 +10,11 @@ import { Users, Zap, Fuel, Gauge, User, IdCard, AlertTriangle, MessageCircle, Ch
 import { DateRangePicker } from '@/components/booking/DateRangePicker'
 import { CostBreakdown } from '@/components/booking/CostBreakdown'
 import { MobileStickyCTA } from '@/components/booking/MobileStickyCTA'
-import { InquiryDrawer } from '@/components/booking/InquiryDrawer'
+
+const InquiryDrawer = dynamic(
+  () => import('@/components/booking/InquiryDrawer').then((m) => m.InquiryDrawer),
+  { ssr: false, loading: () => null }
+)
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { formatPrice } from '@/lib/formatters'

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getAuthUser } from '@/lib/supabase-server'
+import { requireAdmin } from '@/lib/auth'
 import { supabaseAdmin } from '@/lib/supabase'
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
@@ -14,8 +14,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Billing not configured' }, { status: 400 })
   }
 
-  const user = await getAuthUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const auth = await requireAdmin()
+  if ('error' in auth) return auth.error
 
   const { plan } = await req.json() as { plan: 'starter' | 'pro' }
   const priceId = PRICE_IDS[plan]
@@ -38,8 +38,8 @@ export async function POST(req: NextRequest) {
 
   if (!customerId) {
     const customer = await stripe.customers.create({
-      email: user.email,
-      metadata: { user_id: user.id },
+      email: auth.user.email,
+      metadata: { user_id: auth.user.id },
     })
     customerId = customer.id
 

@@ -2,15 +2,15 @@ import { formatInTimeZone } from 'date-fns-tz'
 
 export const TZ = 'Europe/Madrid'
 
-export const formatPrice = (eur: number) =>
+export const formatPrice = (amount: number, currency = 'EUR') =>
   new Intl.NumberFormat('en-IE', {
-    style: 'currency', currency: 'EUR', maximumFractionDigits: 0,
-  }).format(eur)
+    style: 'currency', currency, maximumFractionDigits: 0,
+  }).format(amount)
 
-export const formatPriceDecimals = (eur: number) =>
+export const formatPriceDecimals = (amount: number, currency = 'EUR') =>
   new Intl.NumberFormat('en-IE', {
-    style: 'currency', currency: 'EUR',
-  }).format(eur)
+    style: 'currency', currency,
+  }).format(amount)
 
 export const formatDate = (utc: string | Date) =>
   formatInTimeZone(utc, TZ, 'd MMM yyyy')

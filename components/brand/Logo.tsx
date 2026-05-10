@@ -8,11 +8,12 @@ interface LogoProps {
 }
 
 export function Logo({ height = 40, className }: LogoProps) {
+  const name = process.env.NEXT_PUBLIC_BUSINESS_NAME ?? 'RentalOS'
   return (
-    <Link href="/" aria-label="CostaSol Car Rent — Home" className={className}>
+    <Link href="/" aria-label={`${name} — Home`} className={className}>
       <Image
         src={logoSrc}
-        alt="CostaSol Car Rent"
+        alt={name}
         height={height}
         style={{ width: 'auto' }}
         priority
