@@ -74,8 +74,8 @@ const FOR_WHO = [
     scale: '1–5 items',
     label: 'Solo operators',
     body: 'You manage everything yourself. RentalOS handles the admin so you can focus on your customers. Inquiries captured 24/7, confirmations sent automatically.',
-    cta: 'See how it works →',
-    href: '/demo',
+    cta: 'Start free trial →',
+    href: '/pricing',
   },
   {
     scale: '5–20 items',
@@ -88,29 +88,29 @@ const FOR_WHO = [
     scale: 'Premium inventory',
     label: 'Premium rental operators',
     body: 'Your inventory represents your brand. Automatic confirmations, professional document handling — a booking experience that earns the trust your operation deserves.',
-    cta: 'See the admin panel →',
-    href: '/demo/admin',
+    cta: 'Talk to us →',
+    href: '/contact',
   },
   {
     scale: 'Bikes & boards',
     label: 'Sports & activity rental',
     body: 'Bikes, kayaks, surfboards, skis. High-turnover rentals where every hour matters. Never lose track of what\'s out and when it\'s back.',
-    cta: 'See how it works →',
-    href: '/demo',
+    cta: 'Start free trial →',
+    href: '/pricing',
   },
   {
     scale: 'Tools & gear',
     label: 'Equipment rental',
     body: 'Cameras, generators, construction tools, audio gear. High-value equipment that needs clear records, signed agreements, and zero double-bookings.',
-    cta: 'See how it works →',
-    href: '/demo',
+    cta: 'Start free trial →',
+    href: '/pricing',
   },
   {
     scale: 'Villas & stays',
     label: 'Holiday & accommodation',
     body: 'Villas, apartments, holiday homes. Automated inquiry handling and professional confirmations — so every guest arrives expecting exactly what you promised.',
-    cta: 'See how it works →',
-    href: '/demo',
+    cta: 'Start free trial →',
+    href: '/pricing',
   },
   {
     scale: 'Build for clients',
@@ -340,22 +340,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── CTA strip ──────────────────────────────────────── */}
-      <section className="bg-slate-900 py-12">
-        <div className="mx-auto max-w-6xl px-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="font-display text-xl font-bold text-white">See how RentalOS solves this.</p>
-            <p className="font-sans text-sm text-slate-400 mt-1">From inquiry to confirmation in seconds — automatically.</p>
-          </div>
-          <a
-            href="/demo"
-            className="btn-3d shrink-0 inline-flex items-center justify-center min-h-[44px] rounded-md bg-gold px-6 py-3 font-sans text-sm font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
-          >
-            See it live →
-          </a>
-        </div>
-      </section>
-
       {/* ── What's included (white) ────────────────────────── */}
       <section id="features" className="bg-white py-24 md:py-32">
         <div className="mx-auto max-w-6xl px-6">
@@ -385,14 +369,14 @@ export default function HomePage() {
       <section className="bg-slate-900 py-12">
         <div className="mx-auto max-w-6xl px-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="font-display text-xl font-bold text-white">Try the live demo.</p>
-            <p className="font-sans text-sm text-slate-400 mt-1">A real rental business running on RentalOS, right now.</p>
+            <p className="font-display text-xl font-bold text-white">Ready to launch?</p>
+            <p className="font-sans text-sm text-slate-400 mt-1">14-day free trial. No credit card required.</p>
           </div>
           <a
-            href="/demo/fleet"
+            href="/pricing"
             className="btn-3d shrink-0 inline-flex items-center justify-center min-h-[44px] rounded-md bg-gold px-6 py-3 font-sans text-sm font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
           >
-            Visit the demo →
+            See pricing →
           </a>
         </div>
       </section>
@@ -409,28 +393,24 @@ export default function HomePage() {
               <h2 className="mb-6 font-display text-4xl font-bold tracking-tight text-white md:text-5xl">
                 Built for a real business
               </h2>
-              <p className="mb-8 font-sans text-sm leading-relaxed text-slate-300">
+              <p className="font-sans text-sm leading-relaxed text-slate-300">
                 A rental business in Marbella is running this exact
                 codebase in production. Same admin panel. Same booking flow. Your branding.
               </p>
-              <a
-                href="/demo"
-                className="inline-flex items-center gap-1.5 font-sans text-sm text-gold underline-offset-4 hover:underline focus-visible:outline-none focus-visible:underline"
-              >
-                Visit the demo <ExternalLink className="h-3.5 w-3.5" />
-              </a>
             </div>
 
             <a
-              href="/demo"
+              href="https://drivecostasol.com"
+              target="_blank"
+              rel="noopener noreferrer"
               className="scroll-tilt group flex min-h-[200px] aspect-video items-center justify-center rounded-xl border border-slate-700 bg-slate-800 transition-all hover:border-gold/40 hover:shadow-lg focus-visible:outline-none focus-visible:border-gold/50"
             >
               <div className="flex flex-col items-center gap-2 text-center">
                 <span className="font-display text-3xl font-bold text-slate-400 transition-colors group-hover:text-white">
-                  Demo →
+                  drivecostasol.com →
                 </span>
                 <span className="font-sans text-xs uppercase tracking-[0.15em] text-slate-600">
-                  /demo
+                  Live in Marbella
                 </span>
               </div>
             </a>
@@ -506,12 +486,14 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
-            <Link
-              href="/demo/fleet"
+            <a
+              href="https://drivecostasol.com"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 font-sans text-sm text-gold hover:underline underline-offset-4"
             >
-              Visit the demo →
-            </Link>
+              Visit drivecostasol.com →
+            </a>
           </div>
         </div>
       </section>
@@ -683,10 +665,10 @@ export default function HomePage() {
           </h2>
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <a
-              href="/demo/fleet"
+              href="/pricing"
               className="btn-3d inline-flex items-center justify-center min-h-[44px] rounded-md bg-gold px-8 py-4 font-sans text-sm font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
             >
-              See it live →
+              Start free trial →
             </a>
             <a
               href="https://wa.me/36708564381?text=Hi%2C%20I%27m%20interested%20in%20RentalOS"
