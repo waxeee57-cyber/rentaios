@@ -7,11 +7,10 @@ import { trackEvent } from '@/lib/analytics'
 
 type RentalType = 'car' | 'yacht' | 'villa' | 'motorcycle' | 'mixed'
 type FleetSize = 'small' | 'medium' | 'large' | 'enterprise'
-type SetupPref = 'self' | 'dfy' | 'managed'
-type Rec = 'starter' | 'growth' | 'pro' | 'dfy' | 'white-glove'
+type SetupPref = 'self' | 'dfy'
+type Rec = 'starter' | 'growth' | 'pro' | 'dfy'
 
 function getRecommendation(setup: SetupPref, fleet: FleetSize): Rec {
-  if (setup === 'managed') return 'white-glove'
   if (setup === 'dfy') return 'dfy'
   if (fleet === 'small') return 'starter'
   if (fleet === 'medium') return 'growth'
@@ -44,8 +43,6 @@ function personalCopy(rec: Rec, rt: RentalType, fs: FleetSize): string {
       return `For a serious ${biz} with ${sz} items. Custom domain, unlimited items, and agency eligibility.`
     case 'dfy':
       return `You focus on the ${biz} — we handle the setup. Your system is live within 48 hours.`
-    case 'white-glove':
-      return `Full management for your ${biz}. We handle the bookings, you collect the revenue.`
   }
 }
 
@@ -81,12 +78,6 @@ const REC_CONFIG: Record<Rec, RecConfig> = {
     features: ['Full deployment within 48 hours', 'Every setting configured for you', 'Growth plan included for 1 month'],
     cta: 'Get started',
   },
-  'white-glove': {
-    name: 'White-glove Management',
-    price: '€299 / month',
-    features: ['Booking management on your behalf', 'Monthly performance review', 'Dedicated support'],
-    cta: 'Enquire now',
-  },
 }
 
 const RENTAL_OPTIONS: { value: RentalType; label: string }[] = [
@@ -114,11 +105,6 @@ const SETUP_OPTIONS: { value: SetupPref; label: string; desc: string }[] = [
     value: 'dfy',
     label: 'Set it up for me',
     desc: 'We deploy your system within 48 hours. You manage bookings.',
-  },
-  {
-    value: 'managed',
-    label: 'Fully managed',
-    desc: 'We handle setup, bookings, and operations. You collect revenue.',
   },
 ]
 
@@ -348,13 +334,6 @@ export function PlanQuiz({ starterPriceId, growthPriceId, proPriceId, stripeConf
           {rec === 'dfy' ? (
             <Link
               href="/onboarding"
-              className="inline-flex w-full items-center justify-center min-h-[44px] rounded-md bg-gold px-8 font-sans text-sm font-medium text-white hover:opacity-90 transition-opacity"
-            >
-              {cfg.cta}
-            </Link>
-          ) : rec === 'white-glove' ? (
-            <Link
-              href="/contact?subject=White-glove%20inquiry"
               className="inline-flex w-full items-center justify-center min-h-[44px] rounded-md bg-gold px-8 font-sans text-sm font-medium text-white hover:opacity-90 transition-opacity"
             >
               {cfg.cta}

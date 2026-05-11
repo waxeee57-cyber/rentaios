@@ -156,13 +156,13 @@ const PRICING = [
     accent: true,
   },
   {
-    name: 'White-glove',
-    price: '€199',
+    name: 'Starter',
+    price: '€49',
     cadence: '/ month',
-    lines: ['Everything managed', 'Monthly reports', 'Priority support', 'Updates included'],
+    lines: ['14-day free trial', 'No credit card required', 'Up to 30 bookings/month', 'Cancel anytime'],
     licenceLink: false,
-    cta: 'Contact us',
-    href: '/contact',
+    cta: 'Start free trial',
+    href: '/pricing',
     accent: false,
   },
 ]
@@ -210,7 +210,7 @@ export default function HomePage() {
         <div className="mx-auto w-full max-w-7xl">
 
           {/* Two-column layout: 40% text / 60% visual stage */}
-          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[2fr_3fr] xl:gap-16">
+          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[2fr_3fr] xl:gap-10">
 
             {/* Left — text */}
             <div className="flex flex-col gap-6">
@@ -284,7 +284,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Pain & Solution (gray-50) ──────────────────────── */}
-      <section id="problem" className="bg-gray-50 py-24 md:py-32">
+      <section id="problem" className="bg-gray-50 py-16 md:py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-14">
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">
@@ -341,7 +341,7 @@ export default function HomePage() {
       </section>
 
       {/* ── What's included (white) ────────────────────────── */}
-      <section id="features" className="bg-white py-24 md:py-32">
+      <section id="features" className="bg-white py-16 md:py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-14">
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">
@@ -382,7 +382,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Built for a real business (dark) ──────────────── */}
-      <section className="bg-slate-900 text-white py-24 md:py-32">
+      <section className="bg-slate-900 text-white py-16 md:py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:items-center">
 
@@ -420,7 +420,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Who it's for (gray-50) ─────────────────────────── */}
-      <section className="bg-gray-50 py-24 md:py-32">
+      <section className="bg-gray-50 py-16 md:py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-14">
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">
@@ -453,7 +453,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Social proof / CostaSol (white) ────────────────── */}
-      <section className="bg-white py-24 md:py-32">
+      <section className="bg-white py-16 md:py-20">
         <div className="mx-auto max-w-2xl px-6">
           <div className="rounded-xl border border-gold/20 bg-white px-8 py-10 shadow-lg ring-1 ring-gold/8">
             <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-6">Built for a real business</p>
@@ -499,7 +499,7 @@ export default function HomePage() {
       </section>
 
       {/* ── What you can rent out (gray-50) ───────────────── */}
-      <section className="bg-gray-50 py-24 md:py-32">
+      <section className="bg-gray-50 py-16 md:py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-14 text-center">
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">
@@ -547,7 +547,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Build it yourself / template band (slate-900) ─── */}
-      <section className="bg-slate-900 py-24 md:py-32">
+      <section className="bg-slate-900 py-16 md:py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid grid-cols-1 gap-12 md:grid-cols-[3fr_2fr] md:items-center">
 
@@ -645,7 +645,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Pricing teaser (dark) ──────────────────────────── */}
-      <section id="pricing" className="bg-slate-900 py-24 md:py-32">
+      <section id="pricing" className="bg-slate-900 py-16 md:py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-14 text-center">
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">
@@ -726,7 +726,7 @@ export default function HomePage() {
       </section>
 
       {/* ── FAQ (gray-50) ──────────────────────────────────── */}
-      <section className="bg-gray-50 py-24 md:py-32">
+      <section className="bg-gray-50 py-16 md:py-20">
         <div className="mx-auto max-w-3xl px-6">
           <div className="mb-14">
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">

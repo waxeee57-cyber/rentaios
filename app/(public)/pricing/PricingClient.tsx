@@ -400,50 +400,15 @@ export function PricingClient({
       <section className="py-24 md:py-32 bg-white">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">Pricing</p>
-          <h1 className="mb-4 font-display text-5xl font-bold tracking-[-0.02em] text-gray-900 md:text-6xl">
+          <h1 className="font-display text-5xl font-bold tracking-[-0.02em] text-gray-900 md:text-6xl">
             Simple, honest pricing
           </h1>
-          <p className="font-sans text-base leading-relaxed text-muted">
-            Start with a 14-day free trial. No credit card required. Cancel anytime.
-          </p>
-        </div>
-      </section>
-
-      {/* Plan Quiz */}
-      <section className="bg-surface py-16 md:py-20 border-t border-border">
-        <div className="mx-auto max-w-3xl px-6">
-          <div className="mb-10 text-center">
-            <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">Find your plan</p>
-            <h2 className="font-display text-3xl font-bold tracking-tight text-gray-900">
-              Three questions, one recommendation
-            </h2>
-          </div>
-          <PlanQuiz
-            starterPriceId={starterPriceId}
-            growthPriceId={growthPriceId}
-            proPriceId={proPriceId}
-            stripeConfigured={stripeConfigured}
-          />
         </div>
       </section>
 
       {/* Pricing cards */}
       <section id="pricing-table" className="bg-white py-16 md:py-24">
         <div className="mx-auto max-w-4xl px-6">
-
-          {/* Simplicity framing */}
-          <div className="mb-8 rounded-lg border border-border bg-surface px-5 py-4 max-w-lg">
-            <p className="font-sans text-sm text-muted leading-relaxed">
-              The only thing you do in the admin panel: click{' '}
-              <span className="font-medium text-gray-900">Confirm</span> when a booking arrives.
-            </p>
-            <p className="mt-1.5 font-sans text-xs text-muted/60 leading-relaxed">
-              Everything else — the email to the customer, the calendar update, the weekly report — happens automatically.
-            </p>
-          </div>
-
-          {/* ROI calculator */}
-          <RoiCalculator />
 
           {/* 3 main cards */}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3 mb-8">
@@ -452,7 +417,7 @@ export function PricingClient({
             <div className="flex flex-col rounded-lg border border-border bg-white p-8 shadow-sm">
               <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">Self-hosted</p>
               <div className="mt-3 flex items-baseline gap-1.5">
-                <span className="font-display text-4xl font-bold text-gray-900">€299</span>
+                <span className="font-display text-4xl font-extrabold text-gray-900">€299</span>
                 <span className="font-sans text-sm text-muted">one-time</span>
               </div>
               <p className="mt-2 mb-6 font-sans text-sm text-muted">Buy the code. Deploy yourself.</p>
@@ -466,7 +431,7 @@ export function PricingClient({
               </ul>
               <a
                 href={process.env.NEXT_PUBLIC_GUMROAD_URL || '/sell'}
-                className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border px-6 font-sans text-xs uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                className="inline-flex w-full items-center justify-center min-h-[44px] rounded-md border border-border px-6 font-sans text-xs uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
               >
                 Buy template →
               </a>
@@ -495,7 +460,7 @@ export function PricingClient({
               </ul>
               <Link
                 href="/onboarding"
-                className="inline-flex items-center justify-center min-h-[44px] rounded-md bg-white px-6 font-sans text-xs uppercase tracking-[0.1em] text-gold transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-gold"
+                className="inline-flex w-full items-center justify-center min-h-[44px] rounded-md bg-white px-6 font-sans text-xs uppercase tracking-[0.1em] text-gold transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-gold"
               >
                 Get started →
               </Link>
@@ -505,7 +470,7 @@ export function PricingClient({
             <div className="flex flex-col rounded-lg border border-border bg-white p-8 shadow-sm">
               <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">Monthly</p>
               <div className="mt-3 flex items-baseline gap-1.5">
-                <span className="font-display text-4xl font-bold text-gray-900">From €49</span>
+                <span className="font-display text-4xl font-extrabold text-gray-900">From €49</span>
                 <span className="font-sans text-sm text-muted">/ month</span>
               </div>
               <p className="mt-2 mb-6 font-sans text-sm text-muted">Start free. Cancel anytime.</p>
@@ -521,14 +486,14 @@ export function PricingClient({
                 <button
                   onClick={() => handleCheckout('starter')}
                   disabled={checkoutLoading === 'starter'}
-                  className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border px-6 font-sans text-xs uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                  className="inline-flex w-full items-center justify-center min-h-[44px] rounded-md border border-border px-6 font-sans text-xs uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                 >
                   {checkoutLoading === 'starter' ? 'Redirecting…' : 'Start free trial →'}
                 </button>
               ) : (
                 <Link
                   href="/admin/billing"
-                  className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border px-6 font-sans text-xs uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                  className="inline-flex w-full items-center justify-center min-h-[44px] rounded-md border border-border px-6 font-sans text-xs uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                 >
                   Start free trial →
                 </Link>
@@ -563,6 +528,22 @@ export function PricingClient({
               {checkoutError}
             </p>
           )}
+
+          {/* Plan finder */}
+          <div className="mt-8 border-t border-border pt-8">
+            <div className="mb-8 text-center">
+              <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">Find your plan</p>
+              <h2 className="font-display text-3xl font-bold tracking-tight text-gray-900">
+                Three questions, one recommendation
+              </h2>
+            </div>
+            <PlanQuiz
+              starterPriceId={starterPriceId}
+              growthPriceId={growthPriceId}
+              proPriceId={proPriceId}
+              stripeConfigured={stripeConfigured}
+            />
+          </div>
 
           {/* More options collapsible */}
           <div className="mt-4">
@@ -605,7 +586,7 @@ export function PricingClient({
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {/* Growth */}
                   {(() => {
                     const t = TIERS.find((x) => x.key === 'growth')!
@@ -685,26 +666,6 @@ export function PricingClient({
                     )
                   })()}
 
-                  {/* White-glove */}
-                  <div className="flex flex-col rounded-lg border border-border bg-white p-6 shadow-sm">
-                    <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">White-glove</p>
-                    <div className="mt-2 mb-1 flex items-baseline gap-1.5">
-                      <span className="font-display text-2xl font-bold text-gray-900">{fmtPrice(199, currency)}</span>
-                      <span className="font-sans text-sm text-muted">/ month</span>
-                    </div>
-                    <ul className="flex flex-1 flex-col gap-2 mt-4 mb-6">
-                      {['Everything managed', 'Monthly reports', 'Priority support', 'Updates included'].map((f) => (
-                        <li key={f} className="flex items-start gap-2">
-                          <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
-                          <span className="font-sans text-sm text-muted">{f}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <Link href="/contact" className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border text-muted px-5 font-sans text-xs uppercase tracking-[0.1em] hover:border-gold/40 hover:text-gray-900 transition-colors">
-                      Contact us
-                    </Link>
-                  </div>
-
                   {/* Agency */}
                   {(() => {
                     const t = TIERS.find((x) => x.key === 'agency')!
@@ -770,8 +731,24 @@ export function PricingClient({
         </div>
       </section>
 
-      {/* Comparison table */}
+      {/* ROI */}
       <section className="bg-surface py-16 md:py-24">
+        <div className="mx-auto max-w-4xl px-6">
+          <div className="mb-8 rounded-lg border border-border bg-white px-5 py-4 max-w-lg">
+            <p className="font-sans text-sm text-muted leading-relaxed">
+              The only thing you do in the admin panel: click{' '}
+              <span className="font-medium text-gray-900">Confirm</span> when a booking arrives.
+            </p>
+            <p className="mt-1.5 font-sans text-xs text-muted/60 leading-relaxed">
+              Everything else — the email to the customer, the calendar update, the weekly report — happens automatically.
+            </p>
+          </div>
+          <RoiCalculator />
+        </div>
+      </section>
+
+      {/* Comparison table */}
+      <section className="bg-white py-16 md:py-24">
         <div className="mx-auto max-w-5xl px-6">
           <div className="mb-10">
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">Compare</p>
