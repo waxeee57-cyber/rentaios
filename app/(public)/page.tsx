@@ -161,6 +161,17 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-white">
 
+      {/* ── Sticky scroll-out toast (CSS scroll-driven, decorative) ── */}
+      {/* Appears when hero scrolls out of view, proves the system is live */}
+      <div aria-hidden="true" className="hero-scroll-toast select-none">
+        <div className="flex items-center gap-2.5 rounded-lg border border-gray-700 bg-gray-900 px-3.5 py-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+          <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-amber-400" />
+          <span className="font-sans text-[11px] font-semibold text-white/90">
+            New booking · Toyota RAV4 · €620
+          </span>
+        </div>
+      </div>
+
       {/* ── Hero (dark) ────────────────────────────────────── */}
       <section className="hero-dark text-white flex min-h-[calc(100vh-4rem)] flex-col justify-center px-6 py-16">
         <div className="mx-auto w-full max-w-7xl">
@@ -305,7 +316,7 @@ export default function HomePage() {
           </div>
           <a
             href="/demo"
-            className="shrink-0 inline-flex items-center justify-center rounded-md bg-gold px-6 py-3 font-sans text-sm font-medium text-white hover:opacity-90 transition-opacity"
+            className="btn-3d shrink-0 inline-flex items-center justify-center min-h-[44px] rounded-md bg-gold px-6 py-3 font-sans text-sm font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
           >
             See it live →
           </a>
@@ -346,7 +357,7 @@ export default function HomePage() {
           </div>
           <a
             href="/demo/fleet"
-            className="shrink-0 inline-flex items-center justify-center rounded-md bg-gold px-6 py-3 font-sans text-sm font-medium text-white hover:opacity-90 transition-opacity"
+            className="btn-3d shrink-0 inline-flex items-center justify-center min-h-[44px] rounded-md bg-gold px-6 py-3 font-sans text-sm font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
           >
             Visit the demo →
           </a>
@@ -379,7 +390,7 @@ export default function HomePage() {
 
             <a
               href="/demo"
-              className="group flex min-h-[200px] aspect-video items-center justify-center rounded-xl border border-slate-700 bg-slate-800 transition-all hover:border-gold/40 hover:shadow-lg focus-visible:outline-none focus-visible:border-gold/50"
+              className="scroll-tilt group flex min-h-[200px] aspect-video items-center justify-center rounded-xl border border-slate-700 bg-slate-800 transition-all hover:border-gold/40 hover:shadow-lg focus-visible:outline-none focus-visible:border-gold/50"
             >
               <div className="flex flex-col items-center gap-2 text-center">
                 <span className="font-display text-3xl font-bold text-slate-400 transition-colors group-hover:text-white">
@@ -504,7 +515,7 @@ export default function HomePage() {
             {PRICING.map(({ name, price, cadence, lines, licenceLink, cta, href, accent }) => (
               <div
                 key={name}
-                className={`flex flex-col rounded-xl border ${
+                className={`pricing-card-3d flex flex-col rounded-xl border ${
                   accent
                     ? 'border-2 border-gold bg-white shadow-2xl shadow-gold/15 relative z-10 p-10'
                     : 'border-gray-200 bg-white shadow-sm p-8'
@@ -583,10 +594,17 @@ export default function HomePage() {
 
           <div className="divide-y divide-border">
             {FAQ_ITEMS.map(({ q, a }) => (
-              <div key={q} className="py-7">
-                <p className="mb-2 font-sans text-sm font-medium text-gray-900">{q}</p>
-                <p className="font-sans text-sm leading-relaxed text-muted">{a}</p>
-              </div>
+              <details key={q} className="faq-item group">
+                <summary className="flex items-center justify-between gap-4 py-7 font-sans text-sm font-medium text-gray-900 transition-colors hover:text-gold focus-visible:outline-none focus-visible:text-gold">
+                  {q}
+                  <span className="faq-icon text-gold text-lg">+</span>
+                </summary>
+                <div className="faq-body">
+                  <div>
+                    <p className="pb-7 font-sans text-sm leading-relaxed text-muted">{a}</p>
+                  </div>
+                </div>
+              </details>
             ))}
           </div>
         </div>
@@ -601,7 +619,7 @@ export default function HomePage() {
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <a
               href="/demo/fleet"
-              className="inline-flex items-center justify-center rounded-md bg-gold px-8 py-4 font-sans text-sm font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+              className="btn-3d inline-flex items-center justify-center min-h-[44px] rounded-md bg-gold px-8 py-4 font-sans text-sm font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
             >
               See it live →
             </a>
@@ -609,7 +627,7 @@ export default function HomePage() {
               href="https://wa.me/36708564381?text=Hi%2C%20I%27m%20interested%20in%20RentalOS"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-md border border-white/20 px-8 py-4 font-sans text-sm font-medium text-white transition-colors hover:border-white/40 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+              className="btn-3d inline-flex items-center justify-center min-h-[44px] rounded-md border border-white/20 px-8 py-4 font-sans text-sm font-medium text-white hover:border-white/40 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
             >
               Talk to us →
             </a>

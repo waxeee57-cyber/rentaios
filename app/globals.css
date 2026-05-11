@@ -144,6 +144,11 @@ html {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+
+  /* Scroll-driven animations don't respect animation-duration — disable explicitly */
+  .card-stagger { animation: none !important; opacity: 1 !important; transform: none !important; }
+  .scroll-tilt  { animation: none !important; transform: none !important; }
+  .hero-scroll-toast { display: none !important; }
 }
 
 /* ─── Effect keyframes ─── */
@@ -284,10 +289,12 @@ html {
   animation-delay: calc(var(--step-index, 0) * 0.15s + 0.8s);
 }
 
-/* ─── Effect 5: Button — 3D press ─── */
+/* ─── Effect 5: Button — 3D press + shimmer ─── */
 /* Replaces transition-colors so all transitions listed explicitly */
 
 .btn-3d {
+  position: relative;
+  overflow: hidden;
   will-change: transform;
   transition: color 0.2s ease,
               background-color 0.2s ease,
@@ -297,15 +304,38 @@ html {
               box-shadow 0.15s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+/* Shimmer sweep on hover — felt, not seen */
+.btn-3d::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.14) 50%,
+    transparent 65%
+  );
+  opacity: 0;
+  transform: translateX(-110%);
+  pointer-events: none;
+}
+
 @media (hover: hover) {
   .btn-3d:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(37, 99, 235, 0.25);
   }
+
+  .btn-3d:hover::after {
+    opacity: 1;
+    transform: translateX(110%);
+    transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.05s;
+  }
 }
 
+/* Scale-down press — brief, tactile */
 .btn-3d:active {
-  transform: translateY(1px);
+  transform: translateY(1px) scale(0.97);
   box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
 }
 
@@ -415,4 +445,132 @@ html {
   .toast-static {
     display: flex;
   }
+}
+
+/* ─── Effect 12: Scroll-driven section tilt ─── */
+/* Applied to the "Built for a real business" demo card.
+   Rotates -2deg → +2deg as the section travels through the viewport.
+   Desktop only — mobile uses full-width stacked layout. */
+
+@keyframes scrollTilt {
+  from { transform: perspective(800px) rotateY(-2deg); }
+  to   { transform: perspective(800px) rotateY(2deg);  }
+}
+
+.scroll-tilt {
+  will-change: transform;
+}
+
+@supports (animation-timeline: view()) {
+  @media (min-width: 768px) {
+    .scroll-tilt {
+      animation: scrollTilt linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}
+
+/* ─── Effect 13: Pricing card subtle 3D hover ─── */
+/* CSS-only fixed-direction tilt — cursor tracking requires JS.
+   Disabled on touch devices via @media (hover: hover). */
+
+.pricing-card-3d {
+  will-change: transform;
+  transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (hover: hover) {
+  .pricing-card-3d:hover {
+    transform: perspective(900px) rotateY(-3deg) rotateX(1.5deg) translateY(-4px);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.08),
+                0 8px 16px rgba(37, 99, 235, 0.07);
+  }
+}
+
+/* ─── Effect 14: Hero scroll-out sticky toast ─── */
+/* A fixed toast that appears when the hero scrolls out of view
+   and dismisses as the user moves deeper into the page.
+   Progressive enhancement: @supports means Chrome/Edge only.
+   Non-supporting browsers: element stays hidden (opacity: 0). */
+
+.hero-scroll-toast {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 49;
+  opacity: 0;
+  transform: translateX(12px);
+  will-change: opacity, transform;
+  pointer-events: none;
+}
+
+/* Desktop only — mobile doesn't need it (toast cycling is visible in hero) */
+@media (max-width: 767px) {
+  .hero-scroll-toast {
+    display: none;
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (min-width: 768px) {
+    .hero-scroll-toast {
+      animation: heroScrollToast linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 65vh 165vh;
+    }
+  }
+}
+
+@keyframes heroScrollToast {
+  0%   { opacity: 0; transform: translateX(12px); }
+  12%  { opacity: 1; transform: translateX(0);    }
+  75%  { opacity: 1; transform: translateX(0);    }
+  100% { opacity: 0; transform: translateX(12px); }
+}
+
+/* ─── Effect 15: FAQ details/summary accordion ─── */
+/* Uses <details>/<summary> (native HTML, zero JS).
+   grid-template-rows: 0fr → 1fr gives smooth height reveal.
+   Close is instant — CSS limitation without JS. */
+
+.faq-item {
+  /* removes default disclosure triangle in all browsers */
+}
+
+.faq-item > summary {
+  cursor: pointer;
+  list-style: none;
+  -webkit-appearance: none;
+}
+
+.faq-item > summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 200ms ease-out;
+  overflow: hidden;
+}
+
+.faq-item[open] > .faq-body {
+  grid-template-rows: 1fr;
+}
+
+.faq-body > div {
+  overflow: hidden;
+}
+
+.faq-icon {
+  flex-shrink: 0;
+  transition: transform 200ms ease-out;
+  line-height: 1;
+  user-select: none;
+}
+
+.faq-item[open] .faq-icon {
+  transform: rotate(45deg);
 }
