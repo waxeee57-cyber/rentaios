@@ -388,44 +388,46 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Social proof ───────────────────────────────────────── */}
+      {/* ── Social proof / CostaSol case study ─────────────────── */}
       <section className="py-24 md:py-32">
         <div className="mx-auto max-w-2xl px-6">
-          <p
-            className="mb-6 font-display text-6xl leading-none text-gold/15 select-none"
-            aria-hidden="true"
-          >
-            &ldquo;
-          </p>
-          <blockquote className="mb-8 font-display text-2xl font-light italic leading-relaxed text-white md:text-3xl">
-            Before RentalOS, we managed everything on WhatsApp and a shared spreadsheet. Now every inquiry gets a confirmation email within seconds. Our customers think we&apos;re a much bigger operation than we are.
-          </blockquote>
-          <div className="flex items-end justify-between gap-6">
-            <div>
-              <p className="font-sans text-sm font-medium text-white">Car rental business</p>
-              <p className="mt-0.5 font-sans text-xs text-muted">Marbella, Spain</p>
-            </div>
-            <a
-              href="https://drivecostasol.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 font-sans text-xs text-muted/50 underline-offset-2 transition-colors hover:text-gold"
-            >
-              Visit drivecostasol.com <ExternalLink className="h-3 w-3" />
-            </a>
-          </div>
-
-          <div className="mt-16 grid grid-cols-3 gap-px bg-border">
-            {[
-              { value: '48h', label: 'Average deployment time' },
-              { value: '0', label: 'Double bookings since launch' },
-              { value: '100%', label: 'Inquiries captured automatically' },
-            ].map(({ value, label }) => (
-              <div key={label} className="bg-black py-8 text-center">
-                <p className="font-display text-4xl font-light tabular-nums text-gold">{value}</p>
-                <p className="mt-2 px-2 font-sans text-xs leading-snug text-muted">{label}</p>
+          <div className="rounded-sm border-l-2 border-gold bg-gold/5 px-8 py-8">
+            <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-6">Built for a real business</p>
+            <blockquote className="mb-6 font-display text-2xl font-light italic leading-relaxed text-white">
+              Before RentalOS, we managed everything on WhatsApp and a shared spreadsheet. Now every inquiry gets a confirmation email within seconds. Our customers think we&apos;re a much bigger operation than we are.
+            </blockquote>
+            <div className="flex items-end justify-between gap-6 mb-8">
+              <div>
+                <p className="font-sans text-sm font-medium text-white">CostaSol Car Rent</p>
+                <p className="mt-0.5 font-sans text-xs text-muted">Marbella, Spain — running since 2024</p>
               </div>
-            ))}
+              <a
+                href="https://drivecostasol.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 font-sans text-xs text-muted/50 hover:text-gold transition-colors"
+              >
+                drivecostasol.com <ExternalLink className="h-3 w-3" />
+              </a>
+            </div>
+            <div className="grid grid-cols-3 gap-px bg-gold/10 rounded-sm overflow-hidden mb-6">
+              {[
+                { value: '0', label: 'Double bookings since launch' },
+                { value: '48h', label: 'Time to go live' },
+                { value: '100%', label: 'Inquiries captured' },
+              ].map(({ value, label }) => (
+                <div key={label} className="bg-black/60 py-6 text-center">
+                  <p className="font-display text-3xl font-light text-gold">{value}</p>
+                  <p className="mt-1 px-2 font-sans text-xs leading-snug text-muted">{label}</p>
+                </div>
+              ))}
+            </div>
+            <Link
+              href="/demo/fleet"
+              className="inline-flex items-center gap-1.5 font-sans text-sm text-gold hover:underline underline-offset-4"
+            >
+              Visit the demo →
+            </Link>
           </div>
         </div>
       </section>

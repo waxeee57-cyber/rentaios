@@ -536,6 +536,28 @@ export function PricingClient({
             </div>
           </div>
 
+          {/* DFY timeline */}
+          <div className="mt-2 mb-8 rounded-md border border-gold/20 bg-gold/5 px-6 py-5">
+            <p className="font-sans text-xs uppercase tracking-[0.15em] text-gold mb-5">How done-for-you works</p>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+              {[
+                { day: 'Day 0', title: 'You fill in the form', sub: '5 minutes, no technical knowledge needed' },
+                { day: 'Day 0–1', title: 'We review your requirements', sub: 'We may ask one or two clarifying questions' },
+                { day: 'Day 1–2', title: 'We deploy your system', sub: 'Domain, branding, fleet — fully configured' },
+                { day: 'Day 2', title: 'You receive your login', sub: 'Take real bookings from day two' },
+              ].map(({ day, title, sub }, i) => (
+                <div key={day} className="relative flex flex-col gap-1">
+                  {i < 3 && (
+                    <div className="absolute top-3 left-full hidden h-px w-full bg-gold/15 md:block" style={{ width: 'calc(100% - 1rem)', left: '50%' }} />
+                  )}
+                  <p className="font-sans text-[10px] uppercase tracking-[0.15em] text-gold/60">{day}</p>
+                  <p className="font-sans text-sm font-medium text-white leading-snug">{title}</p>
+                  <p className="font-sans text-xs text-muted leading-relaxed">{sub}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {checkoutError && (
             <p className="mb-6 font-sans text-sm text-center" style={{ color: 'oklch(0.65 0.18 25)' }}>
               {checkoutError}

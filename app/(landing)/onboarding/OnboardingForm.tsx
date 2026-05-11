@@ -214,10 +214,15 @@ export function OnboardingForm() {
             You don&apos;t need to do anything technical.
           </p>
           <div className="flex flex-col gap-1.5">
-            {['We read your form within 24 hours', 'We deploy your system', 'You receive your login details by email'].map((s, i) => (
-              <div key={s} className="flex items-center gap-2">
-                <span className="font-sans text-[10px] tabular-nums text-gold/40 shrink-0">{i + 1}.</span>
-                <span className="font-sans text-xs text-muted/80">{s}</span>
+            {[
+              { day: 'Day 0', text: 'You fill in this form (5 minutes)' },
+              { day: 'Day 0–1', text: 'We read it and clarify if needed' },
+              { day: 'Day 1–2', text: 'We deploy your complete system' },
+              { day: 'Day 2', text: 'Your login details arrive by email' },
+            ].map(({ day, text }) => (
+              <div key={day} className="flex items-center gap-2">
+                <span className="font-sans text-[10px] tabular-nums text-gold/50 shrink-0 w-12">{day}</span>
+                <span className="font-sans text-xs text-muted/80">{text}</span>
               </div>
             ))}
           </div>

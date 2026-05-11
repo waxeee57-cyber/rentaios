@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { supabaseAdmin } from '@/lib/supabase'
 import { formatPrice } from '@/lib/formatters'
+import { DemoInquiryForm } from './DemoInquiryForm'
 
 export const dynamic = 'force-dynamic'
 
@@ -111,19 +112,7 @@ export default async function DemoCarDetailPage({ params }: { params: Promise<{ 
             </div>
           )}
 
-          {/* Demo notice — no real booking */}
-          <div className="rounded-md border border-gold/20 bg-gold/5 px-5 py-4">
-            <p className="font-sans text-sm font-medium text-gold mb-1">This is a demo.</p>
-            <p className="font-sans text-sm text-muted leading-relaxed">
-              The inquiry form is disabled in demo mode. Start a free trial to take real bookings.
-            </p>
-            <Link
-              href="/pricing"
-              className="mt-4 inline-flex items-center gap-1.5 font-sans text-sm text-gold hover:underline underline-offset-4"
-            >
-              Start free trial →
-            </Link>
-          </div>
+          <DemoInquiryForm carName={`${car.brand} ${car.model}`} />
         </div>
       </div>
     </div>

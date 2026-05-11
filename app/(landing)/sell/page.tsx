@@ -544,6 +544,116 @@ export default async function SellPage() {
           </div>
         </section>
 
+        {/* ─── CASE STUDY ── */}
+        <section className="py-24 md:py-32" style={{ backgroundColor: '#0F0F10' }}>
+          <div className="mx-auto max-w-[1100px] px-6">
+            <Label>Built for a real business</Label>
+            <h2 className="mb-10 font-display text-4xl font-light tracking-tight text-white md:text-5xl">
+              CostaSol Car Rent — the reference deployment.
+            </h2>
+
+            <div className="rounded-sm border-l-2 border-gold bg-gold/5 px-8 py-8 max-w-2xl">
+              <blockquote className="mb-6 font-display text-xl font-light italic leading-relaxed text-white">
+                We were managing everything through WhatsApp and a spreadsheet.
+                Now every inquiry gets a confirmation email within seconds.
+                Our customers think we&apos;re a much bigger operation than we are.
+              </blockquote>
+              <div className="flex items-end justify-between gap-6 mb-8">
+                <div>
+                  <p className="font-sans text-sm font-medium text-white">CostaSol Car Rent</p>
+                  <p className="mt-0.5 font-sans text-xs text-muted">Marbella, Spain — running since 2024</p>
+                </div>
+                <a
+                  href="https://drivecostasol.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 font-sans text-xs text-muted/50 hover:text-gold transition-colors"
+                >
+                  drivecostasol.com <ExternalLink className="h-3 w-3" />
+                </a>
+              </div>
+              <div className="grid grid-cols-3 gap-px bg-gold/10 overflow-hidden mb-6">
+                {[
+                  { value: '0', label: 'Double bookings since launch' },
+                  { value: '48h', label: 'Time to go live' },
+                  { value: '100%', label: 'Inquiries captured' },
+                ].map(({ value, label }) => (
+                  <div key={label} className="bg-black/50 py-6 text-center">
+                    <p className="font-display text-3xl font-light text-gold">{value}</p>
+                    <p className="mt-1 px-2 font-sans text-xs leading-snug text-muted">{label}</p>
+                  </div>
+                ))}
+              </div>
+              <a
+                href="/demo"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 font-sans text-sm text-gold hover:underline underline-offset-4"
+              >
+                Visit the live demo <ExternalLink className="h-3.5 w-3.5" />
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* ─── FREE TOOLS COMPARISON ── */}
+        <section className="py-24 md:py-32 bg-graphite">
+          <div className="mx-auto max-w-[1100px] px-6">
+            <Label>But I can do this for free with...</Label>
+            <h2 className="mb-4 font-display text-4xl font-light tracking-tight text-white md:text-5xl">
+              You can. You just can&apos;t do <em>this</em>.
+            </h2>
+            <p className="mb-14 font-sans text-base leading-relaxed text-muted max-w-xl">
+              Each of these tools does one thing well. None of them are a rental booking system.
+            </p>
+
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[620px]">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="pb-4 pr-6 text-left font-sans text-xs uppercase tracking-[0.15em] text-muted w-1/3">
+                      What you need
+                    </th>
+                    {['Calendly', 'Google Forms', 'Notion', 'WhatsApp', 'RentalOS'].map((tool, i) => (
+                      <th key={tool} className={`pb-4 font-sans text-xs uppercase tracking-[0.15em] text-center ${i === 4 ? 'text-gold' : 'text-muted'}`}>
+                        {tool}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {[
+                    { feature: 'Customer-facing booking page', vals: [false, false, false, false, true] },
+                    { feature: 'Fleet / vehicle listing', vals: [false, false, false, false, true] },
+                    { feature: 'Prevents double bookings', vals: [false, false, false, false, true] },
+                    { feature: 'Automatic confirmation email', vals: [true, false, false, false, true] },
+                    { feature: 'Admin panel for bookings', vals: [false, false, false, false, true] },
+                    { feature: 'Document & deposit tracking', vals: [false, false, false, false, true] },
+                    { feature: 'Built for rental businesses', vals: [false, false, false, false, true] },
+                  ].map(({ feature, vals }) => (
+                    <tr key={feature}>
+                      <td className="py-3.5 pr-6 font-sans text-sm text-muted">{feature}</td>
+                      {vals.map((v, i) => (
+                        <td key={i} className="py-3.5 text-center">
+                          {v
+                            ? <Check className={`h-4 w-4 mx-auto ${i === 4 ? 'text-gold' : 'text-muted/40'}`} />
+                            : <span className="font-sans text-sm text-muted/25">—</span>
+                          }
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <p className="mt-8 font-display text-lg font-light italic text-muted max-w-xl">
+              Free tools are free because they do a fraction of what you actually need.
+              RentalOS does the whole job.
+            </p>
+          </div>
+        </section>
+
         {/* ─── COMPARISON (Objection 3) ── */}
         <section className="py-24 md:py-32" style={{ backgroundColor: '#0A0A0B' }}>
           <div className="mx-auto max-w-[1100px] px-6">

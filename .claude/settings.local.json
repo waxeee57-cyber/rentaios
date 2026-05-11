@@ -41,7 +41,12 @@
       "PowerShell(python --version; python \"C:\\\\projects\\\\costasol\\\\.claude\\\\skills\\\\skill-security-auditor\\\\scripts\\\\skill_security_auditor.py\" \"C:\\\\projects\\\\costasol\\\\.claude\\\\skills\\\\skill-security-auditor\" --json 2>&1 | Select-Object -First 20)",
       "PowerShell(py *)",
       "Bash(Get-ChildItem -Path \"C:\\\\projects\\\\costasol\" -Directory)",
-      "Bash(Select-Object Name)"
+      "Bash(Select-Object Name)",
+      "PowerShell(Get-ChildItem \"C:\\\\projects\\\\rentaios\\\\app\" -Recurse -File -ErrorAction SilentlyContinue | Where-Object { $_.Extension -in '.tsx','.ts' } | Select-Object FullName | Sort-Object FullName | ForEach-Object { $_.FullName.Replace\\('C:\\\\projects\\\\rentaios\\\\',''\\) })",
+      "PowerShell(Get-Content *)",
+      "Bash(pnpm build *)",
+      "PowerShell(pnpm build *)",
+      "PowerShell(git add *)"
     ]
   }
 }
