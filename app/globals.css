@@ -5,20 +5,21 @@
   --color-black: #0F0F10;
   --color-graphite: #1B1B1D;
   --color-ivory: #F5F1EA;
-  --color-gold: #C8A96B;
-  --color-gold-hover: #D4B57A;
+  --color-gold: #2563EB;
+  --color-gold-hover: #1D4ED8;
   --color-bronze: #8A6A3D;
   --color-beige: #D8C3A5;
-  --color-muted: #B8B8B8;
+  --color-muted: #6B7280;
+  --color-surface: #F8F9FA;
   --color-on-light: #181818;
   --color-success: #7A8F5A;
   --color-warning: #C8A96B;
   --color-danger: #E05252;
   --color-whatsapp: #25D366;
-  --color-border: rgba(200, 169, 107, 0.15);
+  --color-border: #E5E7EB;
 
   /* Fonts */
-  --font-display: var(--font-cormorant), "Cormorant Garamond", serif;
+  --font-display: var(--font-jakarta), "Plus Jakarta Sans", sans-serif;
   --font-sans: var(--font-sans), "DM Sans", sans-serif;
 
   /* Border radii — brand uses minimal rounding */
@@ -37,14 +38,14 @@
 }
 
 html {
-  background-color: #0F0F10;
-  color: #FFFFFF;
+  background-color: #FFFFFF;
+  color: #111827;
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: #0F0F10;
-  color: #FFFFFF;
+  background-color: #FFFFFF;
+  color: #111827;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -56,8 +57,8 @@ html {
 
 /* Selection */
 ::selection {
-  background-color: rgba(200, 169, 107, 0.3);
-  color: #FFFFFF;
+  background-color: rgba(37, 99, 235, 0.2);
+  color: #111827;
 }
 
 /* Scroll animations */
@@ -115,7 +116,7 @@ html {
    Form inputs override this via higher-specificity focus:ring-* Tailwind classes. */
 :focus-visible {
   outline: 2px solid var(--color-gold);
-  outline-offset: 2px;
+  outline-offset: 3px;
   border-radius: var(--radius-sm);
 }
 
@@ -172,10 +173,10 @@ html {
 
 @media (hover: hover) {
   .card-3d:hover {
-    transform: translateY(-8px) rotateX(2deg);
-    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4),
-                0 8px 16px rgba(200, 169, 107, 0.1);
-    border-color: rgba(200, 169, 107, 0.3);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1),
+                0 8px 16px rgba(37, 99, 235, 0.08);
+    border-color: rgba(37, 99, 235, 0.3);
   }
 }
 
@@ -230,7 +231,7 @@ html {
   z-index: 9999;
   padding: 0.5rem 1rem;
   background: var(--color-gold);
-  color: var(--color-black);
+  color: #FFFFFF;
   font-size: 0.75rem;
   font-family: var(--font-sans);
   font-weight: 500;
@@ -283,13 +284,13 @@ html {
 @media (hover: hover) {
   .btn-3d:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(200, 169, 107, 0.3);
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.25);
   }
 }
 
 .btn-3d:active {
   transform: translateY(1px);
-  box-shadow: 0 2px 8px rgba(200, 169, 107, 0.2);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
 }
 
 /* ─── Effect 6: Car detail gallery — perspective depth ─── */

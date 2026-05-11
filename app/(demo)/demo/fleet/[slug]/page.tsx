@@ -59,14 +59,14 @@ export default async function DemoCarDetailPage({ params }: { params: Promise<{ 
   return (
     <div className="mx-auto max-w-5xl px-6 py-12">
       {/* Back */}
-      <Link href="/demo/fleet" className="inline-flex items-center gap-1.5 font-sans text-xs text-muted hover:text-white transition-colors mb-10">
+      <Link href="/demo/fleet" className="inline-flex items-center gap-1.5 font-sans text-xs text-muted hover:text-gray-900 transition-colors mb-10">
         ← Back to demo fleet
       </Link>
 
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
         {/* Photos */}
         <div>
-          <div className="aspect-[4/3] rounded-md overflow-hidden bg-graphite/40 mb-3">
+          <div className="aspect-[4/3] rounded-md overflow-hidden bg-surface mb-3">
             {photos[0] ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={photos[0].url} alt={photos[0].alt || `${car.brand} ${car.model}`} className="w-full h-full object-cover" />
@@ -80,7 +80,7 @@ export default async function DemoCarDetailPage({ params }: { params: Promise<{ 
             <div className="grid grid-cols-3 gap-2">
               {photos.slice(1, 4).map((photo, i) => (
                 // eslint-disable-next-line @next/next/no-img-element
-                <div key={i} className="aspect-[4/3] rounded-md overflow-hidden bg-graphite/40">
+                <div key={i} className="aspect-[4/3] rounded-md overflow-hidden bg-surface">
                   <img src={photo.url} alt={photo.alt || ''} className="w-full h-full object-cover" />
                 </div>
               ))}
@@ -91,8 +91,8 @@ export default async function DemoCarDetailPage({ params }: { params: Promise<{ 
         {/* Details */}
         <div>
           <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-2">{car.year} · {car.category}</p>
-          <h1 className="font-display text-4xl font-light text-white mb-2">{car.brand} {car.model}</h1>
-          <p className="font-sans text-2xl text-white mb-1">{formatPrice(car.daily_price_eur)}<span className="text-muted text-sm ml-1">/day</span></p>
+          <h1 className="font-display text-4xl font-bold text-gray-900 mb-2">{car.brand} {car.model}</h1>
+          <p className="font-sans text-2xl text-gray-900 mb-1">{formatPrice(car.daily_price_eur)}<span className="text-muted text-sm ml-1">/day</span></p>
           <p className="font-sans text-xs text-muted mb-8">Deposit: {formatPrice(car.deposit_eur)} (refundable)</p>
 
           {car.description && (
@@ -104,7 +104,7 @@ export default async function DemoCarDetailPage({ params }: { params: Promise<{ 
               <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-gold mb-3">Features</p>
               <div className="flex flex-wrap gap-2">
                 {features.map((f, i) => (
-                  <span key={i} className="rounded-sm border border-white/10 px-3 py-1 font-sans text-xs text-muted">
+                  <span key={i} className="rounded-sm border border-border px-3 py-1 font-sans text-xs text-muted">
                     {f}
                   </span>
                 ))}

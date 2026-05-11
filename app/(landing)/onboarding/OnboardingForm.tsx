@@ -45,7 +45,7 @@ const INITIAL: FormData = {
   domain_name: '',
   preferred_language: 'English',
   logo_url: '',
-  brand_color: '#C8A96B',
+  brand_color: '#2563EB',
   tagline: '',
   delivery_location: '',
   delivery_radius: '25 km',
@@ -91,8 +91,8 @@ const STEP_TITLES = [
 function FieldLabel({ children, helper }: { children: React.ReactNode; helper?: string }) {
   return (
     <div className="mb-2">
-      <span className="font-sans text-xs uppercase tracking-[0.15em] text-white/70">{children}</span>
-      {helper && <p className="mt-1 font-sans text-xs text-white/40 leading-relaxed">{helper}</p>}
+      <span className="font-sans text-xs uppercase tracking-[0.15em] text-gray-700">{children}</span>
+      {helper && <p className="mt-1 font-sans text-xs text-muted leading-relaxed">{helper}</p>}
     </div>
   )
 }
@@ -108,8 +108,8 @@ function TextInput({
       value={value}
       onChange={e => onChange(e.target.value)}
       placeholder={placeholder}
-      className="w-full min-h-[48px] rounded-md border border-white/10 bg-white/5 px-4
-        font-sans text-sm text-white placeholder:text-white/25
+      className="w-full min-h-[48px] rounded-md border border-border bg-white px-4
+        font-sans text-sm text-gray-900 placeholder:text-muted
         focus:border-gold/60 focus:outline-none focus:ring-1 focus:ring-gold/20
         transition-colors"
     />
@@ -124,8 +124,8 @@ function RadioCard({ label, checked, onChange }: { label: string; checked: boole
       className={`flex items-center justify-center min-h-[48px] rounded-md border px-3 py-2 text-center
         font-sans text-sm transition-colors ${
           checked
-            ? 'border-gold bg-gold/10 text-white'
-            : 'border-white/10 bg-white/5 text-white/60 hover:border-white/20 hover:text-white/80'
+            ? 'border-gold bg-gold/10 text-gray-900'
+            : 'border-border bg-white text-muted hover:border-gold/40 hover:text-gray-900'
         }`}
     >
       {label}
@@ -193,16 +193,16 @@ export function OnboardingForm() {
   const progress = (step / TOTAL) * 100
 
   return (
-    <div className="min-h-screen bg-[#0F0F10] flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       {/* Header bar */}
-      <div className="border-b border-white/5">
+      <div className="border-b border-border">
         <div className="mx-auto max-w-lg px-6 py-5 flex items-center justify-between">
           <Link href="/" className="font-sans text-xs uppercase tracking-[0.3em] text-gold">
             RentalOS
           </Link>
-          <span className="font-sans text-xs text-white/30">Step {step} of {TOTAL}</span>
+          <span className="font-sans text-xs text-muted">Step {step} of {TOTAL}</span>
         </div>
-        <div className="h-px bg-white/5">
+        <div className="h-px bg-border">
           <div className="h-px bg-gold transition-all duration-500" style={{ width: `${progress}%` }} />
         </div>
       </div>
@@ -233,7 +233,7 @@ export function OnboardingForm() {
       {/* Content */}
       <div className="flex-1 mx-auto w-full max-w-lg px-6 py-12">
         <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-4">Setup — {step}/{TOTAL}</p>
-        <h1 className="font-display text-3xl font-light text-white mb-10">{STEP_TITLES[step - 1]}</h1>
+        <h1 className="font-display text-3xl font-bold text-gray-900 mb-10">{STEP_TITLES[step - 1]}</h1>
 
         <div className="space-y-7">
 
@@ -318,11 +318,11 @@ export function OnboardingForm() {
                 <select
                   value={form.preferred_language}
                   onChange={e => update('preferred_language', e.target.value)}
-                  className="w-full min-h-[48px] rounded-md border border-white/10 bg-white/5 px-4
-                    font-sans text-sm text-white focus:border-gold/60 focus:outline-none
+                  className="w-full min-h-[48px] rounded-md border border-border bg-white px-4
+                    font-sans text-sm text-gray-900 focus:border-gold/60 focus:outline-none
                     focus:ring-1 focus:ring-gold/20 transition-colors"
                 >
-                  {LANGUAGES.map(l => <option key={l} value={l} className="bg-[#1B1B1D]">{l}</option>)}
+                  {LANGUAGES.map(l => <option key={l} value={l}>{l}</option>)}
                 </select>
               </div>
               <div>
@@ -342,7 +342,7 @@ export function OnboardingForm() {
                     type="color"
                     value={form.brand_color}
                     onChange={e => update('brand_color', e.target.value)}
-                    className="h-12 w-12 shrink-0 rounded-md border border-white/10 bg-transparent cursor-pointer"
+                    className="h-12 w-12 shrink-0 rounded-md border border-border bg-transparent cursor-pointer"
                   />
                   <TextInput
                     value={form.brand_color}
@@ -350,11 +350,11 @@ export function OnboardingForm() {
                       const hex = v.startsWith('#') ? v : `#${v}`
                       if (/^#[0-9A-Fa-f]{0,6}$/.test(hex)) update('brand_color', hex)
                     }}
-                    placeholder="#C8A96B"
+                    placeholder="#2563EB"
                   />
                   <div
-                    className="h-12 w-12 shrink-0 rounded-md border border-white/10"
-                    style={{ background: /^#[0-9A-Fa-f]{6}$/.test(form.brand_color) ? form.brand_color : '#C8A96B' }}
+                    className="h-12 w-12 shrink-0 rounded-md border border-border"
+                    style={{ background: /^#[0-9A-Fa-f]{6}$/.test(form.brand_color) ? form.brand_color : '#2563EB' }}
                   />
                 </div>
               </div>
@@ -365,7 +365,7 @@ export function OnboardingForm() {
                   onChange={v => v.length <= 80 && update('tagline', v)}
                   placeholder="e.g. The Coast, Driven Beautifully"
                 />
-                <p className="mt-1.5 font-sans text-xs text-white/30 text-right">{form.tagline.length}/80</p>
+                <p className="mt-1.5 font-sans text-xs text-muted/60 text-right">{form.tagline.length}/80</p>
               </div>
             </>
           )}
@@ -395,11 +395,11 @@ export function OnboardingForm() {
                   <select
                     value={form.min_license_years}
                     onChange={e => update('min_license_years', e.target.value)}
-                    className="w-full min-h-[48px] rounded-md border border-white/10 bg-white/5 px-4
-                      font-sans text-sm text-white focus:border-gold/60 focus:outline-none
+                    className="w-full min-h-[48px] rounded-md border border-border bg-white px-4
+                      font-sans text-sm text-gray-900 focus:border-gold/60 focus:outline-none
                       focus:ring-1 focus:ring-gold/20 transition-colors"
                   >
-                    {LICENSE_YEARS.map(y => <option key={y.value} value={y.value} className="bg-[#1B1B1D]">{y.label}</option>)}
+                    {LICENSE_YEARS.map(y => <option key={y.value} value={y.value}>{y.label}</option>)}
                   </select>
                 </div>
                 <div>
@@ -418,11 +418,11 @@ export function OnboardingForm() {
                       className={`w-full text-left rounded-md border px-4 py-3 transition-colors ${
                         form.cancellation_policy === o.id
                           ? 'border-gold bg-gold/10'
-                          : 'border-white/10 bg-white/5 hover:border-white/20'
+                          : 'border-border bg-white hover:border-gold/40'
                       }`}
                     >
-                      <p className={`font-sans text-sm font-medium ${form.cancellation_policy === o.id ? 'text-white' : 'text-white/70'}`}>{o.label}</p>
-                      <p className="font-sans text-xs text-white/40 mt-0.5">{o.sub}</p>
+                      <p className={`font-sans text-sm font-medium ${form.cancellation_policy === o.id ? 'text-gray-900' : 'text-gray-700'}`}>{o.label}</p>
+                      <p className="font-sans text-xs text-muted mt-0.5">{o.sub}</p>
                     </button>
                   ))}
                 </div>
@@ -440,29 +440,29 @@ export function OnboardingForm() {
                   onChange={e => e.target.value.length <= 500 && update('notes', e.target.value)}
                   placeholder="Any integrations, languages, or special features you need..."
                   rows={5}
-                  className="w-full rounded-md border border-white/10 bg-white/5 px-4 py-3
-                    font-sans text-sm text-white placeholder:text-white/25 resize-none
+                  className="w-full rounded-md border border-border bg-white px-4 py-3
+                    font-sans text-sm text-gray-900 placeholder:text-muted resize-none
                     focus:border-gold/60 focus:outline-none focus:ring-1 focus:ring-gold/20
                     transition-colors"
                 />
-                <p className="mt-1.5 font-sans text-xs text-white/30 text-right">{form.notes.length}/500</p>
+                <p className="mt-1.5 font-sans text-xs text-muted/60 text-right">{form.notes.length}/500</p>
               </div>
               <div>
                 <FieldLabel>How did you hear about us? (optional)</FieldLabel>
                 <select
                   value={form.referral_source}
                   onChange={e => update('referral_source', e.target.value)}
-                  className="w-full min-h-[48px] rounded-md border border-white/10 bg-white/5 px-4
-                    font-sans text-sm text-white focus:border-gold/60 focus:outline-none
+                  className="w-full min-h-[48px] rounded-md border border-border bg-white px-4
+                    font-sans text-sm text-gray-900 focus:border-gold/60 focus:outline-none
                     focus:ring-1 focus:ring-gold/20 transition-colors"
                 >
-                  <option value="" className="bg-[#1B1B1D]">Select...</option>
-                  {REFERRAL_SOURCES.map(s => <option key={s} value={s} className="bg-[#1B1B1D]">{s}</option>)}
+                  <option value="">Select...</option>
+                  {REFERRAL_SOURCES.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
               {error && (
                 <div className="rounded-md border border-red-500/30 bg-red-500/5 px-4 py-3">
-                  <p className="font-sans text-sm text-red-400">{error}</p>
+                  <p className="font-sans text-sm text-red-600">{error}</p>
                 </div>
               )}
             </>
@@ -475,8 +475,8 @@ export function OnboardingForm() {
             <button
               type="button"
               onClick={() => setStep(s => s - 1)}
-              className="min-h-[48px] px-6 rounded-md border border-white/10 font-sans text-sm
-                text-white/60 hover:text-white hover:border-white/20 transition-colors"
+              className="min-h-[48px] px-6 rounded-md border border-border font-sans text-sm
+                text-muted hover:text-gray-900 hover:border-gold/40 transition-colors"
             >
               Back
             </button>
@@ -487,7 +487,7 @@ export function OnboardingForm() {
               onClick={() => canAdvance() && setStep(s => s + 1)}
               disabled={!canAdvance()}
               className="min-h-[48px] px-8 rounded-md bg-gold font-sans text-sm font-medium
-                text-black transition-opacity disabled:opacity-40 hover:opacity-90"
+                text-white transition-opacity disabled:opacity-40 hover:opacity-90"
             >
               Continue
             </button>
@@ -497,7 +497,7 @@ export function OnboardingForm() {
               onClick={handleSubmit}
               disabled={loading}
               className="min-h-[48px] px-8 rounded-md bg-gold font-sans text-sm font-medium
-                text-black transition-opacity disabled:opacity-60 hover:opacity-90"
+                text-white transition-opacity disabled:opacity-60 hover:opacity-90"
             >
               {loading ? 'Sending...' : 'Submit setup request'}
             </button>

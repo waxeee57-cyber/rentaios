@@ -17,13 +17,13 @@ const CONTACT_EMAIL = process.env.ADMIN_EMAIL ?? 'hello@domrol.com'
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-white">
 
       {/* Hero */}
       <section className="py-24 md:py-32">
         <div className="mx-auto max-w-5xl px-6">
           <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-6">About</p>
-          <h1 className="font-display text-5xl font-light text-white tracking-tight leading-tight md:text-6xl max-w-3xl">
+          <h1 className="font-display text-5xl font-bold text-gray-900 tracking-tight leading-tight md:text-6xl max-w-3xl">
             Built by two people who&apos;d want this themselves.
           </h1>
         </div>
@@ -66,7 +66,7 @@ export default function AboutPage() {
             </div>
 
             {/* Photo placeholder */}
-            <div className="rounded-md bg-graphite/40 border border-border overflow-hidden" style={{ aspectRatio: '4/3' }}>
+            <div className="rounded-lg bg-surface border border-border overflow-hidden" style={{ aspectRatio: '4/3' }}>
               <div className="w-full h-full flex items-center justify-center min-h-[260px]">
                 <div className="text-center px-6">
                   <p className="font-sans text-xs text-muted/30 uppercase tracking-[0.2em]">Team photo</p>
@@ -79,7 +79,7 @@ export default function AboutPage() {
       </section>
 
       {/* Contact strip */}
-      <section className="py-10 border-t border-border" style={{ backgroundColor: 'rgba(255,255,255,0.02)' }}>
+      <section className="py-10 border-t border-border bg-surface">
         <div className="mx-auto max-w-5xl px-6">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <p className="font-sans text-sm text-muted">
@@ -88,11 +88,11 @@ export default function AboutPage() {
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="font-sans text-sm text-muted hover:text-white transition-colors"
+                className="font-sans text-sm text-muted hover:text-gray-900 transition-colors"
               >
                 {CONTACT_EMAIL}
               </a>
-              <span className="hidden sm:block text-muted/20">·</span>
+              <span className="hidden sm:block text-muted/30">·</span>
               <a
                 href={WA_HREF}
                 target="_blank"
@@ -125,8 +125,8 @@ export default function AboutPage() {
                 body: "When you email us, a person who wrote every line of this code replies. We have never had a customer who couldn't get live.",
               },
             ].map(({ title, body }) => (
-              <div key={title} className="flex flex-col gap-4 rounded-md border border-border p-6" style={{ backgroundColor: 'rgba(255,255,255,0.02)' }}>
-                <h3 className="font-sans text-sm font-medium text-white">{title}</h3>
+              <div key={title} className="flex flex-col gap-4 rounded-lg border border-border bg-white p-6 shadow-sm">
+                <h3 className="font-sans text-sm font-medium text-gray-900">{title}</h3>
                 <p className="font-sans text-sm leading-relaxed text-muted">{body}</p>
               </div>
             ))}
@@ -140,13 +140,13 @@ export default function AboutPage() {
           <div className="flex flex-col gap-4 sm:flex-row">
             <Link
               href="/demo/fleet"
-              className="inline-flex items-center justify-center rounded-sm bg-gold px-6 py-3 font-sans text-sm font-medium text-black hover:opacity-90 transition-opacity"
+              className="inline-flex items-center justify-center rounded-md bg-gold px-6 py-3 font-sans text-sm font-medium text-white hover:opacity-90 transition-opacity"
             >
               See it in action →
             </Link>
             <Link
               href="/pricing"
-              className="inline-flex items-center justify-center rounded-sm border border-border px-6 py-3 font-sans text-sm text-muted hover:border-gold/40 hover:text-white transition-colors"
+              className="inline-flex items-center justify-center rounded-md border border-border px-6 py-3 font-sans text-sm text-muted hover:border-gold/40 hover:text-gray-900 transition-colors"
             >
               View pricing
             </Link>

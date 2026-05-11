@@ -45,7 +45,7 @@ const STATUS_COLORS: Record<string, string> = {
   confirmed: 'border-blue-500/30 bg-blue-500/5 text-blue-400',
   picked_up: 'border-green-500/30 bg-green-500/5 text-green-400',
   returned: 'border-purple-500/30 bg-purple-500/5 text-purple-400',
-  completed: 'border-white/20 bg-white/5 text-muted',
+  completed: 'border-border bg-surface text-muted',
   cancelled: 'border-red-500/30 bg-red-500/5 text-red-400',
 }
 
@@ -59,7 +59,7 @@ function DisabledTooltipButton({ label }: { label: string }) {
         {label}
       </button>
       <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-44 rounded-md
-        bg-graphite border border-border px-3 py-1.5 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+        bg-gray-800 border border-gray-700 px-3 py-1.5 opacity-0 group-hover:opacity-100 transition-opacity z-10">
         <p className="font-sans text-[10px] text-muted text-center">Actions disabled in demo mode</p>
       </div>
     </div>
@@ -81,7 +81,7 @@ export default async function DemoAdminPage() {
       <DemoTabs active="admin" />
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h1 className="font-display text-2xl font-medium text-white">Admin Panel</h1>
+        <h1 className="font-display text-2xl font-medium text-gray-900">Admin Panel</h1>
         <span className="font-sans text-xs text-muted rounded-sm border border-border px-2 py-1">Demo mode</span>
       </div>
 
@@ -99,7 +99,7 @@ export default async function DemoAdminPage() {
             key={tab}
             className={`px-4 py-3 font-sans text-xs uppercase tracking-[0.15em] border-b-2 ${
               tab === 'Dashboard'
-                ? 'border-gold text-white'
+                ? 'border-gold text-gray-900'
                 : 'border-transparent text-muted/40 cursor-not-allowed'
             }`}
           >
@@ -112,15 +112,15 @@ export default async function DemoAdminPage() {
       <div className="flex items-stretch divide-x divide-border mb-8">
         <div className="pr-6">
           <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-muted mb-1.5">Inquiries</p>
-          <p className="font-sans text-xl font-medium text-white">{inquiries}</p>
+          <p className="font-sans text-xl font-medium text-gray-900">{inquiries}</p>
         </div>
         <div className="px-6">
           <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-muted mb-1.5">Active</p>
-          <p className="font-sans text-xl font-medium text-white">{active}</p>
+          <p className="font-sans text-xl font-medium text-gray-900">{active}</p>
         </div>
         <div className="pl-6">
           <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-muted mb-1.5">Revenue (demo)</p>
-          <p className="font-sans text-xl font-medium text-white tabular-nums">{formatPrice(revenue)}</p>
+          <p className="font-sans text-xl font-medium text-gray-900 tabular-nums">{formatPrice(revenue)}</p>
         </div>
       </div>
 
@@ -133,7 +133,7 @@ export default async function DemoAdminPage() {
             <p className="font-sans text-xs text-muted/60 mb-6">
               Run <code className="font-mono text-gold">supabase/demo-seed.sql</code> to populate sample bookings.
             </p>
-            <Link href="/pricing" className="inline-flex items-center min-h-[40px] rounded-md bg-gold px-6 font-sans text-sm font-medium text-black hover:opacity-90 transition-opacity">
+            <Link href="/pricing" className="inline-flex items-center min-h-[40px] rounded-md bg-gold px-6 font-sans text-sm font-medium text-white hover:opacity-90 transition-opacity">
               Start free trial — your data, not sample data
             </Link>
           </div>
@@ -144,7 +144,7 @@ export default async function DemoAdminPage() {
               <div className="flex flex-wrap items-start gap-3 justify-between">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-1 flex-wrap">
-                    <span className="font-sans text-xs font-medium text-white font-mono">{booking.booking_code}</span>
+                    <span className="font-sans text-xs font-medium text-gray-900 font-mono">{booking.booking_code}</span>
                     <span className={`rounded-sm border px-2 py-0.5 font-sans text-[10px] uppercase tracking-[0.1em] ${STATUS_COLORS[booking.status] ?? 'border-border text-muted'}`}>
                       {booking.status}
                     </span>
@@ -180,8 +180,8 @@ export default async function DemoAdminPage() {
       </div>
 
       {/* CTA */}
-      <div className="mt-16 rounded-md border border-gold/40 bg-white/[0.03] p-8">
-        <h2 className="font-display text-2xl font-light text-white mb-2">
+      <div className="mt-16 rounded-md border border-gold/40 bg-surface p-8">
+        <h2 className="font-display text-2xl font-bold text-gray-900 mb-2">
           This is your admin panel.
         </h2>
         <p className="font-sans text-sm text-muted mb-6 leading-relaxed">
@@ -189,10 +189,10 @@ export default async function DemoAdminPage() {
           Running on your domain. Your brand.
         </p>
         <div className="flex flex-wrap gap-4">
-          <Link href="/onboarding" className="inline-flex items-center min-h-[44px] rounded-md bg-gold px-6 font-sans text-sm font-medium text-black hover:opacity-90 transition-opacity">
+          <Link href="/onboarding" className="inline-flex items-center min-h-[44px] rounded-md bg-gold px-6 font-sans text-sm font-medium text-white hover:opacity-90 transition-opacity">
             Get this running in 48 hours →
           </Link>
-          <Link href="/pricing" className="inline-flex items-center min-h-[44px] rounded-md border border-white/10 px-6 font-sans text-sm text-white hover:border-gold/30 transition-colors">
+          <Link href="/pricing" className="inline-flex items-center min-h-[44px] rounded-md border border-border px-6 font-sans text-sm text-muted hover:border-gold/30 hover:text-gray-900 transition-colors">
             See pricing →
           </Link>
         </div>

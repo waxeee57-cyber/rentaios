@@ -9,7 +9,7 @@ export default function CookiesPage() {
   return (
     <>
       <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-3">Legal</p>
-      <h1 className="font-display text-4xl font-light text-white mb-8">Cookie Policy</h1>
+      <h1 className="font-display text-4xl font-bold text-gray-900 mb-8">Cookie Policy</h1>
       <div className="font-sans text-sm leading-relaxed text-muted space-y-4">
         <p>
           This site uses only essential cookies required for basic functionality. We do not

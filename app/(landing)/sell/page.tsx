@@ -338,19 +338,19 @@ export default async function SellPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <div className="min-h-screen bg-black text-white">
+      <div className="min-h-screen bg-white text-gray-900">
 
         {/* ── Nav ──────────────────────────────────────────────── */}
-        <nav className="sticky top-0 z-50 border-b border-border bg-black/95 backdrop-blur-md">
+        <nav className="sticky top-0 z-50 border-b border-border bg-white/95 backdrop-blur-md">
           <div className="mx-auto flex max-w-[1100px] items-center justify-between px-6 py-3">
             <Logo />
             <div className="flex items-center gap-6">
-              <Link href="/demo" className="font-sans text-sm text-muted transition-colors hover:text-white hidden sm:block">Demo</Link>
-              <Link href="/pricing" className="font-sans text-sm text-muted transition-colors hover:text-white hidden sm:block">Pricing</Link>
-              <Link href="/about" className="font-sans text-sm text-muted transition-colors hover:text-white hidden sm:block">About</Link>
+              <Link href="/demo" className="font-sans text-sm text-muted transition-colors hover:text-gray-900 hidden sm:block">Demo</Link>
+              <Link href="/pricing" className="font-sans text-sm text-muted transition-colors hover:text-gray-900 hidden sm:block">Pricing</Link>
+              <Link href="/about" className="font-sans text-sm text-muted transition-colors hover:text-gray-900 hidden sm:block">About</Link>
               <Link
                 href="/pricing"
-                className="rounded-sm bg-gold px-4 py-2 font-sans text-xs font-medium text-black transition-opacity hover:opacity-90"
+                className="rounded-sm bg-gold px-4 py-2 font-sans text-xs font-medium text-white transition-opacity hover:opacity-90"
               >
                 Start free trial
               </Link>
@@ -359,19 +359,19 @@ export default async function SellPage() {
         </nav>
 
         {/* ─────────────────────────────────────────── 1. HERO ── */}
-        <section className="relative flex min-h-screen flex-col items-center justify-center px-6 pb-20 pt-28 text-center">
-          {/* Radial gold glow behind headline */}
+        <section className="relative flex min-h-screen flex-col items-center justify-center bg-slate-900 text-white px-6 pb-20 pt-28 text-center">
+          {/* Radial blue glow behind headline */}
           <div
             className="pointer-events-none absolute inset-0"
             style={{
               background:
-                'radial-gradient(ellipse 70% 45% at 50% 0%, rgba(200,169,107,0.08) 0%, transparent 70%)',
+                'radial-gradient(ellipse 70% 45% at 50% 0%, rgba(37,99,235,0.08) 0%, transparent 70%)',
             }}
           />
 
           <div className="relative mx-auto flex max-w-[800px] flex-col items-center gap-8">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2.5 rounded-full border border-border bg-graphite/60 px-4 py-1.5">
+            <div className="inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-4 py-1.5">
               <span className="animate-pulse-dot h-1.5 w-1.5 rounded-full bg-gold" />
               <span className="font-sans text-[11px] uppercase tracking-[0.25em] text-muted">
                 RentalOS
@@ -379,7 +379,7 @@ export default async function SellPage() {
             </div>
 
             {/* H1 */}
-            <h1 className="font-display text-5xl font-light leading-[1.05] tracking-[-0.02em] text-white md:text-6xl lg:text-7xl">
+            <h1 className="font-display text-5xl font-bold leading-[1.05] tracking-[-0.02em] text-white md:text-6xl lg:text-7xl">
               The booking that arrived at 11pm.
               The one you missed because you had no system.
             </h1>
@@ -395,7 +395,7 @@ export default async function SellPage() {
             <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
               <a
                 href="#pricing"
-                className="btn-3d inline-flex items-center justify-center rounded-sm bg-gold px-8 py-4 font-sans text-sm font-medium text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                className="btn-3d inline-flex items-center justify-center rounded-sm bg-gold px-8 py-4 font-sans text-sm font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
               >
                 Get the system — €299
               </a>
@@ -403,7 +403,7 @@ export default async function SellPage() {
                 href="/demo"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-3d inline-flex items-center justify-center gap-2 rounded-sm border border-gold/30 px-8 py-4 font-sans text-sm font-medium text-white transition-colors hover:border-gold/60 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                className="btn-3d inline-flex items-center justify-center gap-2 rounded-sm border border-gold/30 px-8 py-4 font-sans text-sm font-medium text-white transition-colors hover:border-gold/60 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
               >
                 See it live <ExternalLink className="h-4 w-4" />
               </a>
@@ -431,7 +431,7 @@ export default async function SellPage() {
         </section>
 
         {/* ──────────────────────────────────────────── 2. PAIN ── */}
-        <section className="py-24 md:py-32" style={{ backgroundColor: '#0F0F10' }}>
+        <section className="py-24 md:py-32 bg-white">
           <div className="mx-auto max-w-[1100px] px-6">
             <Label>Sound familiar?</Label>
 
@@ -439,15 +439,14 @@ export default async function SellPage() {
               {PAIN_POINTS.map(({ Icon, headline, copy }) => (
                 <div
                   key={headline}
-                  className="group flex flex-col gap-6 p-8 transition-all duration-300"
-                  style={{ backgroundColor: '#1a1a1b' }}
+                  className="group flex flex-col gap-6 bg-white p-8 transition-all duration-300 shadow-sm"
                 >
                   <Icon
                     className="h-6 w-6 text-gold/50 transition-colors duration-300 group-hover:text-gold/80"
                     strokeWidth={1.5}
                   />
                   <div>
-                    <h3 className="mb-2.5 font-display text-xl font-medium leading-snug text-white">
+                    <h3 className="mb-2.5 font-display text-xl font-medium leading-snug text-gray-900">
                       {headline}
                     </h3>
                     <p className="font-sans text-sm leading-relaxed text-muted">{copy}</p>
@@ -459,7 +458,7 @@ export default async function SellPage() {
         </section>
 
         {/* ─── CUSTOMER BRIDGE (Objection 6) ── */}
-        <section className="py-12 border-b border-border" style={{ backgroundColor: '#0F0F10' }}>
+        <section className="py-12 border-b border-border bg-surface">
           <div className="mx-auto max-w-[1100px] px-6">
             <p className="font-sans text-base leading-relaxed text-muted max-w-2xl">
               Your customers booked their flight on their phone.
@@ -473,10 +472,10 @@ export default async function SellPage() {
         </section>
 
         {/* ───────────────────────────────────────── 3. SOLUTION ── */}
-        <section className="py-24 md:py-32 bg-graphite">
+        <section className="py-24 md:py-32 bg-surface">
           <div className="mx-auto max-w-[1100px] px-6">
             <Label>RentalOS handles it</Label>
-            <h2 className="mb-16 font-display text-4xl font-light tracking-tight text-white md:text-5xl">
+            <h2 className="mb-16 font-display text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
               From inquiry to pickup — automated.
             </h2>
 
@@ -487,7 +486,7 @@ export default async function SellPage() {
                     <span className="font-sans text-xs tabular-nums text-gold/40">0{i + 1}</span>
                     <div className="h-px flex-1 bg-border" />
                   </div>
-                  <h3 className="font-display text-2xl font-medium leading-snug text-white">
+                  <h3 className="font-display text-2xl font-medium leading-snug text-gray-900">
                     {headline}
                   </h3>
                   <p className="font-sans text-sm leading-relaxed text-muted">{copy}</p>
@@ -498,9 +497,9 @@ export default async function SellPage() {
         </section>
 
         {/* ─────────────────────────────────────── 4. DEMO STRIP ── */}
-        <section className="py-24 md:py-32" style={{ backgroundColor: '#0A0A0B' }}>
+        <section className="py-24 md:py-32 bg-slate-900 text-white">
           <div className="mx-auto max-w-[1100px] px-6 text-center">
-            <h2 className="mb-5 font-display text-4xl font-light tracking-tight text-white md:text-5xl">
+            <h2 className="mb-5 font-display text-4xl font-bold tracking-tight text-white md:text-5xl">
               See it working right now.
             </h2>
             <p className="mx-auto mb-10 max-w-md font-sans text-base leading-relaxed text-muted">
@@ -511,7 +510,7 @@ export default async function SellPage() {
               href="/demo"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-3d inline-flex items-center gap-2.5 rounded-sm bg-gold px-10 py-4 font-sans text-sm font-medium text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70"
+              className="btn-3d inline-flex items-center gap-2.5 rounded-sm bg-gold px-10 py-4 font-sans text-sm font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70"
             >
               Open live demo <ExternalLink className="h-4 w-4" />
             </a>
@@ -522,10 +521,10 @@ export default async function SellPage() {
         </section>
 
         {/* ──────────────────────────────────────── 5. FEATURES ── */}
-        <section className="py-24 md:py-32 bg-graphite">
+        <section className="py-24 md:py-32 bg-white">
           <div className="mx-auto max-w-[1100px] px-6">
             <Label>Everything you need</Label>
-            <h2 className="mb-16 font-display text-4xl font-light tracking-tight text-white md:text-5xl">
+            <h2 className="mb-16 font-display text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
               One system. No missing pieces.
             </h2>
 
@@ -536,7 +535,7 @@ export default async function SellPage() {
                     <Check className="h-3 w-3 text-gold" strokeWidth={2.5} />
                   </div>
                   <div>
-                    <p className="mb-1 font-sans text-sm font-medium text-white">{label}</p>
+                    <p className="mb-1 font-sans text-sm font-medium text-gray-900">{label}</p>
                     <p className="font-sans text-sm leading-relaxed text-muted">{desc}</p>
                   </div>
                 </div>
@@ -546,22 +545,22 @@ export default async function SellPage() {
         </section>
 
         {/* ─── CASE STUDY ── */}
-        <section className="py-24 md:py-32" style={{ backgroundColor: '#0F0F10' }}>
+        <section className="py-24 md:py-32 bg-surface">
           <div className="mx-auto max-w-[1100px] px-6">
             <Label>Built for a real business</Label>
-            <h2 className="mb-10 font-display text-4xl font-light tracking-tight text-white md:text-5xl">
+            <h2 className="mb-10 font-display text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
               CostaSol Car Rent — the reference deployment.
             </h2>
 
-            <div className="rounded-sm border-l-2 border-gold bg-gold/5 px-8 py-8 max-w-2xl">
-              <blockquote className="mb-6 font-display text-xl font-light italic leading-relaxed text-white">
+            <div className="rounded-sm border-l-2 border-gold bg-white px-8 py-8 max-w-2xl shadow-sm">
+              <blockquote className="mb-6 font-display text-xl font-light italic leading-relaxed text-gray-900">
                 We were managing everything through WhatsApp and a spreadsheet.
                 Now every inquiry gets a confirmation email within seconds.
                 Our customers think we&apos;re a much bigger operation than we are.
               </blockquote>
               <div className="flex items-end justify-between gap-6 mb-8">
                 <div>
-                  <p className="font-sans text-sm font-medium text-white">CostaSol Car Rent</p>
+                  <p className="font-sans text-sm font-medium text-gray-900">CostaSol Car Rent</p>
                   <p className="mt-0.5 font-sans text-xs text-muted">Marbella, Spain — running since 2026</p>
                 </div>
                 <a
@@ -573,14 +572,14 @@ export default async function SellPage() {
                   drivecostasol.com <ExternalLink className="h-3 w-3" />
                 </a>
               </div>
-              <div className="grid grid-cols-3 gap-px bg-gold/10 overflow-hidden mb-6">
+              <div className="grid grid-cols-3 gap-px bg-border overflow-hidden mb-6">
                 {[
                   { value: '0', label: 'Double bookings since launch' },
                   { value: '48h', label: 'Time to go live' },
                   { value: '100%', label: 'Inquiries captured' },
                 ].map(({ value, label }) => (
-                  <div key={label} className="bg-black/50 py-6 text-center">
-                    <p className="font-display text-3xl font-light text-gold">{value}</p>
+                  <div key={label} className="bg-surface py-6 text-center">
+                    <p className="font-display text-3xl font-bold text-gold">{value}</p>
                     <p className="mt-1 px-2 font-sans text-xs leading-snug text-muted">{label}</p>
                   </div>
                 ))}
@@ -598,10 +597,10 @@ export default async function SellPage() {
         </section>
 
         {/* ─── FREE TOOLS COMPARISON ── */}
-        <section className="py-24 md:py-32 bg-graphite">
+        <section className="py-24 md:py-32 bg-white">
           <div className="mx-auto max-w-[1100px] px-6">
             <Label>But I can do this for free with...</Label>
-            <h2 className="mb-4 font-display text-4xl font-light tracking-tight text-white md:text-5xl">
+            <h2 className="mb-4 font-display text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
               You can. You just can&apos;t do <em>this</em>.
             </h2>
             <p className="mb-14 font-sans text-base leading-relaxed text-muted max-w-xl">
@@ -648,7 +647,7 @@ export default async function SellPage() {
               </table>
             </div>
 
-            <p className="mt-8 font-display text-lg font-light italic text-muted max-w-xl">
+            <p className="mt-8 font-display text-lg font-light italic text-gray-500 max-w-xl">
               Free tools are free because they do a fraction of what you actually need.
               RentalOS does the whole job.
             </p>
@@ -656,15 +655,15 @@ export default async function SellPage() {
         </section>
 
         {/* ─── COMPARISON (Objection 3) ── */}
-        <section className="py-24 md:py-32" style={{ backgroundColor: '#0A0A0B' }}>
+        <section className="py-24 md:py-32 bg-surface">
           <div className="mx-auto max-w-[1100px] px-6">
             <Label>What most rental businesses use</Label>
-            <h2 className="mb-16 font-display text-4xl font-light tracking-tight text-white md:text-5xl">
+            <h2 className="mb-16 font-display text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
               The hidden cost of &ldquo;good enough&rdquo;
             </h2>
 
             <div className="grid grid-cols-1 gap-5 md:grid-cols-4">
-              <div className="flex flex-col gap-4 rounded-sm border border-border bg-black/40 p-6">
+              <div className="flex flex-col gap-4 rounded-sm border border-border bg-white p-6 shadow-sm">
                 <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-muted">WhatsApp + phone</p>
                 <ul className="flex flex-col gap-3">
                   {[
@@ -681,7 +680,7 @@ export default async function SellPage() {
                 </ul>
               </div>
 
-              <div className="flex flex-col gap-4 rounded-sm border border-border bg-black/40 p-6">
+              <div className="flex flex-col gap-4 rounded-sm border border-border bg-white p-6 shadow-sm">
                 <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-muted">Spreadsheet + email</p>
                 <ul className="flex flex-col gap-3">
                   {[
@@ -698,7 +697,7 @@ export default async function SellPage() {
                 </ul>
               </div>
 
-              <div className="flex flex-col gap-4 rounded-sm border border-border bg-black/40 p-6">
+              <div className="flex flex-col gap-4 rounded-sm border border-border bg-white p-6 shadow-sm">
                 <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-muted">Generic booking platform</p>
                 <ul className="flex flex-col gap-3">
                   {[
@@ -735,7 +734,7 @@ export default async function SellPage() {
               </div>
             </div>
 
-            <p className="mt-12 text-center font-display text-xl font-light italic text-muted">
+            <p className="mt-12 text-center font-display text-xl font-light italic text-gray-500">
               Most people who buy RentalOS weren&apos;t looking for new software.
               They were tired of the workaround they had.
             </p>
@@ -743,7 +742,7 @@ export default async function SellPage() {
         </section>
 
         {/* ─── SUPPORT CARD (Objection 1) ── */}
-        <section className="py-16" style={{ backgroundColor: '#0F0F10' }}>
+        <section className="py-16 bg-white">
           <div className="mx-auto max-w-[1100px] px-6">
             <div className="rounded-sm border-l-2 border-gold bg-gold/5 px-8 py-7 max-w-2xl">
               <p className="mb-3 font-sans text-[10px] uppercase tracking-[0.3em] text-gold">
@@ -771,14 +770,14 @@ export default async function SellPage() {
               >
                 &ldquo;
               </p>
-              <blockquote className="mb-8 font-display text-2xl font-light italic leading-relaxed text-white md:text-3xl">
+              <blockquote className="mb-8 font-display text-2xl font-light italic leading-relaxed text-gray-900 md:text-3xl">
                 We were managing everything through WhatsApp and a spreadsheet.
                 Now every inquiry gets a confirmation email within seconds.
                 Our customers think we&apos;re a much bigger operation than we are.
               </blockquote>
               <div className="flex items-end justify-between gap-6">
                 <div>
-                  <p className="font-sans text-sm font-medium text-white">Car rental business</p>
+                  <p className="font-sans text-sm font-medium text-gray-900">Car rental business</p>
                   <p className="mt-0.5 font-sans text-xs text-muted">Marbella, Spain</p>
                 </div>
                 <a
@@ -799,8 +798,8 @@ export default async function SellPage() {
                 { value: '0', label: 'Double bookings since launch' },
                 { value: '100%', label: 'Inquiries captured automatically' },
               ].map(({ value, label }) => (
-                <div key={label} className="bg-black py-8 text-center">
-                  <p className="font-display text-4xl font-light tabular-nums text-gold">{value}</p>
+                <div key={label} className="bg-white py-8 text-center">
+                  <p className="font-display text-4xl font-bold tabular-nums text-gold">{value}</p>
                   <p className="mt-2 px-2 font-sans text-xs leading-snug text-muted">{label}</p>
                 </div>
               ))}
@@ -809,10 +808,10 @@ export default async function SellPage() {
         </section>
 
         {/* ─── VENDOR LOCK-IN (Objection 2) ── */}
-        <section className="py-24 md:py-32" style={{ backgroundColor: '#0A0A0B' }}>
+        <section className="py-24 md:py-32 bg-surface">
           <div className="mx-auto max-w-[1100px] px-6">
             <div className="max-w-2xl">
-              <h3 className="mb-6 font-display text-3xl font-light text-white md:text-4xl">
+              <h3 className="mb-6 font-display text-3xl font-bold text-gray-900 md:text-4xl">
                 What happens if RentalOS disappears tomorrow?
               </h3>
               <p className="mb-6 font-sans text-sm leading-relaxed text-muted">
@@ -843,10 +842,10 @@ export default async function SellPage() {
         </section>
 
         {/* ───────────────────────────────────────── 7. PRICING ── */}
-        <section id="pricing" className="py-24 md:py-32 bg-graphite">
+        <section id="pricing" className="py-24 md:py-32 bg-white">
           <div className="mx-auto max-w-[1100px] px-6">
             <Label>Simple pricing</Label>
-            <h2 className="mb-16 font-display text-4xl font-light tracking-tight text-white md:text-5xl">
+            <h2 className="mb-16 font-display text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
               Own it outright or subscribe monthly.
             </h2>
 
@@ -856,8 +855,8 @@ export default async function SellPage() {
                   key={name}
                   className={`flex flex-col p-8 ${
                     accent
-                      ? 'border border-gold/50 bg-gold/5 shadow-[0_0_0_1px_rgba(200,169,107,0.08),0_24px_48px_rgba(0,0,0,0.4)]'
-                      : 'border border-border bg-black/40'
+                      ? 'border border-gold/50 bg-gold/5 shadow-sm rounded-lg'
+                      : 'border border-border bg-white shadow-sm rounded-lg'
                   }`}
                 >
                   {/* Tag + name */}
@@ -876,7 +875,7 @@ export default async function SellPage() {
 
                   {/* Price */}
                   <div className="mb-1 flex items-baseline gap-1">
-                    <span className="font-display text-5xl font-light tabular-nums text-white">
+                    <span className="font-display text-5xl font-bold tabular-nums text-gray-900">
                       {price}
                     </span>
                     {cadence && (
@@ -910,8 +909,8 @@ export default async function SellPage() {
                     {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                     className={`btn-3d inline-flex items-center justify-center gap-2 rounded-sm px-6 py-3.5 font-sans text-xs font-medium uppercase tracking-[0.1em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 ${
                       accent
-                        ? 'bg-gold text-black'
-                        : 'border border-border text-muted transition-colors hover:border-gold/40 hover:text-white'
+                        ? 'bg-gold text-white'
+                        : 'border border-border text-muted transition-colors hover:border-gold/40 hover:text-gray-900'
                     }`}
                   >
                     {cta}
@@ -933,10 +932,10 @@ export default async function SellPage() {
         </section>
 
         {/* ─────────────────────────────────────────── 8. FAQ ── */}
-        <section className="py-24 md:py-32">
+        <section className="py-24 md:py-32 bg-surface">
           <div className="mx-auto max-w-[1100px] px-6">
             <Label>Questions</Label>
-            <h2 className="mb-14 font-display text-4xl font-light tracking-tight text-white md:text-5xl">
+            <h2 className="mb-14 font-display text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
               Before you buy.
             </h2>
 
@@ -944,7 +943,7 @@ export default async function SellPage() {
               {FAQ_ITEMS.map(({ q, a }) => (
                 <details key={q} className="group">
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 [&::-webkit-details-marker]:hidden">
-                    <span className="font-sans text-sm font-medium text-white transition-colors duration-200 group-open:text-gold">
+                    <span className="font-sans text-sm font-medium text-gray-900 transition-colors duration-200 group-open:text-gold">
                       {q}
                     </span>
                     <span className="shrink-0 font-sans text-lg leading-none text-muted/40 transition-transform duration-200 group-open:rotate-45">
@@ -961,15 +960,15 @@ export default async function SellPage() {
         </section>
 
         {/* ──────────────────────────────────────── 9. FINAL CTA ── */}
-        <section className="py-24 md:py-32 bg-graphite">
+        <section className="py-24 md:py-32 bg-slate-900 text-white">
           <div className="mx-auto max-w-[1100px] px-6 text-center">
-            <h2 className="mb-10 font-display text-4xl font-light tracking-tight text-white md:text-5xl lg:text-6xl">
+            <h2 className="mb-10 font-display text-4xl font-bold tracking-tight text-white md:text-5xl lg:text-6xl">
               Ready to run your rentals properly?
             </h2>
             <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <a
                 href="#pricing"
-                className="btn-3d inline-flex items-center justify-center rounded-sm bg-gold px-10 py-4 font-sans text-sm font-medium text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70"
+                className="btn-3d inline-flex items-center justify-center rounded-sm bg-gold px-10 py-4 font-sans text-sm font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70"
               >
                 Get the system — €299
               </a>
@@ -977,7 +976,7 @@ export default async function SellPage() {
                 href="/demo"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-3d inline-flex items-center justify-center gap-2 rounded-sm border border-gold/30 px-10 py-4 font-sans text-sm font-medium text-white transition-colors hover:border-gold/60 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
+                className="btn-3d inline-flex items-center justify-center gap-2 rounded-sm border border-white/20 px-10 py-4 font-sans text-sm font-medium text-white transition-colors hover:border-gold/60 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
               >
                 See it live first <ExternalLink className="h-4 w-4" />
               </a>

@@ -2,8 +2,8 @@ import { formatDate, formatDateRange, formatPriceDecimals, TZ } from '@/lib/form
 import { formatInTimeZone } from 'date-fns-tz'
 import { parseISO } from 'date-fns'
 
-const BRAND_GOLD = '#C8A96B'
-const BRAND_DARK = '#0F0F10'
+const BRAND_GOLD = '#2563EB'
+const BRAND_DARK = '#FFFFFF'
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'
 const _bn = process.env.NEXT_PUBLIC_BUSINESS_NAME ?? ''
 const BUSINESS_NAME = _bn && !_bn.startsWith('http') ? _bn : 'RentalOS'
@@ -30,11 +30,11 @@ function layout(content: string): string {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
 </head>
-<body style="margin:0;padding:0;background:#f0ede8;font-family:Arial,sans-serif;-webkit-font-smoothing:antialiased;">
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#f0ede8;">
+<body style="margin:0;padding:0;background:#f4f4f5;font-family:Arial,sans-serif;-webkit-font-smoothing:antialiased;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f5;">
   <tr><td align="center" style="padding:32px 16px;">
     <table width="100%" cellpadding="0" cellspacing="0"
-      style="max-width:560px;border-radius:8px;overflow:hidden;border:1px solid #e0dbd0;">
+      style="max-width:560px;border-radius:8px;overflow:hidden;border:1px solid #e5e7eb;">
 
       <tr>
         <td style="background:${BRAND_DARK};padding:28px 36px;border-bottom:3px solid ${BRAND_GOLD};">
@@ -52,7 +52,7 @@ function layout(content: string): string {
       </tr>
 
       <tr>
-        <td style="background:#f8f5f0;padding:20px 36px;border-top:1px solid #ede8e0;text-align:center;">
+        <td style="background:#f4f4f5;padding:20px 36px;border-top:1px solid #e5e7eb;text-align:center;">
           <p style="margin:0 0 6px;font-size:12px;color:#aaa;font-family:Arial,sans-serif;">
             ${BUSINESS_NAME}
           </p>
@@ -83,7 +83,7 @@ function btn(text: string, href: string): string {
 </table>`
 }
 
-const divider = `<div style="border-top:1px solid #f0ece4;margin:24px 0;"></div>`
+const divider = `<div style="border-top:1px solid #e5e7eb;margin:24px 0;"></div>`
 
 function section(label: string): string {
   return `<p style="margin:0 0 12px;font-size:10px;letter-spacing:2px;text-transform:uppercase;

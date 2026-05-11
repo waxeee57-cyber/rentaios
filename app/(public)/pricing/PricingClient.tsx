@@ -256,35 +256,35 @@ const CURRENCY_LABELS: Record<CurrencyCode, string> = {
 function RoiCalculator() {
   return (
     <div className="mb-10 max-w-xl">
-      <h3 className="mb-6 font-display text-2xl font-light text-white">
+      <h3 className="mb-6 font-display text-2xl font-bold text-gray-900">
         What does one missed booking cost you?
       </h3>
       <div className="mb-2">
         <span className="font-display leading-none text-gold" style={{ fontSize: '4rem' }}>€300</span>
         <p className="mt-2 font-sans text-sm text-muted">The average value of one missed booking.</p>
       </div>
-      <div className="mt-8 rounded-md border border-white/5 overflow-hidden">
+      <div className="mt-8 rounded-lg border border-border overflow-hidden">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-white/5 bg-white/[0.02]">
+            <tr className="border-b border-border bg-surface">
               <th className="py-2.5 px-4 text-left font-sans text-[10px] uppercase tracking-[0.15em] text-muted">Missed / month</th>
               <th className="py-2.5 px-4 text-right font-sans text-[10px] uppercase tracking-[0.15em] text-muted">Lost / year</th>
               <th className="py-2.5 px-4 text-right font-sans text-[10px] uppercase tracking-[0.15em] text-gold">RentalOS / year</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/5">
+          <tbody className="divide-y divide-border">
             <tr>
-              <td className="py-3 px-4 font-sans text-sm text-white">1</td>
+              <td className="py-3 px-4 font-sans text-sm text-gray-900">1</td>
               <td className="py-3 px-4 text-right font-sans text-sm text-muted">€3,600</td>
               <td className="py-3 px-4 text-right font-sans text-sm text-gold">€588</td>
             </tr>
             <tr>
-              <td className="py-3 px-4 font-sans text-sm text-white">2</td>
+              <td className="py-3 px-4 font-sans text-sm text-gray-900">2</td>
               <td className="py-3 px-4 text-right font-sans text-sm text-muted">€7,200</td>
               <td className="py-3 px-4 text-right font-sans text-sm text-gold">€588</td>
             </tr>
             <tr>
-              <td className="py-3 px-4 font-sans text-sm text-white">5</td>
+              <td className="py-3 px-4 font-sans text-sm text-gray-900">5</td>
               <td className="py-3 px-4 text-right font-sans text-sm text-muted">€18,000</td>
               <td className="py-3 px-4 text-right font-sans text-sm text-gold">€588</td>
             </tr>
@@ -301,14 +301,14 @@ function RoiCalculator() {
 function CheckCell({ value }: { value: string | boolean }) {
   if (value === false) return <span className="font-sans text-sm text-muted/40">—</span>
   if (value === true) return <Check className="h-4 w-4 text-gold mx-auto" />
-  return <span className="font-sans text-sm text-white">{value}</span>
+  return <span className="font-sans text-sm text-gray-900">{value}</span>
 }
 
 function Tooltip({ text }: { text: string }) {
   return (
     <span className="group relative inline-flex ml-1.5 align-middle">
       <Info className="h-3 w-3 text-muted/40 cursor-help" />
-      <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 rounded-md bg-graphite border border-border px-2.5 py-2 font-sans text-xs text-muted leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity z-10 text-center">
+      <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 rounded-md bg-gray-800 border border-gray-700 px-2.5 py-2 font-sans text-xs text-gray-200 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity z-10 text-center">
         {text}
       </span>
     </span>
@@ -397,10 +397,10 @@ export function PricingClient({
   return (
     <>
       {/* Hero */}
-      <section className="py-24 md:py-32 bg-black">
+      <section className="py-24 md:py-32 bg-white">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">Pricing</p>
-          <h1 className="mb-4 font-display text-5xl font-light tracking-[-0.02em] text-white md:text-6xl">
+          <h1 className="mb-4 font-display text-5xl font-bold tracking-[-0.02em] text-gray-900 md:text-6xl">
             Simple, honest pricing
           </h1>
           <p className="font-sans text-base leading-relaxed text-muted">
@@ -410,11 +410,11 @@ export function PricingClient({
       </section>
 
       {/* Plan Quiz */}
-      <section className="bg-black py-16 md:py-20 border-t border-white/5">
+      <section className="bg-surface py-16 md:py-20 border-t border-border">
         <div className="mx-auto max-w-3xl px-6">
           <div className="mb-10 text-center">
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">Find your plan</p>
-            <h2 className="font-display text-3xl font-light tracking-tight text-white">
+            <h2 className="font-display text-3xl font-bold tracking-tight text-gray-900">
               Three questions, one recommendation
             </h2>
           </div>
@@ -428,14 +428,14 @@ export function PricingClient({
       </section>
 
       {/* Pricing cards */}
-      <section id="pricing-table" className="bg-graphite py-16 md:py-24">
+      <section id="pricing-table" className="bg-white py-16 md:py-24">
         <div className="mx-auto max-w-4xl px-6">
 
           {/* Simplicity framing */}
-          <div className="mb-8 rounded-md border border-border bg-black/30 px-5 py-4 max-w-lg">
+          <div className="mb-8 rounded-lg border border-border bg-surface px-5 py-4 max-w-lg">
             <p className="font-sans text-sm text-muted leading-relaxed">
               The only thing you do in the admin panel: click{' '}
-              <span className="font-medium text-white">Confirm</span> when a booking arrives.
+              <span className="font-medium text-gray-900">Confirm</span> when a booking arrives.
             </p>
             <p className="mt-1.5 font-sans text-xs text-muted/60 leading-relaxed">
               Everything else — the email to the customer, the calendar update, the weekly report — happens automatically.
@@ -449,10 +449,10 @@ export function PricingClient({
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3 mb-8">
 
             {/* Self-hosted */}
-            <div className="flex flex-col rounded-md border border-border bg-black/40 p-8">
+            <div className="flex flex-col rounded-lg border border-border bg-white p-8 shadow-sm">
               <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">Self-hosted</p>
               <div className="mt-3 flex items-baseline gap-1.5">
-                <span className="font-display text-4xl font-light text-white">€299</span>
+                <span className="font-display text-4xl font-bold text-gray-900">€299</span>
                 <span className="font-sans text-sm text-muted">one-time</span>
               </div>
               <p className="mt-2 mb-6 font-sans text-sm text-muted">Buy the code. Deploy yourself.</p>
@@ -466,14 +466,14 @@ export function PricingClient({
               </ul>
               <a
                 href={process.env.NEXT_PUBLIC_GUMROAD_URL || '/sell'}
-                className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border px-6 font-sans text-xs uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border px-6 font-sans text-xs uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
               >
                 Buy template →
               </a>
             </div>
 
             {/* Done-for-you */}
-            <div className="relative flex flex-col rounded-md border border-gold/50 bg-gold/5 ring-1 ring-gold/10 p-8">
+            <div className="relative flex flex-col rounded-lg border border-gold/50 bg-gold/5 ring-1 ring-gold/10 p-8">
               <div className="mb-4">
                 <span className="rounded-sm bg-gold/15 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold">
                   Recommended
@@ -481,7 +481,7 @@ export function PricingClient({
               </div>
               <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">Done-for-you</p>
               <div className="mt-3 flex items-baseline gap-1.5">
-                <span className="font-display text-4xl font-light text-white">€499</span>
+                <span className="font-display text-4xl font-bold text-gray-900">€499</span>
                 <span className="font-sans text-sm text-muted">one-time</span>
               </div>
               <p className="mt-2 mb-6 font-sans text-sm text-muted">We build it. You run it.</p>
@@ -495,17 +495,17 @@ export function PricingClient({
               </ul>
               <Link
                 href="/onboarding"
-                className="inline-flex items-center justify-center min-h-[44px] rounded-md bg-gold px-6 font-sans text-xs uppercase tracking-[0.1em] text-black transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                className="inline-flex items-center justify-center min-h-[44px] rounded-md bg-gold px-6 font-sans text-xs uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
               >
                 Get started →
               </Link>
             </div>
 
             {/* Monthly */}
-            <div className="flex flex-col rounded-md border border-border bg-black/40 p-8">
+            <div className="flex flex-col rounded-lg border border-border bg-white p-8 shadow-sm">
               <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">Monthly</p>
               <div className="mt-3 flex items-baseline gap-1.5">
-                <span className="font-display text-4xl font-light text-white">From €49</span>
+                <span className="font-display text-4xl font-bold text-gray-900">From €49</span>
                 <span className="font-sans text-sm text-muted">/ month</span>
               </div>
               <p className="mt-2 mb-6 font-sans text-sm text-muted">Start free. Cancel anytime.</p>
@@ -521,14 +521,14 @@ export function PricingClient({
                 <button
                   onClick={() => handleCheckout('starter')}
                   disabled={checkoutLoading === 'starter'}
-                  className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border px-6 font-sans text-xs uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                  className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border px-6 font-sans text-xs uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                 >
                   {checkoutLoading === 'starter' ? 'Redirecting…' : 'Start free trial →'}
                 </button>
               ) : (
                 <Link
                   href="/admin/billing"
-                  className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border px-6 font-sans text-xs uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                  className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border px-6 font-sans text-xs uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                 >
                   Start free trial →
                 </Link>
@@ -551,7 +551,7 @@ export function PricingClient({
                     <div className="absolute top-3 left-full hidden h-px w-full bg-gold/15 md:block" style={{ width: 'calc(100% - 1rem)', left: '50%' }} />
                   )}
                   <p className="font-sans text-[10px] uppercase tracking-[0.15em] text-gold/60">{day}</p>
-                  <p className="font-sans text-sm font-medium text-white leading-snug">{title}</p>
+                  <p className="font-sans text-sm font-medium text-gray-900 leading-snug">{title}</p>
                   <p className="font-sans text-xs text-muted leading-relaxed">{sub}</p>
                 </div>
               ))}
@@ -568,7 +568,7 @@ export function PricingClient({
           <div className="mt-4">
             <button
               onClick={() => setShowMore((s) => !s)}
-              className="font-sans text-sm text-muted transition-colors hover:text-white flex items-center gap-1.5"
+              className="font-sans text-sm text-muted transition-colors hover:text-gray-900 flex items-center gap-1.5"
             >
               Looking for more options? <span className="text-gold">{showMore ? '▲' : '▼'}</span>
             </button>
@@ -577,26 +577,26 @@ export function PricingClient({
               <div className="mt-8">
                 {/* Billing cadence + currency */}
                 <div className="flex flex-col gap-4 mb-8 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="flex items-center gap-1 rounded-md border border-border bg-black/40 p-1 self-start">
+                  <div className="flex items-center gap-1 rounded-md border border-border bg-white p-1 self-start shadow-sm">
                     {(['monthly', 'annual'] as Cadence[]).map((c) => (
                       <button
                         key={c}
                         onClick={() => setCadence(c)}
                         className={`px-4 py-1.5 rounded font-sans text-xs uppercase tracking-[0.1em] transition-colors ${
-                          cadence === c ? 'bg-gold text-black' : 'text-muted hover:text-white'
+                          cadence === c ? 'bg-gold text-white' : 'text-muted hover:text-gray-900'
                         }`}
                       >
                         {c === 'monthly' ? 'Monthly' : 'Annual — save 17%'}
                       </button>
                     ))}
                   </div>
-                  <div className="flex items-center gap-1 rounded-md border border-border bg-black/40 p-1 self-start">
+                  <div className="flex items-center gap-1 rounded-md border border-border bg-white p-1 self-start shadow-sm">
                     {CURRENCIES.map((c) => (
                       <button
                         key={c}
                         onClick={() => handleCurrencyChange(c)}
                         className={`px-3 py-1.5 rounded font-sans text-xs transition-colors ${
-                          currency === c ? 'bg-gold/20 text-gold' : 'text-muted hover:text-white'
+                          currency === c ? 'bg-gold/20 text-gold' : 'text-muted hover:text-gray-900'
                         }`}
                       >
                         {CURRENCY_LABELS[c]}
@@ -619,7 +619,7 @@ export function PricingClient({
                         <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">{t.name}</p>
                         <div className="mt-2 mb-1">
                           <div className="flex items-baseline gap-1.5">
-                            <span className="font-display text-2xl font-light text-white">{p.main}</span>
+                            <span className="font-display text-2xl font-bold text-gray-900">{p.main}</span>
                             {cadence === 'monthly' && <span className="font-sans text-sm text-muted">/ month</span>}
                           </div>
                           {p.sub && <p className="font-sans text-xs text-muted mt-0.5">{p.sub} equiv.</p>}
@@ -635,11 +635,11 @@ export function PricingClient({
                         </ul>
                         {stripeConfigured && pid ? (
                           <button onClick={() => handleCheckout('growth')} disabled={checkoutLoading === 'growth'}
-                            className="inline-flex items-center justify-center min-h-[44px] rounded-md bg-gold px-5 font-sans text-xs uppercase tracking-[0.1em] text-black transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed">
+                            className="inline-flex items-center justify-center min-h-[44px] rounded-md bg-gold px-5 font-sans text-xs uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed">
                             {checkoutLoading === 'growth' ? 'Redirecting…' : t.cta}
                           </button>
                         ) : (
-                          <Link href={t.href} className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border text-muted px-5 font-sans text-xs uppercase tracking-[0.1em] hover:border-gold/40 hover:text-white transition-colors">
+                          <Link href={t.href} className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border text-muted px-5 font-sans text-xs uppercase tracking-[0.1em] hover:border-gold/40 hover:text-gray-900 transition-colors">
                             {t.cta}
                           </Link>
                         )}
@@ -653,11 +653,11 @@ export function PricingClient({
                     const p = displayPrice(t)
                     const pid = cadence === 'annual' ? proAnnualPriceId : proPriceId
                     return (
-                      <div className="flex flex-col rounded-md border border-border bg-black/40 p-6">
+                      <div className="flex flex-col rounded-lg border border-border bg-white p-6 shadow-sm">
                         <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">{t.name}</p>
                         <div className="mt-2 mb-1">
                           <div className="flex items-baseline gap-1.5">
-                            <span className="font-display text-2xl font-light text-white">{p.main}</span>
+                            <span className="font-display text-2xl font-bold text-gray-900">{p.main}</span>
                             {cadence === 'monthly' && <span className="font-sans text-sm text-muted">/ month</span>}
                           </div>
                           {p.sub && <p className="font-sans text-xs text-muted mt-0.5">{p.sub} equiv.</p>}
@@ -673,11 +673,11 @@ export function PricingClient({
                         </ul>
                         {stripeConfigured && pid ? (
                           <button onClick={() => handleCheckout('pro')} disabled={checkoutLoading === 'pro'}
-                            className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border text-muted px-5 font-sans text-xs uppercase tracking-[0.1em] hover:border-gold/40 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                            className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border text-muted px-5 font-sans text-xs uppercase tracking-[0.1em] hover:border-gold/40 hover:text-gray-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                             {checkoutLoading === 'pro' ? 'Redirecting…' : t.cta}
                           </button>
                         ) : (
-                          <Link href={t.href} className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border text-muted px-5 font-sans text-xs uppercase tracking-[0.1em] hover:border-gold/40 hover:text-white transition-colors">
+                          <Link href={t.href} className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border text-muted px-5 font-sans text-xs uppercase tracking-[0.1em] hover:border-gold/40 hover:text-gray-900 transition-colors">
                             {t.cta}
                           </Link>
                         )}
@@ -686,10 +686,10 @@ export function PricingClient({
                   })()}
 
                   {/* White-glove */}
-                  <div className="flex flex-col rounded-md border border-border bg-black/40 p-6">
+                  <div className="flex flex-col rounded-lg border border-border bg-white p-6 shadow-sm">
                     <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">White-glove</p>
                     <div className="mt-2 mb-1 flex items-baseline gap-1.5">
-                      <span className="font-display text-2xl font-light text-white">{fmtPrice(199, currency)}</span>
+                      <span className="font-display text-2xl font-bold text-gray-900">{fmtPrice(199, currency)}</span>
                       <span className="font-sans text-sm text-muted">/ month</span>
                     </div>
                     <ul className="flex flex-1 flex-col gap-2 mt-4 mb-6">
@@ -700,7 +700,7 @@ export function PricingClient({
                         </li>
                       ))}
                     </ul>
-                    <Link href="/contact" className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border text-muted px-5 font-sans text-xs uppercase tracking-[0.1em] hover:border-gold/40 hover:text-white transition-colors">
+                    <Link href="/contact" className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border text-muted px-5 font-sans text-xs uppercase tracking-[0.1em] hover:border-gold/40 hover:text-gray-900 transition-colors">
                       Contact us
                     </Link>
                   </div>
@@ -709,13 +709,13 @@ export function PricingClient({
                   {(() => {
                     const t = TIERS.find((x) => x.key === 'agency')!
                     return (
-                      <div className="flex flex-col rounded-md border border-gold/30 bg-black p-6">
+                      <div className="flex flex-col rounded-lg border border-gold/30 bg-white p-6 shadow-sm">
                         <div className="mb-3">
                           <span className="rounded-sm border border-gold/30 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold">For agencies</span>
                         </div>
                         <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">{t.name}</p>
                         <div className="mt-2 mb-1 flex items-baseline gap-1.5">
-                          <span className="font-display text-2xl font-light text-white">{fmtPrice(499, currency)}</span>
+                          <span className="font-display text-2xl font-bold text-gray-900">{fmtPrice(499, currency)}</span>
                           <span className="font-sans text-sm text-muted">/ month</span>
                         </div>
                         <ul className="flex flex-1 flex-col gap-2 mt-4 mb-6">
@@ -757,7 +757,7 @@ export function PricingClient({
               href="https://wa.me/36708564381?text=Hi%2C%20I%27m%20interested%20in%20RentalOS"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 min-h-[44px] rounded-md border border-border px-6 font-sans text-sm text-muted transition-colors hover:border-gold/40 hover:text-white"
+              className="inline-flex items-center gap-2 min-h-[44px] rounded-md border border-border px-6 font-sans text-sm text-muted transition-colors hover:border-gold/40 hover:text-gray-900"
             >
               WhatsApp →
             </a>
@@ -771,12 +771,12 @@ export function PricingClient({
       </section>
 
       {/* Comparison table */}
-      <section className="bg-black py-16 md:py-24">
+      <section className="bg-surface py-16 md:py-24">
         <div className="mx-auto max-w-5xl px-6">
           <div className="mb-10">
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">Compare</p>
-            <h2 className="font-display text-3xl font-light tracking-tight text-white">
-              What's included
+            <h2 className="font-display text-3xl font-bold tracking-tight text-gray-900">
+              What&apos;s included
             </h2>
           </div>
 
@@ -788,7 +788,7 @@ export function PricingClient({
                     Feature
                   </th>
                   {['Starter', 'Growth', 'Pro'].map((n) => (
-                    <th key={n} className="pb-4 font-sans text-xs uppercase tracking-[0.15em] text-white text-center">
+                    <th key={n} className="pb-4 font-sans text-xs uppercase tracking-[0.15em] text-gray-900 text-center">
                       {n}
                     </th>
                   ))}
@@ -813,22 +813,22 @@ export function PricingClient({
       </section>
 
       {/* One-time services */}
-      <section className="bg-graphite py-16 md:py-24">
+      <section className="bg-white py-16 md:py-24">
         <div className="mx-auto max-w-5xl px-6">
           <div className="mb-10">
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">One-time</p>
-            <h2 className="font-display text-3xl font-light tracking-tight text-white">
+            <h2 className="font-display text-3xl font-bold tracking-tight text-gray-900">
               Prefer to own it outright?
             </h2>
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {ONE_TIME.map(({ name, price, cadence: c, desc, cta, href }) => (
-              <div key={name} className="flex flex-col gap-4 rounded-md border border-border bg-black/40 p-6">
+              <div key={name} className="flex flex-col gap-4 rounded-lg border border-border bg-white p-6 shadow-sm">
                 <div>
                   <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">{name}</p>
                   <div className="mt-2 flex items-baseline gap-1.5">
-                    <span className="font-display text-3xl font-light text-white">{price}</span>
+                    <span className="font-display text-3xl font-bold text-gray-900">{price}</span>
                     <span className="font-sans text-sm text-muted">{c}</span>
                   </div>
                 </div>
@@ -846,16 +846,16 @@ export function PricingClient({
       </section>
 
       {/* FAQ */}
-      <section className="bg-black py-16 md:py-24">
+      <section className="bg-surface py-16 md:py-24">
         <div className="mx-auto max-w-3xl px-6">
           <div className="mb-10">
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">Questions</p>
-            <h2 className="font-display text-3xl font-light tracking-tight text-white">FAQ</h2>
+            <h2 className="font-display text-3xl font-bold tracking-tight text-gray-900">FAQ</h2>
           </div>
           <div className="divide-y divide-border">
             {FAQ_ITEMS.map(({ q, a }) => (
               <div key={q} className="py-6">
-                <p className="mb-2 font-sans text-sm font-medium text-white">{q}</p>
+                <p className="mb-2 font-sans text-sm font-medium text-gray-900">{q}</p>
                 <p className="font-sans text-sm leading-relaxed text-muted">{a}</p>
               </div>
             ))}

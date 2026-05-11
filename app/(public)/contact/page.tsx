@@ -14,10 +14,10 @@ export default function ContactPage() {
   const email = process.env.ADMIN_EMAIL ?? 'hello@domrol.com'
 
   return (
-    <div className="min-h-screen bg-black py-24">
+    <div className="min-h-screen bg-white py-24">
       <div className="mx-auto max-w-3xl px-6">
         <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-4">Contact</p>
-        <h1 className="font-display text-5xl font-light text-white tracking-tight mb-10">
+        <h1 className="font-display text-5xl font-bold text-gray-900 tracking-tight mb-10">
           Get in touch
         </h1>
 
@@ -30,7 +30,7 @@ export default function ContactPage() {
                 <p className="font-sans text-[10px] uppercase tracking-[0.15em] text-muted mb-1">Email</p>
                 <a
                   href={`mailto:${email}`}
-                  className="font-sans text-sm text-white hover:text-gold transition-colors"
+                  className="font-sans text-sm text-gray-900 hover:text-gold transition-colors"
                 >
                   {email}
                 </a>
@@ -77,9 +77,9 @@ export default function ContactPage() {
                 <Link
                   key={href}
                   href={href}
-                  className="flex flex-col gap-0.5 rounded-sm border border-border bg-graphite/30 p-4 hover:border-gold/30 transition-colors"
+                  className="flex flex-col gap-0.5 rounded-lg border border-border bg-white p-4 hover:border-gold/30 hover:shadow-sm transition-all"
                 >
-                  <span className="font-sans text-sm font-medium text-white">{label}</span>
+                  <span className="font-sans text-sm font-medium text-gray-900">{label}</span>
                   <span className="font-sans text-xs text-muted">{note}</span>
                 </Link>
               ))}

@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
     subject: `Demo inquiry — ${safeName} interested in ${safeCar}`,
     html: `
       <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;padding:32px 16px;">
-        <p style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#C8A96B;margin:0 0 16px;">RentalOS — Demo Inquiry</p>
+        <p style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#2563EB;margin:0 0 16px;">RentalOS — Demo Inquiry</p>
         <h2 style="font-size:20px;font-weight:400;color:#111;margin:0 0 16px;">New demo inquiry</h2>
         <table style="width:100%;border-collapse:collapse;font-size:14px;color:#444;">
           <tr><td style="padding:6px 0;color:#888;width:80px;">Name</td><td style="padding:6px 0;">${safeName}</td></tr>
@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
     subject: `Your inquiry about the ${safeCar}`,
     html: `
       <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;padding:32px 16px;">
-        <p style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#C8A96B;margin:0 0 16px;">RentalOS</p>
+        <p style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#2563EB;margin:0 0 16px;">RentalOS</p>
         <h2 style="font-size:20px;font-weight:400;color:#111;margin:0 0 16px;">Thanks, ${safeName}.</h2>
         <p style="font-size:14px;color:#444;line-height:1.6;">
           We received your inquiry about the <strong>${safeCar}</strong>.
@@ -82,11 +82,11 @@ export async function POST(req: NextRequest) {
           we can have it live in 48 hours.
         </p>
         <a href="${siteUrl}/onboarding"
-           style="display:inline-block;margin-top:24px;padding:12px 28px;background:#C8A96B;color:#000;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">
+           style="display:inline-block;margin-top:24px;padding:12px 28px;background:#2563EB;color:#fff;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">
           Get this for my business →
         </a>
         <p style="font-size:12px;color:#999;margin-top:24px;">
-          Questions? Reply to this email or visit <a href="${siteUrl}/pricing" style="color:#C8A96B;">${siteUrl}/pricing</a>
+          Questions? Reply to this email or visit <a href="${siteUrl}/pricing" style="color:#2563EB;">${siteUrl}/pricing</a>
         </p>
       </div>
     `,

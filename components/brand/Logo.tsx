@@ -10,10 +10,7 @@ export function Logo({ className }: LogoProps) {
   const name = _raw && !_raw.startsWith('http') ? _raw : 'RentalOS'
   return (
     <Link href="/" aria-label={`${name} — Home`} className={className}>
-      <span
-        className="font-serif tracking-wide"
-        style={{ color: '#C8A96B', fontFamily: 'Cormorant Garamond, serif', fontSize: '1.5rem', fontWeight: 600 }}
-      >
+      <span className="font-display text-2xl font-bold tracking-tight text-gold">
         {name}
       </span>
     </Link>

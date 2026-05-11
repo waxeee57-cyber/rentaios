@@ -42,7 +42,7 @@ export function CarCard({ car, startDate, endDate, pickupLocation, priority = fa
 
   return (
     <Link href={href} className="group block">
-      <div className="rounded-lg border border-border bg-graphite overflow-hidden card-3d">
+      <div className="rounded-lg border border-border bg-white shadow-sm overflow-hidden card-3d">
         {/* Image */}
         <div className="relative aspect-[16/9] overflow-hidden bg-black">
           {photo ? (
@@ -75,7 +75,7 @@ export function CarCard({ car, startDate, endDate, pickupLocation, priority = fa
         <div className="p-6">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h3 className="font-display text-2xl font-medium text-white tracking-tight">
+              <h3 className="font-display text-2xl font-medium text-gray-900 tracking-tight">
                 {car.brand} {car.model}
               </h3>
               <p className="font-sans text-xs text-muted mt-0.5">{car.year}</p>

@@ -8,13 +8,13 @@ type FAQCategory = { title: string; items: FAQItem[] }
 function AccordionItem({ q, a }: FAQItem) {
   const [open, setOpen] = useState(false)
   return (
-    <div className="border-b border-white/5">
+    <div className="border-b border-border">
       <button
         onClick={() => setOpen(v => !v)}
         className="w-full flex items-start justify-between gap-4 py-5 text-left group"
         aria-expanded={open}
       >
-        <span className="font-sans text-sm font-medium text-white group-hover:text-gold transition-colors">
+        <span className="font-sans text-sm font-medium text-gray-900 group-hover:text-gold transition-colors">
           {q}
         </span>
         <span

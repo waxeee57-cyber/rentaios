@@ -30,10 +30,10 @@ export function ReferralPublicForm() {
   }
 
   return (
-    <div className="min-h-screen bg-black py-24">
+    <div className="min-h-screen bg-white py-24">
       <div className="mx-auto max-w-lg px-6">
         <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-3">Referral program</p>
-        <h1 className="font-display text-4xl font-light text-white mb-4 tracking-tight">Refer a rental business.</h1>
+        <h1 className="font-display text-4xl font-bold text-gray-900 mb-4 tracking-tight">Refer a rental business.</h1>
         <p className="font-sans text-sm leading-relaxed text-muted mb-12 max-w-sm">
           When they subscribe, you both get one month free.
           Enter your email to get your unique referral link.
@@ -47,8 +47,8 @@ export function ReferralPublicForm() {
               onChange={e => setEmail(e.target.value)}
               placeholder="your@email.com"
               required
-              className="w-full min-h-[48px] rounded-md border border-white/10 bg-white/5 px-4
-                font-sans text-sm text-white placeholder:text-muted
+              className="w-full min-h-[48px] rounded-md border border-border bg-white px-4
+                font-sans text-sm text-gray-900 placeholder:text-muted
                 focus:border-gold/60 focus:outline-none focus:ring-1 focus:ring-gold/20
                 transition-colors"
             />
@@ -59,25 +59,25 @@ export function ReferralPublicForm() {
               type="submit"
               disabled={state === 'loading'}
               className="w-full min-h-[48px] rounded-md bg-gold font-sans text-sm font-medium
-                text-black hover:opacity-90 transition-opacity disabled:opacity-60"
+                text-white hover:opacity-90 transition-opacity disabled:opacity-60"
             >
               {state === 'loading' ? 'Getting your link...' : 'Get my referral link'}
             </button>
           </form>
         ) : (
           <div className="space-y-6">
-            <p className="font-sans text-sm text-white/70">Your referral link:</p>
+            <p className="font-sans text-sm text-muted">Your referral link:</p>
             <div className="flex gap-2">
               <input
                 readOnly
                 value={link}
-                className="flex-1 min-h-[48px] rounded-md border border-white/10 bg-white/5 px-4
+                className="flex-1 min-h-[48px] rounded-md border border-border bg-surface px-4
                   font-sans text-sm text-gold font-mono focus:outline-none"
               />
               <button
                 onClick={() => navigator.clipboard.writeText(link)}
                 className="min-h-[48px] px-5 rounded-md border border-gold/30 font-sans text-xs
-                  text-gold hover:bg-gold hover:text-black transition-colors"
+                  text-gold hover:bg-gold hover:text-white transition-colors"
               >
                 Copy
               </button>
@@ -88,7 +88,7 @@ export function ReferralPublicForm() {
           </div>
         )}
 
-        <div className="mt-16 border-t border-white/5 pt-10">
+        <div className="mt-16 border-t border-border pt-10">
           <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-4">How it works</p>
           <div className="space-y-4">
             {[

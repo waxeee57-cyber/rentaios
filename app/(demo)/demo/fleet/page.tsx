@@ -61,34 +61,34 @@ export default async function DemoFleetPage() {
       <DemoTabs active="fleet" />
       <div className="mb-12">
         <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-3">Demo fleet</p>
-        <h1 className="font-display text-4xl font-light text-white tracking-tight">Sample vehicles</h1>
+        <h1 className="font-display text-4xl font-bold text-gray-900 tracking-tight">Sample vehicles</h1>
         <p className="font-sans text-sm text-muted mt-3">
           This is how your fleet page looks. Your vehicles, your branding.
         </p>
       </div>
 
       {!result.ok ? (
-        <div className="rounded-md border border-white/10 bg-white/[0.02] p-12 text-center">
-          <p className="font-sans text-sm text-white mb-2">Demo is loading…</p>
+        <div className="rounded-md border border-border bg-white shadow-sm p-12 text-center">
+          <p className="font-sans text-sm text-gray-900 mb-2">Demo is loading…</p>
           <p className="font-sans text-xs text-muted mb-6">
             The demo fleet initialises daily. Check back in a moment or start your free trial now.
           </p>
           <Link
             href="/pricing"
-            className="inline-flex items-center min-h-[44px] rounded-md bg-gold px-8 font-sans text-sm font-medium text-black hover:opacity-90 transition-opacity"
+            className="inline-flex items-center min-h-[44px] rounded-md bg-gold px-8 font-sans text-sm font-medium text-white hover:opacity-90 transition-opacity"
           >
             Start free trial
           </Link>
         </div>
       ) : result.cars.length === 0 ? (
-        <div className="rounded-md border border-dashed border-white/10 p-12 text-center">
+        <div className="rounded-md border border-dashed border-border p-12 text-center">
           <p className="font-sans text-sm text-muted mb-2">Demo vehicles are being seeded.</p>
           <p className="font-sans text-xs text-muted/60 mb-6">
             The fleet resets daily. Try again shortly or explore pricing to get started.
           </p>
           <Link
             href="/pricing"
-            className="inline-flex items-center min-h-[44px] rounded-md bg-gold px-8 font-sans text-sm font-medium text-black hover:opacity-90 transition-opacity"
+            className="inline-flex items-center min-h-[44px] rounded-md bg-gold px-8 font-sans text-sm font-medium text-white hover:opacity-90 transition-opacity"
           >
             Start free trial
           </Link>
@@ -102,11 +102,11 @@ export default async function DemoFleetPage() {
               <Link
                 key={car.id}
                 href={`/demo/fleet/${car.slug}`}
-                className="group block rounded-md border border-white/5 bg-white/[0.02] overflow-hidden
+                className="group block rounded-md border border-border bg-white shadow-sm overflow-hidden
                   hover:border-gold/20 transition-colors"
               >
                 {/* Photo */}
-                <div className="aspect-[4/3] bg-graphite/40 overflow-hidden">
+                <div className="aspect-[4/3] bg-surface overflow-hidden">
                   {thumb ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
@@ -123,10 +123,10 @@ export default async function DemoFleetPage() {
                 </div>
                 {/* Info */}
                 <div className="p-5">
-                  <p className="font-display text-lg font-light text-white">{car.brand} {car.model}</p>
+                  <p className="font-display text-lg font-bold text-gray-900">{car.brand} {car.model}</p>
                   <p className="font-sans text-xs text-muted mt-0.5 mb-4">{car.year} · {car.category}</p>
                   <div className="flex items-center justify-between">
-                    <p className="font-sans text-sm text-white">{formatPrice(car.daily_price_eur)}<span className="text-muted text-xs ml-1">/day</span></p>
+                    <p className="font-sans text-sm text-gray-900">{formatPrice(car.daily_price_eur)}<span className="text-muted text-xs ml-1">/day</span></p>
                     <span className="font-sans text-xs text-gold group-hover:underline underline-offset-4">View details →</span>
                   </div>
                 </div>
@@ -136,15 +136,15 @@ export default async function DemoFleetPage() {
         </div>
       )}
 
-      <div className="mt-16 border-t border-white/5 pt-12 text-center">
+      <div className="mt-16 border-t border-border pt-12 text-center">
         <p className="font-sans text-sm text-muted mb-6">
           Ready to run your own fleet like this?
         </p>
         <div className="flex flex-wrap gap-4 justify-center">
-          <Link href="/onboarding" className="inline-flex items-center min-h-[44px] rounded-md bg-gold px-8 font-sans text-sm font-medium text-black hover:opacity-90 transition-opacity">
+          <Link href="/onboarding" className="inline-flex items-center min-h-[44px] rounded-md bg-gold px-8 font-sans text-sm font-medium text-white hover:opacity-90 transition-opacity">
             Get this for your business →
           </Link>
-          <Link href="/demo/admin" className="inline-flex items-center min-h-[44px] rounded-md border border-white/10 px-8 font-sans text-sm text-white hover:border-gold/30 transition-colors">
+          <Link href="/demo/admin" className="inline-flex items-center min-h-[44px] rounded-md border border-border px-8 font-sans text-sm text-muted hover:border-gold/30 hover:text-gray-900 transition-colors">
             View admin panel →
           </Link>
         </div>

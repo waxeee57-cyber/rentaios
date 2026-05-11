@@ -133,7 +133,7 @@ function ProgressDots({ step }: { step: number }) {
               ? 'bg-gold/40'
               : i === step
               ? 'bg-gold'
-              : 'bg-white/10'
+              : 'bg-gray-200'
           }`}
         />
       ))}
@@ -155,7 +155,7 @@ function CardButton({ selected, onClick, children }: CardButtonProps) {
       className={`w-full min-h-[44px] rounded-md border p-4 text-left transition-colors duration-150 ${
         selected
           ? 'border-gold/60 bg-gold/5'
-          : 'border-white/10 bg-white/[0.02] hover:border-white/20'
+          : 'border-border bg-white hover:border-gold/40'
       }`}
     >
       {children}
@@ -244,7 +244,7 @@ export function PlanQuiz({ starterPriceId, growthPriceId, proPriceId, stripeConf
         <div key="step-0" className="animate-page-enter">
           <ProgressDots step={0} />
           <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-3">Question 1 of 3</p>
-          <h2 className="font-display text-2xl font-light text-white mb-6">
+          <h2 className="font-display text-2xl font-bold text-gray-900 mb-6">
             What type of rental do you run?
           </h2>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -254,7 +254,7 @@ export function PlanQuiz({ starterPriceId, growthPriceId, proPriceId, stripeConf
                 selected={rentalType === opt.value}
                 onClick={() => selectRentalType(opt.value)}
               >
-                <span className="font-sans text-sm text-white">{opt.label}</span>
+                <span className="font-sans text-sm text-gray-900">{opt.label}</span>
               </CardButton>
             ))}
           </div>
@@ -266,7 +266,7 @@ export function PlanQuiz({ starterPriceId, growthPriceId, proPriceId, stripeConf
         <div key="step-1" className="animate-page-enter">
           <ProgressDots step={1} />
           <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-3">Question 2 of 3</p>
-          <h2 className="font-display text-2xl font-light text-white mb-6">
+          <h2 className="font-display text-2xl font-bold text-gray-900 mb-6">
             How many vehicles do you manage?
           </h2>
           <div className="grid grid-cols-2 gap-3">
@@ -276,7 +276,7 @@ export function PlanQuiz({ starterPriceId, growthPriceId, proPriceId, stripeConf
                 selected={fleetSize === opt.value}
                 onClick={() => selectFleetSize(opt.value)}
               >
-                <p className="font-sans text-sm text-white">{opt.label}</p>
+                <p className="font-sans text-sm text-gray-900">{opt.label}</p>
                 <p className="font-sans text-xs text-muted mt-0.5">{opt.sub}</p>
               </CardButton>
             ))}
@@ -284,7 +284,7 @@ export function PlanQuiz({ starterPriceId, growthPriceId, proPriceId, stripeConf
           <button
             type="button"
             onClick={goBack}
-            className="mt-6 font-sans text-xs text-muted hover:text-white transition-colors"
+            className="mt-6 font-sans text-xs text-muted hover:text-gray-900 transition-colors"
           >
             ← Back
           </button>
@@ -296,7 +296,7 @@ export function PlanQuiz({ starterPriceId, growthPriceId, proPriceId, stripeConf
         <div key="step-2" className="animate-page-enter">
           <ProgressDots step={2} />
           <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-3">Question 3 of 3</p>
-          <h2 className="font-display text-2xl font-light text-white mb-6">
+          <h2 className="font-display text-2xl font-bold text-gray-900 mb-6">
             How would you like to get started?
           </h2>
           <div className="flex flex-col gap-3">
@@ -306,7 +306,7 @@ export function PlanQuiz({ starterPriceId, growthPriceId, proPriceId, stripeConf
                 selected={setupPref === opt.value}
                 onClick={() => selectSetupPref(opt.value)}
               >
-                <p className="font-sans text-sm font-medium text-white">{opt.label}</p>
+                <p className="font-sans text-sm font-medium text-gray-900">{opt.label}</p>
                 <p className="font-sans text-xs text-muted mt-1">{opt.desc}</p>
               </CardButton>
             ))}
@@ -314,7 +314,7 @@ export function PlanQuiz({ starterPriceId, growthPriceId, proPriceId, stripeConf
           <button
             type="button"
             onClick={goBack}
-            className="mt-6 font-sans text-xs text-muted hover:text-white transition-colors"
+            className="mt-6 font-sans text-xs text-muted hover:text-gray-900 transition-colors"
           >
             ← Back
           </button>
@@ -331,7 +331,7 @@ export function PlanQuiz({ starterPriceId, growthPriceId, proPriceId, stripeConf
           >
             {cfg.name}
           </p>
-          <p className="font-sans text-base text-white mb-2">{cfg.price}</p>
+          <p className="font-sans text-base text-gray-900 mb-2">{cfg.price}</p>
           <p className="font-sans text-sm text-muted leading-relaxed mb-6">
             {personalCopy(rec, rentalType, fleetSize)}
           </p>
@@ -348,14 +348,14 @@ export function PlanQuiz({ starterPriceId, growthPriceId, proPriceId, stripeConf
           {rec === 'dfy' ? (
             <Link
               href="/onboarding"
-              className="inline-flex w-full items-center justify-center min-h-[44px] rounded-md bg-gold px-8 font-sans text-sm font-medium text-black hover:opacity-90 transition-opacity"
+              className="inline-flex w-full items-center justify-center min-h-[44px] rounded-md bg-gold px-8 font-sans text-sm font-medium text-white hover:opacity-90 transition-opacity"
             >
               {cfg.cta}
             </Link>
           ) : rec === 'white-glove' ? (
             <Link
               href="/contact?subject=White-glove%20inquiry"
-              className="inline-flex w-full items-center justify-center min-h-[44px] rounded-md bg-gold px-8 font-sans text-sm font-medium text-black hover:opacity-90 transition-opacity"
+              className="inline-flex w-full items-center justify-center min-h-[44px] rounded-md bg-gold px-8 font-sans text-sm font-medium text-white hover:opacity-90 transition-opacity"
             >
               {cfg.cta}
             </Link>
@@ -374,14 +374,14 @@ export function PlanQuiz({ starterPriceId, growthPriceId, proPriceId, stripeConf
                   proPriceId
                 if (pid) handleCheckout(pid)
               }}
-              className="inline-flex w-full items-center justify-center min-h-[44px] rounded-md bg-gold px-8 font-sans text-sm font-medium text-black hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex w-full items-center justify-center min-h-[44px] rounded-md bg-gold px-8 font-sans text-sm font-medium text-white hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {checkoutLoading ? 'Redirecting…' : cfg.cta}
             </button>
           ) : (
             <Link
               href="/contact?subject=Subscribe"
-              className="inline-flex w-full items-center justify-center min-h-[44px] rounded-md bg-gold px-8 font-sans text-sm font-medium text-black hover:opacity-90 transition-opacity"
+              className="inline-flex w-full items-center justify-center min-h-[44px] rounded-md bg-gold px-8 font-sans text-sm font-medium text-white hover:opacity-90 transition-opacity"
             >
               {cfg.cta}
             </Link>
@@ -396,7 +396,7 @@ export function PlanQuiz({ starterPriceId, growthPriceId, proPriceId, stripeConf
           <p className="mt-4 text-center">
             <a
               href="#pricing-table"
-              className="font-sans text-xs text-muted hover:text-white transition-colors underline-offset-4 hover:underline"
+              className="font-sans text-xs text-muted hover:text-gray-900 transition-colors underline-offset-4 hover:underline"
             >
               Or browse all plans below ↓
             </a>
@@ -405,7 +405,7 @@ export function PlanQuiz({ starterPriceId, growthPriceId, proPriceId, stripeConf
           <button
             type="button"
             onClick={goBack}
-            className="mt-6 font-sans text-xs text-muted hover:text-white transition-colors"
+            className="mt-6 font-sans text-xs text-muted hover:text-gray-900 transition-colors"
           >
             ← Start over
           </button>

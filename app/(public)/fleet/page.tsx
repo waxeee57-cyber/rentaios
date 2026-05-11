@@ -52,15 +52,15 @@ function FleetGridSkeleton() {
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
       {[0, 1].map((i) => (
-        <div key={i} className="rounded-lg border border-border bg-graphite overflow-hidden animate-pulse">
-          <div className="aspect-[16/9] bg-white/5" />
+        <div key={i} className="rounded-lg border border-border bg-white shadow-sm overflow-hidden animate-pulse">
+          <div className="aspect-[16/9] bg-gray-100" />
           <div className="p-6 space-y-3">
-            <div className="h-7 w-48 rounded bg-white/5" />
-            <div className="h-4 w-16 rounded bg-white/5" />
+            <div className="h-7 w-48 rounded bg-gray-100" />
+            <div className="h-4 w-16 rounded bg-gray-100" />
             <div className="mt-4 flex gap-4">
-              <div className="h-4 w-20 rounded bg-white/5" />
-              <div className="h-4 w-20 rounded bg-white/5" />
-              <div className="h-4 w-12 rounded bg-white/5" />
+              <div className="h-4 w-20 rounded bg-gray-100" />
+              <div className="h-4 w-20 rounded bg-gray-100" />
+              <div className="h-4 w-12 rounded bg-gray-100" />
             </div>
           </div>
         </div>
@@ -122,19 +122,19 @@ export default async function FleetPage({ searchParams }: PageProps) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-white">
       {/* Page header */}
-      <div className="border-b border-border bg-black pt-12 pb-8 md:pt-16 md:pb-10">
+      <div className="border-b border-border bg-white pt-12 pb-8 md:pt-16 md:pb-10">
         <div className="mx-auto max-w-7xl px-6">
           <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-2">Our Fleet</p>
-          <h1 className="font-display text-4xl font-light text-white tracking-tight md:text-5xl">
+          <h1 className="font-display text-4xl font-bold text-gray-900 tracking-tight md:text-5xl">
             {start && end ? 'Available cars' : 'Our Fleet'}
           </h1>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="border-b border-border bg-black sticky top-16 z-30">
+      <div className="border-b border-border bg-white sticky top-16 z-30">
         <div className="mx-auto max-w-7xl px-6 py-4">
           <Suspense>
             <FleetFilters

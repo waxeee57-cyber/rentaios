@@ -1,6 +1,6 @@
 // rebuilt 2026-05-09
 import type { Metadata } from 'next'
-import { DM_Sans, Cormorant_Garamond } from 'next/font/google'
+import { DM_Sans, Plus_Jakarta_Sans } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
@@ -10,11 +10,10 @@ const dmSans = DM_Sans({
   display: 'swap',
 })
 
-const cormorant = Cormorant_Garamond({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
-  style: ['normal', 'italic'],
-  variable: '--font-cormorant',
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-jakarta',
   display: 'swap',
 })
 
@@ -59,7 +58,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${dmSans.variable} ${cormorant.variable}`}>
+    <html lang="en" className={`${dmSans.variable} ${jakarta.variable}`}>
       <body>
         {children}
         <Analytics />

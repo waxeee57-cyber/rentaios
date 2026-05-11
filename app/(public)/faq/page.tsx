@@ -160,11 +160,11 @@ export default function FAQPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      <div className="min-h-screen bg-black py-24">
+      <div className="min-h-screen bg-white py-24">
         <div className="mx-auto max-w-3xl px-6">
           <div className="mb-16">
             <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-3">Support</p>
-            <h1 className="font-display text-5xl font-light text-white tracking-tight">Frequently asked questions.</h1>
+            <h1 className="font-display text-5xl font-bold text-gray-900 tracking-tight">Frequently asked questions.</h1>
           </div>
           <FAQAccordion categories={FAQ_CATEGORIES} />
         </div>

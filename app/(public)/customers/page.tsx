@@ -48,11 +48,11 @@ export default async function CustomersPage() {
   const businesses = await getShowcaseBusinesses()
 
   return (
-    <div className="min-h-screen bg-black py-24">
+    <div className="min-h-screen bg-white py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mb-16">
           <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-3">Showcase</p>
-          <h1 className="font-display text-5xl font-light text-white tracking-tight mb-4">
+          <h1 className="font-display text-5xl font-bold text-gray-900 tracking-tight mb-4">
             Built with RentalOS
           </h1>
           <p className="font-sans text-base text-muted">
@@ -61,7 +61,7 @@ export default async function CustomersPage() {
         </div>
 
         {businesses.length === 0 ? (
-          <div className="rounded-md border border-border bg-graphite/30 p-8 text-center">
+          <div className="rounded-lg border border-border bg-surface p-8 text-center">
             <p className="font-sans text-sm text-muted mb-2">The first live deployment will be featured here.</p>
             <p className="font-sans text-xs text-muted/60">
               Operators can opt in to the showcase from Admin → Settings.
@@ -70,9 +70,9 @@ export default async function CustomersPage() {
         ) : (
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {businesses.map((b) => (
-              <div key={b.id} className="rounded-md border border-border bg-graphite/30 p-5">
+              <div key={b.id} className="rounded-lg border border-border bg-white p-5 shadow-sm">
                 <div className="flex items-start justify-between gap-3 mb-3">
-                  <p className="font-sans text-sm font-medium text-white">{b.business_name}</p>
+                  <p className="font-sans text-sm font-medium text-gray-900">{b.business_name}</p>
                   {b.showcase_vehicle_type && (
                     <span className="shrink-0 rounded-sm bg-gold/10 px-2 py-0.5 font-sans text-[10px] uppercase tracking-[0.1em] text-gold">
                       {VEHICLE_LABELS[b.showcase_vehicle_type] ?? b.showcase_vehicle_type}

@@ -157,20 +157,20 @@ const FAQ_ITEMS = [
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-white">
 
-      {/* ── Hero ───────────────────────────────────────────────── */}
-      <section className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-6 pb-20 pt-16 text-center">
+      {/* ── Hero (stays dark) ──────────────────────────────────── */}
+      <section className="bg-slate-900 text-white flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-6 pb-20 pt-16 text-center">
         <div className="mx-auto flex max-w-4xl flex-col items-center gap-8">
 
-          <div className="inline-flex items-center gap-2.5 rounded-full border border-border bg-graphite/60 px-4 py-1.5 backdrop-blur-sm">
+          <div className="inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 backdrop-blur-sm">
             <span className="animate-pulse-dot h-1.5 w-1.5 rounded-full bg-gold" />
-            <span className="font-sans text-[11px] uppercase tracking-[0.25em] text-muted">
+            <span className="font-sans text-[11px] uppercase tracking-[0.25em] text-white/60">
               RentalOS
             </span>
           </div>
 
-          <h1 className="font-display text-5xl font-light leading-[1.06] tracking-[-0.02em] text-white md:text-6xl lg:text-[4.5rem]">
+          <h1 className="font-display text-5xl font-bold leading-[1.06] tracking-[-0.02em] text-white md:text-6xl lg:text-[4.5rem]">
             While you slept, your competitor confirmed the booking you never saw.
           </h1>
 
@@ -178,7 +178,7 @@ export default function HomePage() {
             <p className="font-sans text-lg font-medium text-white leading-snug">
               RentalOS captures every inquiry automatically. Every customer confirmed. Every booking tracked.
             </p>
-            <p className="font-sans text-sm text-muted">
+            <p className="font-sans text-sm text-white/50">
               Next.js 15 · Supabase · Vercel · Full source code
             </p>
           </div>
@@ -186,7 +186,7 @@ export default function HomePage() {
           <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
             <a
               href="/demo/fleet"
-              className="inline-flex items-center justify-center rounded-md bg-gold px-8 py-4 font-sans text-sm font-medium text-black transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+              className="inline-flex items-center justify-center rounded-md bg-gold px-8 py-4 font-sans text-sm font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
             >
               See it live →
             </a>
@@ -194,7 +194,7 @@ export default function HomePage() {
               href="https://wa.me/36708564381?text=Hi%2C%20I%27m%20interested%20in%20RentalOS"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-md border border-gold/30 px-8 py-4 font-sans text-sm font-medium text-white transition-colors hover:border-gold/60 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+              className="inline-flex items-center justify-center rounded-md border border-white/20 px-8 py-4 font-sans text-sm font-medium text-white transition-colors hover:border-white/40 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
             >
               Talk to us
             </a>
@@ -204,7 +204,7 @@ export default function HomePage() {
             href="https://drivecostasol.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 font-sans text-xs text-muted/50 underline-offset-2 transition-colors hover:text-gold"
+            className="inline-flex items-center gap-1.5 font-sans text-xs text-white/30 underline-offset-2 transition-colors hover:text-white/60"
           >
             ↗ Running live in Marbella, Spain · drivecostasol.com
           </a>
@@ -212,7 +212,7 @@ export default function HomePage() {
           <a
             href="#problem"
             aria-label="Scroll to see the problem we solve"
-            className="mt-2 text-muted transition-colors hover:text-gold focus-visible:outline-none focus-visible:text-gold"
+            className="mt-2 text-white/30 transition-colors hover:text-white/60 focus-visible:outline-none focus-visible:text-white/60"
           >
             <ArrowRight className="h-5 w-5 rotate-90" />
           </a>
@@ -226,7 +226,7 @@ export default function HomePage() {
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">
               The problem
             </p>
-            <h2 className="font-display text-4xl font-light tracking-tight text-white md:text-5xl">
+            <h2 className="font-display text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
               Sound familiar?
             </h2>
           </div>
@@ -235,16 +235,16 @@ export default function HomePage() {
             {PAIN_CARDS.slice(0, 3).map(({ Icon, tag, headline, copy }) => (
               <div
                 key={tag}
-                className="md:col-span-2 flex flex-col gap-5 rounded-md border border-border bg-graphite/40 p-6"
+                className="md:col-span-2 flex flex-col gap-5 rounded-lg border border-border bg-white p-6 shadow-sm"
               >
                 <div className="flex items-start justify-between gap-3">
-                  <Icon className="h-5 w-5 text-gold/50 shrink-0 mt-0.5" strokeWidth={1.5} />
-                  <span className="rounded-full border border-gold/20 bg-gold/5 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold/60 text-right">
+                  <Icon className="h-5 w-5 text-gold/70 shrink-0 mt-0.5" strokeWidth={1.5} />
+                  <span className="rounded-full border border-gold/20 bg-gold/5 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold/70 text-right">
                     {tag}
                   </span>
                 </div>
                 <div>
-                  <h3 className="mb-2 font-display text-xl font-medium text-white">{headline}</h3>
+                  <h3 className="mb-2 font-display text-xl font-semibold text-gray-900">{headline}</h3>
                   <p className="font-sans text-sm leading-relaxed text-muted">{copy}</p>
                 </div>
               </div>
@@ -252,36 +252,36 @@ export default function HomePage() {
             {PAIN_CARDS.slice(3).map(({ Icon, tag, headline, copy }) => (
               <div
                 key={tag}
-                className="md:col-span-3 flex flex-col gap-5 rounded-md border border-border bg-graphite/40 p-6"
+                className="md:col-span-3 flex flex-col gap-5 rounded-lg border border-border bg-white p-6 shadow-sm"
               >
                 <div className="flex items-start justify-between gap-3">
-                  <Icon className="h-5 w-5 text-gold/50 shrink-0 mt-0.5" strokeWidth={1.5} />
-                  <span className="rounded-full border border-gold/20 bg-gold/5 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold/60 text-right">
+                  <Icon className="h-5 w-5 text-gold/70 shrink-0 mt-0.5" strokeWidth={1.5} />
+                  <span className="rounded-full border border-gold/20 bg-gold/5 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold/70 text-right">
                     {tag}
                   </span>
                 </div>
                 <div>
-                  <h3 className="mb-2 font-display text-xl font-medium text-white">{headline}</h3>
+                  <h3 className="mb-2 font-display text-xl font-semibold text-gray-900">{headline}</h3>
                   <p className="font-sans text-sm leading-relaxed text-muted">{copy}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          <p className="mt-14 text-center font-display text-2xl font-light italic text-gold md:text-3xl">
+          <p className="mt-14 text-center font-display text-2xl font-bold text-gold md:text-3xl">
             RentalOS solves all of this.
           </p>
         </div>
       </section>
 
       {/* ── What's included ────────────────────────────────────── */}
-      <section id="features" className="bg-graphite py-24 md:py-32">
+      <section id="features" className="bg-surface py-24 md:py-32">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-14">
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">
               What you get
             </p>
-            <h2 className="font-display text-4xl font-light tracking-tight text-white md:text-5xl">
+            <h2 className="font-display text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
               Everything to launch in a day
             </h2>
           </div>
@@ -289,7 +289,7 @@ export default function HomePage() {
           <div className="grid gap-4 sm:grid-cols-2">
             {FEATURES.map((f) => (
               <div key={f} className="flex items-start gap-3">
-                <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-sm border border-gold/20 bg-gold/10">
+                <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-sm border border-gold/30 bg-gold/10">
                   <Check className="h-3 w-3 text-gold" />
                 </div>
                 <span className="font-sans text-sm leading-relaxed text-muted">{f}</span>
@@ -308,7 +308,7 @@ export default function HomePage() {
               <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">
                 See it live
               </p>
-              <h2 className="mb-6 font-display text-4xl font-light tracking-tight text-white md:text-5xl">
+              <h2 className="mb-6 font-display text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
                 Built for a real business
               </h2>
               <p className="mb-8 font-sans text-sm leading-relaxed text-muted">
@@ -325,10 +325,10 @@ export default function HomePage() {
 
             <a
               href="/demo"
-              className="group flex min-h-[200px] aspect-video items-center justify-center rounded-md border border-border bg-graphite transition-colors hover:border-gold/30 focus-visible:outline-none focus-visible:border-gold/50"
+              className="group flex min-h-[200px] aspect-video items-center justify-center rounded-lg border border-border bg-surface transition-all hover:border-gold/30 hover:shadow-md focus-visible:outline-none focus-visible:border-gold/50"
             >
               <div className="flex flex-col items-center gap-2 text-center">
-                <span className="font-display text-3xl font-light text-muted transition-colors group-hover:text-white">
+                <span className="font-display text-3xl font-bold text-muted transition-colors group-hover:text-gray-900">
                   Demo →
                 </span>
                 <span className="font-sans text-xs uppercase tracking-[0.15em] text-muted/50">
@@ -342,13 +342,13 @@ export default function HomePage() {
       </section>
 
       {/* ── Who it's for ───────────────────────────────────────── */}
-      <section className="bg-graphite py-24 md:py-32">
+      <section className="bg-surface py-24 md:py-32">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-14">
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">
               Built for
             </p>
-            <h2 className="font-display text-4xl font-light tracking-tight text-white md:text-5xl">
+            <h2 className="font-display text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
               Who it&apos;s for
             </h2>
           </div>
@@ -357,10 +357,10 @@ export default function HomePage() {
             {FOR_WHO.slice(0, 3).map(({ scale, label, body, cta, href }) => (
               <div
                 key={label}
-                className="md:col-span-2 flex flex-col gap-3 rounded-md border border-border bg-black/40 p-6"
+                className="md:col-span-2 flex flex-col gap-3 rounded-lg border border-border bg-white p-6 shadow-sm"
               >
-                <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-gold/50">{scale}</p>
-                <h3 className="font-display text-xl font-medium text-white">{label}</h3>
+                <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-gold/60">{scale}</p>
+                <h3 className="font-display text-xl font-semibold text-gray-900">{label}</h3>
                 <p className="font-sans text-sm leading-relaxed text-muted flex-1">{body}</p>
                 <Link
                   href={href}
@@ -373,10 +373,10 @@ export default function HomePage() {
             {FOR_WHO.slice(3).map(({ scale, label, body, cta, href }) => (
               <div
                 key={label}
-                className="md:col-span-3 flex flex-col gap-3 rounded-md border border-border bg-black/40 p-6"
+                className="md:col-span-3 flex flex-col gap-3 rounded-lg border border-border bg-white p-6 shadow-sm"
               >
-                <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-gold/50">{scale}</p>
-                <h3 className="font-display text-xl font-medium text-white">{label}</h3>
+                <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-gold/60">{scale}</p>
+                <h3 className="font-display text-xl font-semibold text-gray-900">{label}</h3>
                 <p className="font-sans text-sm leading-relaxed text-muted flex-1">{body}</p>
                 <Link
                   href={href}
@@ -393,33 +393,33 @@ export default function HomePage() {
       {/* ── Social proof / CostaSol case study ─────────────────── */}
       <section className="py-24 md:py-32">
         <div className="mx-auto max-w-2xl px-6">
-          <div className="rounded-sm border-l-2 border-gold bg-gold/5 px-8 py-8">
+          <div className="rounded-lg border-l-4 border-gold bg-blue-50 px-8 py-8">
             <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-6">Built for a real business</p>
-            <blockquote className="mb-6 font-display text-2xl font-light italic leading-relaxed text-white">
+            <blockquote className="mb-6 font-display text-2xl font-semibold leading-relaxed text-gray-900">
               Before RentalOS, we managed everything on WhatsApp and a shared spreadsheet. Now every inquiry gets a confirmation email within seconds. Our customers think we&apos;re a much bigger operation than we are.
             </blockquote>
             <div className="flex items-end justify-between gap-6 mb-8">
               <div>
-                <p className="font-sans text-sm font-medium text-white">CostaSol Car Rent</p>
+                <p className="font-sans text-sm font-medium text-gray-900">CostaSol Car Rent</p>
                 <p className="mt-0.5 font-sans text-xs text-muted">Marbella, Spain — running since 2026</p>
               </div>
               <a
                 href="https://drivecostasol.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 font-sans text-xs text-muted/50 hover:text-gold transition-colors"
+                className="inline-flex items-center gap-1 font-sans text-xs text-muted hover:text-gold transition-colors"
               >
                 drivecostasol.com <ExternalLink className="h-3 w-3" />
               </a>
             </div>
-            <div className="grid grid-cols-3 gap-px bg-gold/10 rounded-sm overflow-hidden mb-6">
+            <div className="grid grid-cols-3 gap-px bg-gold/10 rounded-lg overflow-hidden mb-6">
               {[
                 { value: '0', label: 'Double bookings since launch' },
                 { value: '48h', label: 'Time to go live' },
                 { value: '100%', label: 'Inquiries captured' },
               ].map(({ value, label }) => (
-                <div key={label} className="bg-black/60 py-6 text-center">
-                  <p className="font-display text-3xl font-light text-gold">{value}</p>
+                <div key={label} className="bg-white py-6 text-center">
+                  <p className="font-display text-3xl font-bold text-gold">{value}</p>
                   <p className="mt-1 px-2 font-sans text-xs leading-snug text-muted">{label}</p>
                 </div>
               ))}
@@ -435,13 +435,13 @@ export default function HomePage() {
       </section>
 
       {/* ── Pricing teaser ─────────────────────────────────────── */}
-      <section id="pricing" className="bg-graphite py-24 md:py-32">
+      <section id="pricing" className="bg-surface py-24 md:py-32">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-14 text-center">
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">
               Pricing
             </p>
-            <h2 className="font-display text-4xl font-light tracking-tight text-white md:text-5xl">
+            <h2 className="font-display text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
               Choose how you get started
             </h2>
           </div>
@@ -450,15 +450,15 @@ export default function HomePage() {
             {PRICING.map(({ name, price, cadence, lines, licenceLink, cta, href, accent }) => (
               <div
                 key={name}
-                className={`flex flex-col rounded-md border p-8 ${
+                className={`flex flex-col rounded-lg border p-8 ${
                   accent
-                    ? 'border-gold/40 bg-gold/5 ring-1 ring-gold/10'
-                    : 'border-border bg-black/40'
+                    ? 'border-gold/50 bg-gold/5 ring-1 ring-gold/10'
+                    : 'border-border bg-white shadow-sm'
                 }`}
               >
                 {accent && (
                   <div className="mb-4 self-start">
-                    <span className="rounded-sm bg-gold/15 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold">
+                    <span className="rounded-md bg-gold/15 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold">
                       Popular
                     </span>
                   </div>
@@ -468,7 +468,7 @@ export default function HomePage() {
                   {name}
                 </p>
                 <div className="mt-3 flex items-baseline gap-1.5">
-                  <span className="font-display text-4xl font-light text-white">{price}</span>
+                  <span className="font-display text-4xl font-bold text-gray-900">{price}</span>
                   <span className="font-sans text-sm text-muted">{cadence}</span>
                 </div>
 
@@ -492,10 +492,10 @@ export default function HomePage() {
 
                 <a
                   href={href}
-                  className={`inline-flex items-center justify-center rounded-md px-6 py-3 font-sans text-xs uppercase tracking-[0.1em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
+                  className={`inline-flex items-center justify-center rounded-md px-6 py-3 font-sans text-xs uppercase tracking-[0.1em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
                     accent
-                      ? 'bg-gold text-black hover:opacity-90'
-                      : 'border border-border text-muted hover:border-gold/40 hover:text-white'
+                      ? 'bg-gold text-white hover:opacity-90'
+                      : 'border border-border text-muted hover:border-gold/40 hover:text-gray-900'
                   }`}
                 >
                   {cta}
@@ -522,7 +522,7 @@ export default function HomePage() {
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">
               Questions
             </p>
-            <h2 className="font-display text-4xl font-light tracking-tight text-white md:text-5xl">
+            <h2 className="font-display text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
               FAQ
             </h2>
           </div>
@@ -530,7 +530,7 @@ export default function HomePage() {
           <div className="divide-y divide-border">
             {FAQ_ITEMS.map(({ q, a }) => (
               <div key={q} className="py-7">
-                <p className="mb-2 font-sans text-sm font-medium text-white">{q}</p>
+                <p className="mb-2 font-sans text-sm font-medium text-gray-900">{q}</p>
                 <p className="font-sans text-sm leading-relaxed text-muted">{a}</p>
               </div>
             ))}
@@ -538,16 +538,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Final CTA ──────────────────────────────────────────── */}
-      <section className="bg-graphite py-20">
+      {/* ── Final CTA (stays dark) ─────────────────────────────── */}
+      <section className="bg-slate-900 py-20">
         <div className="mx-auto max-w-2xl px-6 text-center">
-          <h2 className="mb-8 font-display text-3xl font-light tracking-tight text-white md:text-4xl">
+          <h2 className="mb-8 font-display text-3xl font-bold tracking-tight text-white md:text-4xl">
             Ready to launch your rental business?
           </h2>
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <a
               href="/demo/fleet"
-              className="inline-flex items-center justify-center rounded-md bg-gold px-8 py-4 font-sans text-sm font-medium text-black transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-graphite"
+              className="inline-flex items-center justify-center rounded-md bg-gold px-8 py-4 font-sans text-sm font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
             >
               See it live →
             </a>
@@ -555,7 +555,7 @@ export default function HomePage() {
               href="https://wa.me/36708564381?text=Hi%2C%20I%27m%20interested%20in%20RentalOS"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-md border border-gold/30 px-8 py-4 font-sans text-sm font-medium text-white transition-colors hover:border-gold/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-graphite"
+              className="inline-flex items-center justify-center rounded-md border border-white/20 px-8 py-4 font-sans text-sm font-medium text-white transition-colors hover:border-white/40 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
             >
               Talk to us →
             </a>

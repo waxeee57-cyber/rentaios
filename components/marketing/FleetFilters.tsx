@@ -67,7 +67,7 @@ export function FleetFilters({ initialStart, initialEnd, initialPickup, initialC
               'rounded-sm border px-3 py-1.5 text-[10px] font-sans uppercase tracking-[0.15em] transition-colors',
               category === c
                 ? 'border-gold text-gold'
-                : 'border-border text-muted hover:border-gold/50 hover:text-white'
+                : 'border-border text-muted hover:border-gold/50 hover:text-gray-900'
             )}
           >
             {c}
