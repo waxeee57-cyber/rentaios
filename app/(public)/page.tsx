@@ -546,6 +546,104 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Build it yourself / template band (slate-900) ─── */}
+      <section className="bg-slate-900 py-24 md:py-32">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-[3fr_2fr] md:items-center">
+
+            {/* Left — text */}
+            <div>
+              <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">
+                Source code
+              </p>
+              <h3 className="mb-6 font-display text-4xl font-extrabold tracking-tight text-white md:text-5xl">
+                Or build it yourself.
+              </h3>
+              <p className="mb-8 max-w-lg font-sans text-base leading-relaxed text-slate-300">
+                Full source code. Deploy on your own servers.{' '}
+                Use it for your business — or build for your clients.
+              </p>
+              <a
+                href="/sell"
+                className="btn-3d inline-flex items-center justify-center min-h-[44px] rounded-md bg-gold px-7 py-3 font-sans text-sm font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+              >
+                Buy the template — €299 →
+              </a>
+            </div>
+
+            {/* Right — code window mock (decorative) */}
+            <div aria-hidden="true" className="code-window-tilt">
+              <div className="overflow-hidden rounded-xl border border-slate-700 shadow-[0_16px_48px_rgba(0,0,0,0.4)]">
+
+                {/* macOS window chrome */}
+                <div className="flex items-center gap-1.5 bg-slate-700 px-4 py-2.5">
+                  <span className="h-2.5 w-2.5 rounded-full bg-red-400/90" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-amber-400/90" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/90" />
+                  <span className="ml-3 font-mono text-[11px] text-slate-400">page.tsx</span>
+                </div>
+
+                {/* Code body */}
+                <div className="select-none bg-slate-950 px-5 py-5 font-mono text-[12px] leading-6">
+                  <div>
+                    <span className="text-purple-400">import type </span>
+                    <span className="text-slate-400">&#123; </span>
+                    <span className="text-amber-300">Metadata</span>
+                    <span className="text-slate-400"> &#125; </span>
+                    <span className="text-purple-400">from </span>
+                    <span className="text-emerald-400">&#39;next&#39;</span>
+                  </div>
+                  <div>
+                    <span className="text-purple-400">import </span>
+                    <span className="text-slate-400">&#123; </span>
+                    <span className="text-sky-300">getCars</span>
+                    <span className="text-slate-400"> &#125; </span>
+                    <span className="text-purple-400">from </span>
+                    <span className="text-emerald-400">&#39;@/lib/cars&#39;</span>
+                  </div>
+                  <div>
+                    <span className="text-purple-400">import </span>
+                    <span className="text-slate-400">&#123; </span>
+                    <span className="text-amber-300">BookingForm</span>
+                    <span className="text-slate-400"> &#125; </span>
+                    <span className="text-purple-400">from </span>
+                    <span className="text-emerald-400">&#39;@/components&#39;</span>
+                  </div>
+                  <div className="h-6" />
+                  <div>
+                    <span className="text-purple-400">export default async function </span>
+                    <span className="text-sky-300">Page</span>
+                    <span className="text-slate-400">() &#123;</span>
+                  </div>
+                  <div className="pl-4">
+                    <span className="text-purple-400">const </span>
+                    <span className="text-slate-200">cars</span>
+                    <span className="text-slate-400"> = </span>
+                    <span className="text-purple-400">await </span>
+                    <span className="text-sky-300">getCars</span>
+                    <span className="text-slate-400">()</span>
+                  </div>
+                  <div className="pl-4">
+                    <span className="text-purple-400">return </span>
+                    <span className="text-slate-400">&lt;</span>
+                    <span className="text-amber-300">BookingForm</span>
+                    <span className="text-sky-300"> cars</span>
+                    <span className="text-slate-400">=&#123;</span>
+                    <span className="text-slate-200">cars</span>
+                    <span className="text-slate-400">&#125; /&gt;</span>
+                  </div>
+                  <div>
+                    <span className="text-slate-400">&#125;</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       {/* ── Pricing teaser (dark) ──────────────────────────── */}
       <section id="pricing" className="bg-slate-900 py-24 md:py-32">
         <div className="mx-auto max-w-6xl px-6">

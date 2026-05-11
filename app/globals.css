@@ -556,3 +556,14 @@ html {
 .faq-item[open] .faq-icon {
   transform: rotate(45deg);
 }
+
+/* ─── Sell band: code window 3D tilt (desktop only) ─── */
+.code-window-tilt {
+  transform: perspective(800px) rotateY(-2deg) rotateX(1deg);
+}
+
+@media (max-width: 767px) {
+  .code-window-tilt {
+    transform: none;
+  }
+}
