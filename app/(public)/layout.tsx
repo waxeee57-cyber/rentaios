@@ -1,6 +1,6 @@
 import { Header } from '@/components/marketing/Header'
 import { Footer } from '@/components/marketing/Footer'
-import { WhatsAppButton } from '@/components/brand/WhatsAppButton'
+import { ChatWidget } from '@/components/chat/ChatWidget'
 import { CookieBanner } from '@/components/brand/CookieBanner'
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
@@ -10,7 +10,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <Header />
       <main id="main-content" className="flex-1 pt-16 animate-page-enter">{children}</main>
       <Footer />
-      <WhatsAppButton />
+      <ChatWidget />
       <CookieBanner />
     </>
   )

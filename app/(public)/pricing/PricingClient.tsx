@@ -709,19 +709,17 @@ export function PricingClient({
             )}
           </div>
 
-          {/* WhatsApp CTA */}
+          {/* Chat CTA */}
           <div className="mt-10 pt-8 border-t border-border text-center">
             <p className="font-sans text-sm text-muted mb-4">
               Not sure? Talk to us — we&apos;ll help you choose.
             </p>
-            <a
-              href="https://wa.me/36708564381?text=Hi%2C%20I%27m%20interested%20in%20RentalOS"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('open-chat'))}
               className="inline-flex items-center gap-2 min-h-[44px] rounded-md border border-border px-6 font-sans text-sm text-muted transition-colors hover:border-gold/40 hover:text-gray-900"
             >
-              WhatsApp →
-            </a>
+              Chat with us →
+            </button>
           </div>
 
           <p className="mt-6 font-sans text-xs text-muted/50 text-center">

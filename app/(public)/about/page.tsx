@@ -3,6 +3,7 @@ export const revalidate = 3600
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ExternalLink } from 'lucide-react'
+import { OpenChatButton } from '@/components/chat/OpenChatButton'
 
 export const metadata: Metadata = {
   title: 'About',
@@ -12,7 +13,6 @@ export const metadata: Metadata = {
   },
 }
 
-const WA_HREF = 'https://wa.me/36708564381?text=Hi%2C%20I%27d%20like%20to%20learn%20more%20about%20RentalOS'
 const CONTACT_EMAIL = process.env.ADMIN_EMAIL ?? 'hello@domrol.com'
 
 export default function AboutPage() {
@@ -93,14 +93,9 @@ export default function AboutPage() {
                 {CONTACT_EMAIL}
               </a>
               <span className="hidden sm:block text-white/20">·</span>
-              <a
-                href={WA_HREF}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-sans text-sm text-slate-300 hover:text-gold transition-colors"
-              >
-                WhatsApp
-              </a>
+              <OpenChatButton className="font-sans text-sm text-slate-300 hover:text-gold transition-colors">
+                Chat with us
+              </OpenChatButton>
             </div>
           </div>
         </div>

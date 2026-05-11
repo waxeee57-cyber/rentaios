@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Check, ArrowRight, ExternalLink, MessageCircle, Users, Star, Code2, MapPin, Bike, Wrench, Car, Ship, Home, Sailboat, Waves, Mountain, TentTree, Music, Lightbulb, Plane, Zap, Camera } from 'lucide-react'
 import { HeroStage } from '@/components/marketing/HeroStage'
+import { OpenChatButton } from '@/components/chat/OpenChatButton'
 
 export const metadata: Metadata = {
   title: {
@@ -768,14 +769,9 @@ export default function HomePage() {
             >
               Start free trial →
             </a>
-            <a
-              href="https://wa.me/36708564381?text=Hi%2C%20I%27m%20interested%20in%20RentalOS"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-3d inline-flex items-center justify-center min-h-[44px] rounded-md border border-white/20 px-8 py-4 font-sans text-sm font-medium text-white hover:border-white/40 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
-            >
+            <OpenChatButton className="btn-3d inline-flex items-center justify-center min-h-[44px] rounded-md border border-white/20 px-8 py-4 font-sans text-sm font-medium text-white hover:border-white/40 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900">
               Talk to us →
-            </a>
+            </OpenChatButton>
           </div>
         </div>
       </section>

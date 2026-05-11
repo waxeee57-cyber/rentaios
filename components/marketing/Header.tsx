@@ -14,7 +14,9 @@ const navLinks = [
   { href: '/about', label: 'About' },
 ]
 
-const WA_HREF = 'https://wa.me/36708564381?text=Hi%2C%20I%27m%20interested%20in%20RentalOS'
+function openChat() {
+  window.dispatchEvent(new CustomEvent('open-chat'))
+}
 
 export function Header() {
   const [open, setOpen] = useState(false)
@@ -41,14 +43,12 @@ export function Header() {
               {l.label}
             </Link>
           ))}
-          <a
-            href={WA_HREF}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={openChat}
             className="rounded-md border border-border px-5 py-2 font-sans text-xs font-medium uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
           >
             Talk to us
-          </a>
+          </button>
           <Link
             href="/pricing"
             className="rounded-md bg-gold px-5 py-2 font-sans text-xs font-medium uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
@@ -91,15 +91,12 @@ export function Header() {
               {l.label}
             </Link>
           ))}
-          <a
-            href={WA_HREF}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setOpen(false)}
+          <button
+            onClick={() => { setOpen(false); openChat() }}
             className="mt-1 inline-flex items-center justify-center rounded-md border border-gold/30 px-5 py-2.5 font-sans text-xs font-medium uppercase tracking-[0.1em] text-gold transition-colors hover:bg-gold/10"
           >
             Talk to us
-          </a>
+          </button>
           <Link
             href="/pricing"
             onClick={() => setOpen(false)}
