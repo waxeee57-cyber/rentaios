@@ -183,16 +183,18 @@ export default function HomePage() {
 
           <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
             <a
-              href="/pricing"
+              href="/demo/fleet"
               className="inline-flex items-center justify-center rounded-md bg-gold px-8 py-4 font-sans text-sm font-medium text-black transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
             >
-              Start free trial
+              See it live →
             </a>
             <a
-              href="/sell"
+              href="https://wa.me/36708564381?text=Hi%2C%20I%27m%20interested%20in%20RentalOS"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center rounded-md border border-gold/30 px-8 py-4 font-sans text-sm font-medium text-white transition-colors hover:border-gold/60 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
             >
-              Buy template — €299
+              Talk to us
             </a>
           </div>
 

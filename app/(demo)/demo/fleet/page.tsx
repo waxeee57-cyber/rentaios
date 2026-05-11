@@ -4,6 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase'
 import { formatPrice } from '@/lib/formatters'
 import { TrackEventOnMount } from '@/components/TrackEventOnMount'
 import { DemoTabs } from '@/app/(demo)/DemoTabs'
+import { DemoConversionBar } from './DemoConversionBar'
 
 export const dynamic = 'force-dynamic'
 
@@ -140,16 +141,17 @@ export default async function DemoFleetPage() {
           Ready to run your own fleet like this?
         </p>
         <div className="flex flex-wrap gap-4 justify-center">
-          <Link href="/pricing" className="inline-flex items-center min-h-[44px] rounded-md bg-gold px-8 font-sans text-sm font-medium text-black hover:opacity-90 transition-opacity">
-            Start free trial
+          <Link href="/onboarding" className="inline-flex items-center min-h-[44px] rounded-md bg-gold px-8 font-sans text-sm font-medium text-black hover:opacity-90 transition-opacity">
+            Get this for your business →
           </Link>
-          <Link href="/sell" className="inline-flex items-center min-h-[44px] rounded-md border border-white/10 px-8 font-sans text-sm text-white hover:border-gold/30 transition-colors">
-            Buy the template
+          <Link href="/demo/admin" className="inline-flex items-center min-h-[44px] rounded-md border border-white/10 px-8 font-sans text-sm text-white hover:border-gold/30 transition-colors">
+            View admin panel →
           </Link>
         </div>
       </div>
 
     </div>
+    <DemoConversionBar />
     </>
   )
 }

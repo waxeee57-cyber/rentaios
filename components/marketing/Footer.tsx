@@ -4,7 +4,6 @@ import { getBusinessConfig } from '@/lib/config'
 
 const nav = [
   { href: '/pricing', label: 'Pricing' },
-  { href: '/sell', label: 'Buy template' },
   { href: '/demo', label: 'Demo' },
   { href: '/faq', label: 'FAQ' },
   { href: '/about', label: 'About' },
@@ -47,6 +46,13 @@ export async function Footer() {
                 {l.label}
               </Link>
             ))}
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <p className="text-xs font-sans uppercase tracking-[0.15em] text-gold">Developers</p>
+            <Link href="/sell" className="text-sm font-sans text-muted hover:text-white transition-colors">
+              Source code →
+            </Link>
           </div>
 
           <div className="flex flex-col gap-3">

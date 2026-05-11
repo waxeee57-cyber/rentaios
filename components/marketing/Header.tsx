@@ -8,11 +8,12 @@ import { Logo } from '@/components/brand/Logo'
 import { cn } from '@/lib/utils'
 
 const navLinks = [
-  { href: '/#features', label: 'Features' },
+  { href: '/demo/fleet', label: 'Demo' },
   { href: '/pricing', label: 'Pricing' },
-  { href: '/demo', label: 'Demo' },
-  { href: '/sell', label: 'Buy template' },
+  { href: '/faq', label: 'FAQ' },
 ]
+
+const WA_HREF = 'https://wa.me/36708564381?text=Hi%2C%20I%27m%20interested%20in%20RentalOS'
 
 export function Header() {
   const [open, setOpen] = useState(false)
@@ -31,7 +32,7 @@ export function Header() {
               href={l.href}
               className={cn(
                 'nav-link font-sans text-xs uppercase tracking-[0.15em] transition-colors duration-200',
-                pathname === l.href || (l.href !== '/' && pathname.startsWith(l.href.replace('/#features', '')))
+                pathname === l.href || (l.href !== '/' && pathname.startsWith(l.href))
                   ? 'text-gold'
                   : 'text-muted hover:text-white'
               )}
@@ -39,11 +40,19 @@ export function Header() {
               {l.label}
             </Link>
           ))}
+          <a
+            href={WA_HREF}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-md border border-border px-5 py-2 font-sans text-xs font-medium uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          >
+            Talk to us
+          </a>
           <Link
             href="/pricing"
             className="rounded-md bg-gold px-5 py-2 font-sans text-xs font-medium uppercase tracking-[0.1em] text-black transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
           >
-            Start free trial
+            Get started →
           </Link>
         </nav>
 
@@ -81,12 +90,21 @@ export function Header() {
               {l.label}
             </Link>
           ))}
+          <a
+            href={WA_HREF}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setOpen(false)}
+            className="mt-1 inline-flex items-center justify-center rounded-md border border-gold/30 px-5 py-2.5 font-sans text-xs font-medium uppercase tracking-[0.1em] text-gold transition-colors hover:bg-gold/10"
+          >
+            Talk to us
+          </a>
           <Link
             href="/pricing"
             onClick={() => setOpen(false)}
-            className="mt-1 inline-flex items-center justify-center rounded-md bg-gold px-5 py-2.5 font-sans text-xs font-medium uppercase tracking-[0.1em] text-black transition-opacity hover:opacity-90"
+            className="inline-flex items-center justify-center rounded-md bg-gold px-5 py-2.5 font-sans text-xs font-medium uppercase tracking-[0.1em] text-black transition-opacity hover:opacity-90"
           >
-            Start free trial
+            Get started →
           </Link>
         </nav>
       </div>

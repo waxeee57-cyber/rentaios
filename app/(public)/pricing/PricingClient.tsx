@@ -338,6 +338,7 @@ export function PricingClient({
   const [currency, setCurrency] = useState<CurrencyCode>('EUR')
   const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null)
   const [checkoutError, setCheckoutError] = useState<string | null>(null)
+  const [showMore, setShowMore] = useState(false)
 
   async function handleCheckout(tierKey: string) {
     const priceIdMap: Record<string, string | null> = {
@@ -426,48 +427,11 @@ export function PricingClient({
         </div>
       </section>
 
-      {/* Tier cards */}
+      {/* Pricing cards */}
       <section id="pricing-table" className="bg-graphite py-16 md:py-24">
-        <div className="mx-auto max-w-6xl px-6">
+        <div className="mx-auto max-w-4xl px-6">
 
-          {/* Toggles */}
-          <div className="flex flex-col gap-4 mb-10 sm:flex-row sm:items-center sm:justify-between">
-            {/* Billing cadence */}
-            <div className="flex items-center gap-1 rounded-md border border-border bg-black/40 p-1 self-start">
-              {(['monthly', 'annual'] as Cadence[]).map((c) => (
-                <button
-                  key={c}
-                  onClick={() => setCadence(c)}
-                  className={`px-4 py-1.5 rounded font-sans text-xs uppercase tracking-[0.1em] transition-colors ${
-                    cadence === c
-                      ? 'bg-gold text-black'
-                      : 'text-muted hover:text-white'
-                  }`}
-                >
-                  {c === 'monthly' ? 'Monthly' : 'Annual — save 17%'}
-                </button>
-              ))}
-            </div>
-
-            {/* Currency */}
-            <div className="flex items-center gap-1 rounded-md border border-border bg-black/40 p-1 self-start">
-              {CURRENCIES.map((c) => (
-                <button
-                  key={c}
-                  onClick={() => handleCurrencyChange(c)}
-                  className={`px-3 py-1.5 rounded font-sans text-xs transition-colors ${
-                    currency === c
-                      ? 'bg-gold/20 text-gold'
-                      : 'text-muted hover:text-white'
-                  }`}
-                >
-                  {CURRENCY_LABELS[c]}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Simplicity framing (Objection 5) */}
+          {/* Simplicity framing */}
           <div className="mb-8 rounded-md border border-border bg-black/30 px-5 py-4 max-w-lg">
             <p className="font-sans text-sm text-muted leading-relaxed">
               The only thing you do in the admin panel: click{' '}
@@ -478,146 +442,304 @@ export function PricingClient({
             </p>
           </div>
 
-          {/* ROI calculator (Objection 4) */}
+          {/* ROI calculator */}
           <RoiCalculator />
 
-          {/* Cards */}
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {TIERS.map((tier) => {
-              const price = displayPrice(tier)
-              const isAgency = tier.agency
-              const tierPriceId = isAgency ? null : cadence === 'annual'
-                ? (tier.key === 'starter' ? starterAnnualPriceId : tier.key === 'growth' ? growthAnnualPriceId : proAnnualPriceId)
-                : (tier.key === 'starter' ? starterPriceId : tier.key === 'growth' ? growthPriceId : proPriceId)
-              return (
-                <div
-                  key={tier.key}
-                  className={`relative flex flex-col rounded-md border p-6 ${
-                    tier.highlight
-                      ? 'border-gold/50 bg-gold/5 ring-1 ring-gold/10 md:scale-[1.02]'
-                      : isAgency
-                      ? 'border-gold/30 bg-black'
-                      : 'border-border bg-black/40'
-                  }`}
+          {/* 3 main cards */}
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 mb-8">
+
+            {/* Self-hosted */}
+            <div className="flex flex-col rounded-md border border-border bg-black/40 p-8">
+              <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">Self-hosted</p>
+              <div className="mt-3 flex items-baseline gap-1.5">
+                <span className="font-display text-4xl font-light text-white">€299</span>
+                <span className="font-sans text-sm text-muted">one-time</span>
+              </div>
+              <p className="mt-2 mb-6 font-sans text-sm text-muted">Buy the code. Deploy yourself.</p>
+              <ul className="flex flex-1 flex-col gap-3 mb-8">
+                {['Full source code', 'RentalOS Commercial Licence', 'Free updates (git pull)', 'Deploy on your own Vercel'].map((f) => (
+                  <li key={f} className="flex items-center gap-2.5">
+                    <Check className="h-3.5 w-3.5 shrink-0 text-gold" />
+                    <span className="font-sans text-sm text-muted">{f}</span>
+                  </li>
+                ))}
+              </ul>
+              <a
+                href={process.env.NEXT_PUBLIC_GUMROAD_URL || '/sell'}
+                className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border px-6 font-sans text-xs uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+              >
+                Buy template →
+              </a>
+            </div>
+
+            {/* Done-for-you */}
+            <div className="relative flex flex-col rounded-md border border-gold/50 bg-gold/5 ring-1 ring-gold/10 p-8">
+              <div className="mb-4">
+                <span className="rounded-sm bg-gold/15 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold">
+                  Recommended
+                </span>
+              </div>
+              <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">Done-for-you</p>
+              <div className="mt-3 flex items-baseline gap-1.5">
+                <span className="font-display text-4xl font-light text-white">€499</span>
+                <span className="font-sans text-sm text-muted">one-time</span>
+              </div>
+              <p className="mt-2 mb-6 font-sans text-sm text-muted">We build it. You run it.</p>
+              <ul className="flex flex-1 flex-col gap-3 mb-8">
+                {['We deploy everything', 'Your domain configured', '30-day support included', 'Live in 48 hours'].map((f) => (
+                  <li key={f} className="flex items-center gap-2.5">
+                    <Check className="h-3.5 w-3.5 shrink-0 text-gold" />
+                    <span className="font-sans text-sm text-muted">{f}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/onboarding"
+                className="inline-flex items-center justify-center min-h-[44px] rounded-md bg-gold px-6 font-sans text-xs uppercase tracking-[0.1em] text-black transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+              >
+                Get started →
+              </Link>
+            </div>
+
+            {/* Monthly */}
+            <div className="flex flex-col rounded-md border border-border bg-black/40 p-8">
+              <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">Monthly</p>
+              <div className="mt-3 flex items-baseline gap-1.5">
+                <span className="font-display text-4xl font-light text-white">From €49</span>
+                <span className="font-sans text-sm text-muted">/ month</span>
+              </div>
+              <p className="mt-2 mb-6 font-sans text-sm text-muted">Start free. Cancel anytime.</p>
+              <ul className="flex flex-1 flex-col gap-3 mb-8">
+                {['14-day free trial', 'No credit card required', 'Everything included', 'Cancel from admin panel'].map((f) => (
+                  <li key={f} className="flex items-center gap-2.5">
+                    <Check className="h-3.5 w-3.5 shrink-0 text-gold" />
+                    <span className="font-sans text-sm text-muted">{f}</span>
+                  </li>
+                ))}
+              </ul>
+              {stripeConfigured && starterPriceId ? (
+                <button
+                  onClick={() => handleCheckout('starter')}
+                  disabled={checkoutLoading === 'starter'}
+                  className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border px-6 font-sans text-xs uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                 >
-                  {tier.badge && (
-                    <div className="mb-4">
-                      <span className="rounded-sm bg-gold/15 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold">
-                        {tier.badge}
-                      </span>
-                    </div>
-                  )}
-                  {isAgency && (
-                    <div className="mb-4">
-                      <span className="rounded-sm border border-gold/30 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold">
-                        For agencies
-                      </span>
-                    </div>
-                  )}
-
-                  <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">{tier.name}</p>
-
-                  {isAgency ? (
-                    <div className="mt-3 mb-6">
-                      <span className="font-display text-2xl font-light text-white">{fmtPrice(499, currency)}</span>
-                      <span className="font-sans text-sm text-muted ml-1.5">/ month</span>
-                    </div>
-                  ) : price.main === 'Contact us' ? (
-                    <div className="mt-3 mb-6">
-                      <span className="font-display text-3xl font-light text-white">Contact us</span>
-                    </div>
-                  ) : (
-                    <div className="mt-3 mb-1">
-                      <div className="flex items-baseline gap-1.5">
-                        <span className="font-display text-3xl font-light text-white">{price.main}</span>
-                        {cadence === 'monthly' && (
-                          <span className="font-sans text-sm text-muted">/ month</span>
-                        )}
-                      </div>
-                      {price.sub && (
-                        <p className="font-sans text-xs text-muted mt-0.5">{price.sub} equivalent</p>
-                      )}
-                      {price.save && (
-                        <span className="inline-block mt-1.5 rounded-sm bg-gold/10 px-2 py-0.5 font-sans text-[10px] text-gold">
-                          {price.save}
-                        </span>
-                      )}
-                    </div>
-                  )}
-
-                  {cadence === 'annual' && !isAgency && <div className="mb-4" />}
-
-                  <ul className="flex flex-1 flex-col gap-2.5 mb-6">
-                    {tier.everything && (
-                      <li className="font-sans text-xs text-muted italic">
-                        Everything in {tier.everything}, plus:
-                      </li>
-                    )}
-                    {tier.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2">
-                        <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
-                        <span className="font-sans text-sm text-muted">{f}</span>
-                      </li>
-                    ))}
-                    {tier.extras?.map((f) => (
-                      <li key={f} className="flex items-start gap-2">
-                        <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
-                        <span className="font-sans text-sm text-muted">{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {isAgency ? (
-                    <Link
-                      href={tier.href}
-                      className="inline-flex items-center justify-center min-h-[44px] rounded-md px-5 font-sans text-xs uppercase tracking-[0.1em] transition-colors border border-gold/40 text-gold hover:bg-gold hover:text-black"
-                    >
-                      {tier.cta}
-                    </Link>
-                  ) : stripeConfigured && tierPriceId ? (
-                    <button
-                      onClick={() => handleCheckout(tier.key)}
-                      disabled={checkoutLoading === tier.key}
-                      className={`inline-flex items-center justify-center min-h-[44px] rounded-md px-5 font-sans text-xs uppercase tracking-[0.1em] transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
-                        tier.highlight
-                          ? 'bg-gold text-black hover:opacity-90'
-                          : 'border border-border text-muted hover:border-gold/40 hover:text-white'
-                      }`}
-                    >
-                      {checkoutLoading === tier.key ? 'Redirecting…' : tier.cta}
-                    </button>
-                  ) : (
-                    <span className="inline-flex items-center justify-center min-h-[44px] rounded-md px-5 font-sans text-xs uppercase tracking-[0.1em] border border-border text-muted/40 cursor-default select-none">
-                      Coming soon
-                    </span>
-                  )}
-                  {tier.key === 'starter' && (
-                    <p className="mt-3 font-sans text-[11px] text-muted/50 text-center">
-                      Less than the cost of one missed booking.
-                    </p>
-                  )}
-                </div>
-              )
-            })}
+                  {checkoutLoading === 'starter' ? 'Redirecting…' : 'Start free trial →'}
+                </button>
+              ) : (
+                <Link
+                  href="/admin/billing"
+                  className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border px-6 font-sans text-xs uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                >
+                  Start free trial →
+                </Link>
+              )}
+            </div>
           </div>
 
           {checkoutError && (
-            <p className="mt-6 font-sans text-sm text-center" style={{ color: 'oklch(0.65 0.18 25)' }}>
+            <p className="mb-6 font-sans text-sm text-center" style={{ color: 'oklch(0.65 0.18 25)' }}>
               {checkoutError}
             </p>
           )}
 
-          {cadence === 'annual' && (
-            <p className="mt-6 font-sans text-xs text-muted text-center">
-              Annual plans are billed once per year. Cancel before renewal for a full refund within 30 days.
-            </p>
-          )}
+          {/* More options collapsible */}
+          <div className="mt-4">
+            <button
+              onClick={() => setShowMore((s) => !s)}
+              className="font-sans text-sm text-muted transition-colors hover:text-white flex items-center gap-1.5"
+            >
+              Looking for more options? <span className="text-gold">{showMore ? '▲' : '▼'}</span>
+            </button>
 
-          {currency !== 'EUR' && (
-            <p className="mt-3 font-sans text-xs text-muted/60 text-center">
-              All plans billed in EUR. {currency} prices shown for reference and may vary with exchange rates.
+            {showMore && (
+              <div className="mt-8">
+                {/* Billing cadence + currency */}
+                <div className="flex flex-col gap-4 mb-8 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex items-center gap-1 rounded-md border border-border bg-black/40 p-1 self-start">
+                    {(['monthly', 'annual'] as Cadence[]).map((c) => (
+                      <button
+                        key={c}
+                        onClick={() => setCadence(c)}
+                        className={`px-4 py-1.5 rounded font-sans text-xs uppercase tracking-[0.1em] transition-colors ${
+                          cadence === c ? 'bg-gold text-black' : 'text-muted hover:text-white'
+                        }`}
+                      >
+                        {c === 'monthly' ? 'Monthly' : 'Annual — save 17%'}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-1 rounded-md border border-border bg-black/40 p-1 self-start">
+                    {CURRENCIES.map((c) => (
+                      <button
+                        key={c}
+                        onClick={() => handleCurrencyChange(c)}
+                        className={`px-3 py-1.5 rounded font-sans text-xs transition-colors ${
+                          currency === c ? 'bg-gold/20 text-gold' : 'text-muted hover:text-white'
+                        }`}
+                      >
+                        {CURRENCY_LABELS[c]}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                  {/* Growth */}
+                  {(() => {
+                    const t = TIERS.find((x) => x.key === 'growth')!
+                    const p = displayPrice(t)
+                    const pid = cadence === 'annual' ? growthAnnualPriceId : growthPriceId
+                    return (
+                      <div className="relative flex flex-col rounded-md border border-gold/50 bg-gold/5 ring-1 ring-gold/10 p-6">
+                        <div className="mb-3">
+                          <span className="rounded-sm bg-gold/15 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold">Most popular</span>
+                        </div>
+                        <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">{t.name}</p>
+                        <div className="mt-2 mb-1">
+                          <div className="flex items-baseline gap-1.5">
+                            <span className="font-display text-2xl font-light text-white">{p.main}</span>
+                            {cadence === 'monthly' && <span className="font-sans text-sm text-muted">/ month</span>}
+                          </div>
+                          {p.sub && <p className="font-sans text-xs text-muted mt-0.5">{p.sub} equiv.</p>}
+                          {p.save && <span className="inline-block mt-1 rounded-sm bg-gold/10 px-2 py-0.5 font-sans text-[10px] text-gold">{p.save}</span>}
+                        </div>
+                        <ul className="flex flex-1 flex-col gap-2 mt-4 mb-6">
+                          {[...t.features, ...(t.extras ?? [])].map((f) => (
+                            <li key={f} className="flex items-start gap-2">
+                              <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
+                              <span className="font-sans text-sm text-muted">{f}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        {stripeConfigured && pid ? (
+                          <button onClick={() => handleCheckout('growth')} disabled={checkoutLoading === 'growth'}
+                            className="inline-flex items-center justify-center min-h-[44px] rounded-md bg-gold px-5 font-sans text-xs uppercase tracking-[0.1em] text-black transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed">
+                            {checkoutLoading === 'growth' ? 'Redirecting…' : t.cta}
+                          </button>
+                        ) : (
+                          <Link href={t.href} className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border text-muted px-5 font-sans text-xs uppercase tracking-[0.1em] hover:border-gold/40 hover:text-white transition-colors">
+                            {t.cta}
+                          </Link>
+                        )}
+                      </div>
+                    )
+                  })()}
+
+                  {/* Pro */}
+                  {(() => {
+                    const t = TIERS.find((x) => x.key === 'pro')!
+                    const p = displayPrice(t)
+                    const pid = cadence === 'annual' ? proAnnualPriceId : proPriceId
+                    return (
+                      <div className="flex flex-col rounded-md border border-border bg-black/40 p-6">
+                        <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">{t.name}</p>
+                        <div className="mt-2 mb-1">
+                          <div className="flex items-baseline gap-1.5">
+                            <span className="font-display text-2xl font-light text-white">{p.main}</span>
+                            {cadence === 'monthly' && <span className="font-sans text-sm text-muted">/ month</span>}
+                          </div>
+                          {p.sub && <p className="font-sans text-xs text-muted mt-0.5">{p.sub} equiv.</p>}
+                          {p.save && <span className="inline-block mt-1 rounded-sm bg-gold/10 px-2 py-0.5 font-sans text-[10px] text-gold">{p.save}</span>}
+                        </div>
+                        <ul className="flex flex-1 flex-col gap-2 mt-4 mb-6">
+                          {[...t.features, ...(t.extras ?? [])].map((f) => (
+                            <li key={f} className="flex items-start gap-2">
+                              <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
+                              <span className="font-sans text-sm text-muted">{f}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        {stripeConfigured && pid ? (
+                          <button onClick={() => handleCheckout('pro')} disabled={checkoutLoading === 'pro'}
+                            className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border text-muted px-5 font-sans text-xs uppercase tracking-[0.1em] hover:border-gold/40 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                            {checkoutLoading === 'pro' ? 'Redirecting…' : t.cta}
+                          </button>
+                        ) : (
+                          <Link href={t.href} className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border text-muted px-5 font-sans text-xs uppercase tracking-[0.1em] hover:border-gold/40 hover:text-white transition-colors">
+                            {t.cta}
+                          </Link>
+                        )}
+                      </div>
+                    )
+                  })()}
+
+                  {/* White-glove */}
+                  <div className="flex flex-col rounded-md border border-border bg-black/40 p-6">
+                    <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">White-glove</p>
+                    <div className="mt-2 mb-1 flex items-baseline gap-1.5">
+                      <span className="font-display text-2xl font-light text-white">{fmtPrice(199, currency)}</span>
+                      <span className="font-sans text-sm text-muted">/ month</span>
+                    </div>
+                    <ul className="flex flex-1 flex-col gap-2 mt-4 mb-6">
+                      {['Everything managed', 'Monthly reports', 'Priority support', 'Updates included'].map((f) => (
+                        <li key={f} className="flex items-start gap-2">
+                          <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
+                          <span className="font-sans text-sm text-muted">{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <Link href="/contact" className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border text-muted px-5 font-sans text-xs uppercase tracking-[0.1em] hover:border-gold/40 hover:text-white transition-colors">
+                      Contact us
+                    </Link>
+                  </div>
+
+                  {/* Agency */}
+                  {(() => {
+                    const t = TIERS.find((x) => x.key === 'agency')!
+                    return (
+                      <div className="flex flex-col rounded-md border border-gold/30 bg-black p-6">
+                        <div className="mb-3">
+                          <span className="rounded-sm border border-gold/30 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold">For agencies</span>
+                        </div>
+                        <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">{t.name}</p>
+                        <div className="mt-2 mb-1 flex items-baseline gap-1.5">
+                          <span className="font-display text-2xl font-light text-white">{fmtPrice(499, currency)}</span>
+                          <span className="font-sans text-sm text-muted">/ month</span>
+                        </div>
+                        <ul className="flex flex-1 flex-col gap-2 mt-4 mb-6">
+                          {t.features.map((f) => (
+                            <li key={f} className="flex items-start gap-2">
+                              <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
+                              <span className="font-sans text-sm text-muted">{f}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        <Link href={t.href} className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-gold/40 text-gold px-5 font-sans text-xs uppercase tracking-[0.1em] hover:bg-gold hover:text-black transition-colors">
+                          {t.cta}
+                        </Link>
+                      </div>
+                    )
+                  })()}
+                </div>
+
+                {cadence === 'annual' && (
+                  <p className="mt-6 font-sans text-xs text-muted text-center">
+                    Annual plans are billed once per year. Cancel before renewal for a full refund within 30 days.
+                  </p>
+                )}
+                {currency !== 'EUR' && (
+                  <p className="mt-3 font-sans text-xs text-muted/60 text-center">
+                    All plans billed in EUR. {currency} prices shown for reference and may vary with exchange rates.
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* WhatsApp CTA */}
+          <div className="mt-10 pt-8 border-t border-border text-center">
+            <p className="font-sans text-sm text-muted mb-4">
+              Not sure? Talk to us — we&apos;ll help you choose.
             </p>
-          )}
+            <a
+              href="https://wa.me/36708564381?text=Hi%2C%20I%27m%20interested%20in%20RentalOS"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 min-h-[44px] rounded-md border border-border px-6 font-sans text-sm text-muted transition-colors hover:border-gold/40 hover:text-white"
+            >
+              WhatsApp →
+            </a>
+          </div>
 
           <p className="mt-6 font-sans text-xs text-muted/50 text-center">
             Export all your data anytime from Admin → Settings.

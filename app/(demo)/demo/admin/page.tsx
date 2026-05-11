@@ -180,16 +180,20 @@ export default async function DemoAdminPage() {
       </div>
 
       {/* CTA */}
-      <div className="mt-16 border-t border-white/5 pt-12">
-        <p className="font-sans text-sm text-muted mb-4">
-          This is what your real admin panel looks like. With your fleet, your bookings, your data.
+      <div className="mt-16 rounded-md border border-gold/40 bg-white/[0.03] p-8">
+        <h2 className="font-display text-2xl font-light text-white mb-2">
+          This is your admin panel.
+        </h2>
+        <p className="font-sans text-sm text-muted mb-6 leading-relaxed">
+          Every booking. Every customer. Every vehicle.<br />
+          Running on your domain. Your brand.
         </p>
         <div className="flex flex-wrap gap-4">
-          <Link href="/pricing" className="inline-flex items-center min-h-[40px] rounded-md bg-gold px-6 font-sans text-sm font-medium text-black hover:opacity-90 transition-opacity">
-            Start free trial
+          <Link href="/onboarding" className="inline-flex items-center min-h-[44px] rounded-md bg-gold px-6 font-sans text-sm font-medium text-black hover:opacity-90 transition-opacity">
+            Get this running in 48 hours →
           </Link>
-          <Link href="/demo/fleet" className="inline-flex items-center min-h-[40px] rounded-md border border-white/10 px-6 font-sans text-sm text-white hover:border-gold/30 transition-colors">
-            Browse demo fleet
+          <Link href="/pricing" className="inline-flex items-center min-h-[44px] rounded-md border border-white/10 px-6 font-sans text-sm text-white hover:border-gold/30 transition-colors">
+            See pricing →
           </Link>
         </div>
       </div>
