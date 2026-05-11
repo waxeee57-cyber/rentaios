@@ -55,7 +55,7 @@ const TIERS: Tier[] = [
     annualSavingEur: 98,
     highlight: false,
     features: [
-      '1–3 vehicles',
+      '1–3 items',
       'Up to 30 bookings per month',
       'Email notifications',
       'Admin panel',
@@ -74,7 +74,7 @@ const TIERS: Tier[] = [
     highlight: true,
     badge: 'Most popular',
     features: [
-      '4–10 vehicles',
+      '4–10 items',
       'Unlimited bookings',
     ],
     everything: 'Starter',
@@ -95,7 +95,7 @@ const TIERS: Tier[] = [
     annualSavingEur: 398,
     highlight: false,
     features: [
-      'Unlimited vehicles',
+      'Unlimited items',
       'Unlimited bookings',
     ],
     everything: 'Growth',
@@ -138,8 +138,8 @@ const COMPARISON_ROWS: Array<{
   pro: string | boolean
 }> = [
   {
-    feature: 'Vehicles',
-    tooltip: 'How many cars, yachts, or villas you can list on your public booking site.',
+    feature: 'Items',
+    tooltip: 'How many rentable items you can list on your public booking site.',
     starter: '1–3',
     growth: '4–10',
     pro: 'Unlimited',
@@ -543,7 +543,7 @@ export function PricingClient({
               {[
                 { day: 'Day 0', title: 'You fill in the form', sub: '5 minutes, no technical knowledge needed' },
                 { day: 'Day 0–1', title: 'We review your requirements', sub: 'We may ask one or two clarifying questions' },
-                { day: 'Day 1–2', title: 'We deploy your system', sub: 'Domain, branding, fleet — fully configured' },
+                { day: 'Day 1–2', title: 'We deploy your system', sub: 'Domain, branding, inventory — fully configured' },
                 { day: 'Day 2', title: 'You receive your login', sub: 'Take real bookings from day two' },
               ].map(({ day, title, sub }, i) => (
                 <div key={day} className="relative flex flex-col gap-1">
@@ -765,7 +765,7 @@ export function PricingClient({
 
           <p className="mt-6 font-sans text-xs text-muted/50 text-center">
             Export all your data anytime from Admin → Settings.
-            Bookings, customers, fleet — your CSV, your records.
+            Bookings, customers, inventory — your CSV, your records.
           </p>
         </div>
       </section>

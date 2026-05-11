@@ -43,8 +43,8 @@ const FAQ_CATEGORIES = [
     title: 'Features',
     items: [
       {
-        q: 'Can I manage multiple vehicle types?',
-        a: 'Yes. Add cars, yachts, villas — any type of rental unit. Each has its own pricing, availability, and photo gallery.',
+        q: 'Can I manage multiple item types?',
+        a: 'Yes. Add cars, yachts, villas, bikes, equipment — any type of rental unit. Each has its own pricing, availability, and photo gallery.',
       },
       {
         q: 'How does the booking flow work?',
@@ -72,7 +72,7 @@ const FAQ_CATEGORIES = [
       },
       {
         q: 'How is this different from generic booking software?',
-        a: 'Generic booking platforms are built for any product that can be rented — furniture, equipment, cars, rooms. RentalOS is built specifically for vehicle, yacht, villa, and motorcycle rental: the booking flow, confirmation emails, and admin panel are designed around how these businesses actually operate. You use it as-is.',
+        a: 'Generic booking platforms are built for any product that can be rented — furniture, equipment, cars, rooms. RentalOS is built specifically for rental businesses where a human confirms every booking: cars, yachts, villas, bikes, equipment, and more. The booking flow, confirmation emails, and admin panel are designed around how these businesses actually operate. You use it as-is.',
       },
       {
         q: 'What if I need a feature that isn\'t included?',

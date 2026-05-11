@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Check, ArrowRight, ExternalLink, MessageCircle, Users, Star, Code2, MapPin } from 'lucide-react'
+import { Check, ArrowRight, ExternalLink, MessageCircle, Users, Star, Code2, MapPin, Bike, Wrench } from 'lucide-react'
 import { HeroStage } from '@/components/marketing/HeroStage'
 
 export const metadata: Metadata = {
@@ -28,7 +28,7 @@ const PAIN_CARDS = [
     Icon: MessageCircle,
     tag: 'Solo operators',
     headline: 'Inquiries lost in WhatsApp',
-    copy: "A customer messages at midnight asking about your vehicle. By morning they've booked with your competitor. You never saw the message.",
+    copy: "A customer messages at midnight asking about your rental. By morning they've booked with your competitor. You never saw the message.",
   },
   {
     Icon: Users,
@@ -38,7 +38,7 @@ const PAIN_CARDS = [
   },
   {
     Icon: Star,
-    tag: 'Premium fleets',
+    tag: 'Premium rentals',
     headline: "Your rentals command premium rates. Your booking process doesn't.",
     copy: "Your customers expect a professional response. They deserve a confirmation within seconds — not a WhatsApp voice note the next morning.",
   },
@@ -52,32 +52,65 @@ const PAIN_CARDS = [
     Icon: MapPin,
     tag: 'Multi-location operators',
     headline: 'No unified view across your locations',
-    copy: 'Your Marbella fleet is in one spreadsheet. Ibiza in another. Someone always has the wrong information. A booking gets confirmed twice.',
+    copy: 'Your Marbella inventory is in one spreadsheet. Ibiza in another. Someone always has the wrong information. A booking gets confirmed twice.',
+  },
+  {
+    Icon: Bike,
+    tag: 'Sports & activity',
+    headline: 'Every bike and board rented by memory',
+    copy: "You track which kayak is out by texting your team. Equipment comes back and you don't know if it's available until you physically check.",
+  },
+  {
+    Icon: Wrench,
+    tag: 'Equipment rental',
+    headline: "Your gear is out. You just don't know where.",
+    copy: "Cameras, generators, lighting rigs — all rented on a handshake. One double-booking costs you a client relationship and a deposit dispute.",
   },
 ]
 
 
 const FOR_WHO = [
   {
-    scale: '1–5 vehicles',
+    scale: '1–5 items',
     label: 'Solo operators',
-    body: 'You manage everything yourself. RentalOS handles the admin so you can focus on the drives. Inquiries captured 24/7, confirmations sent automatically, no more chasing documents.',
+    body: 'You manage everything yourself. RentalOS handles the admin so you can focus on your customers. Inquiries captured 24/7, confirmations sent automatically.',
     cta: 'See how it works →',
     href: '/demo',
   },
   {
-    scale: '5–20 vehicles',
+    scale: '5–20 items',
     label: 'Growing businesses',
-    body: 'Your team needs a system they can follow without calling you. RentalOS gives everyone a clear view of every booking, every vehicle, every customer — from any device.',
+    body: 'Your team needs a system they can follow without calling you. Every booking, every item, every customer — visible from any device.',
     cta: 'Start free trial →',
     href: '/pricing',
   },
   {
-    scale: 'Premium fleet',
-    label: 'Premium fleet operators',
-    body: 'Your fleet represents your business. A booking experience that reflects the standard you set — automatic confirmations, professional document handling, a system that earns the trust your operation deserves.',
+    scale: 'Premium inventory',
+    label: 'Premium rental operators',
+    body: 'Your inventory represents your brand. Automatic confirmations, professional document handling — a booking experience that earns the trust your operation deserves.',
     cta: 'See the admin panel →',
     href: '/demo/admin',
+  },
+  {
+    scale: 'Bikes & boards',
+    label: 'Sports & activity rental',
+    body: 'Bikes, kayaks, surfboards, skis. High-turnover rentals where every hour matters. Never lose track of what\'s out and when it\'s back.',
+    cta: 'See how it works →',
+    href: '/demo',
+  },
+  {
+    scale: 'Tools & gear',
+    label: 'Equipment rental',
+    body: 'Cameras, generators, construction tools, audio gear. High-value equipment that needs clear records, signed agreements, and zero double-bookings.',
+    cta: 'See how it works →',
+    href: '/demo',
+  },
+  {
+    scale: 'Villas & stays',
+    label: 'Holiday & accommodation',
+    body: 'Villas, apartments, holiday homes. Automated inquiry handling and professional confirmations — so every guest arrives expecting exactly what you promised.',
+    cta: 'See how it works →',
+    href: '/demo',
   },
   {
     scale: 'Build for clients',
@@ -353,7 +386,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-6xl px-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="font-display text-xl font-bold text-white">Try the live demo.</p>
-            <p className="font-sans text-sm text-slate-400 mt-1">A real car rental business running on RentalOS, right now.</p>
+            <p className="font-sans text-sm text-slate-400 mt-1">A real rental business running on RentalOS, right now.</p>
           </div>
           <a
             href="/demo/fleet"
@@ -377,7 +410,7 @@ export default function HomePage() {
                 Built for a real business
               </h2>
               <p className="mb-8 font-sans text-sm leading-relaxed text-slate-300">
-                A car rental business in Marbella is running this exact
+                A rental business in Marbella is running this exact
                 codebase in production. Same admin panel. Same booking flow. Your branding.
               </p>
               <a
@@ -418,27 +451,11 @@ export default function HomePage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-6">
-            {FOR_WHO.slice(0, 3).map(({ scale, label, body, cta, href }) => (
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {FOR_WHO.map(({ scale, label, body, cta, href }) => (
               <div
                 key={label}
-                className="md:col-span-2 flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
-              >
-                <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-gold/60">{scale}</p>
-                <h3 className="font-display text-xl font-semibold text-gray-900">{label}</h3>
-                <p className="font-sans text-sm leading-relaxed text-muted flex-1">{body}</p>
-                <Link
-                  href={href}
-                  className="mt-2 inline-flex items-center gap-1 font-sans text-xs text-gold underline-offset-4 hover:underline"
-                >
-                  {cta}
-                </Link>
-              </div>
-            ))}
-            {FOR_WHO.slice(3).map(({ scale, label, body, cta, href }) => (
-              <div
-                key={label}
-                className="md:col-span-3 flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
+                className="flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
               >
                 <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-gold/60">{scale}</p>
                 <h3 className="font-display text-xl font-semibold text-gray-900">{label}</h3>
@@ -499,6 +516,54 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── What you can rent out (gray-50) ───────────────── */}
+      <section className="bg-gray-50 py-24 md:py-32">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="mb-14 text-center">
+            <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">
+              Any category
+            </p>
+            <h2 className="font-display text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
+              What you can rent out
+            </h2>
+          </div>
+
+          <div className="mb-14 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {[
+              { emoji: '🚗', label: 'Cars' },
+              { emoji: '🏍️', label: 'Motorcycles' },
+              { emoji: '⛵', label: 'Yachts' },
+              { emoji: '🏠', label: 'Villas' },
+              { emoji: '🚲', label: 'Bikes' },
+              { emoji: '🛶', label: 'Kayaks' },
+              { emoji: '🏄', label: 'Surfboards' },
+              { emoji: '⛷️', label: 'Skis' },
+              { emoji: '⛺', label: 'Tents' },
+              { emoji: '🎵', label: 'Audio gear' },
+              { emoji: '💡', label: 'Lighting' },
+              { emoji: '🚁', label: 'Drones' },
+              { emoji: '🔨', label: 'Construction tools' },
+              { emoji: '⚡', label: 'Generators' },
+              { emoji: '📷', label: 'Cameras' },
+              { emoji: '🛴', label: 'E-scooters' },
+            ].map(({ emoji, label }) => (
+              <div
+                key={label}
+                className="flex flex-col items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-5 text-center"
+              >
+                <span className="text-2xl" aria-hidden="true">{emoji}</span>
+                <span className="font-sans text-xs text-muted">{label}</span>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-center font-display text-xl font-semibold text-gray-700 md:text-2xl">
+            RentalOS doesn&apos;t care what you rent.{' '}
+            <span className="text-gold">It cares that every customer gets confirmed.</span>
+          </p>
+        </div>
+      </section>
+
       {/* ── Pricing teaser (dark) ──────────────────────────── */}
       <section id="pricing" className="bg-slate-900 py-24 md:py-32">
         <div className="mx-auto max-w-6xl px-6">
@@ -515,7 +580,7 @@ export default function HomePage() {
             {PRICING.map(({ name, price, cadence, lines, licenceLink, cta, href, accent }) => (
               <div
                 key={name}
-                className={`pricing-card-3d flex flex-col rounded-xl border ${
+                className={`flex flex-col rounded-xl border ${
                   accent
                     ? 'border-2 border-gold bg-white shadow-2xl shadow-gold/15 relative z-10 p-10'
                     : 'border-gray-200 bg-white shadow-sm p-8'

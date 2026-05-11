@@ -37,11 +37,11 @@ function personalCopy(rec: Rec, rt: RentalType, fs: FleetSize): string {
   const sz = FLEET_LABELS[fs]
   switch (rec) {
     case 'starter':
-      return `Right-sized for a ${biz} with ${sz} vehicles. Covers bookings, email, and your public listing — nothing unnecessary.`
+      return `Right-sized for a ${biz} with ${sz} items. Covers bookings, email, and your public listing — nothing unnecessary.`
     case 'growth':
-      return `Designed for a growing ${biz} running ${sz} vehicles. Adds transfer management and weekly performance reports.`
+      return `Designed for a growing ${biz} running ${sz} items. Adds transfer management and weekly performance reports.`
     case 'pro':
-      return `For a serious ${biz} with ${sz} vehicles. Custom domain, unlimited vehicles, and agency eligibility.`
+      return `For a serious ${biz} with ${sz} items. Custom domain, unlimited items, and agency eligibility.`
     case 'dfy':
       return `You focus on the ${biz} — we handle the setup. Your system is live within 48 hours.`
     case 'white-glove':
@@ -60,19 +60,19 @@ const REC_CONFIG: Record<Rec, RecConfig> = {
   starter: {
     name: 'Starter',
     price: '€49 / month',
-    features: ['1–3 vehicles', 'Up to 30 bookings per month', '14-day free trial'],
+    features: ['1–3 items', 'Up to 30 bookings per month', '14-day free trial'],
     cta: 'Start free trial',
   },
   growth: {
     name: 'Growth',
     price: '€99 / month',
-    features: ['Up to 10 vehicles', 'Unlimited bookings', 'Weekly automated report'],
+    features: ['Up to 10 items', 'Unlimited bookings', 'Weekly automated report'],
     cta: 'Start free trial',
   },
   pro: {
     name: 'Pro',
     price: '€199 / month',
-    features: ['Unlimited vehicles', 'Custom domain setup included', 'Agency reseller eligible'],
+    features: ['Unlimited items', 'Custom domain setup included', 'Agency reseller eligible'],
     cta: 'Start free trial',
   },
   dfy: {
@@ -98,10 +98,10 @@ const RENTAL_OPTIONS: { value: RentalType; label: string }[] = [
 ]
 
 const FLEET_OPTIONS: { value: FleetSize; label: string; sub: string }[] = [
-  { value: 'small', label: '1–3 vehicles', sub: 'Getting started' },
-  { value: 'medium', label: '4–10 vehicles', sub: 'Growing operation' },
-  { value: 'large', label: '11–25 vehicles', sub: 'Established fleet' },
-  { value: 'enterprise', label: '25+ vehicles', sub: 'Enterprise scale' },
+  { value: 'small', label: '1–3 items', sub: 'Getting started' },
+  { value: 'medium', label: '4–10 items', sub: 'Growing operation' },
+  { value: 'large', label: '11–25 items', sub: 'Established operation' },
+  { value: 'enterprise', label: '25+ items', sub: 'Enterprise scale' },
 ]
 
 const SETUP_OPTIONS: { value: SetupPref; label: string; desc: string }[] = [
@@ -267,7 +267,7 @@ export function PlanQuiz({ starterPriceId, growthPriceId, proPriceId, stripeConf
           <ProgressDots step={1} />
           <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted mb-3">Question 2 of 3</p>
           <h2 className="font-display text-2xl font-bold text-gray-900 mb-6">
-            How many vehicles do you manage?
+            How many items do you rent out?
           </h2>
           <div className="grid grid-cols-2 gap-3">
             {FLEET_OPTIONS.map((opt) => (
