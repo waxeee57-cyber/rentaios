@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
 import { requireAdmin } from '@/lib/auth'
+import { getBusinessConfig } from '@/lib/config'
 import { generateBookingCode } from '@/lib/booking-code'
 import { isFutureOrToday, TZ } from '@/lib/formatters'
 import { sendInquiryEmails, sendConfirmationEmails } from '@/lib/email/send'
@@ -36,8 +37,11 @@ export async function POST(req: NextRequest) {
 
   if (!isFutureOrToday(startDate)) return NextResponse.json({ error: 'Start date must be today or future' }, { status: 400 })
 
+  const config = await getBusinessConfig()
+  const maxDays = config.max_rental_days ?? 14
+
   const days = differenceInCalendarDays(endDate, startDate)
-  if (days <= 0 || days > 14) return NextResponse.json({ error: 'Invalid date range (1–14 days)' }, { status: 400 })
+  if (days <= 0 || days > maxDays) return NextResponse.json({ error: `Invalid date range (1–${maxDays} days)` }, { status: 400 })
 
   const { data: car } = await supabaseAdmin
     .from('cars')

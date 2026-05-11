@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
+import { rateLimit, getClientIp } from '@/lib/rate-limit'
 
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
+  const ip = getClientIp(req)
+  if (!rateLimit(ip + ':availability', 30, 3_600_000)) {
+    return NextResponse.json({ error: 'Too many requests.' }, { status: 429 })
+  }
+
   const { slug } = await params
   const { searchParams } = new URL(req.url)
   const start = searchParams.get('start')

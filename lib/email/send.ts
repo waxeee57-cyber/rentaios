@@ -1,6 +1,6 @@
 import { formatInTimeZone } from 'date-fns-tz'
 import { parseISO } from 'date-fns'
-import { sendEmail, ADMIN_EMAIL } from '@/lib/resend'
+import { sendEmail, getAdminEmail } from '@/lib/resend'
 import { TZ } from '@/lib/formatters'
 import {
   inquiryConfirmationEmail,
@@ -41,15 +41,16 @@ export async function sendInquiryEmails(data: {
   transferAddress?: string
 }) {
   console.log('[Email] sendInquiryEmails called:', data.bookingCode)
+  const adminEmail = await getAdminEmail()
   const [customerResult, adminResult] = await Promise.allSettled([
     sendEmail({
       to: data.customerEmail,
       subject: `We've got your request, ${fn(data.customerName)} — ${data.bookingCode}`,
       html: inquiryConfirmationEmail(data),
-      replyTo: ADMIN_EMAIL,
+      replyTo: adminEmail,
     }),
     sendEmail({
-      to: ADMIN_EMAIL,
+      to: adminEmail,
       subject: data.transferRequested
         ? `⚠ New request (transfer) — ${data.carLabel} · ${data.bookingCode}`
         : `New request — ${data.carLabel} · ${shortDate(data.startAt)} · ${data.bookingCode}`,
@@ -82,15 +83,16 @@ export async function sendConfirmationEmails(data: {
   transferFeeEur?: number | null
 }) {
   console.log('[Email] sendConfirmationEmails called:', data.bookingCode)
+  const adminEmail = await getAdminEmail()
   const [customerResult, adminResult] = await Promise.allSettled([
     sendEmail({
       to: data.customerEmail,
       subject: `You're confirmed, ${fn(data.customerName)} — see you on ${shortDate(data.startAt)}`,
       html: bookingConfirmedEmail(data),
-      replyTo: ADMIN_EMAIL,
+      replyTo: adminEmail,
     }),
     sendEmail({
-      to: ADMIN_EMAIL,
+      to: adminEmail,
       subject: `Confirmed — ${data.bookingCode} · ${fn(data.customerName)} · ${shortDate(data.startAt)}`,
       html: bookingConfirmedAdminEmail(data),
     }),
@@ -131,6 +133,7 @@ export async function sendOnboardingEmails(data: {
   referralSource?: string
 }) {
   console.log('[Email] sendOnboardingEmails called:', data.leadId)
+  const adminEmail = await getAdminEmail()
   const [clientResult, adminResult] = await Promise.allSettled([
     sendEmail({
       to: data.contactEmail,
@@ -141,10 +144,10 @@ export async function sendOnboardingEmails(data: {
         businessType: data.businessType === 'other' ? (data.businessTypeCustom ?? 'rental') : data.businessType,
         leadId: data.leadId,
       }),
-      replyTo: ADMIN_EMAIL,
+      replyTo: adminEmail,
     }),
     sendEmail({
-      to: ADMIN_EMAIL,
+      to: adminEmail,
       subject: `Setup request — ${data.businessName} — ${data.businessType}`,
       html: onboardingAdminEmail(data),
     }),
@@ -204,7 +207,7 @@ export async function sendReviewRequest(data: {
       reviewUrl: data.reviewUrl,
       unsubscribeUrl,
     }),
-    replyTo: ADMIN_EMAIL,
+    replyTo: await getAdminEmail(),
   })
   if (!result.success) {
     console.error('[Email] Review request failed')
@@ -224,7 +227,7 @@ export async function sendCancellationEmail(data: {
       to: data.customerEmail,
       subject: `Your reservation has been cancelled — ${data.bookingCode}`,
       html: bookingCancelledEmail(data),
-      replyTo: ADMIN_EMAIL,
+      replyTo: await getAdminEmail(),
     }),
   ])
 

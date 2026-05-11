@@ -12,6 +12,13 @@ export const FROM =
 export const ADMIN_EMAIL =
   process.env.ADMIN_EMAIL ?? 'hello@rentaios.com'
 
+export async function getAdminEmail(): Promise<string> {
+  if (process.env.ADMIN_EMAIL) return process.env.ADMIN_EMAIL
+  const { getBusinessConfig } = await import('./config')
+  const config = await getBusinessConfig()
+  return config.business_email || 'hello@rentaios.com'
+}
+
 export async function sendEmail({
   to,
   subject,

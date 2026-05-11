@@ -97,7 +97,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ type
   // fleet
   const { data } = await supabaseAdmin
     .from('cars')
-    .select('brand, model, year, slug, daily_rate_eur, status')
+    .select('brand, model, year, slug, daily_price_eur, status')
     .eq('is_demo', false)
     .order('brand', { ascending: true })
 
@@ -110,7 +110,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ type
       str(c.model),
       str(c.year),
       str(c.slug),
-      str(c.daily_rate_eur),
+      str(c.daily_price_eur),
       str(c.status),
     ])
   }
