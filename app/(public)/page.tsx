@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Check, ArrowRight, ExternalLink, MessageCircle, Users, Star, Code2, MapPin } from 'lucide-react'
+import { AdminMockPanel } from '@/components/marketing/AdminMockPanel'
 
 export const metadata: Metadata = {
   title: {
@@ -161,62 +162,80 @@ export default function HomePage() {
     <div className="min-h-screen bg-white">
 
       {/* ── Hero (dark) ────────────────────────────────────── */}
-      <section className="hero-dark text-white flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-6 pb-20 pt-16 text-center">
-        <div className="mx-auto flex max-w-4xl flex-col items-center gap-8">
+      <section className="hero-dark text-white flex min-h-[calc(100vh-4rem)] flex-col justify-center px-6 py-16">
+        <div className="mx-auto w-full max-w-6xl">
 
-          <div className="flex items-center gap-2.5">
-            <span className="animate-pulse-dot h-1.5 w-1.5 rounded-full bg-gold" />
-            <span className="font-sans text-[11px] uppercase tracking-[0.2em] text-white/50">
-              RentalOS
-            </span>
+          {/* Two-column layout: 60% text / 40% mock panel */}
+          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[3fr_2fr] xl:gap-16">
+
+            {/* Left — text */}
+            <div className="flex flex-col gap-6">
+
+              {/* Brand label */}
+              <div className="flex items-center gap-2.5">
+                <span className="animate-pulse-dot h-1.5 w-1.5 rounded-full bg-gold" />
+                <span className="font-sans text-[11px] uppercase tracking-[0.2em] text-white/50">
+                  RentalOS
+                </span>
+              </div>
+
+              {/* H1 */}
+              <h1 className="font-display text-4xl font-extrabold leading-[1.06] tracking-[-0.025em] text-white sm:text-5xl">
+                Every booking, captured.{' '}
+                <span className="text-white/75">Every customer, confirmed.</span>
+              </h1>
+
+              {/* Subheadline */}
+              <p className="max-w-[30rem] font-sans text-base leading-relaxed text-white/65">
+                From inquiry to confirmation in seconds — automatically.
+              </p>
+
+              {/* CTAs */}
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <a
+                  href="/demo/fleet"
+                  className="btn-3d inline-flex items-center justify-center min-h-[44px] rounded-md bg-gold px-7 py-3 font-sans text-sm font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+                >
+                  See it live →
+                </a>
+                <a
+                  href="https://wa.me/36708564381?text=Hi%2C%20I%27m%20interested%20in%20RentalOS"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-white/20 px-7 py-3 font-sans text-sm font-medium text-white transition-colors hover:border-white/40 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+                >
+                  Talk to us
+                </a>
+              </div>
+
+              {/* Trust strip */}
+              <a
+                href="https://drivecostasol.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex w-fit items-center gap-1.5 font-sans text-xs text-white/30 underline-offset-2 transition-colors hover:text-white/60"
+              >
+                ↗ Live at drivecostasol.com · Marbella, Spain
+              </a>
+
+            </div>
+
+            {/* Right — faux admin panel (decorative, aria-hidden) */}
+            <AdminMockPanel />
+
           </div>
 
-          <h1 className="font-display text-5xl font-extrabold leading-[1.04] tracking-[-0.025em] text-white md:text-6xl lg:text-[4.75rem]">
-            While you slept, your competitor confirmed the booking you never saw.
-          </h1>
-
-          <div className="flex max-w-lg flex-col gap-1 text-center">
-            <p className="font-sans text-lg font-medium text-white leading-snug">
-              RentalOS captures every inquiry automatically. Every customer confirmed. Every booking tracked.
-            </p>
-            <p className="font-sans text-sm text-white/50">
-              Next.js 15 · Supabase · Vercel · Full source code
-            </p>
-          </div>
-
-          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+          {/* Scroll indicator */}
+          <div className="mt-12 flex justify-center lg:justify-start">
             <a
-              href="/demo/fleet"
-              className="inline-flex items-center justify-center rounded-md bg-gold px-8 py-4 font-sans text-sm font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+              href="#problem"
+              aria-label="Scroll to see the problem we solve"
+              className="text-white/20 transition-colors hover:text-white/50 focus-visible:outline-none focus-visible:text-white/50"
             >
-              See it live →
-            </a>
-            <a
-              href="https://wa.me/36708564381?text=Hi%2C%20I%27m%20interested%20in%20RentalOS"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-md border border-white/20 px-8 py-4 font-sans text-sm font-medium text-white transition-colors hover:border-white/40 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
-            >
-              Talk to us
+              <ArrowRight className="h-5 w-5 rotate-90" />
             </a>
           </div>
 
-          <a
-            href="https://drivecostasol.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 font-sans text-xs text-white/30 underline-offset-2 transition-colors hover:text-white/60"
-          >
-            ↗ Running live in Marbella, Spain · drivecostasol.com
-          </a>
-
-          <a
-            href="#problem"
-            aria-label="Scroll to see the problem we solve"
-            className="mt-2 text-white/30 transition-colors hover:text-white/60 focus-visible:outline-none focus-visible:text-white/60"
-          >
-            <ArrowRight className="h-5 w-5 rotate-90" />
-          </a>
         </div>
       </section>
 

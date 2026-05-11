@@ -366,3 +366,17 @@ html {
     animation-delay: calc(var(--stagger, 0) * 0.06s);
   }
 }
+
+/* ─── Effect 10: Hero mock panel — 3D tilt (desktop only) ─── */
+
+.admin-mock-tilt {
+  transform: perspective(900px) rotateY(-8deg) rotateX(2deg);
+  transform-style: preserve-3d;
+}
+
+/* Remove tilt below lg breakpoint — panel is full-width stacked */
+@media (max-width: 1023px) {
+  .admin-mock-tilt {
+    transform: none;
+  }
+}
