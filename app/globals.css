@@ -18,9 +18,14 @@
   --color-whatsapp: #25D366;
   --color-border: #E5E7EB;
 
-  /* Fonts */
-  --font-display: var(--font-jakarta), "Plus Jakarta Sans", sans-serif;
-  --font-sans: var(--font-sans), "DM Sans", sans-serif;
+  /* Tinted neutrals — never pure white or pure black */
+  --color-white: oklch(0.985 0.003 240);
+  --color-canvas: oklch(0.985 0.003 240);
+  --color-canvas-alt: oklch(0.965 0.004 240);
+
+  /* Fonts — Bricolage Grotesque (display) + Onest (body) */
+  --font-display: var(--font-bricolage), "Bricolage Grotesque", sans-serif;
+  --font-sans: var(--font-onest), "Onest", sans-serif;
 
   /* Border radii — brand uses minimal rounding */
   --radius-sm: 2px;
@@ -38,16 +43,27 @@
 }
 
 html {
-  background-color: #FFFFFF;
+  background-color: var(--color-canvas);
   color: #111827;
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: #FFFFFF;
+  background-color: var(--color-canvas);
   color: #111827;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+}
+
+/* Heading polish */
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+/* ALL-CAPS labels need tracking to breathe */
+.label-caps {
+  letter-spacing: 0.12em;
 }
 
 /* Smooth scroll */
@@ -314,4 +330,39 @@ html {
 
 [data-state=open] .accordion-inner {
   animation: accordionOpen 0.3s cubic-bezier(0.23, 1, 0.32, 1) 0.05s both;
+}
+
+/* ─── Effect 8: Hero section — atmospheric dark gradient ─── */
+
+.hero-dark {
+  background:
+    radial-gradient(ellipse 90% 55% at 50% -10%, oklch(0.20 0.05 255 / 0.6) 0%, transparent 65%),
+    oklch(0.09 0.015 255);
+}
+
+/* ─── Effect 9: Pain/feature cards — staggered scroll reveal ─── */
+
+@keyframes cardReveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-stagger {
+  animation: cardReveal 0.55s cubic-bezier(0.23, 1, 0.32, 1) both;
+  animation-delay: calc(var(--stagger, 0) * 0.08s + 0.1s);
+}
+
+@supports (animation-timeline: view()) {
+  .card-stagger {
+    animation: cardReveal 0.55s cubic-bezier(0.23, 1, 0.32, 1) both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 50%;
+    animation-delay: calc(var(--stagger, 0) * 0.06s);
+  }
 }

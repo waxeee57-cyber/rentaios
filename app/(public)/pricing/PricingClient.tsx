@@ -472,30 +472,30 @@ export function PricingClient({
               </a>
             </div>
 
-            {/* Done-for-you */}
-            <div className="relative flex flex-col rounded-lg border border-gold/50 bg-gold/5 ring-1 ring-gold/10 p-8">
+            {/* Done-for-you — committed blue (the dominant choice) */}
+            <div className="relative flex flex-col rounded-lg border-2 border-gold bg-gold p-8 shadow-2xl">
               <div className="mb-4">
-                <span className="rounded-sm bg-gold/15 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold">
+                <span className="rounded-sm bg-white/20 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-white">
                   Recommended
                 </span>
               </div>
-              <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">Done-for-you</p>
+              <p className="font-sans text-xs uppercase tracking-[0.2em] text-white/70">Done-for-you</p>
               <div className="mt-3 flex items-baseline gap-1.5">
-                <span className="font-display text-4xl font-bold text-gray-900">€499</span>
-                <span className="font-sans text-sm text-muted">one-time</span>
+                <span className="font-display text-4xl font-extrabold text-white">€499</span>
+                <span className="font-sans text-sm text-white/70">one-time</span>
               </div>
-              <p className="mt-2 mb-6 font-sans text-sm text-muted">We build it. You run it.</p>
+              <p className="mt-2 mb-6 font-sans text-sm text-white/75">We build it. You run it.</p>
               <ul className="flex flex-1 flex-col gap-3 mb-8">
                 {['We deploy everything', 'Your domain configured', '30-day support included', 'Live in 48 hours'].map((f) => (
                   <li key={f} className="flex items-center gap-2.5">
-                    <Check className="h-3.5 w-3.5 shrink-0 text-gold" />
-                    <span className="font-sans text-sm text-muted">{f}</span>
+                    <Check className="h-3.5 w-3.5 shrink-0 text-white/90" />
+                    <span className="font-sans text-sm text-white/85">{f}</span>
                   </li>
                 ))}
               </ul>
               <Link
                 href="/onboarding"
-                className="inline-flex items-center justify-center min-h-[44px] rounded-md bg-gold px-6 font-sans text-xs uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                className="inline-flex items-center justify-center min-h-[44px] rounded-md bg-white px-6 font-sans text-xs uppercase tracking-[0.1em] text-gold transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-gold"
               >
                 Get started →
               </Link>

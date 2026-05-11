@@ -1,19 +1,17 @@
-// rebuilt 2026-05-09
 import type { Metadata } from 'next'
-import { DM_Sans, Plus_Jakarta_Sans } from 'next/font/google'
+import { Bricolage_Grotesque, Onest } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const dmSans = DM_Sans({
+const bricolage = Bricolage_Grotesque({
   subsets: ['latin'],
-  variable: '--font-sans',
+  variable: '--font-bricolage',
   display: 'swap',
 })
 
-const jakarta = Plus_Jakarta_Sans({
+const onest = Onest({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-jakarta',
+  variable: '--font-onest',
   display: 'swap',
 })
 
@@ -58,7 +56,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${dmSans.variable} ${jakarta.variable}`}>
+    <html lang="en" className={`${bricolage.variable} ${onest.variable}`}>
       <body>
         {children}
         <Analytics />

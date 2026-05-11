@@ -55,13 +55,6 @@ const PAIN_CARDS = [
   },
 ]
 
-const PAIN_BORDER_L = [
-  'border-l-blue-500',
-  'border-l-blue-400',
-  'border-l-blue-300',
-  'border-l-indigo-400',
-  'border-l-indigo-300',
-]
 
 const FOR_WHO = [
   {
@@ -168,17 +161,17 @@ export default function HomePage() {
     <div className="min-h-screen bg-white">
 
       {/* ── Hero (dark) ────────────────────────────────────── */}
-      <section className="bg-slate-900 text-white flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-6 pb-20 pt-16 text-center">
+      <section className="hero-dark text-white flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-6 pb-20 pt-16 text-center">
         <div className="mx-auto flex max-w-4xl flex-col items-center gap-8">
 
-          <div className="inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 backdrop-blur-sm">
+          <div className="flex items-center gap-2.5">
             <span className="animate-pulse-dot h-1.5 w-1.5 rounded-full bg-gold" />
-            <span className="font-sans text-[11px] uppercase tracking-[0.25em] text-white/60">
+            <span className="font-sans text-[11px] uppercase tracking-[0.2em] text-white/50">
               RentalOS
             </span>
           </div>
 
-          <h1 className="font-display text-5xl font-bold leading-[1.06] tracking-[-0.02em] text-white md:text-6xl lg:text-[4.5rem]">
+          <h1 className="font-display text-5xl font-extrabold leading-[1.04] tracking-[-0.025em] text-white md:text-6xl lg:text-[4.75rem]">
             While you slept, your competitor confirmed the booking you never saw.
           </h1>
 
@@ -243,16 +236,17 @@ export default function HomePage() {
             {PAIN_CARDS.slice(0, 3).map(({ Icon, tag, headline, copy }, i) => (
               <div
                 key={tag}
-                className={`md:col-span-2 flex flex-col gap-5 rounded-xl border border-gray-200 border-l-4 ${PAIN_BORDER_L[i]} bg-white p-6 shadow-sm hover:shadow-md transition-shadow`}
+                className="card-3d card-stagger md:col-span-2 flex flex-col gap-5 rounded-xl border border-gray-200 bg-white p-6 shadow-sm"
+                style={{ '--stagger': i } as React.CSSProperties}
               >
                 <div className="flex items-start justify-between gap-3">
-                  <Icon className="h-5 w-5 text-gold/70 shrink-0 mt-0.5" strokeWidth={1.5} />
-                  <span className="rounded-full border border-gold/20 bg-gold/5 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold/70 text-right">
+                  <Icon className="h-5 w-5 text-gold shrink-0 mt-0.5" strokeWidth={1.5} />
+                  <span className="rounded-sm border border-gold/20 bg-gold/5 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold/80 text-right">
                     {tag}
                   </span>
                 </div>
                 <div>
-                  <h3 className="mb-2 font-display text-xl font-semibold text-gray-900">{headline}</h3>
+                  <h3 className="mb-2 font-display text-xl font-bold text-gray-900">{headline}</h3>
                   <p className="font-sans text-sm leading-relaxed text-muted">{copy}</p>
                 </div>
               </div>
@@ -260,16 +254,17 @@ export default function HomePage() {
             {PAIN_CARDS.slice(3).map(({ Icon, tag, headline, copy }, i) => (
               <div
                 key={tag}
-                className={`md:col-span-3 flex flex-col gap-5 rounded-xl border border-gray-200 border-l-4 ${PAIN_BORDER_L[i + 3]} bg-white p-6 shadow-sm hover:shadow-md transition-shadow`}
+                className="card-3d card-stagger md:col-span-3 flex flex-col gap-5 rounded-xl border border-gray-200 bg-white p-6 shadow-sm"
+                style={{ '--stagger': i + 3 } as React.CSSProperties}
               >
                 <div className="flex items-start justify-between gap-3">
-                  <Icon className="h-5 w-5 text-gold/70 shrink-0 mt-0.5" strokeWidth={1.5} />
-                  <span className="rounded-full border border-gold/20 bg-gold/5 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold/70 text-right">
+                  <Icon className="h-5 w-5 text-gold shrink-0 mt-0.5" strokeWidth={1.5} />
+                  <span className="rounded-sm border border-gold/20 bg-gold/5 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold/80 text-right">
                     {tag}
                   </span>
                 </div>
                 <div>
-                  <h3 className="mb-2 font-display text-xl font-semibold text-gray-900">{headline}</h3>
+                  <h3 className="mb-2 font-display text-xl font-bold text-gray-900">{headline}</h3>
                   <p className="font-sans text-sm leading-relaxed text-muted">{copy}</p>
                 </div>
               </div>
@@ -433,9 +428,9 @@ export default function HomePage() {
       {/* ── Social proof / CostaSol (white) ────────────────── */}
       <section className="bg-white py-24 md:py-32">
         <div className="mx-auto max-w-2xl px-6">
-          <div className="rounded-xl border-l-4 border-gold bg-blue-50 px-8 py-8 shadow-sm">
+          <div className="rounded-xl border border-gold/20 bg-white px-8 py-10 shadow-lg ring-1 ring-gold/8">
             <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-6">Built for a real business</p>
-            <blockquote className="mb-6 font-display text-2xl font-semibold leading-relaxed text-gray-900">
+            <blockquote className="mb-6 font-display text-2xl font-bold leading-relaxed text-gray-900">
               Before RentalOS, we managed everything on WhatsApp and a shared spreadsheet. Now every inquiry gets a confirmation email within seconds. Our customers think we&apos;re a much bigger operation than we are.
             </blockquote>
             <div className="flex items-end justify-between gap-6 mb-8">
@@ -486,19 +481,19 @@ export default function HomePage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:items-start">
             {PRICING.map(({ name, price, cadence, lines, licenceLink, cta, href, accent }) => (
               <div
                 key={name}
-                className={`flex flex-col rounded-xl border p-8 shadow-md ${
+                className={`flex flex-col rounded-xl border ${
                   accent
-                    ? 'border-gold/50 bg-gold/5 ring-1 ring-gold/10'
-                    : 'border-gray-200 bg-white'
+                    ? 'border-2 border-gold bg-white shadow-2xl shadow-gold/15 relative z-10 p-10'
+                    : 'border-gray-200 bg-white shadow-sm p-8'
                 }`}
               >
                 {accent && (
                   <div className="mb-4 self-start">
-                    <span className="rounded-md bg-gold/15 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold">
+                    <span className="rounded-sm bg-gold px-3 py-1 font-sans text-[10px] uppercase tracking-[0.15em] text-white">
                       Popular
                     </span>
                   </div>
@@ -508,7 +503,7 @@ export default function HomePage() {
                   {name}
                 </p>
                 <div className="mt-3 flex items-baseline gap-1.5">
-                  <span className="font-display text-4xl font-bold text-gray-900">{price}</span>
+                  <span className="font-display text-4xl font-extrabold text-gray-900">{price}</span>
                   <span className="font-sans text-sm text-muted">{cadence}</span>
                 </div>
 
