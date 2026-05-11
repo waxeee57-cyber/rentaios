@@ -123,7 +123,7 @@ const TIERS: Tier[] = [
       'Revenue share: 70% of client subscriptions',
       'Priority support (24h guaranteed)',
       'Onboarding call included',
-      'Listed on rentaios.com/agencies',
+      'Listed on domrol.com/agencies',
     ],
     cta: 'Apply for agency plan',
     href: '/contact?subject=Agency+plan+application',

@@ -415,7 +415,7 @@ function IdentitySection({ config }: { config: BusinessConfig }) {
   const [showConfirm, setShowConfirm] = useState(false)
   const [copied, setCopied] = useState(false)
 
-  const slugUrl = slug ? `${slug}.rentaios.com` : ''
+  const slugUrl = slug ? `${slug}.domrol.com` : ''
 
   async function confirmSlug() {
     setStatus('saving')
@@ -461,7 +461,7 @@ function IdentitySection({ config }: { config: BusinessConfig }) {
                   className="flex-1 h-10 rounded-l-md border border-r-0 border-border bg-graphite/50 px-3 font-sans text-sm text-white placeholder:text-muted/40 focus:border-gold/40 focus:outline-none"
                 />
                 <span className="h-10 flex items-center rounded-r-md border border-border bg-black/40 px-3 font-sans text-sm text-muted">
-                  .rentaios.com
+                  .domrol.com
                 </span>
               </div>
               <p className="font-sans text-xs text-muted/60">Choose carefully — this can only be set once. Lowercase letters, numbers, hyphens only.</p>
@@ -564,7 +564,7 @@ function ShowcaseSection({ config }: { config: BusinessConfig }) {
     <SectionCard title="Public Showcase">
       <div className="flex flex-col gap-4">
         <Toggle
-          label="Feature my business on rentaios.com/customers"
+          label="Feature my business on domrol.com/customers"
           checked={featured}
           onChange={setFeatured}
           hint="Your business name, location, and vehicle type will be shown publicly on the RentalOS customers page."

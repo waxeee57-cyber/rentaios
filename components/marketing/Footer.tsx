@@ -19,15 +19,17 @@ const legal = [
 
 export async function Footer() {
   const config = await getBusinessConfig()
-  const _rawName = process.env.NEXT_PUBLIC_BUSINESS_NAME ?? ''
-  const businessName = _rawName && !_rawName.startsWith('http') ? _rawName : ''
-  const isWhiteLabel = businessName !== '' && businessName !== 'RentalOS'
-  const showPoweredBy = config.show_powered_by !== false && isWhiteLabel
+  const _rawName = (process.env.NEXT_PUBLIC_BUSINESS_NAME ?? '').trim()
+  const businessName = (_rawName && !_rawName.includes('http') && !_rawName.includes('.') && _rawName.length <= 30) ? _rawName : ''
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? ''
+  const isOwnSite = siteUrl.includes('domrol.com') || businessName === '' || businessName === 'RentalOS'
+  const showPoweredBy = !isOwnSite && config.show_powered_by !== false
+  const displayEmail = process.env.ADMIN_EMAIL || config.business_email
   const tagline = process.env.NEXT_PUBLIC_BUSINESS_TAGLINE || 'Your rental business, automated.'
-  const safeConfigName = config.business_name && !config.business_name.startsWith('http') ? config.business_name : 'RentalOS'
+  const safeConfigName = (config.business_name && !config.business_name.includes('http') && !config.business_name.includes('.') && config.business_name.length <= 30) ? config.business_name : 'RentalOS'
 
   return (
-    <footer className="border-t border-border bg-black">
+    <footer className="border-t border-slate-800 bg-slate-950">
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           <div className="flex flex-col gap-4">
@@ -60,10 +62,10 @@ export async function Footer() {
           <div className="flex flex-col gap-3">
             <p className="text-xs font-sans uppercase tracking-[0.15em] text-gold">Contact</p>
             <a
-              href={`mailto:${config.business_email}`}
+              href={`mailto:${displayEmail}`}
               className="text-sm font-sans text-muted hover:text-white transition-colors"
             >
-              {config.business_email}
+              {displayEmail}
             </a>
           </div>
         </div>

@@ -30,7 +30,7 @@ export default function AboutPage() {
       </section>
 
       {/* Story */}
-      <section className="py-16 border-t border-border">
+      <section className="bg-gray-50 py-16">
         <div className="mx-auto max-w-5xl px-6">
           <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:items-start">
             <div className="space-y-6 font-sans text-base leading-relaxed text-muted">
@@ -79,25 +79,25 @@ export default function AboutPage() {
       </section>
 
       {/* Contact strip */}
-      <section className="py-10 border-t border-border bg-surface">
+      <section className="bg-slate-900 py-10">
         <div className="mx-auto max-w-5xl px-6">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-            <p className="font-sans text-sm text-muted">
+            <p className="font-sans text-sm text-slate-300">
               Questions about the product, licensing, or a custom build?
             </p>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="font-sans text-sm text-muted hover:text-gray-900 transition-colors"
+                className="font-sans text-sm text-slate-300 hover:text-white transition-colors"
               >
                 {CONTACT_EMAIL}
               </a>
-              <span className="hidden sm:block text-muted/30">·</span>
+              <span className="hidden sm:block text-white/20">·</span>
               <a
                 href={WA_HREF}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-sans text-sm text-muted hover:text-gold transition-colors"
+                className="font-sans text-sm text-slate-300 hover:text-gold transition-colors"
               >
                 WhatsApp
               </a>
@@ -107,7 +107,7 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="py-24 border-t border-border">
+      <section className="bg-white py-24">
         <div className="mx-auto max-w-5xl px-6">
           <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-10">How we work</p>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -125,7 +125,7 @@ export default function AboutPage() {
                 body: "When you email us, a person who wrote every line of this code replies. We have never had a customer who couldn't get live.",
               },
             ].map(({ title, body }) => (
-              <div key={title} className="flex flex-col gap-4 rounded-lg border border-border bg-white p-6 shadow-sm">
+              <div key={title} className="flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
                 <h3 className="font-sans text-sm font-medium text-gray-900">{title}</h3>
                 <p className="font-sans text-sm leading-relaxed text-muted">{body}</p>
               </div>
@@ -135,7 +135,7 @@ export default function AboutPage() {
       </section>
 
       {/* CTAs */}
-      <section className="py-16 border-t border-border">
+      <section className="bg-slate-900 py-16">
         <div className="mx-auto max-w-5xl px-6">
           <div className="flex flex-col gap-4 sm:flex-row">
             <Link
@@ -146,7 +146,7 @@ export default function AboutPage() {
             </Link>
             <Link
               href="/pricing"
-              className="inline-flex items-center justify-center rounded-md border border-border px-6 py-3 font-sans text-sm text-muted hover:border-gold/40 hover:text-gray-900 transition-colors"
+              className="inline-flex items-center justify-center rounded-md border border-white/20 px-6 py-3 font-sans text-sm text-white hover:border-white/40 transition-colors"
             >
               View pricing
             </Link>

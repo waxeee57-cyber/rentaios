@@ -55,6 +55,14 @@ const PAIN_CARDS = [
   },
 ]
 
+const PAIN_BORDER_L = [
+  'border-l-blue-500',
+  'border-l-blue-400',
+  'border-l-blue-300',
+  'border-l-indigo-400',
+  'border-l-indigo-300',
+]
+
 const FOR_WHO = [
   {
     scale: '1–5 vehicles',
@@ -159,7 +167,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-white">
 
-      {/* ── Hero (stays dark) ──────────────────────────────────── */}
+      {/* ── Hero (dark) ────────────────────────────────────── */}
       <section className="bg-slate-900 text-white flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-6 pb-20 pt-16 text-center">
         <div className="mx-auto flex max-w-4xl flex-col items-center gap-8">
 
@@ -219,8 +227,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Pain & Solution ────────────────────────────────────── */}
-      <section id="problem" className="border-t border-border py-24 md:py-32">
+      {/* ── Pain & Solution (gray-50) ──────────────────────── */}
+      <section id="problem" className="bg-gray-50 py-24 md:py-32">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-14">
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">
@@ -232,10 +240,10 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 gap-5 md:grid-cols-6">
-            {PAIN_CARDS.slice(0, 3).map(({ Icon, tag, headline, copy }) => (
+            {PAIN_CARDS.slice(0, 3).map(({ Icon, tag, headline, copy }, i) => (
               <div
                 key={tag}
-                className="md:col-span-2 flex flex-col gap-5 rounded-lg border border-border bg-white p-6 shadow-sm"
+                className={`md:col-span-2 flex flex-col gap-5 rounded-xl border border-gray-200 border-l-4 ${PAIN_BORDER_L[i]} bg-white p-6 shadow-sm hover:shadow-md transition-shadow`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <Icon className="h-5 w-5 text-gold/70 shrink-0 mt-0.5" strokeWidth={1.5} />
@@ -249,10 +257,10 @@ export default function HomePage() {
                 </div>
               </div>
             ))}
-            {PAIN_CARDS.slice(3).map(({ Icon, tag, headline, copy }) => (
+            {PAIN_CARDS.slice(3).map(({ Icon, tag, headline, copy }, i) => (
               <div
                 key={tag}
-                className="md:col-span-3 flex flex-col gap-5 rounded-lg border border-border bg-white p-6 shadow-sm"
+                className={`md:col-span-3 flex flex-col gap-5 rounded-xl border border-gray-200 border-l-4 ${PAIN_BORDER_L[i + 3]} bg-white p-6 shadow-sm hover:shadow-md transition-shadow`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <Icon className="h-5 w-5 text-gold/70 shrink-0 mt-0.5" strokeWidth={1.5} />
@@ -274,8 +282,24 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── What's included ────────────────────────────────────── */}
-      <section id="features" className="bg-surface py-24 md:py-32">
+      {/* ── CTA strip ──────────────────────────────────────── */}
+      <section className="bg-slate-900 py-12">
+        <div className="mx-auto max-w-6xl px-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="font-display text-xl font-bold text-white">See how RentalOS solves this.</p>
+            <p className="font-sans text-sm text-slate-400 mt-1">From inquiry to confirmation in seconds — automatically.</p>
+          </div>
+          <a
+            href="/demo"
+            className="shrink-0 inline-flex items-center justify-center rounded-md bg-gold px-6 py-3 font-sans text-sm font-medium text-white hover:opacity-90 transition-opacity"
+          >
+            See it live →
+          </a>
+        </div>
+      </section>
+
+      {/* ── What's included (white) ────────────────────────── */}
+      <section id="features" className="bg-white py-24 md:py-32">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-14">
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">
@@ -299,8 +323,24 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Live demo ──────────────────────────────────────────── */}
-      <section className="py-24 md:py-32">
+      {/* ── CTA strip ──────────────────────────────────────── */}
+      <section className="bg-slate-900 py-12">
+        <div className="mx-auto max-w-6xl px-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="font-display text-xl font-bold text-white">Try the live demo.</p>
+            <p className="font-sans text-sm text-slate-400 mt-1">A real car rental business running on RentalOS, right now.</p>
+          </div>
+          <a
+            href="/demo/fleet"
+            className="shrink-0 inline-flex items-center justify-center rounded-md bg-gold px-6 py-3 font-sans text-sm font-medium text-white hover:opacity-90 transition-opacity"
+          >
+            Visit the demo →
+          </a>
+        </div>
+      </section>
+
+      {/* ── Built for a real business (dark) ──────────────── */}
+      <section className="bg-slate-900 text-white py-24 md:py-32">
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:items-center">
 
@@ -308,10 +348,10 @@ export default function HomePage() {
               <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">
                 See it live
               </p>
-              <h2 className="mb-6 font-display text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
+              <h2 className="mb-6 font-display text-4xl font-bold tracking-tight text-white md:text-5xl">
                 Built for a real business
               </h2>
-              <p className="mb-8 font-sans text-sm leading-relaxed text-muted">
+              <p className="mb-8 font-sans text-sm leading-relaxed text-slate-300">
                 A car rental business in Marbella is running this exact
                 codebase in production. Same admin panel. Same booking flow. Your branding.
               </p>
@@ -325,13 +365,13 @@ export default function HomePage() {
 
             <a
               href="/demo"
-              className="group flex min-h-[200px] aspect-video items-center justify-center rounded-lg border border-border bg-surface transition-all hover:border-gold/30 hover:shadow-md focus-visible:outline-none focus-visible:border-gold/50"
+              className="group flex min-h-[200px] aspect-video items-center justify-center rounded-xl border border-slate-700 bg-slate-800 transition-all hover:border-gold/40 hover:shadow-lg focus-visible:outline-none focus-visible:border-gold/50"
             >
               <div className="flex flex-col items-center gap-2 text-center">
-                <span className="font-display text-3xl font-bold text-muted transition-colors group-hover:text-gray-900">
+                <span className="font-display text-3xl font-bold text-slate-400 transition-colors group-hover:text-white">
                   Demo →
                 </span>
-                <span className="font-sans text-xs uppercase tracking-[0.15em] text-muted/50">
+                <span className="font-sans text-xs uppercase tracking-[0.15em] text-slate-600">
                   /demo
                 </span>
               </div>
@@ -341,8 +381,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Who it's for ───────────────────────────────────────── */}
-      <section className="bg-surface py-24 md:py-32">
+      {/* ── Who it's for (gray-50) ─────────────────────────── */}
+      <section className="bg-gray-50 py-24 md:py-32">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-14">
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">
@@ -357,7 +397,7 @@ export default function HomePage() {
             {FOR_WHO.slice(0, 3).map(({ scale, label, body, cta, href }) => (
               <div
                 key={label}
-                className="md:col-span-2 flex flex-col gap-3 rounded-lg border border-border bg-white p-6 shadow-sm"
+                className="md:col-span-2 flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
               >
                 <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-gold/60">{scale}</p>
                 <h3 className="font-display text-xl font-semibold text-gray-900">{label}</h3>
@@ -373,7 +413,7 @@ export default function HomePage() {
             {FOR_WHO.slice(3).map(({ scale, label, body, cta, href }) => (
               <div
                 key={label}
-                className="md:col-span-3 flex flex-col gap-3 rounded-lg border border-border bg-white p-6 shadow-sm"
+                className="md:col-span-3 flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
               >
                 <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-gold/60">{scale}</p>
                 <h3 className="font-display text-xl font-semibold text-gray-900">{label}</h3>
@@ -390,10 +430,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Social proof / CostaSol case study ─────────────────── */}
-      <section className="py-24 md:py-32">
+      {/* ── Social proof / CostaSol (white) ────────────────── */}
+      <section className="bg-white py-24 md:py-32">
         <div className="mx-auto max-w-2xl px-6">
-          <div className="rounded-lg border-l-4 border-gold bg-blue-50 px-8 py-8">
+          <div className="rounded-xl border-l-4 border-gold bg-blue-50 px-8 py-8 shadow-sm">
             <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-6">Built for a real business</p>
             <blockquote className="mb-6 font-display text-2xl font-semibold leading-relaxed text-gray-900">
               Before RentalOS, we managed everything on WhatsApp and a shared spreadsheet. Now every inquiry gets a confirmation email within seconds. Our customers think we&apos;re a much bigger operation than we are.
@@ -434,14 +474,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Pricing teaser ─────────────────────────────────────── */}
-      <section id="pricing" className="bg-surface py-24 md:py-32">
+      {/* ── Pricing teaser (dark) ──────────────────────────── */}
+      <section id="pricing" className="bg-slate-900 py-24 md:py-32">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-14 text-center">
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">
               Pricing
             </p>
-            <h2 className="font-display text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
+            <h2 className="font-display text-4xl font-bold tracking-tight text-white md:text-5xl">
               Choose how you get started
             </h2>
           </div>
@@ -450,10 +490,10 @@ export default function HomePage() {
             {PRICING.map(({ name, price, cadence, lines, licenceLink, cta, href, accent }) => (
               <div
                 key={name}
-                className={`flex flex-col rounded-lg border p-8 ${
+                className={`flex flex-col rounded-xl border p-8 shadow-md ${
                   accent
                     ? 'border-gold/50 bg-gold/5 ring-1 ring-gold/10'
-                    : 'border-border bg-white shadow-sm'
+                    : 'border-gray-200 bg-white'
                 }`}
               >
                 {accent && (
@@ -515,8 +555,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── FAQ ────────────────────────────────────────────────── */}
-      <section className="py-24 md:py-32">
+      {/* ── FAQ (gray-50) ──────────────────────────────────── */}
+      <section className="bg-gray-50 py-24 md:py-32">
         <div className="mx-auto max-w-3xl px-6">
           <div className="mb-14">
             <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">
@@ -538,7 +578,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Final CTA (stays dark) ─────────────────────────────── */}
+      {/* ── Final CTA (dark) ───────────────────────────────── */}
       <section className="bg-slate-900 py-20">
         <div className="mx-auto max-w-2xl px-6 text-center">
           <h2 className="mb-8 font-display text-3xl font-bold tracking-tight text-white md:text-4xl">

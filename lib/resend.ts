@@ -6,7 +6,7 @@ export const resend = apiKey ? new Resend(apiKey) : null
 
 export const FROM =
   `${process.env.RESEND_FROM_NAME ?? 'RentalOS'} <${
-    process.env.RESEND_FROM_EMAIL ?? 'noreply@rentaios.com'
+    process.env.RESEND_FROM_EMAIL ?? 'noreply@domrol.com'
   }>`
 
 export const ADMIN_EMAIL =
