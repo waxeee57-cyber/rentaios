@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import { TrackEventOnMount } from '@/components/TrackEventOnMount'
 
 export const metadata: Metadata = {
-  title: 'Setup request received — RentalOS',
+  title: 'Setup request received',
   description: 'Your setup request has been received. Expect your system within 48 hours.',
   robots: { index: false },
 }

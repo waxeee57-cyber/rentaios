@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Car Rental Booking Software — RentalOS',
+  title: 'Car Rental Booking Software',
   description: 'Stop managing car rental bookings on WhatsApp. RentalOS is a complete car hire management system: inquiry form, admin panel, email alerts, mobile-first. Deploy in one day.',
   alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'}/car-rental-booking-software` },
   openGraph: {

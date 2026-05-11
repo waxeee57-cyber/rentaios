@@ -9,7 +9,7 @@ export const revalidate = false
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'
 
 export const metadata: Metadata = {
-  title: 'Buy RentalOS — Complete Rental Booking System from €299',
+  title: { absolute: 'Buy RentalOS — Complete Rental Booking System from €299' },
   description:
     'Complete rental booking system for car, yacht, villa, and motorcycle businesses. Template from €299. Admin panel, email notifications, fleet management. Deploy in one day.',
   alternates: {
@@ -345,8 +345,9 @@ export default async function SellPage() {
           <div className="mx-auto flex max-w-[1100px] items-center justify-between px-6 py-3">
             <Logo />
             <div className="flex items-center gap-6">
-              <Link href="/pricing" className="font-sans text-sm text-muted transition-colors hover:text-white hidden sm:block">Pricing</Link>
               <Link href="/demo" className="font-sans text-sm text-muted transition-colors hover:text-white hidden sm:block">Demo</Link>
+              <Link href="/pricing" className="font-sans text-sm text-muted transition-colors hover:text-white hidden sm:block">Pricing</Link>
+              <Link href="/about" className="font-sans text-sm text-muted transition-colors hover:text-white hidden sm:block">About</Link>
               <Link
                 href="/pricing"
                 className="rounded-sm bg-gold px-4 py-2 font-sans text-xs font-medium text-black transition-opacity hover:opacity-90"
@@ -561,7 +562,7 @@ export default async function SellPage() {
               <div className="flex items-end justify-between gap-6 mb-8">
                 <div>
                   <p className="font-sans text-sm font-medium text-white">CostaSol Car Rent</p>
-                  <p className="mt-0.5 font-sans text-xs text-muted">Marbella, Spain — running since 2024</p>
+                  <p className="mt-0.5 font-sans text-xs text-muted">Marbella, Spain — running since 2026</p>
                 </div>
                 <a
                   href="https://drivecostasol.com"

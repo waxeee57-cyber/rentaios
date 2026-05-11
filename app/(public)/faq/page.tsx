@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { FAQAccordion } from './FAQAccordion'
 
 export const metadata: Metadata = {
-  title: 'FAQ — RentalOS',
+  title: 'FAQ',
   description: 'Frequently asked questions about RentalOS — setup, features, billing, and technical details.',
   alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'}/faq` },
 }

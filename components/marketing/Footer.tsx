@@ -24,6 +24,7 @@ export async function Footer() {
   const isWhiteLabel = businessName !== '' && businessName !== 'RentalOS'
   const showPoweredBy = config.show_powered_by !== false && isWhiteLabel
   const tagline = process.env.NEXT_PUBLIC_BUSINESS_TAGLINE || 'Your rental business, automated.'
+  const safeConfigName = config.business_name && !config.business_name.startsWith('http') ? config.business_name : 'RentalOS'
 
   return (
     <footer className="border-t border-border bg-black">
@@ -70,7 +71,7 @@ export async function Footer() {
         <div className="mt-12 flex flex-col gap-4 border-t border-border pt-8 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="text-xs font-sans text-muted">
-              © {new Date().getFullYear()} {config.business_name}. All rights reserved.
+              © {new Date().getFullYear()} {safeConfigName}. All rights reserved.
             </p>
             {showPoweredBy && (
               <a

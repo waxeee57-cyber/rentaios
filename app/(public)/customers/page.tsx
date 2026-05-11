@@ -5,7 +5,7 @@ import { supabaseAdmin } from '@/lib/supabase'
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'
 
 export const metadata: Metadata = {
-  title: 'Built with RentalOS — Customer Showcase',
+  title: { absolute: 'Built with RentalOS — Customer Showcase' },
   description: 'Rental businesses running on RentalOS worldwide. Car rental, yacht charter, villa rental, and more.',
   alternates: { canonical: `${BASE}/customers` },
 }

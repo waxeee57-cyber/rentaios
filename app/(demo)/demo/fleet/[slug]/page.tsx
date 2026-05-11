@@ -41,9 +41,9 @@ async function getDemoCar(slug: string): Promise<DemoCar | null> {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const car = await getDemoCar(slug)
-  if (!car) return { title: 'Demo Vehicle — RentalOS' }
+  if (!car) return { title: 'Demo Vehicle' }
   return {
-    title: `Demo: ${car.brand} ${car.model} — RentalOS`,
+    title: `Demo: ${car.brand} ${car.model}`,
     robots: { index: false },
   }
 }

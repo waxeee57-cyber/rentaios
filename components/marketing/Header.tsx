@@ -11,6 +11,7 @@ const navLinks = [
   { href: '/demo/fleet', label: 'Demo' },
   { href: '/pricing', label: 'Pricing' },
   { href: '/faq', label: 'FAQ' },
+  { href: '/about', label: 'About' },
 ]
 
 const WA_HREF = 'https://wa.me/36708564381?text=Hi%2C%20I%27m%20interested%20in%20RentalOS'
@@ -73,7 +74,7 @@ export function Header() {
         id="mobile-nav"
         className={cn(
           'border-t border-border bg-black transition-all duration-200 md:hidden',
-          open ? 'max-h-72 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+          open ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
         )}
       >
         <nav className="flex flex-col px-6 py-4 gap-4">

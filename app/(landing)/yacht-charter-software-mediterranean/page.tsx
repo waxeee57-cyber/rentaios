@@ -5,7 +5,7 @@ import { WaitlistForm } from '@/components/marketing/WaitlistForm'
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'
 
 export const metadata: Metadata = {
-  title: 'Yacht Charter Software | Booking System for Charter Operators | RentalOS',
+  title: 'Yacht Charter Software | Booking System for Charter Operators',
   description: 'Booking and management system for yacht charter businesses. Automate inquiries, send confirmations, manage your fleet. From €49/month. Built for Mediterranean operators.',
   alternates: { canonical: `${BASE}/yacht-charter-software-mediterranean` },
   keywords: ['yacht charter software', 'day charter booking system', 'sailing boat rental software', 'ibiza yacht charter management'],

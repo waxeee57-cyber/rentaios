@@ -9,7 +9,7 @@ import { DemoConversionBar } from './DemoConversionBar'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Demo Fleet — RentalOS',
+  title: 'Demo Fleet',
   description: 'Explore the RentalOS demo. See how the fleet browsing and booking experience works.',
   robots: { index: false },
 }

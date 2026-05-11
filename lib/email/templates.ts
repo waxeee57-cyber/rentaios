@@ -7,7 +7,7 @@ const BRAND_DARK = '#0F0F10'
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'
 const _bn = process.env.NEXT_PUBLIC_BUSINESS_NAME ?? ''
 const BUSINESS_NAME = _bn && !_bn.startsWith('http') ? _bn : 'RentalOS'
-const BUSINESS_EMAIL = process.env.ADMIN_EMAIL ?? 'hello@rentaios.com'
+const BUSINESS_EMAIL = process.env.ADMIN_EMAIL ?? 'hello@domrol.com'
 
 function firstName(fullName: string): string {
   return fullName.trim().split(' ')[0] || fullName

@@ -5,7 +5,7 @@ import { ReferralPublicForm } from './ReferralPublicForm'
 import { ReferralAdminDashboard } from './ReferralAdminDashboard'
 
 export const metadata: Metadata = {
-  title: 'Refer a rental business — RentalOS',
+  title: 'Refer a rental business',
   description: 'Refer a rental business to RentalOS. When they subscribe, you both get one month free.',
 }
 

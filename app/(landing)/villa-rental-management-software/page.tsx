@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Villa Rental Management Software — RentalOS',
+  title: 'Villa Rental Management Software',
   description: 'Manage villa rental bookings without the spreadsheet. Inquiry form, guest confirmations, admin panel. Deploy in one day. From €99/month.',
   alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'}/villa-rental-management-software` },
   openGraph: {

@@ -6,7 +6,7 @@ const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'
 const AED_RATE = parseFloat(process.env.NEXT_PUBLIC_AED_RATE ?? '4.1')
 
 export const metadata: Metadata = {
-  title: 'Car Rental Software Dubai | Manage Fleet & Bookings | RentalOS',
+  title: 'Car Rental Software Dubai | Manage Fleet & Bookings',
   description: 'Car rental management software built for Dubai and UAE operators. Automate bookings, send confirmations, manage your luxury fleet. From €49/month.',
   alternates: { canonical: `${BASE}/car-rental-software-dubai` },
   openGraph: {

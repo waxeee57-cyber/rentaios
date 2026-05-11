@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Car Rental Software Marbella — RentalOS',
+  title: 'Car Rental Software Marbella',
   description: 'Luxury car rental software built and deployed in Marbella. The booking system powering Costa del Sol rental businesses. Available for any luxury rental operation.',
   alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'}/luxury-rental-software-marbella` },
   openGraph: {

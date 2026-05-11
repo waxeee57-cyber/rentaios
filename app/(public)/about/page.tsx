@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { ExternalLink } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'About — RentalOS',
+  title: 'About',
   description: 'RentalOS started as a booking system for a single car rental business on the Costa del Sol. Built by two people who would want this themselves.',
   alternates: {
     canonical: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'}/about`,
@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 }
 
 const WA_HREF = 'https://wa.me/36708564381?text=Hi%2C%20I%27d%20like%20to%20learn%20more%20about%20RentalOS'
+const CONTACT_EMAIL = process.env.ADMIN_EMAIL ?? 'hello@domrol.com'
 
 export default function AboutPage() {
   return (
@@ -86,10 +87,10 @@ export default function AboutPage() {
             </p>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               <a
-                href="mailto:hello@rentaios.com"
+                href={`mailto:${CONTACT_EMAIL}`}
                 className="font-sans text-sm text-muted hover:text-white transition-colors"
               >
-                hello@rentaios.com
+                {CONTACT_EMAIL}
               </a>
               <span className="hidden sm:block text-muted/20">·</span>
               <a

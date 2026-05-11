@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Yacht Charter Booking System — RentalOS',
+  title: 'Yacht Charter Booking System',
   description: 'A complete day charter booking system for yacht and boat rental businesses. Inquiry form, admin panel, email confirmations. Deploy in one day. From €99/month.',
   alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'}/yacht-charter-booking-system` },
   openGraph: {

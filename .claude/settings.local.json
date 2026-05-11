@@ -46,7 +46,9 @@
       "PowerShell(Get-Content *)",
       "Bash(pnpm build *)",
       "PowerShell(pnpm build *)",
-      "PowerShell(git add *)"
+      "PowerShell(git add *)",
+      "PowerShell(git commit -m $msg)",
+      "PowerShell(git push *)"
     ]
   }
 }

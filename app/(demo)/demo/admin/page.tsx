@@ -7,7 +7,7 @@ import { DemoTabs } from '@/app/(demo)/DemoTabs'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Demo Admin Panel — RentalOS',
+  title: 'Demo Admin Panel',
   description: 'Explore the RentalOS admin panel in demo mode. See how bookings are managed.',
   robots: { index: false },
 }

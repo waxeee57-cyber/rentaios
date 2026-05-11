@@ -3,7 +3,9 @@ import Link from 'next/link'
 import { Check, ArrowRight, ExternalLink, MessageCircle, Users, Star, Code2, MapPin } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'RentalOS — Booking System for Car, Yacht & Villa Rentals',
+  title: {
+    absolute: 'RentalOS — Rental Booking System for Car, Yacht & Villa Rentals',
+  },
   description: 'Stop managing rental bookings on WhatsApp. RentalOS automates every inquiry, confirmation, and follow-up. From €49/month or buy the template for €299.',
 }
 
@@ -399,7 +401,7 @@ export default function HomePage() {
             <div className="flex items-end justify-between gap-6 mb-8">
               <div>
                 <p className="font-sans text-sm font-medium text-white">CostaSol Car Rent</p>
-                <p className="mt-0.5 font-sans text-xs text-muted">Marbella, Spain — running since 2024</p>
+                <p className="mt-0.5 font-sans text-xs text-muted">Marbella, Spain — running since 2026</p>
               </div>
               <a
                 href="https://drivecostasol.com"
@@ -544,16 +546,18 @@ export default function HomePage() {
           </h2>
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <a
-              href="/pricing"
+              href="/demo/fleet"
               className="inline-flex items-center justify-center rounded-md bg-gold px-8 py-4 font-sans text-sm font-medium text-black transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-graphite"
             >
-              Start free trial
+              See it live →
             </a>
             <a
-              href="/sell"
+              href="https://wa.me/36708564381?text=Hi%2C%20I%27m%20interested%20in%20RentalOS"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center rounded-md border border-gold/30 px-8 py-4 font-sans text-sm font-medium text-white transition-colors hover:border-gold/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-graphite"
             >
-              Buy template — €299
+              Talk to us →
             </a>
           </div>
         </div>

@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Contact — RentalOS',
+  title: 'Contact',
   description: 'Get in touch with the RentalOS team. Questions about setup, pricing, or the done-for-you service.',
   alternates: {
     canonical: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'}/contact`,
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 }
 
 export default function ContactPage() {
-  const email = process.env.ADMIN_EMAIL ?? 'hello@rentaios.com'
+  const email = process.env.ADMIN_EMAIL ?? 'hello@domrol.com'
 
   return (
     <div className="min-h-screen bg-black py-24">
