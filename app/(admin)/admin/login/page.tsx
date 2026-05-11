@@ -42,7 +42,7 @@ export default function AdminLoginPage() {
     <div className="min-h-screen bg-black flex flex-col items-center justify-center px-6">
       <div className="w-full max-w-sm space-y-8">
         <div className="flex justify-center">
-          <Logo height={48} />
+          <Logo dark />
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4">

@@ -22,7 +22,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <header className="border-b border-border bg-graphite">
         <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
           <div className="flex items-center gap-3">
-            <span className="font-display text-base font-medium text-white">{config.business_name}</span>
+            <span className="font-display text-base font-extrabold tracking-[-0.02em] text-white">{config.business_name}</span>
             <span className="font-sans text-[10px] uppercase tracking-[0.2em] text-gold">Admin</span>
           </div>
           <SignOutButton />

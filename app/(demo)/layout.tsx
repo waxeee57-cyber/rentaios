@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Logo } from '@/components/brand/Logo'
 
 export default function DemoLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -7,9 +8,7 @@ export default function DemoLayout({ children }: { children: React.ReactNode }) 
       <div className="sticky top-0 z-50 border-b border-gold/20 bg-gold/10 backdrop-blur-sm">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-3">
           <div className="flex items-center gap-4">
-            <Link href="/" className="font-display text-lg font-bold text-gold shrink-0">
-              RentalOS
-            </Link>
+            <Logo className="shrink-0" />
             <div className="hidden sm:flex items-center gap-3">
               <div className="h-1.5 w-1.5 rounded-full bg-gold animate-pulse" />
               <p className="font-sans text-xs text-gold">

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Check, ArrowRight, ExternalLink, MessageCircle, Users, Star, Code2, MapPin, Bike, Wrench } from 'lucide-react'
+import { Check, ArrowRight, ExternalLink, MessageCircle, Users, Star, Code2, MapPin, Bike, Wrench, Car, Ship, Home, Sailboat, Waves, Mountain, TentTree, Music, Lightbulb, Plane, Zap, Camera } from 'lucide-react'
 import { HeroStage } from '@/components/marketing/HeroStage'
 
 export const metadata: Metadata = {
@@ -512,28 +512,28 @@ export default function HomePage() {
 
           <div className="mb-14 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {[
-              { emoji: '🚗', label: 'Cars' },
-              { emoji: '🏍️', label: 'Motorcycles' },
-              { emoji: '⛵', label: 'Yachts' },
-              { emoji: '🏠', label: 'Villas' },
-              { emoji: '🚲', label: 'Bikes' },
-              { emoji: '🛶', label: 'Kayaks' },
-              { emoji: '🏄', label: 'Surfboards' },
-              { emoji: '⛷️', label: 'Skis' },
-              { emoji: '⛺', label: 'Tents' },
-              { emoji: '🎵', label: 'Audio gear' },
-              { emoji: '💡', label: 'Lighting' },
-              { emoji: '🚁', label: 'Drones' },
-              { emoji: '🔨', label: 'Construction tools' },
-              { emoji: '⚡', label: 'Generators' },
-              { emoji: '📷', label: 'Cameras' },
-              { emoji: '🛴', label: 'E-scooters' },
-            ].map(({ emoji, label }) => (
+              { Icon: Car, label: 'Cars' },
+              { Icon: Bike, label: 'Motorcycles' },
+              { Icon: Ship, label: 'Yachts' },
+              { Icon: Home, label: 'Villas' },
+              { Icon: Bike, label: 'Bikes' },
+              { Icon: Sailboat, label: 'Kayaks' },
+              { Icon: Waves, label: 'Surfboards' },
+              { Icon: Mountain, label: 'Skis' },
+              { Icon: TentTree, label: 'Tents' },
+              { Icon: Music, label: 'Audio gear' },
+              { Icon: Lightbulb, label: 'Lighting' },
+              { Icon: Plane, label: 'Drones' },
+              { Icon: Wrench, label: 'Construction tools' },
+              { Icon: Zap, label: 'Generators' },
+              { Icon: Camera, label: 'Cameras' },
+              { Icon: Bike, label: 'E-scooters' },
+            ].map(({ Icon, label }) => (
               <div
                 key={label}
                 className="flex flex-col items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-5 text-center"
               >
-                <span className="text-2xl" aria-hidden="true">{emoji}</span>
+                <Icon className="h-8 w-8 text-gold" aria-hidden="true" strokeWidth={1.5} />
                 <span className="font-sans text-xs text-muted">{label}</span>
               </div>
             ))}

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { FileText } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { OutreachLead } from './page'
 
@@ -241,7 +242,7 @@ export function OutreachClient({ leads: initial }: { leads: OutreachLead[] }) {
                         className="rounded border border-border px-2 py-1 font-sans text-[11px] text-muted hover:text-white transition-colors"
                         title={lead.notes ?? 'Add note'}
                       >
-                        {lead.notes ? '📝' : 'Note'}
+                        {lead.notes ? <FileText className="h-3 w-3" /> : 'Note'}
                       </button>
                     </div>
                   </td>

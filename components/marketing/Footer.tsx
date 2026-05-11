@@ -33,7 +33,7 @@ export async function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           <div className="flex flex-col gap-4">
-            <Logo height={36} />
+            <Logo dark />
             <p className="max-w-xs text-xs font-sans leading-relaxed text-muted">
               {tagline}
             </p>

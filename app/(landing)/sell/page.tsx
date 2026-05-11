@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Check, ExternalLink, MessageCircle, Calendar, FileText } from 'lucide-react'
+import { Check, ExternalLink, MessageCircle, Calendar, FileText, AlertTriangle } from 'lucide-react'
 import { getBusinessConfig } from '@/lib/config'
 import { Logo } from '@/components/brand/Logo'
 
@@ -222,7 +222,7 @@ function AdminPanelMockup() {
         ))}
         {/* Document expiry alert row */}
         <div className="flex items-center gap-2 px-5 py-3" style={{ background: 'rgba(251,191,36,0.05)' }}>
-          <span className="font-sans text-[11px] text-gold/70">⚠</span>
+          <AlertTriangle className="h-3 w-3 shrink-0 text-gold/70" />
           <span className="font-sans text-xs text-gold/80 flex-1">Insurance expiring — Mercedes E-Class</span>
           <span className="font-sans text-[11px] text-gold/70 tabular-nums">12 days</span>
         </div>
