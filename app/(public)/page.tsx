@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Check, ArrowRight, ExternalLink, MessageCircle, Users, Star, Code2, MapPin } from 'lucide-react'
-import { AdminMockPanel } from '@/components/marketing/AdminMockPanel'
+import { HeroStage } from '@/components/marketing/HeroStage'
 
 export const metadata: Metadata = {
   title: {
@@ -163,10 +163,10 @@ export default function HomePage() {
 
       {/* ── Hero (dark) ────────────────────────────────────── */}
       <section className="hero-dark text-white flex min-h-[calc(100vh-4rem)] flex-col justify-center px-6 py-16">
-        <div className="mx-auto w-full max-w-6xl">
+        <div className="mx-auto w-full max-w-7xl">
 
-          {/* Two-column layout: 60% text / 40% mock panel */}
-          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[3fr_2fr] xl:gap-16">
+          {/* Two-column layout: 40% text / 60% visual stage */}
+          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[2fr_3fr] xl:gap-16">
 
             {/* Left — text */}
             <div className="flex flex-col gap-6">
@@ -220,13 +220,13 @@ export default function HomePage() {
 
             </div>
 
-            {/* Right — faux admin panel (decorative, aria-hidden) */}
-            <AdminMockPanel />
+            {/* Right — multi-layer visual stage (decorative, aria-hidden) */}
+            <HeroStage />
 
           </div>
 
           {/* Scroll indicator */}
-          <div className="mt-12 flex justify-center lg:justify-start">
+          <div className="mt-10 flex justify-center lg:justify-start">
             <a
               href="#problem"
               aria-label="Scroll to see the problem we solve"

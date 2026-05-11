@@ -380,3 +380,39 @@ html {
     transform: none;
   }
 }
+
+/* ─── Effect 11: Hero stage — cycling toast notifications ─── */
+
+@keyframes toastCycle {
+  0%      { opacity: 0; transform: translateX(20px); }
+  3.33%   { opacity: 1; transform: translateX(0);    }
+  22%     { opacity: 1; transform: translateX(0);    }
+  25%     { opacity: 0; transform: translateX(-8px); }
+  25.01%  { opacity: 0; transform: translateX(20px); }
+  100%    { opacity: 0; transform: translateX(20px); }
+}
+
+.toast-item {
+  animation-name: toastCycle;
+  animation-duration: 18s;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+  animation-fill-mode: backwards;
+  will-change: transform, opacity;
+  opacity: 0;
+}
+
+/* Default: hide the static fallback, show cycling toasts */
+.toast-static {
+  display: none;
+}
+
+/* Reduced-motion: invert — hide cycling toasts, show static badge */
+@media (prefers-reduced-motion: reduce) {
+  .toast-item {
+    display: none;
+  }
+  .toast-static {
+    display: flex;
+  }
+}
