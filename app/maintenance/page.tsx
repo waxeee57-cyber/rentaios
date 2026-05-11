@@ -1,12 +1,14 @@
 import { MessageCircle } from 'lucide-react'
 
 export default function MaintenancePage() {
+  const _rn = process.env.NEXT_PUBLIC_BUSINESS_NAME ?? ''
+  const businessName = _rn && !_rn.startsWith('http') ? _rn : 'RentalOS'
   const wa = process.env.NEXT_PUBLIC_BUSINESS_WHATSAPP ?? ''
 
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center px-6 text-center">
       <div className="space-y-6 max-w-md">
-        <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold">{process.env.NEXT_PUBLIC_BUSINESS_NAME ?? 'RentalOS'}</p>
+        <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold">{businessName}</p>
         <h1 className="font-display text-5xl font-light text-white tracking-tight">
           We'll be back shortly
         </h1>

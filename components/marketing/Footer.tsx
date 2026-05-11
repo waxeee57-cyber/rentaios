@@ -19,7 +19,8 @@ const legal = [
 
 export async function Footer() {
   const config = await getBusinessConfig()
-  const businessName = process.env.NEXT_PUBLIC_BUSINESS_NAME ?? ''
+  const _rawName = process.env.NEXT_PUBLIC_BUSINESS_NAME ?? ''
+  const businessName = _rawName && !_rawName.startsWith('http') ? _rawName : ''
   const isWhiteLabel = businessName !== '' && businessName !== 'RentalOS'
   const showPoweredBy = config.show_powered_by !== false && isWhiteLabel
   const tagline = process.env.NEXT_PUBLIC_BUSINESS_TAGLINE || 'Your rental business, automated.'

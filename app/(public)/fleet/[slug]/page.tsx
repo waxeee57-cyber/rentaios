@@ -81,7 +81,7 @@ export default async function CarDetailPage({ params, searchParams }: PageProps)
       priceCurrency: 'EUR',
       availability: 'https://schema.org/InStock',
       priceValidUntil: `${new Date().getFullYear() + 1}-12-31`,
-      seller: { '@type': 'Organization', name: process.env.NEXT_PUBLIC_BUSINESS_NAME ?? 'RentalOS' },
+      seller: { '@type': 'Organization', name: (() => { const n = process.env.NEXT_PUBLIC_BUSINESS_NAME ?? ''; return n && !n.startsWith('http') ? n : 'RentalOS' })() },
     },
   }
 

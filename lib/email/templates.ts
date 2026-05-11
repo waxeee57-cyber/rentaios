@@ -5,7 +5,8 @@ import { parseISO } from 'date-fns'
 const BRAND_GOLD = '#C8A96B'
 const BRAND_DARK = '#0F0F10'
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'
-const BUSINESS_NAME = process.env.NEXT_PUBLIC_BUSINESS_NAME ?? 'RentalOS'
+const _bn = process.env.NEXT_PUBLIC_BUSINESS_NAME ?? ''
+const BUSINESS_NAME = _bn && !_bn.startsWith('http') ? _bn : 'RentalOS'
 const BUSINESS_EMAIL = process.env.ADMIN_EMAIL ?? 'hello@rentaios.com'
 
 function firstName(fullName: string): string {

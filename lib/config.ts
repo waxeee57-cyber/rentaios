@@ -37,9 +37,12 @@ export type BusinessConfig = {
   showcase_vehicle_type: string | null
 }
 
+const _envName = process.env.NEXT_PUBLIC_BUSINESS_NAME ?? ''
+const SAFE_BUSINESS_NAME = _envName && !_envName.startsWith('http') ? _envName : 'RentalOS'
+
 export const DEFAULT_CONFIG: BusinessConfig = {
   id: '',
-  business_name: process.env.NEXT_PUBLIC_BUSINESS_NAME ?? 'RentalOS',
+  business_name: SAFE_BUSINESS_NAME,
   business_email: process.env.ADMIN_EMAIL ?? 'hello@rentaios.com',
   business_phone: process.env.NEXT_PUBLIC_BUSINESS_PHONE ?? null,
   business_whatsapp: process.env.NEXT_PUBLIC_BUSINESS_WHATSAPP ?? null,

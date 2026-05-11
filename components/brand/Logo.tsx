@@ -6,7 +6,8 @@ interface LogoProps {
 }
 
 export function Logo({ className }: LogoProps) {
-  const name = process.env.NEXT_PUBLIC_BUSINESS_NAME ?? 'RentalOS'
+  const _raw = process.env.NEXT_PUBLIC_BUSINESS_NAME ?? ''
+  const name = _raw && !_raw.startsWith('http') ? _raw : 'RentalOS'
   return (
     <Link href="/" aria-label={`${name} — Home`} className={className}>
       <span
