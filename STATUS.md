@@ -14,10 +14,10 @@ READ THIS AT THE START OF EVERY SESSION.
 - **Started:** [none]
 
 ### Dominik
-- **Branch:** fix/admin-messages-clients
-- **Files:** app/(admin)/admin/(protected)/messages/page.tsx, app/(admin)/admin/(protected)/clients/ClientsList.tsx, app/(admin)/admin/(protected)/layout.tsx
-- **Description:** Fix messages realtime subscription + toast notifications; fix clients accordion one-at-a-time expand
-- **Started:** 2026-05-12
+- **Branch:** [none]
+- **Files:** [none]
+- **Description:** [none]
+- **Started:** [none]
 
 ---
 
