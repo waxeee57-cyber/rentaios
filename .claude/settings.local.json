@@ -48,7 +48,9 @@
       "PowerShell(pnpm build *)",
       "PowerShell(git add *)",
       "PowerShell(git commit -m $msg)",
-      "PowerShell(git push *)"
+      "PowerShell(git push *)",
+      "Bash(git checkout *)",
+      "PowerShell(Get-ChildItem C:\\\\projects\\\\tableos\\\\app -Recurse -Force | Where-Object { $_.Name -match \"global|css|tailwind\" } | Select-Object FullName)"
     ]
   }
 }
