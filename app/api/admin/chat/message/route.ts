@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
 
   await supabaseAdmin
     .from('chat_conversations')
-    .update({ updated_at: new Date().toISOString() })
+    .update({ updated_at: new Date().toISOString(), last_message_sender: 'admin' })
     .eq('id', conversation_id)
 
   return NextResponse.json(msg)
