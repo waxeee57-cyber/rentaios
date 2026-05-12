@@ -2,17 +2,20 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@supabase/supabase-js'
-import { MessageCircle, X, Send, ChevronDown } from 'lucide-react'
+import { MessageCircle, X, Send, ChevronDown, Clock } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 type Message = {
   id: string
-  sender: 'visitor' | 'admin'
+  sender: 'visitor' | 'admin' | 'auto'
   body: string
   created_at: string
 }
 
 const SESSION_KEY = 'chat_session_id'
+const AUTO_REPLY_KEY = 'chat_auto_replied'
+const AUTO_REPLY_TEXT =
+  "Thanks for reaching out. We've received your message and typically reply within 2 hours during business hours (Mon–Fri, 9:00–18:00 CET). For urgent rental inquiries, expect a faster response."
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -122,6 +125,10 @@ export function ChatWidget() {
         loadedRef.current = true
       }
 
+      const isFirstMessage =
+        !sessionStorage.getItem(AUTO_REPLY_KEY) &&
+        messages.filter((m) => m.sender === 'visitor').length === 0
+
       const optimistic: Message = {
         id: `temp-${Date.now()}`,
         sender: 'visitor',
@@ -129,6 +136,21 @@ export function ChatWidget() {
         created_at: new Date().toISOString(),
       }
       setMessages((prev) => [...prev, optimistic])
+
+      if (isFirstMessage) {
+        sessionStorage.setItem(AUTO_REPLY_KEY, '1')
+        setTimeout(() => {
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: `auto-${Date.now()}`,
+              sender: 'auto',
+              body: AUTO_REPLY_TEXT,
+              created_at: new Date().toISOString(),
+            },
+          ])
+        }, 700)
+      }
 
       await fetch('/api/chat/message', {
         method: 'POST',
@@ -165,7 +187,7 @@ export function ChatWidget() {
             </button>
           </div>
 
-          <div className="flex min-h-[320px] max-h-[400px] flex-col gap-2 overflow-y-auto bg-gray-50 p-4">
+          <div aria-live="polite" aria-label="Chat messages" className="flex min-h-[320px] max-h-[400px] flex-col gap-2 overflow-y-auto bg-gray-50 p-4">
             {loading && (
               <p className="py-8 text-center font-sans text-xs text-muted">Loading…</p>
             )}
@@ -182,16 +204,26 @@ export function ChatWidget() {
                 key={msg.id}
                 className={cn('flex', msg.sender === 'visitor' ? 'justify-end' : 'justify-start')}
               >
-                <div
-                  className={cn(
-                    'max-w-[80%] rounded-lg px-3 py-2 font-sans text-sm leading-relaxed',
-                    msg.sender === 'visitor'
-                      ? 'bg-gray-900 text-white'
-                      : 'border border-gray-200 bg-white text-gray-800'
-                  )}
-                >
-                  {msg.body}
-                </div>
+                {msg.sender === 'auto' ? (
+                  <div className="max-w-[85%] rounded-lg border border-gray-100 bg-gray-50 px-3 py-2 font-sans text-sm leading-relaxed text-gray-500">
+                    <span className="mb-1 flex items-center gap-1 text-[10px] font-medium uppercase tracking-wide text-gray-400">
+                      <Clock className="h-3 w-3" />
+                      Auto-reply
+                    </span>
+                    {msg.body}
+                  </div>
+                ) : (
+                  <div
+                    className={cn(
+                      'max-w-[80%] rounded-lg px-3 py-2 font-sans text-sm leading-relaxed',
+                      msg.sender === 'visitor'
+                        ? 'bg-gray-900 text-white'
+                        : 'border border-gray-200 bg-white text-gray-800'
+                    )}
+                  >
+                    {msg.body}
+                  </div>
+                )}
               </div>
             ))}
             <div ref={messagesEndRef} />
