@@ -4,7 +4,8 @@ import { rateLimit, getClientIp } from '@/lib/rate-limit'
 import { z } from 'zod'
 
 const schema = z.object({
-  visitor_name: z.string().max(100).optional(),
+  visitor_name: z.string().min(1).max(100),
+  visitor_short_id: z.string().regex(/^[A-Z0-9]{4}$/),
   visitor_email: z.string().email().optional().or(z.literal('')),
 })
 
@@ -26,7 +27,8 @@ export async function POST(req: NextRequest) {
     .from('chat_conversations')
     .insert({
       session_id,
-      visitor_name: parsed.data.visitor_name || null,
+      visitor_name: parsed.data.visitor_name,
+      visitor_short_id: parsed.data.visitor_short_id,
       visitor_email: parsed.data.visitor_email || null,
     })
     .select('id, session_id')

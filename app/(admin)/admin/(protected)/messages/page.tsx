@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import { cn } from '@/lib/utils'
 import { Send, CheckCheck, XCircle, MessageCircle } from 'lucide-react'
@@ -11,9 +11,11 @@ type Conversation = {
   id: string
   session_id: string
   visitor_name: string | null
+  visitor_short_id: string | null
   visitor_email: string | null
   status: 'open' | 'closed'
   unread_admin: number
+  last_message_sender: 'visitor' | 'admin' | null
   created_at: string
   updated_at: string
 }
@@ -25,9 +27,16 @@ type Message = {
   created_at: string
 }
 
+type StatusFilter = 'all' | 'unanswered' | 'answered'
+
 const supabase = process.env.NEXT_PUBLIC_SUPABASE_URL
   ? createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
   : null
+
+function visitorLabel(c: Pick<Conversation, 'visitor_name' | 'visitor_short_id'>): string {
+  const name = c.visitor_name || 'Visitor'
+  return c.visitor_short_id ? `${name} · #V-${c.visitor_short_id}` : name
+}
 
 export default function MessagesPage() {
   const [conversations, setConversations] = useState<Conversation[]>([])
@@ -36,6 +45,9 @@ export default function MessagesPage() {
   const [reply, setReply] = useState('')
   const [sending, setSending] = useState(false)
   const [loadingMsgs, setLoadingMsgs] = useState(false)
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
+  const [dateFrom, setDateFrom] = useState('')
+  const [dateTo, setDateTo] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const replyRef = useRef<HTMLTextAreaElement>(null)
   const selectedIdRef = useRef<string | null>(null)
@@ -71,21 +83,26 @@ export default function MessagesPage() {
         (payload) => {
           const msg = payload.new as Message & { conversation_id: string }
           setConversations((prev) =>
-            prev.map((c) =>
-              c.id === msg.conversation_id && msg.sender === 'visitor'
-                ? { ...c, unread_admin: c.unread_admin + 1, updated_at: msg.created_at }
-                : c.id === msg.conversation_id
-                ? { ...c, updated_at: msg.created_at }
-                : c
-            ).sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
+            prev.map<Conversation>((c) => {
+              if (c.id !== msg.conversation_id) return c
+              if (msg.sender === 'visitor') {
+                return {
+                  ...c,
+                  unread_admin: c.unread_admin + 1,
+                  updated_at: msg.created_at,
+                  last_message_sender: 'visitor',
+                }
+              }
+              return { ...c, updated_at: msg.created_at, last_message_sender: 'admin' }
+            }).sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
           )
           if (msg.conversation_id === selectedIdRef.current) {
-            setMessages((prev) => [...prev, msg])
+            setMessages((prev) => (prev.some((m) => m.id === msg.id) ? prev : [...prev, msg]))
           }
           if (msg.sender === 'visitor') {
-            const conv = conversationsRef.current.find(c => c.id === msg.conversation_id)
-            const name = conv?.visitor_name || 'Visitor'
-            toast(`${name}: ${msg.body.slice(0, 60)}`, { description: 'New chat message' })
+            const conv = conversationsRef.current.find((c) => c.id === msg.conversation_id)
+            const label = conv ? visitorLabel(conv) : 'Visitor'
+            toast(`${label}: ${msg.body.slice(0, 60)}`, { description: 'New chat message' })
             if (
               document.hidden &&
               'Notification' in window &&
@@ -107,8 +124,26 @@ export default function MessagesPage() {
   }, [loadConversations])
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    messagesEndRef.current?.scrollIntoView({ behavior: 'auto', block: 'end' })
   }, [messages])
+
+  const filteredConversations = useMemo(() => {
+    const fromTs = dateFrom ? new Date(dateFrom).getTime() : null
+    const toTs = dateTo ? new Date(dateTo + 'T23:59:59').getTime() : null
+    return conversations.filter((c) => {
+      if (statusFilter === 'unanswered' && c.last_message_sender !== 'visitor') return false
+      if (statusFilter === 'answered' && c.last_message_sender !== 'admin') return false
+      const ts = new Date(c.updated_at).getTime()
+      if (fromTs !== null && ts < fromTs) return false
+      if (toTs !== null && ts > toTs) return false
+      return true
+    })
+  }, [conversations, statusFilter, dateFrom, dateTo])
+
+  const unansweredCount = useMemo(
+    () => conversations.filter((c) => c.last_message_sender === 'visitor').length,
+    [conversations]
+  )
 
   async function selectConversation(conv: Conversation) {
     setSelectedId(conv.id)
@@ -145,7 +180,14 @@ export default function MessagesPage() {
       })
       if (res.ok) {
         const msg = await res.json() as Message
-        setMessages((prev) => [...prev, msg])
+        setMessages((prev) => (prev.some((m) => m.id === msg.id) ? prev : [...prev, msg]))
+        setConversations((prev) =>
+          prev.map<Conversation>((c) =>
+            c.id === selectedId
+              ? { ...c, last_message_sender: 'admin', updated_at: msg.created_at }
+              : c
+          )
+        )
       }
     } finally {
       setSending(false)
@@ -187,16 +229,65 @@ export default function MessagesPage() {
         </h1>
       </div>
 
-      <div className="flex h-[calc(100vh-13rem)] overflow-hidden rounded-lg border border-border">
+      {/* Filter bar */}
+      <div className="mb-3 flex flex-wrap items-center gap-3">
+        <div className="flex items-center gap-1 rounded-md border border-border bg-graphite/30 p-0.5">
+          {(['all', 'unanswered', 'answered'] as const).map((f) => (
+            <button
+              key={f}
+              onClick={() => setStatusFilter(f)}
+              className={cn(
+                'rounded px-3 py-1 font-sans text-xs capitalize transition-colors',
+                statusFilter === f
+                  ? 'bg-gold text-white'
+                  : 'text-muted hover:text-white'
+              )}
+            >
+              {f}
+              {f === 'unanswered' && unansweredCount > 0 && (
+                <span className="ml-1.5 text-[10px] opacity-70">({unansweredCount})</span>
+              )}
+            </button>
+          ))}
+        </div>
+        <div className="flex items-center gap-2">
+          <label className="font-sans text-[10px] uppercase tracking-wide text-muted">From</label>
+          <input
+            type="date"
+            value={dateFrom}
+            onChange={(e) => setDateFrom(e.target.value)}
+            className="rounded-md border border-border bg-graphite/30 px-2 py-1 font-sans text-xs text-white outline-none focus:border-gold/50"
+          />
+          <label className="font-sans text-[10px] uppercase tracking-wide text-muted">To</label>
+          <input
+            type="date"
+            value={dateTo}
+            onChange={(e) => setDateTo(e.target.value)}
+            className="rounded-md border border-border bg-graphite/30 px-2 py-1 font-sans text-xs text-white outline-none focus:border-gold/50"
+          />
+          {(dateFrom || dateTo) && (
+            <button
+              onClick={() => { setDateFrom(''); setDateTo('') }}
+              className="font-sans text-[10px] text-muted hover:text-white"
+            >
+              Clear
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div className="flex h-[calc(100vh-16rem)] overflow-hidden rounded-lg border border-border">
         {/* Conversation list */}
         <div className="w-72 flex-shrink-0 overflow-y-auto border-r border-border bg-graphite/50">
-          {conversations.length === 0 && (
+          {filteredConversations.length === 0 && (
             <div className="flex flex-col items-center justify-center gap-3 py-16 px-4">
               <MessageCircle className="h-8 w-8 text-muted/30" />
-              <p className="text-center font-sans text-xs text-muted">No conversations yet</p>
+              <p className="text-center font-sans text-xs text-muted">
+                {conversations.length === 0 ? 'No conversations yet' : 'No conversations match these filters'}
+              </p>
             </div>
           )}
-          {conversations.map((conv) => (
+          {filteredConversations.map((conv) => (
             <button
               key={conv.id}
               onClick={() => void selectConversation(conv)}
@@ -222,6 +313,9 @@ export default function MessagesPage() {
                   )}
                 </div>
               </div>
+              {conv.visitor_short_id && (
+                <p className="mt-0.5 font-mono text-[10px] text-gold/70">#V-{conv.visitor_short_id}</p>
+              )}
               {conv.visitor_email && (
                 <p className="mt-0.5 truncate font-sans text-xs text-muted">{conv.visitor_email}</p>
               )}
@@ -248,6 +342,9 @@ export default function MessagesPage() {
                 <div>
                   <p className="font-sans text-sm font-medium text-white">
                     {selectedConv?.visitor_name || 'Visitor'}
+                    {selectedConv?.visitor_short_id && (
+                      <span className="ml-2 font-mono text-xs text-gold/70">#V-{selectedConv.visitor_short_id}</span>
+                    )}
                   </p>
                   {selectedConv?.visitor_email && (
                     <p className="font-sans text-xs text-muted">{selectedConv.visitor_email}</p>

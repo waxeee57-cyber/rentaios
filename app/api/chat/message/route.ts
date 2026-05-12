@@ -52,6 +52,7 @@ export async function POST(req: NextRequest) {
     .update({
       updated_at: new Date().toISOString(),
       unread_admin: (conv.unread_admin ?? 0) + 1,
+      last_message_sender: 'visitor',
     })
     .eq('id', conv.id)
 

@@ -15,11 +15,26 @@ type Message = {
 }
 
 const SESSION_KEY = 'chat_session_id'
+const NAME_KEY = 'chat_visitor_name'
+const SHORT_ID_KEY = 'chat_visitor_short_id'
 const AUTO_REPLY_KEY = 'chat_auto_replied'
 const AUTO_FOLLOWUP_KEY = 'chat_auto_followup'
 const AUTO_REPLY_TEXT =
   "Thanks for reaching out. We've received your message and typically reply within 2 hours during business hours (Mon–Fri, 9:00–18:00 CET). For urgent rental inquiries, expect a faster response."
 const AUTO_FOLLOWUP_TEXT = 'A team member has been notified and will get back to you shortly.'
+
+const SHORT_ID_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+
+function generateShortId(): string {
+  if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
+    const bytes = new Uint8Array(4)
+    crypto.getRandomValues(bytes)
+    return Array.from(bytes, (b) => SHORT_ID_CHARS[b % SHORT_ID_CHARS.length]).join('')
+  }
+  let id = ''
+  for (let i = 0; i < 4; i++) id += SHORT_ID_CHARS[Math.floor(Math.random() * SHORT_ID_CHARS.length)]
+  return id
+}
 
 const supabase = process.env.NEXT_PUBLIC_SUPABASE_URL
   ? createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
@@ -34,13 +49,21 @@ export function ChatWidget() {
   const [sending, setSending] = useState(false)
   const [loading, setLoading] = useState(false)
   const [unread, setUnread] = useState(0)
+  const [visitorName, setVisitorName] = useState<string | null>(null)
+  const [visitorShortId, setVisitorShortId] = useState<string | null>(null)
+  const [nameInput, setNameInput] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
+  const nameInputRef = useRef<HTMLInputElement>(null)
   const loadedRef = useRef(false)
 
   useEffect(() => {
-    const stored = localStorage.getItem(SESSION_KEY)
-    if (stored) setSessionId(stored)
+    const storedSid = localStorage.getItem(SESSION_KEY)
+    if (storedSid) setSessionId(storedSid)
+    const storedName = sessionStorage.getItem(NAME_KEY)
+    const storedShortId = sessionStorage.getItem(SHORT_ID_KEY)
+    if (storedName) setVisitorName(storedName)
+    if (storedShortId) setVisitorShortId(storedShortId)
   }, [])
 
   useEffect(() => {
@@ -56,9 +79,12 @@ export function ChatWidget() {
     }
     if (open) {
       setUnread(0)
-      setTimeout(() => inputRef.current?.focus(), 50)
+      setTimeout(() => {
+        if (visitorName) inputRef.current?.focus()
+        else nameInputRef.current?.focus()
+      }, 50)
     }
-  }, [open, sessionId])
+  }, [open, sessionId, visitorName])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -79,7 +105,7 @@ export function ChatWidget() {
         (payload) => {
           const msg = payload.new as Message
           if (msg.sender === 'admin') {
-            setMessages((prev) => [...prev, msg])
+            setMessages((prev) => (prev.some((m) => m.id === msg.id) ? prev : [...prev, msg]))
             if (!open) setUnread((n) => n + 1)
           }
         }
@@ -96,15 +122,35 @@ export function ChatWidget() {
         const data = await res.json()
         setConversationId(data.conversation_id)
         setMessages(data.messages ?? [])
+        if (data.visitor_name && !visitorName) {
+          sessionStorage.setItem(NAME_KEY, data.visitor_name)
+          setVisitorName(data.visitor_name)
+        }
+        if (data.visitor_short_id && !visitorShortId) {
+          sessionStorage.setItem(SHORT_ID_KEY, data.visitor_short_id)
+          setVisitorShortId(data.visitor_short_id)
+        }
       }
     } finally {
       setLoading(false)
     }
   }
 
+  function submitName() {
+    const trimmed = nameInput.trim()
+    if (!trimmed) return
+    const name = trimmed.slice(0, 100)
+    const shortId = generateShortId()
+    sessionStorage.setItem(NAME_KEY, name)
+    sessionStorage.setItem(SHORT_ID_KEY, shortId)
+    setVisitorName(name)
+    setVisitorShortId(shortId)
+    setNameInput('')
+  }
+
   async function sendMessage() {
     const text = input.trim()
-    if (!text || sending) return
+    if (!text || sending || !visitorName || !visitorShortId) return
     setSending(true)
     setInput('')
 
@@ -116,7 +162,10 @@ export function ChatWidget() {
         const res = await fetch('/api/chat/conversation', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({}),
+          body: JSON.stringify({
+            visitor_name: visitorName,
+            visitor_short_id: visitorShortId,
+          }),
         })
         if (!res.ok) { setSending(false); return }
         const data = await res.json()
@@ -196,14 +245,28 @@ export function ChatWidget() {
     }
   }
 
+  function handleNameKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      submitName()
+    }
+  }
+
   return (
     <>
       {open && (
         <div className="fixed bottom-20 right-4 z-50 flex w-[360px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-2xl">
           <div className="flex items-center justify-between bg-gray-900 px-4 py-3">
-            <div className="flex items-center gap-2.5">
-              <span className="h-2 w-2 rounded-full bg-emerald-400" />
-              <span className="font-sans text-sm font-medium text-white">Chat with us</span>
+            <div className="flex flex-col">
+              <div className="flex items-center gap-2.5">
+                <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                <span className="font-sans text-sm font-medium text-white">Chat with us</span>
+              </div>
+              {visitorName && visitorShortId && (
+                <span className="ml-[18px] font-sans text-[10px] text-white/50">
+                  Chatting as {visitorName} · #V-{visitorShortId}
+                </span>
+              )}
             </div>
             <button
               onClick={() => setOpen(false)}
@@ -214,76 +277,105 @@ export function ChatWidget() {
             </button>
           </div>
 
-          <div aria-live="polite" aria-label="Chat messages" className="flex min-h-[320px] max-h-[400px] flex-col gap-2 overflow-y-auto bg-gray-50 p-4">
-            {loading && (
-              <p className="py-8 text-center font-sans text-xs text-muted">Loading…</p>
-            )}
-            {!loading && messages.length === 0 && (
-              <div className="flex h-full flex-col items-center justify-center gap-3 py-10">
-                <MessageCircle className="h-8 w-8 text-gray-300" />
-                <p className="text-center font-sans text-xs text-muted">
-                  Send us a message and we&apos;ll reply shortly.
-                </p>
+          {!visitorName ? (
+            <div className="flex min-h-[320px] flex-col items-center justify-center gap-4 bg-gray-50 px-6 py-10">
+              <MessageCircle className="h-8 w-8 text-gray-300" />
+              <div className="text-center">
+                <p className="mb-1 font-sans text-sm font-medium text-gray-900">What&apos;s your first name?</p>
+                <p className="font-sans text-xs text-gray-500">So we know who we&apos;re talking to.</p>
               </div>
-            )}
-            {messages.map((msg) => (
-              <div
-                key={msg.id}
-                className={cn('flex', msg.sender === 'visitor' ? 'justify-end' : 'justify-start')}
+              <input
+                ref={nameInputRef}
+                type="text"
+                value={nameInput}
+                onChange={(e) => setNameInput(e.target.value)}
+                onKeyDown={handleNameKeyDown}
+                placeholder="Your first name"
+                maxLength={100}
+                className="w-full rounded-md border border-gray-200 px-3 py-2 font-sans text-sm outline-none placeholder:text-gray-400 focus:border-gray-900"
+              />
+              <button
+                onClick={submitName}
+                disabled={!nameInput.trim()}
+                className="w-full rounded-md bg-gray-900 px-4 py-2 font-sans text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-40"
               >
-                {msg.sender === 'auto' ? (
-                  <div className="max-w-[85%] rounded-lg border border-gray-100 bg-gray-50 px-3 py-2 font-sans text-sm leading-relaxed text-gray-500">
-                    {!msg.isFollowup && (
-                      <span className="mb-1 flex items-center gap-1 text-[10px] font-medium uppercase tracking-wide text-gray-400">
-                        <Clock className="h-3 w-3" />
-                        Auto-reply
-                      </span>
-                    )}
-                    {msg.body}
+                Start chatting
+              </button>
+            </div>
+          ) : (
+            <>
+              <div aria-live="polite" aria-label="Chat messages" className="flex min-h-[320px] max-h-[400px] flex-col gap-2 overflow-y-auto bg-gray-50 p-4">
+                {loading && (
+                  <p className="py-8 text-center font-sans text-xs text-muted">Loading…</p>
+                )}
+                {!loading && messages.length === 0 && (
+                  <div className="flex h-full flex-col items-center justify-center gap-3 py-10">
+                    <MessageCircle className="h-8 w-8 text-gray-300" />
+                    <p className="text-center font-sans text-xs text-muted">
+                      Send us a message and we&apos;ll reply shortly.
+                    </p>
                   </div>
-                ) : msg.sender === 'visitor' ? (
-                  <div className="flex max-w-[80%] flex-col items-end">
-                    <div className="rounded-lg px-3 py-2 font-sans text-sm leading-relaxed bg-gray-900 text-white">
-                      {msg.body}
-                    </div>
-                    {msg.status && (
-                      <div className="mt-0.5 flex items-center">
-                        <Check className="h-[9px] w-[9px] text-gray-400" />
-                        {msg.status === 'delivered' && (
-                          <Check className="-ml-[5px] h-[9px] w-[9px] text-gray-400" />
+                )}
+                {messages.map((msg) => (
+                  <div
+                    key={msg.id}
+                    className={cn('flex', msg.sender === 'visitor' ? 'justify-end' : 'justify-start')}
+                  >
+                    {msg.sender === 'auto' ? (
+                      <div className="max-w-[85%] rounded-lg border border-gray-100 bg-gray-50 px-3 py-2 font-sans text-sm leading-relaxed text-gray-500">
+                        {!msg.isFollowup && (
+                          <span className="mb-1 flex items-center gap-1 text-[10px] font-medium uppercase tracking-wide text-gray-400">
+                            <Clock className="h-3 w-3" />
+                            Auto-reply
+                          </span>
                         )}
+                        {msg.body}
+                      </div>
+                    ) : msg.sender === 'visitor' ? (
+                      <div className="flex max-w-[80%] flex-col items-end">
+                        <div className="rounded-lg px-3 py-2 font-sans text-sm leading-relaxed bg-gray-900 text-white">
+                          {msg.body}
+                        </div>
+                        {msg.status && (
+                          <div className="mt-0.5 flex items-center">
+                            <Check className="h-[9px] w-[9px] text-gray-400" />
+                            {msg.status === 'delivered' && (
+                              <Check className="-ml-[5px] h-[9px] w-[9px] text-gray-400" />
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="max-w-[80%] rounded-lg px-3 py-2 font-sans text-sm leading-relaxed border border-gray-200 bg-white text-gray-800">
+                        {msg.body}
                       </div>
                     )}
                   </div>
-                ) : (
-                  <div className="max-w-[80%] rounded-lg px-3 py-2 font-sans text-sm leading-relaxed border border-gray-200 bg-white text-gray-800">
-                    {msg.body}
-                  </div>
-                )}
+                ))}
+                <div ref={messagesEndRef} />
               </div>
-            ))}
-            <div ref={messagesEndRef} />
-          </div>
 
-          <div className="flex items-end gap-2 border-t border-gray-200 bg-white px-3 py-2">
-            <textarea
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              rows={1}
-              placeholder="Type a message…"
-              className="max-h-24 flex-1 resize-none py-2 font-sans text-sm leading-relaxed outline-none placeholder:text-gray-400"
-            />
-            <button
-              onClick={() => void sendMessage()}
-              disabled={!input.trim() || sending}
-              className="mb-1.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gray-900 text-white transition-opacity disabled:opacity-40"
-              aria-label="Send"
-            >
-              <Send className="h-3.5 w-3.5" />
-            </button>
-          </div>
+              <div className="flex items-end gap-2 border-t border-gray-200 bg-white px-3 py-2">
+                <textarea
+                  ref={inputRef}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  rows={1}
+                  placeholder="Type a message…"
+                  className="max-h-24 flex-1 resize-none py-2 font-sans text-sm leading-relaxed outline-none placeholder:text-gray-400"
+                />
+                <button
+                  onClick={() => void sendMessage()}
+                  disabled={!input.trim() || sending}
+                  className="mb-1.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gray-900 text-white transition-opacity disabled:opacity-40"
+                  aria-label="Send"
+                >
+                  <Send className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            </>
+          )}
         </div>
       )}
 

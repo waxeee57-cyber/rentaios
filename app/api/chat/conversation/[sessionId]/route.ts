@@ -15,7 +15,7 @@ export async function GET(
 
   const { data: conv, error: convErr } = await supabaseAdmin
     .from('chat_conversations')
-    .select('id, status, visitor_name, visitor_email')
+    .select('id, status, visitor_name, visitor_short_id, visitor_email')
     .eq('session_id', sessionId)
     .single()
 
@@ -34,6 +34,7 @@ export async function GET(
     conversation_id: conv.id,
     status: conv.status,
     visitor_name: conv.visitor_name,
+    visitor_short_id: conv.visitor_short_id,
     visitor_email: conv.visitor_email,
     messages: messages ?? [],
   })

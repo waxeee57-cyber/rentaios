@@ -14,10 +14,10 @@ READ THIS AT THE START OF EVERY SESSION.
 - **Started:** [none]
 
 ### Dominik
-- **Branch:** [none]
-- **Files:** [none]
-- **Description:** [none]
-- **Started:** [none]
+- **Branch:** fix/admin-messages-v2
+- **Files:** components/chat/ChatWidget.tsx, app/(admin)/admin/(protected)/messages/page.tsx, app/api/chat/conversation/route.ts, app/api/chat/message/route.ts, supabase/migrations/15_chat_visitor_identity.sql
+- **Description:** Fix duplicate messages, message ordering, visitor identity (name + short ID), admin filters
+- **Started:** 2026-05-12
 
 ---
 
