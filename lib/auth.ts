@@ -13,8 +13,8 @@ export async function requireAdmin(): Promise<
 
   const { data: adminUser, error } = await supabaseAdmin
     .from('admin_users')
-    .select('id, email')
-    .eq('user_id', user.id)
+    .select('id')
+    .eq('id', user.id)
     .single()
 
   if (error || !adminUser) {

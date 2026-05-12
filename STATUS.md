@@ -14,10 +14,10 @@ READ THIS AT THE START OF EVERY SESSION.
 - **Started:** [none]
 
 ### Dominik
-- **Branch:** [none]
-- **Files:** [none]
-- **Description:** [none]
-- **Started:** [none]
+- **Branch:** fix/admin-auth-query
+- **Files:** lib/auth.ts
+- **Description:** Fix requireAdmin() — admin_users has columns (id, role, full_name), not (user_id, email). Affected all admin API routes.
+- **Started:** 2026-05-12
 
 ---
 
