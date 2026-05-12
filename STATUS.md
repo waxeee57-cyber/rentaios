@@ -14,10 +14,10 @@ READ THIS AT THE START OF EVERY SESSION.
 - **Started:** [none]
 
 ### Dominik
-- **Branch:** [none]
-- **Files:** [none]
-- **Description:** [none]
-- **Started:** [none]
+- **Branch:** feature/chat-widget-auto-response
+- **Files:** chat widget components
+- **Description:** Auto-acknowledgment + estimated response time in chat widget
+- **Started:** 2026-05-12
 
 ---
 
