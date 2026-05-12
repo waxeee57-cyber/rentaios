@@ -14,9 +14,9 @@ READ THIS AT THE START OF EVERY SESSION.
 - **Started:** [none]
 
 ### Dominik
-- **Branch:** feature/chat-widget-auto-response
-- **Files:** components/chat/ChatWidget.tsx · app/(demo)/demo/admin/page.tsx · app/(demo)/demo/admin/DemoAdminClient.tsx
-- **Description:** Chat widget: message status indicators (sent/delivered checkmarks) + second auto-followup message. Demo admin: full guided tour (Driver.js), functional section navigation, hardcoded realistic dummy data for Bookings/Fleet/Settings.
+- **Branch:** fix/admin-messages-clients
+- **Files:** app/(admin)/admin/(protected)/messages/page.tsx, app/(admin)/admin/(protected)/clients/ClientsList.tsx, app/(admin)/admin/(protected)/layout.tsx
+- **Description:** Fix messages realtime subscription + toast notifications; fix clients accordion one-at-a-time expand
 - **Started:** 2026-05-12
 
 ---

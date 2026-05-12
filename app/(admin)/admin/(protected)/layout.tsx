@@ -4,6 +4,7 @@ import { getAuthUser } from '@/lib/supabase-server'
 import { supabaseAdmin } from '@/lib/supabase'
 import { getBusinessConfig } from '@/lib/config'
 import { AdminNav } from '@/components/admin/AdminNav'
+import { Toaster } from 'sonner'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const user = await getAuthUser()
@@ -30,6 +31,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       </header>
       <AdminNav />
       <main>{children}</main>
+      <Toaster theme="dark" position="bottom-right" richColors />
 
       {/* Account suspension overlay — shown when payment is overdue */}
       {isLocked && (

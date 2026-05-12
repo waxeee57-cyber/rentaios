@@ -5,6 +5,7 @@ import { createClient } from '@supabase/supabase-js'
 import { cn } from '@/lib/utils'
 import { Send, CheckCheck, XCircle, MessageCircle } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
+import { toast } from 'sonner'
 
 type Conversation = {
   id: string
@@ -24,10 +25,9 @@ type Message = {
   created_at: string
 }
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+const supabase = process.env.NEXT_PUBLIC_SUPABASE_URL
+  ? createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
+  : null
 
 export default function MessagesPage() {
   const [conversations, setConversations] = useState<Conversation[]>([])
@@ -38,8 +38,13 @@ export default function MessagesPage() {
   const [loadingMsgs, setLoadingMsgs] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const replyRef = useRef<HTMLTextAreaElement>(null)
+  const selectedIdRef = useRef<string | null>(null)
+  const conversationsRef = useRef<Conversation[]>([])
 
   const selectedConv = conversations.find((c) => c.id === selectedId) ?? null
+
+  useEffect(() => { selectedIdRef.current = selectedId }, [selectedId])
+  useEffect(() => { conversationsRef.current = conversations }, [conversations])
 
   const loadConversations = useCallback(async () => {
     const res = await fetch('/api/admin/chat/conversations')
@@ -56,7 +61,8 @@ export default function MessagesPage() {
       Notification.requestPermission()
     }
 
-    // Realtime: new messages on any conversation
+    if (!supabase) return
+
     const channel = supabase
       .channel('admin-chat')
       .on(
@@ -64,7 +70,6 @@ export default function MessagesPage() {
         { event: 'INSERT', schema: 'public', table: 'chat_messages' },
         (payload) => {
           const msg = payload.new as Message & { conversation_id: string }
-          // Update conversation list (increment unread, bump updated_at)
           setConversations((prev) =>
             prev.map((c) =>
               c.id === msg.conversation_id && msg.sender === 'visitor'
@@ -74,20 +79,20 @@ export default function MessagesPage() {
                 : c
             ).sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
           )
-          // Append to selected conversation messages
-          if (msg.conversation_id === selectedId) {
+          if (msg.conversation_id === selectedIdRef.current) {
             setMessages((prev) => [...prev, msg])
           }
-          // Browser notification for new visitor messages
-          if (
-            msg.sender === 'visitor' &&
-            document.hidden &&
-            'Notification' in window &&
-            Notification.permission === 'granted'
-          ) {
-            new Notification('New chat message', {
-              body: msg.body.slice(0, 80),
-            })
+          if (msg.sender === 'visitor') {
+            const conv = conversationsRef.current.find(c => c.id === msg.conversation_id)
+            const name = conv?.visitor_name || 'Visitor'
+            toast(`${name}: ${msg.body.slice(0, 60)}`, { description: 'New chat message' })
+            if (
+              document.hidden &&
+              'Notification' in window &&
+              Notification.permission === 'granted'
+            ) {
+              new Notification('New chat message', { body: msg.body.slice(0, 80) })
+            }
           }
         }
       )
@@ -99,7 +104,7 @@ export default function MessagesPage() {
       .subscribe()
 
     return () => { supabase.removeChannel(channel) }
-  }, [loadConversations, selectedId])
+  }, [loadConversations])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -118,7 +123,6 @@ export default function MessagesPage() {
     } finally {
       setLoadingMsgs(false)
     }
-    // Mark as read
     if (conv.unread_admin > 0) {
       await fetch(`/api/admin/chat/conversation/${conv.id}/read`, { method: 'PATCH' })
       setConversations((prev) =>
