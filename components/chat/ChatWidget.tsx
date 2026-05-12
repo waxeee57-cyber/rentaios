@@ -2,22 +2,28 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@supabase/supabase-js'
-import { MessageCircle, X, Send, ChevronDown } from 'lucide-react'
+import { MessageCircle, X, Send, ChevronDown, Clock, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 type Message = {
   id: string
-  sender: 'visitor' | 'admin'
+  sender: 'visitor' | 'admin' | 'auto'
   body: string
   created_at: string
+  status?: 'sent' | 'delivered'
+  isFollowup?: boolean
 }
 
 const SESSION_KEY = 'chat_session_id'
+const AUTO_REPLY_KEY = 'chat_auto_replied'
+const AUTO_FOLLOWUP_KEY = 'chat_auto_followup'
+const AUTO_REPLY_TEXT =
+  "Thanks for reaching out. We've received your message and typically reply within 2 hours during business hours (Mon–Fri, 9:00–18:00 CET). For urgent rental inquiries, expect a faster response."
+const AUTO_FOLLOWUP_TEXT = 'A team member has been notified and will get back to you shortly.'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+const supabase = process.env.NEXT_PUBLIC_SUPABASE_URL
+  ? createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
+  : null
 
 export function ChatWidget() {
   const [open, setOpen] = useState(false)
@@ -59,7 +65,7 @@ export function ChatWidget() {
   }, [messages])
 
   useEffect(() => {
-    if (!conversationId) return
+    if (!conversationId || !supabase) return
     const channel = supabase
       .channel(`chat:${conversationId}`)
       .on(
@@ -79,7 +85,7 @@ export function ChatWidget() {
         }
       )
       .subscribe()
-    return () => { supabase.removeChannel(channel) }
+    return () => { supabase!.removeChannel(channel) }
   }, [conversationId, open])
 
   async function loadConversation(sid: string) {
@@ -122,13 +128,56 @@ export function ChatWidget() {
         loadedRef.current = true
       }
 
+      const isFirstMessage =
+        !sessionStorage.getItem(AUTO_REPLY_KEY) &&
+        messages.filter((m) => m.sender === 'visitor').length === 0
+
+      const tempId = `temp-${Date.now()}`
       const optimistic: Message = {
-        id: `temp-${Date.now()}`,
+        id: tempId,
         sender: 'visitor',
         body: text,
         created_at: new Date().toISOString(),
+        status: 'sent',
       }
       setMessages((prev) => [...prev, optimistic])
+
+      setTimeout(() => {
+        setMessages((prev) =>
+          prev.map((m) => (m.id === tempId ? { ...m, status: 'delivered' } : m))
+        )
+      }, 800)
+
+      if (isFirstMessage) {
+        sessionStorage.setItem(AUTO_REPLY_KEY, '1')
+        setTimeout(() => {
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: `auto-${Date.now()}`,
+              sender: 'auto',
+              body: AUTO_REPLY_TEXT,
+              created_at: new Date().toISOString(),
+            },
+          ])
+        }, 700)
+
+        if (!sessionStorage.getItem(AUTO_FOLLOWUP_KEY)) {
+          sessionStorage.setItem(AUTO_FOLLOWUP_KEY, '1')
+          setTimeout(() => {
+            setMessages((prev) => [
+              ...prev,
+              {
+                id: `followup-${Date.now()}`,
+                sender: 'auto',
+                body: AUTO_FOLLOWUP_TEXT,
+                created_at: new Date().toISOString(),
+                isFollowup: true,
+              },
+            ])
+          }, 2700)
+        }
+      }
 
       await fetch('/api/chat/message', {
         method: 'POST',
@@ -165,7 +214,7 @@ export function ChatWidget() {
             </button>
           </div>
 
-          <div className="flex min-h-[320px] max-h-[400px] flex-col gap-2 overflow-y-auto bg-gray-50 p-4">
+          <div aria-live="polite" aria-label="Chat messages" className="flex min-h-[320px] max-h-[400px] flex-col gap-2 overflow-y-auto bg-gray-50 p-4">
             {loading && (
               <p className="py-8 text-center font-sans text-xs text-muted">Loading…</p>
             )}
@@ -182,16 +231,35 @@ export function ChatWidget() {
                 key={msg.id}
                 className={cn('flex', msg.sender === 'visitor' ? 'justify-end' : 'justify-start')}
               >
-                <div
-                  className={cn(
-                    'max-w-[80%] rounded-lg px-3 py-2 font-sans text-sm leading-relaxed',
-                    msg.sender === 'visitor'
-                      ? 'bg-gray-900 text-white'
-                      : 'border border-gray-200 bg-white text-gray-800'
-                  )}
-                >
-                  {msg.body}
-                </div>
+                {msg.sender === 'auto' ? (
+                  <div className="max-w-[85%] rounded-lg border border-gray-100 bg-gray-50 px-3 py-2 font-sans text-sm leading-relaxed text-gray-500">
+                    {!msg.isFollowup && (
+                      <span className="mb-1 flex items-center gap-1 text-[10px] font-medium uppercase tracking-wide text-gray-400">
+                        <Clock className="h-3 w-3" />
+                        Auto-reply
+                      </span>
+                    )}
+                    {msg.body}
+                  </div>
+                ) : msg.sender === 'visitor' ? (
+                  <div className="flex max-w-[80%] flex-col items-end">
+                    <div className="rounded-lg px-3 py-2 font-sans text-sm leading-relaxed bg-gray-900 text-white">
+                      {msg.body}
+                    </div>
+                    {msg.status && (
+                      <div className="mt-0.5 flex items-center">
+                        <Check className="h-[9px] w-[9px] text-gray-400" />
+                        {msg.status === 'delivered' && (
+                          <Check className="-ml-[5px] h-[9px] w-[9px] text-gray-400" />
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="max-w-[80%] rounded-lg px-3 py-2 font-sans text-sm leading-relaxed border border-gray-200 bg-white text-gray-800">
+                    {msg.body}
+                  </div>
+                )}
               </div>
             ))}
             <div ref={messagesEndRef} />

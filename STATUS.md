@@ -14,10 +14,10 @@ READ THIS AT THE START OF EVERY SESSION.
 - **Started:** [none]
 
 ### Dominik
-- **Branch:** [none]
-- **Files:** [none]
-- **Description:** [none]
-- **Started:** [none]
+- **Branch:** feature/chat-widget-auto-response
+- **Files:** components/chat/ChatWidget.tsx · app/(demo)/demo/admin/page.tsx · app/(demo)/demo/admin/DemoAdminClient.tsx
+- **Description:** Chat widget: message status indicators (sent/delivered checkmarks) + second auto-followup message. Demo admin: full guided tour (Driver.js), functional section navigation, hardcoded realistic dummy data for Bookings/Fleet/Settings.
+- **Started:** 2026-05-12
 
 ---
 
