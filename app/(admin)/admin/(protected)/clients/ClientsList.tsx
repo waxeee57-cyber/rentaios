@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useCallback } from 'react'
+import { ChevronDown, ChevronUp, MessageSquare } from 'lucide-react'
 import type { ClientLead } from './page'
 
 const STATUS_COLUMNS = [
@@ -49,11 +50,12 @@ function DataRow({ label, value }: { label: string; value: string | number | nul
   )
 }
 
-function ClientCard({ lead, onUpdate }: {
+function ClientCard({ lead, expanded, onToggle, onUpdate }: {
   lead: ClientLead
+  expanded: boolean
+  onToggle: () => void
   onUpdate: (id: string, updates: Partial<ClientLead>) => void
 }) {
-  const [expanded, setExpanded] = useState(false)
   const [status, setStatus] = useState(lead.status)
   const [notes, setNotes] = useState(lead.admin_notes ?? '')
   const [checklist, setChecklist] = useState(lead.deployment_checklist)
@@ -115,10 +117,12 @@ function ClientCard({ lead, onUpdate }: {
         <div className="flex items-center justify-between mt-3">
           <p className="font-sans text-xs text-muted">{timeAgo(lead.created_at)}</p>
           <button
-            onClick={() => setExpanded(true)}
-            className="font-sans text-xs text-gold hover:underline underline-offset-4"
+            onClick={onToggle}
+            title="View client details"
+            className="inline-flex items-center gap-1.5 rounded-md border border-border/50 px-2.5 py-1 font-sans text-xs text-muted hover:border-gold/40 hover:text-gold transition-colors"
           >
-            Open
+            <ChevronDown className="h-3.5 w-3.5" />
+            Details
           </button>
         </div>
         {completedCount > 0 && (
@@ -141,10 +145,12 @@ function ClientCard({ lead, onUpdate }: {
           <p className="font-sans text-xs text-muted mt-0.5">{lead.contact_name} · {lead.contact_email}</p>
         </div>
         <button
-          onClick={() => setExpanded(false)}
-          className="font-sans text-xs text-muted hover:text-white transition-colors"
+          onClick={onToggle}
+          title="Collapse"
+          className="inline-flex items-center gap-1.5 rounded-md border border-border/50 px-2.5 py-1 font-sans text-xs text-muted hover:border-border hover:text-white transition-colors"
         >
-          Close
+          <ChevronUp className="h-3.5 w-3.5" />
+          Collapse
         </button>
       </div>
 
@@ -230,9 +236,11 @@ function ClientCard({ lead, onUpdate }: {
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
+              title={`Open WhatsApp to message ${lead.contact_name}`}
               className="inline-flex items-center gap-2 rounded-md bg-whatsapp px-4 py-2.5
                 font-sans text-xs font-medium text-white hover:opacity-90 transition-opacity"
             >
+              <MessageSquare className="h-3.5 w-3.5" />
               WhatsApp {lead.contact_name.split(' ')[0]}
             </a>
           )}
@@ -244,6 +252,7 @@ function ClientCard({ lead, onUpdate }: {
 
 export function ClientsList({ initialLeads }: { initialLeads: ClientLead[] }) {
   const [leads, setLeads] = useState<ClientLead[]>(initialLeads)
+  const [expandedId, setExpandedId] = useState<string | null>(null)
 
   const handleUpdate = useCallback((id: string, updates: Partial<ClientLead>) => {
     setLeads(prev => prev.map(l => l.id === id ? { ...l, ...updates } : l))
@@ -269,7 +278,13 @@ export function ClientsList({ initialLeads }: { initialLeads: ClientLead[] }) {
             ) : (
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {colLeads.map(lead => (
-                  <ClientCard key={lead.id} lead={lead} onUpdate={handleUpdate} />
+                  <ClientCard
+                    key={lead.id}
+                    lead={lead}
+                    expanded={expandedId === lead.id}
+                    onToggle={() => setExpandedId(prev => prev === lead.id ? null : lead.id)}
+                    onUpdate={handleUpdate}
+                  />
                 ))}
               </div>
             )}
