@@ -64,7 +64,7 @@ export default async function CarDetailPage({ params, searchParams }: PageProps)
   const { start, end, pickup } = sp
 
   let isAvailable = true
-  if (start && end && car.id) {
+  if (start && end && car.id && !isNaN(Date.parse(start)) && !isNaN(Date.parse(end))) {
     isAvailable = await checkAvailability(car.id, start, end)
   }
 
