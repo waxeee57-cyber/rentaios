@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
 
   const { data: conv, error: convErr } = await supabaseAdmin
     .from('chat_conversations')
-    .select('id, status, unread_admin, updated_at, visitor_short_id, visitor_name, visitor_email')
+    .select('id, status, unread_admin, last_visitor_message_at, visitor_short_id, visitor_name, visitor_email')
     .eq('session_id', session_id)
     .single()
 
@@ -36,9 +36,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Conversation not found' }, { status: 404 })
   }
 
+  // Stale check uses last_visitor_message_at — distinct from updated_at,
+  // which admin replies bump and would falsely reset the inactivity window.
   const isStale =
     conv.status === 'open' &&
-    Date.now() - new Date(conv.updated_at).getTime() > ONE_HOUR_MS
+    Date.now() - new Date(conv.last_visitor_message_at).getTime() > ONE_HOUR_MS
 
   // Existing conversation is usable: insert directly.
   if (conv.status === 'open' && !isStale) {
@@ -89,10 +91,12 @@ async function insertVisitorMessage(
     return NextResponse.json({ error: 'Failed to send message' }, { status: 500 })
   }
 
+  const nowIso = new Date().toISOString()
   await supabaseAdmin
     .from('chat_conversations')
     .update({
-      updated_at: new Date().toISOString(),
+      updated_at: nowIso,
+      last_visitor_message_at: nowIso,
       unread_admin: currentUnread + 1,
       last_message_sender: 'visitor',
     })
@@ -118,6 +122,8 @@ async function rolloverConversation(args: RolloverArgs): Promise<RolloverResult>
   // Try to create the new open conversation. If a concurrent visitor request
   // already won the race for this visitor_short_id, the partial unique index
   // raises 23505 — we then fetch the conversation the winner created and use it.
+  const nowIso = new Date().toISOString()
+
   const { data: created, error: createErr } = await supabaseAdmin
     .from('chat_conversations')
     .insert({
@@ -125,6 +131,7 @@ async function rolloverConversation(args: RolloverArgs): Promise<RolloverResult>
       visitor_short_id: args.visitor_short_id,
       visitor_name: args.visitor_name,
       visitor_email: args.visitor_email,
+      last_visitor_message_at: nowIso,
     })
     .select('id, session_id, unread_admin')
     .single()
@@ -165,7 +172,8 @@ async function rolloverConversation(args: RolloverArgs): Promise<RolloverResult>
   await supabaseAdmin
     .from('chat_conversations')
     .update({
-      updated_at: new Date().toISOString(),
+      updated_at: nowIso,
+      last_visitor_message_at: nowIso,
       unread_admin: (target.unread_admin ?? 0) + 1,
       last_message_sender: 'visitor',
     })
