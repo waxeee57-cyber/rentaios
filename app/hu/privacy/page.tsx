@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 }
 
 export default function HuPrivacyPage() {
+  const contactEmail = process.env.ADMIN_EMAIL || 'info@domrol.com'
   return (
     <div className="min-h-screen bg-white py-16">
       <div className="mx-auto max-w-3xl px-6">
@@ -24,7 +25,7 @@ export default function HuPrivacyPage() {
             <h2 className="font-display text-xl font-semibold text-gray-900 mb-3">1. Az adatkezelő</h2>
             <p>
               Az adatkezelő a RentalOS szoftverszolgáltatás üzemeltetője (továbbiakban: Adatkezelő). Elérhetőség:{' '}
-              <a href="mailto:info@domrol.com" className="text-gold hover:underline underline-offset-4">info@domrol.com</a>
+              <a href={`mailto:${contactEmail}`} className="text-gold hover:underline underline-offset-4">{contactEmail}</a>
             </p>
           </section>
 
@@ -83,7 +84,7 @@ export default function HuPrivacyPage() {
             </ul>
             <p className="mt-3">
               Kérelmeit az{' '}
-              <a href="mailto:info@domrol.com" className="text-gold hover:underline underline-offset-4">info@domrol.com</a>
+              <a href={`mailto:${contactEmail}`} className="text-gold hover:underline underline-offset-4">{contactEmail}</a>
               {' '}e-mail-címre küldheti. A kérelemre 30 napon belül válaszolunk.
             </p>
           </section>

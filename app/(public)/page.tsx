@@ -263,14 +263,9 @@ export default function HomePage() {
                 >
                   See it live →
                 </a>
-                <a
-                  href="https://wa.me/36708564381?text=Hi%2C%20I%27m%20interested%20in%20RentalOS"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-white/20 px-7 py-3 font-sans text-sm font-medium text-white transition-colors hover:border-white/40 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
-                >
+                <OpenChatButton className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-white/20 px-7 py-3 font-sans text-sm font-medium text-white transition-colors hover:border-white/40 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900">
                   Talk to us
-                </a>
+                </OpenChatButton>
               </div>
 
               {/* Trust strip */}
