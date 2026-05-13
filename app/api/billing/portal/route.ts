@@ -5,12 +5,12 @@ import { supabaseAdmin } from '@/lib/supabase'
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
 
 export async function GET() {
+  const auth = await requireAdmin()
+  if ('error' in auth) return auth.error
+
   if (!STRIPE_SECRET_KEY) {
     return NextResponse.json({ error: 'Billing not configured' }, { status: 400 })
   }
-
-  const auth = await requireAdmin()
-  if ('error' in auth) return auth.error
 
   const { data: subscription } = await supabaseAdmin
     .from('subscriptions')

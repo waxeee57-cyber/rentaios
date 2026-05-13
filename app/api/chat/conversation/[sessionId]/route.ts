@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
 import { rateLimit, getClientIp } from '@/lib/rate-limit'
+import { z } from 'zod'
+
+const uuidSchema = z.string().uuid()
 
 export async function GET(
   req: NextRequest,
@@ -12,6 +15,9 @@ export async function GET(
   }
 
   const { sessionId } = await params
+  if (!uuidSchema.safeParse(sessionId).success) {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 })
+  }
 
   const { data: conv, error: convErr } = await supabaseAdmin
     .from('chat_conversations')
