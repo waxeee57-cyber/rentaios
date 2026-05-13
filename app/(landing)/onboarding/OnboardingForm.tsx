@@ -45,7 +45,7 @@ const INITIAL: FormData = {
   domain_name: '',
   preferred_language: 'English',
   logo_url: '',
-  brand_color: '#2563EB',
+  brand_color: '#C8A96B',
   tagline: '',
   delivery_location: '',
   delivery_radius: '25 km',
@@ -365,11 +365,11 @@ export function OnboardingForm({ type }: { type?: string }) {
                       const hex = v.startsWith('#') ? v : `#${v}`
                       if (/^#[0-9A-Fa-f]{0,6}$/.test(hex)) update('brand_color', hex)
                     }}
-                    placeholder="#2563EB"
+                    placeholder="#C8A96B"
                   />
                   <div
                     className="h-12 w-12 shrink-0 rounded-md border border-border"
-                    style={{ background: /^#[0-9A-Fa-f]{6}$/.test(form.brand_color) ? form.brand_color : '#2563EB' }}
+                    style={{ background: /^#[0-9A-Fa-f]{6}$/.test(form.brand_color) ? form.brand_color : '#C8A96B' }}
                   />
                 </div>
               </div>

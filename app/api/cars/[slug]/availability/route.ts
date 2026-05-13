@@ -20,6 +20,12 @@ export async function GET(
     return NextResponse.json({ error: 'start and end required' }, { status: 400 })
   }
 
+  const startMs = Date.parse(start)
+  const endMs = Date.parse(end)
+  if (isNaN(startMs) || isNaN(endMs)) {
+    return NextResponse.json({ error: 'Invalid date format' }, { status: 400 })
+  }
+
   // Get car id from slug
   const { data: car } = await supabaseAdmin
     .from('cars')
@@ -31,8 +37,8 @@ export async function GET(
     return NextResponse.json({ error: 'Car not found' }, { status: 404 })
   }
 
-  const startUtc = new Date(start).toISOString()
-  const endUtc = new Date(end).toISOString()
+  const startUtc = new Date(startMs).toISOString()
+  const endUtc = new Date(endMs).toISOString()
 
   const { data: conflicts } = await supabaseAdmin
     .from('bookings')

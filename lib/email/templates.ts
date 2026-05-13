@@ -2,12 +2,21 @@ import { formatDate, formatDateRange, formatPriceDecimals, TZ } from '@/lib/form
 import { formatInTimeZone } from 'date-fns-tz'
 import { parseISO } from 'date-fns'
 
-const BRAND_GOLD = '#2563EB'
+const BRAND_GOLD = '#C8A96B'
 const BRAND_DARK = '#FFFFFF'
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'
 const _bn = process.env.NEXT_PUBLIC_BUSINESS_NAME ?? ''
 const BUSINESS_NAME = _bn && !_bn.startsWith('http') ? _bn : 'RentalOS'
 const BUSINESS_EMAIL = process.env.ADMIN_EMAIL ?? 'info@domrol.com'
+
+function esc(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
 
 function firstName(fullName: string): string {
   return fullName.trim().split(' ')[0] || fullName
@@ -108,7 +117,7 @@ function transferWarning(address: string): string {
     ⚠ Custom delivery requested
   </p>
   <p style="margin:4px 0 0;font-size:13px;color:#7a5c0a;font-family:Arial,sans-serif;">
-    ${address} — set the transfer fee before confirming.
+    ${esc(address)} — set the transfer fee before confirming.
   </p>
 </div>`
 }
@@ -130,7 +139,7 @@ export function inquiryConfirmationEmail(data: {
   transferRequested?: boolean
   transferAddress?: string
 }): string {
-  const name = firstName(data.customerName)
+  const name = esc(firstName(data.customerName))
   const waLink = getWhatsAppLink()
   const dailyRate = data.days > 0 ? data.totalEur / data.days : data.totalEur
 
@@ -138,7 +147,7 @@ export function inquiryConfirmationEmail(data: {
 <h1 style="margin:0 0 16px;font-size:22px;color:#1a1a1a;font-weight:700;
   font-family:Arial,sans-serif;">Hey ${name},</h1>
 <p style="margin:0;font-size:15px;color:#1a1a1a;line-height:1.65;font-family:Arial,sans-serif;">
-  We've received your request for the <strong>${data.carLabel}</strong> and we'll
+  We've received your request for the <strong>${esc(data.carLabel)}</strong> and we'll
   be in touch personally to confirm — usually within the hour during business hours.
 </p>
 
@@ -146,12 +155,12 @@ ${divider}
 
 ${section('Your request')}
 <table cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 20px;">
-  ${row('Vehicle', data.carLabel)}
+  ${row('Vehicle', esc(data.carLabel))}
   ${row('Dates', formatDateRange(data.startAt, data.endAt))}
   ${row('Duration', `${data.days} day${data.days !== 1 ? 's' : ''}`)}
-  ${row('Pickup', data.pickupLocation)}
-  ${row('Pickup time', data.pickupTime)}
-  ${data.transferRequested && data.transferAddress ? row('Delivery to', data.transferAddress) : ''}
+  ${row('Pickup', esc(data.pickupLocation))}
+  ${row('Pickup time', esc(data.pickupTime))}
+  ${data.transferRequested && data.transferAddress ? row('Delivery to', esc(data.transferAddress)) : ''}
 </table>
 
 ${section('Estimated cost')}
@@ -210,8 +219,8 @@ export function inquiryAdminAlertEmail(data: {
     ? `https://wa.me/${custPhone}?text=${encodeURIComponent(`Hi ${firstName(data.customerName)},`)}`
     : null
   const nameDisplay = custWaUrl
-    ? `<a href="${custWaUrl}" style="color:${BRAND_GOLD};text-decoration:none;">${data.customerName}</a>`
-    : data.customerName
+    ? `<a href="${custWaUrl}" style="color:${BRAND_GOLD};text-decoration:none;">${esc(data.customerName)}</a>`
+    : esc(data.customerName)
 
   const content = `
 <p style="margin:0 0 6px;font-size:16px;color:#1a1a1a;font-weight:600;font-family:Arial,sans-serif;">
@@ -225,16 +234,16 @@ ${divider}
 ${section('Customer')}
 <table cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 20px;">
   ${row('Name', nameDisplay)}
-  ${row('Email', `<a href="mailto:${data.customerEmail}" style="color:${BRAND_GOLD};text-decoration:none;">${data.customerEmail}</a>`)}
-  ${data.customerPhone ? row('Phone', `<a href="tel:${data.customerPhone}" style="color:${BRAND_GOLD};text-decoration:none;">${data.customerPhone}</a>`) : ''}
-  ${data.customerCountry ? row('Country', data.customerCountry) : ''}
+  ${row('Email', `<a href="mailto:${esc(data.customerEmail)}" style="color:${BRAND_GOLD};text-decoration:none;">${esc(data.customerEmail)}</a>`)}
+  ${data.customerPhone ? row('Phone', `<a href="tel:${esc(data.customerPhone)}" style="color:${BRAND_GOLD};text-decoration:none;">${esc(data.customerPhone)}</a>`) : ''}
+  ${data.customerCountry ? row('Country', esc(data.customerCountry)) : ''}
 </table>
 
 ${section('Booking')}
 <table cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 16px;">
-  ${row('Vehicle', data.carLabel)}
+  ${row('Vehicle', esc(data.carLabel))}
   ${row('Dates', formatDateRange(data.startAt, data.endAt))}
-  ${row('Pickup', `${data.pickupLocation} · ${data.pickupTime}`)}
+  ${row('Pickup', `${esc(data.pickupLocation)} · ${esc(data.pickupTime)}`)}
   ${row('Total', formatPriceDecimals(data.totalEur))}
   ${row('Deposit', formatPriceDecimals(data.depositEur))}
 </table>
@@ -244,7 +253,7 @@ ${isTransfer ? transferWarning(data.transferAddress!) : ''}
 ${data.customerMessage ? `
 ${divider}
 ${section('Their message')}
-<p style="margin:0;font-size:14px;color:#1a1a1a;line-height:1.65;font-style:italic;font-family:Arial,sans-serif;">"${data.customerMessage}"</p>
+<p style="margin:0;font-size:14px;color:#1a1a1a;line-height:1.65;font-style:italic;font-family:Arial,sans-serif;">&ldquo;${esc(data.customerMessage)}&rdquo;</p>
 ` : ''}
 
 ${divider}
@@ -272,14 +281,14 @@ export function bookingConfirmedEmail(data: {
   transferAddress?: string
   transferFeeEur?: number | null
 }): string {
-  const name = firstName(data.customerName)
+  const name = esc(firstName(data.customerName))
   const waLink = getWhatsAppLink()
 
   const content = `
 <h1 style="margin:0 0 16px;font-size:22px;color:#1a1a1a;font-weight:700;
   font-family:Arial,sans-serif;">Great news, ${name}.</h1>
 <p style="margin:0;font-size:15px;color:#1a1a1a;line-height:1.65;font-family:Arial,sans-serif;">
-  Your reservation for the <strong>${data.carLabel}</strong> is confirmed. We're looking
+  Your reservation for the <strong>${esc(data.carLabel)}</strong> is confirmed. We're looking
   forward to seeing you on ${formatDate(data.startAt)}.
 </p>
 
@@ -288,10 +297,10 @@ ${divider}
 ${section('Your pickup')}
 <table cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 20px;">
   ${row('Date', formatDate(data.startAt))}
-  ${row('Time', data.pickupTime)}
-  ${row('Location', data.pickupLocation)}
+  ${row('Time', esc(data.pickupTime))}
+  ${row('Location', esc(data.pickupLocation))}
   ${data.transferRequested && data.transferAddress
-    ? row('Delivery', `We'll come to ${data.transferAddress}`)
+    ? row('Delivery', `We'll come to ${esc(data.transferAddress)}`)
     : ''}
 </table>
 
@@ -355,17 +364,17 @@ export function bookingConfirmedAdminEmail(data: {
 ${divider}
 
 <table cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 16px;">
-  ${row('Vehicle', data.carLabel)}
-  ${row('Customer', data.customerName)}
-  ${row('Email', `<a href="mailto:${data.customerEmail}" style="color:${BRAND_GOLD};text-decoration:none;">${data.customerEmail}</a>`)}
+  ${row('Vehicle', esc(data.carLabel))}
+  ${row('Customer', esc(data.customerName))}
+  ${row('Email', `<a href="mailto:${esc(data.customerEmail)}" style="color:${BRAND_GOLD};text-decoration:none;">${esc(data.customerEmail)}</a>`)}
   ${row('Pickup', formatDate(data.startAt))}
-  ${row('Time', data.pickupTime)}
-  ${row('Location', data.pickupLocation)}
+  ${row('Time', esc(data.pickupTime))}
+  ${row('Location', esc(data.pickupLocation))}
   ${row('Return', formatDate(data.endAt))}
 </table>
 
 <p style="margin:0;font-size:13px;color:#888;font-family:Arial,sans-serif;">
-  Confirmation email sent to ${data.customerEmail}.
+  Confirmation email sent to ${esc(data.customerEmail)}.
 </p>
 
 ${divider}
@@ -383,7 +392,7 @@ export function onboardingClientEmail(data: {
   businessType: string
   leadId: string
 }): string {
-  const name = firstName(data.contactName)
+  const name = esc(firstName(data.contactName))
   const adminEmail = BUSINESS_EMAIL
 
   const content = `
@@ -391,8 +400,8 @@ export function onboardingClientEmail(data: {
   font-family:Arial,sans-serif;">Hi ${name},</h1>
 <p style="margin:0;font-size:15px;color:#1a1a1a;line-height:1.65;font-family:Arial,sans-serif;">
   We've received everything we need to set up your
-  <strong>${data.businessType}</strong> booking system for
-  <strong>${data.businessName}</strong>.
+  <strong>${esc(data.businessType)}</strong> booking system for
+  <strong>${esc(data.businessName)}</strong>.
 </p>
 
 ${divider}
@@ -474,6 +483,10 @@ export function onboardingAdminEmail(data: OnboardingData): string {
       list-style:none;"><span style="${checkboxStyle}"></span>${item}</li>`)
     .join('')
 
+  const businessTypeDisplay = data.businessType === 'other'
+    ? `Other: ${esc(data.businessTypeCustom ?? '')}`
+    : esc(data.businessType)
+
   const content = `
 <p style="margin:0 0 6px;font-size:16px;color:#1a1a1a;font-weight:600;font-family:Arial,sans-serif;">
   New setup request.</p>
@@ -485,46 +498,46 @@ ${divider}
 
 ${section('Business')}
 <table cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 20px;">
-  ${row('Business', data.businessName)}
-  ${row('Contact', data.contactName)}
-  ${row('Email', `<a href="mailto:${data.contactEmail}" style="color:${BRAND_GOLD};text-decoration:none;">${data.contactEmail}</a>`)}
-  ${row('Type', data.businessType === 'other' ? `Other: ${data.businessTypeCustom}` : data.businessType)}
-  ${row('Location', `${data.businessCity}, ${data.businessCountry}`)}
+  ${row('Business', esc(data.businessName))}
+  ${row('Contact', esc(data.contactName))}
+  ${row('Email', `<a href="mailto:${esc(data.contactEmail)}" style="color:${BRAND_GOLD};text-decoration:none;">${esc(data.contactEmail)}</a>`)}
+  ${row('Type', businessTypeDisplay)}
+  ${row('Location', `${esc(data.businessCity)}, ${esc(data.businessCountry)}`)}
 </table>
 
 ${section('Current situation')}
 <table cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 20px;">
-  ${row('Books now via', data.currentBookingMethod || '—')}
-  ${row('Monthly bookings', data.monthlyBookingsEstimate || '—')}
+  ${row('Books now via', esc(data.currentBookingMethod ?? '—'))}
+  ${row('Monthly bookings', esc(data.monthlyBookingsEstimate ?? '—'))}
   ${row('Fleet size', data.vehicleCount ? `${data.vehicleCount} units` : '—')}
 </table>
 
 ${section('System setup')}
 <table cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 20px;">
-  ${row('Domain', data.domainName || 'Not provided')}
-  ${row('Language', data.preferredLanguage)}
-  ${row('Logo URL', data.logoUrl ? `<a href="${data.logoUrl}" style="color:${BRAND_GOLD};text-decoration:none;">View</a>` : 'Not provided')}
-  ${row('Brand color', `<span style="background:${data.brandColor};padding:2px 8px;border-radius:2px;font-size:11px;">${data.brandColor}</span>`)}
-  ${row('Tagline', data.tagline || 'None')}
+  ${row('Domain', esc(data.domainName ?? 'Not provided'))}
+  ${row('Language', esc(data.preferredLanguage))}
+  ${row('Logo URL', data.logoUrl ? `<a href="${esc(data.logoUrl)}" style="color:${BRAND_GOLD};text-decoration:none;">View</a>` : 'Not provided')}
+  ${row('Brand color', `<span style="background:${esc(data.brandColor)};padding:2px 8px;border-radius:2px;font-size:11px;">${esc(data.brandColor)}</span>`)}
+  ${row('Tagline', esc(data.tagline ?? 'None'))}
 </table>
 
 ${section('Service rules')}
 <table cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 20px;">
-  ${row('Delivery base', data.deliveryLocation || '—')}
-  ${row('Delivery radius', data.deliveryRadius)}
+  ${row('Delivery base', esc(data.deliveryLocation ?? '—'))}
+  ${row('Delivery radius', esc(data.deliveryRadius))}
   ${row('Min driver age', `${data.minDriverAge}`)}
   ${row('Min licence', `${data.minLicenseYears} year${data.minLicenseYears !== 1 ? 's' : ''}`)}
   ${row('Max rental', `${data.maxRentalDays} days`)}
-  ${row('Cancellation', data.cancellationPolicy)}
+  ${row('Cancellation', esc(data.cancellationPolicy))}
 </table>
 
 ${data.notes ? `
 ${section('Notes from client')}
 <p style="margin:0 0 20px;font-size:14px;color:#1a1a1a;line-height:1.65;
-  font-style:italic;font-family:Arial,sans-serif;">"${data.notes}"</p>
+  font-style:italic;font-family:Arial,sans-serif;">&ldquo;${esc(data.notes)}&rdquo;</p>
 ` : ''}
 
-${row('Heard via', data.referralSource || '—')}
+${row('Heard via', esc(data.referralSource ?? '—'))}
 
 ${divider}
 
@@ -558,11 +571,11 @@ export function weeklyReportEmail(data: {
         })
         return `<tr>
           <td style="padding:6px 0;font-size:13px;color:#1a1a1a;font-family:Arial,sans-serif;
-            width:50%;vertical-align:top;">${p.carLabel}</td>
+            width:50%;vertical-align:top;">${esc(p.carLabel)}</td>
           <td style="padding:6px 0;font-size:13px;color:#888;font-family:Arial,sans-serif;
-            width:25%;vertical-align:top;">${p.customerFirstName}</td>
+            width:25%;vertical-align:top;">${esc(p.customerFirstName)}</td>
           <td style="padding:6px 0;font-size:13px;color:#888;font-family:Arial,sans-serif;
-            width:25%;vertical-align:top;">${date}${p.pickupTime ? ` · ${p.pickupTime}` : ''}</td>
+            width:25%;vertical-align:top;">${date}${p.pickupTime ? ` · ${esc(p.pickupTime)}` : ''}</td>
         </tr>`
       }).join('')
     : `<tr><td colspan="3" style="padding:6px 0;font-size:13px;color:#aaa;font-family:Arial,sans-serif;">
@@ -623,13 +636,13 @@ export function reviewRequestEmail(data: {
 }): string {
   const content = `
 <h1 style="margin:0 0 16px;font-size:22px;color:#1a1a1a;font-weight:700;
-  font-family:Arial,sans-serif;">Hi ${data.firstName},</h1>
+  font-family:Arial,sans-serif;">Hi ${esc(data.firstName)},</h1>
 <p style="margin:0 0 20px;font-size:15px;color:#1a1a1a;line-height:1.65;font-family:Arial,sans-serif;">
-  Thank you for choosing ${data.businessName}.
+  Thank you for choosing ${esc(data.businessName)}.
 </p>
 <p style="margin:0 0 28px;font-size:15px;color:#1a1a1a;line-height:1.65;font-family:Arial,sans-serif;">
   If you have a moment, we'd love to hear about your experience with the
-  <strong>${data.carLabel}</strong>. It takes 30 seconds:
+  <strong>${esc(data.carLabel)}</strong>. It takes 30 seconds:
 </p>
 
 ${btn('Share your experience', data.reviewUrl)}
@@ -638,13 +651,13 @@ ${btn('Share your experience', data.reviewUrl)}
   Your feedback genuinely helps us and helps other travellers make the right choice.
 </p>
 <p style="margin:16px 0 0;font-size:14px;color:#1a1a1a;font-family:Arial,sans-serif;">
-  The ${data.businessName} Team
+  The ${esc(data.businessName)} Team
 </p>
 
 ${divider}
 
 <p style="margin:0;font-size:11px;color:#aaa;line-height:1.65;font-family:Arial,sans-serif;">
-  You're receiving this because you recently completed a rental with ${data.businessName}.
+  You're receiving this because you recently completed a rental with ${esc(data.businessName)}.
   <a href="${data.unsubscribeUrl}" style="color:#aaa;text-decoration:underline;">Unsubscribe</a>
 </p>`
 
@@ -660,13 +673,13 @@ export function bookingCancelledEmail(data: {
   endAt: string
   bookingCode: string
 }): string {
-  const name = firstName(data.customerName)
+  const name = esc(firstName(data.customerName))
 
   const content = `
 <h1 style="margin:0 0 16px;font-size:22px;color:#1a1a1a;font-weight:700;
   font-family:Arial,sans-serif;">Hi ${name},</h1>
 <p style="margin:0;font-size:15px;color:#1a1a1a;line-height:1.65;font-family:Arial,sans-serif;">
-  Your reservation for the <strong>${data.carLabel}</strong> (${data.bookingCode}) has
+  Your reservation for the <strong>${esc(data.carLabel)}</strong> (${data.bookingCode}) has
   been cancelled.
 </p>
 

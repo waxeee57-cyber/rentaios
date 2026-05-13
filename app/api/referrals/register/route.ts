@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     .select('referrer_code')
     .eq('referrer_email', email)
     .limit(1)
-    .single()
+    .maybeSingle()
 
   let code: string
 

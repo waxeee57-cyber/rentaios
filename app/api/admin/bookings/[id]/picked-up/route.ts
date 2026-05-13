@@ -15,6 +15,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const now = new Date().toISOString()
   const newHistory = [...(booking.status_history ?? []), { status: 'picked_up', at: now, by: auth.user.email }]
 
-  await supabaseAdmin.from('bookings').update({ status: 'picked_up', status_history: newHistory, updated_at: now }).eq('id', id)
+  const { error } = await supabaseAdmin.from('bookings').update({ status: 'picked_up', status_history: newHistory, updated_at: now }).eq('id', id)
+  if (error) return NextResponse.json({ error: 'Update failed' }, { status: 500 })
   return NextResponse.json({ ok: true })
 }

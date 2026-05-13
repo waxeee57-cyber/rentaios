@@ -113,6 +113,6 @@ export async function POST(req: NextRequest) {
     html: `<p>New Gumroad sale: <strong>${buyerName ?? buyerEmail}</strong> (${buyerEmail}) — €${amountEur ?? '?'}</p>`,
   })
 
-  console.log('[Gumroad] Processed sale:', saleId, 'for', buyerEmail)
+  console.log('[Gumroad] Processed sale:', saleId)
   return NextResponse.json({ success: true })
 }

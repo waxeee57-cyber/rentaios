@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
     .single()
 
   if (custErr || !customer) {
-    console.error('[inquiries/create] customer upsert failed', custErr)
+    console.error('[inquiries/create] customer upsert failed', custErr?.code)
     return NextResponse.json({ error: 'Could not save customer. Please try again.' }, { status: 500 })
   }
 
