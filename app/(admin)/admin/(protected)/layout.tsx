@@ -9,6 +9,13 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const user = await getAuthUser()
   if (!user) redirect('/admin/login')
 
+  const { data: adminRow } = await supabaseAdmin
+    .from('admin_users')
+    .select('id')
+    .eq('user_id', user.id)
+    .maybeSingle()
+  if (!adminRow) redirect('/admin/login')
+
   const [config, subResult] = await Promise.all([
     getBusinessConfig(),
     supabaseAdmin.from('subscriptions').select('access_locked').limit(1).maybeSingle(),
