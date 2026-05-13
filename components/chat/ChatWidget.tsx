@@ -7,21 +7,17 @@ import { cn } from '@/lib/utils'
 
 type Message = {
   id: string
-  sender: 'visitor' | 'admin' | 'auto'
+  sender: 'visitor' | 'admin' | 'auto' | 'system'
   body: string
   created_at: string
   status?: 'sent' | 'delivered'
-  isFollowup?: boolean
 }
 
 const SESSION_KEY = 'chat_session_id'
 const NAME_KEY = 'chat_visitor_name'
 const SHORT_ID_KEY = 'chat_visitor_short_id'
 const AUTO_REPLY_KEY = 'chat_auto_replied'
-const AUTO_FOLLOWUP_KEY = 'chat_auto_followup'
-const AUTO_REPLY_TEXT =
-  "Thanks for reaching out. We've received your message and typically reply within 2 hours during business hours (Mon–Fri, 9:00–18:00 CET). For urgent rental inquiries, expect a faster response."
-const AUTO_FOLLOWUP_TEXT = 'A team member has been notified and will get back to you shortly.'
+const AUTO_REPLY_TEXT = 'Thanks, we received your message.'
 
 const SHORT_ID_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 
@@ -104,9 +100,9 @@ export function ChatWidget() {
         },
         (payload) => {
           const msg = payload.new as Message
-          if (msg.sender === 'admin') {
+          if (msg.sender === 'admin' || msg.sender === 'system') {
             setMessages((prev) => (prev.some((m) => m.id === msg.id) ? prev : [...prev, msg]))
-            if (!open) setUnread((n) => n + 1)
+            if (msg.sender === 'admin' && !open) setUnread((n) => n + 1)
           }
         }
       )
@@ -210,29 +206,46 @@ export function ChatWidget() {
             },
           ])
         }, 700)
-
-        if (!sessionStorage.getItem(AUTO_FOLLOWUP_KEY)) {
-          sessionStorage.setItem(AUTO_FOLLOWUP_KEY, '1')
-          setTimeout(() => {
-            setMessages((prev) => [
-              ...prev,
-              {
-                id: `followup-${Date.now()}`,
-                sender: 'auto',
-                body: AUTO_FOLLOWUP_TEXT,
-                created_at: new Date().toISOString(),
-                isFollowup: true,
-              },
-            ])
-          }, 2700)
-        }
       }
 
-      await fetch('/api/chat/message', {
+      const res = await fetch('/api/chat/message', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ session_id: sid, body: text }),
       })
+
+      // Backend may roll the visitor over to a fresh conversation if their
+      // last one was auto-closed (>1h idle) or manually closed by admin.
+      if (res.ok) {
+        const data = await res.json().catch(() => null) as
+          | { new_session_id?: string; new_conversation_id?: string }
+          | null
+        if (data?.new_session_id && data?.new_conversation_id) {
+          localStorage.setItem(SESSION_KEY, data.new_session_id)
+          sessionStorage.removeItem(AUTO_REPLY_KEY)
+          setSessionId(data.new_session_id)
+          setConversationId(data.new_conversation_id)
+          // Fresh-history mode: drop prior optimistic + history; reload from
+          // the new conversation so the visitor sees only the new thread.
+          loadedRef.current = true
+          await loadConversation(data.new_session_id)
+          setTimeout(() => {
+            setMessages((prev) => {
+              if (prev.some((m) => m.sender === 'auto')) return prev
+              return [
+                ...prev,
+                {
+                  id: `auto-${Date.now()}`,
+                  sender: 'auto',
+                  body: AUTO_REPLY_TEXT,
+                  created_at: new Date().toISOString(),
+                },
+              ]
+            })
+            sessionStorage.setItem(AUTO_REPLY_KEY, '1')
+          }, 700)
+        }
+      }
     } finally {
       setSending(false)
     }
@@ -319,16 +332,25 @@ export function ChatWidget() {
                 {messages.map((msg) => (
                   <div
                     key={msg.id}
-                    className={cn('flex', msg.sender === 'visitor' ? 'justify-end' : 'justify-start')}
+                    className={cn(
+                      'flex',
+                      msg.sender === 'visitor'
+                        ? 'justify-end'
+                        : msg.sender === 'system'
+                          ? 'justify-center'
+                          : 'justify-start'
+                    )}
                   >
-                    {msg.sender === 'auto' ? (
+                    {msg.sender === 'system' ? (
+                      <p className="font-sans text-[10px] uppercase tracking-wide text-gray-400">
+                        {msg.body}
+                      </p>
+                    ) : msg.sender === 'auto' ? (
                       <div className="max-w-[85%] rounded-lg border border-gray-100 bg-gray-50 px-3 py-2 font-sans text-sm leading-relaxed text-gray-500">
-                        {!msg.isFollowup && (
-                          <span className="mb-1 flex items-center gap-1 text-[10px] font-medium uppercase tracking-wide text-gray-400">
-                            <Clock className="h-3 w-3" />
-                            Auto-reply
-                          </span>
-                        )}
+                        <span className="mb-1 flex items-center gap-1 text-[10px] font-medium uppercase tracking-wide text-gray-400">
+                          <Clock className="h-3 w-3" />
+                          Auto-reply
+                        </span>
                         {msg.body}
                       </div>
                     ) : msg.sender === 'visitor' ? (

@@ -23,12 +23,57 @@ export async function PATCH(
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
   }
 
-  const { error } = await supabaseAdmin
+  const nextStatus = parsed.data.status
+  const now = new Date().toISOString()
+
+  if (nextStatus === 'closed') {
+    const { error: updateErr } = await supabaseAdmin
+      .from('chat_conversations')
+      .update({ status: 'closed', closed_at: now, updated_at: now })
+      .eq('id', id)
+
+    if (updateErr) {
+      return NextResponse.json({ error: 'Failed to update status' }, { status: 500 })
+    }
+
+    await supabaseAdmin
+      .from('chat_messages')
+      .insert({ conversation_id: id, sender: 'system', body: 'Chat closed' })
+
+    return NextResponse.json({ ok: true })
+  }
+
+  // Reopen: only safe if no other open conversation exists for the same visitor.
+  // The partial unique index would reject otherwise.
+  const { data: conv } = await supabaseAdmin
     .from('chat_conversations')
-    .update({ status: parsed.data.status, updated_at: new Date().toISOString() })
+    .select('visitor_short_id')
+    .eq('id', id)
+    .single()
+
+  if (conv?.visitor_short_id) {
+    const { data: existingOpen } = await supabaseAdmin
+      .from('chat_conversations')
+      .select('id')
+      .eq('visitor_short_id', conv.visitor_short_id)
+      .eq('status', 'open')
+      .neq('id', id)
+      .maybeSingle()
+
+    if (existingOpen) {
+      return NextResponse.json(
+        { error: 'This visitor already has an open conversation' },
+        { status: 409 }
+      )
+    }
+  }
+
+  const { error: reopenErr } = await supabaseAdmin
+    .from('chat_conversations')
+    .update({ status: 'open', closed_at: null, updated_at: now })
     .eq('id', id)
 
-  if (error) {
+  if (reopenErr) {
     return NextResponse.json({ error: 'Failed to update status' }, { status: 500 })
   }
 
