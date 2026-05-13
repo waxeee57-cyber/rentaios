@@ -1,9 +1,10 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
 import { cn } from '@/lib/utils'
-import { Send, CheckCheck, XCircle, MessageCircle } from 'lucide-react'
+import { Send, XCircle, MessageCircle } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { toast } from 'sonner'
 
@@ -18,16 +19,18 @@ type Conversation = {
   last_message_sender: 'visitor' | 'admin' | null
   created_at: string
   updated_at: string
+  closed_at: string | null
 }
 
 type Message = {
   id: string
-  sender: 'visitor' | 'admin'
+  sender: 'visitor' | 'admin' | 'system'
   body: string
   created_at: string
 }
 
-type StatusFilter = 'all' | 'unanswered' | 'answered'
+type AnswerFilter = 'all' | 'unanswered' | 'answered'
+type StatusTab = 'open' | 'closed'
 
 const supabase = process.env.NEXT_PUBLIC_SUPABASE_URL
   ? createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
@@ -39,15 +42,20 @@ function visitorLabel(c: Pick<Conversation, 'visitor_name' | 'visitor_short_id'>
 }
 
 export default function MessagesPage() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const statusTab: StatusTab = searchParams.get('status') === 'closed' ? 'closed' : 'open'
+
   const [conversations, setConversations] = useState<Conversation[]>([])
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
   const [reply, setReply] = useState('')
   const [sending, setSending] = useState(false)
   const [loadingMsgs, setLoadingMsgs] = useState(false)
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
+  const [answerFilter, setAnswerFilter] = useState<AnswerFilter>('all')
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
+  const [search, setSearch] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const replyRef = useRef<HTMLTextAreaElement>(null)
   const selectedIdRef = useRef<string | null>(null)
@@ -93,7 +101,12 @@ export default function MessagesPage() {
                   last_message_sender: 'visitor',
                 }
               }
-              return { ...c, updated_at: msg.created_at, last_message_sender: 'admin' }
+              if (msg.sender === 'admin') {
+                return { ...c, updated_at: msg.created_at, last_message_sender: 'admin' }
+              }
+              // system message: don't change last_message_sender (DB constraint
+              // disallows it, and the admin filter ignores system events).
+              return { ...c, updated_at: msg.created_at }
             }).sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
           )
           if (msg.conversation_id === selectedIdRef.current) {
@@ -118,6 +131,20 @@ export default function MessagesPage() {
         { event: 'INSERT', schema: 'public', table: 'chat_conversations' },
         () => { loadConversations() }
       )
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'chat_conversations' },
+        (payload) => {
+          const next = payload.new as Conversation
+          setConversations((prev) => {
+            const exists = prev.some((c) => c.id === next.id)
+            if (!exists) return prev
+            return prev
+              .map((c) => (c.id === next.id ? { ...c, ...next } : c))
+              .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
+          })
+        }
+      )
       .subscribe()
 
     return () => { supabase.removeChannel(channel) }
@@ -127,23 +154,62 @@ export default function MessagesPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'auto', block: 'end' })
   }, [messages])
 
+  const openCount = useMemo(
+    () => conversations.filter((c) => c.status === 'open').length,
+    [conversations]
+  )
+  const closedCount = useMemo(
+    () => conversations.filter((c) => c.status === 'closed').length,
+    [conversations]
+  )
+
   const filteredConversations = useMemo(() => {
     const fromTs = dateFrom ? new Date(dateFrom).getTime() : null
     const toTs = dateTo ? new Date(dateTo + 'T23:59:59').getTime() : null
-    return conversations.filter((c) => {
-      if (statusFilter === 'unanswered' && c.last_message_sender !== 'visitor') return false
-      if (statusFilter === 'answered' && c.last_message_sender !== 'admin') return false
+    const q = search.trim().toLowerCase()
+
+    const base = conversations.filter((c) => {
+      if (c.status !== statusTab) return false
+      if (answerFilter === 'unanswered' && c.last_message_sender !== 'visitor') return false
+      if (answerFilter === 'answered' && c.last_message_sender !== 'admin') return false
       const ts = new Date(c.updated_at).getTime()
       if (fromTs !== null && ts < fromTs) return false
       if (toTs !== null && ts > toTs) return false
+      if (q) {
+        const name = (c.visitor_name ?? '').toLowerCase()
+        const email = (c.visitor_email ?? '').toLowerCase()
+        const sid = (c.visitor_short_id ?? '').toLowerCase()
+        if (!name.includes(q) && !email.includes(q) && !sid.includes(q)) return false
+      }
       return true
     })
-  }, [conversations, statusFilter, dateFrom, dateTo])
+
+    if (statusTab === 'closed') {
+      return base.sort((a, b) => {
+        const at = a.closed_at ? new Date(a.closed_at).getTime() : 0
+        const bt = b.closed_at ? new Date(b.closed_at).getTime() : 0
+        return bt - at
+      })
+    }
+    return base
+  }, [conversations, statusTab, answerFilter, dateFrom, dateTo, search])
 
   const unansweredCount = useMemo(
-    () => conversations.filter((c) => c.last_message_sender === 'visitor').length,
+    () =>
+      conversations.filter(
+        (c) => c.status === 'open' && c.last_message_sender === 'visitor'
+      ).length,
     [conversations]
   )
+
+  function setStatusTab(next: StatusTab) {
+    const params = new URLSearchParams(searchParams.toString())
+    if (next === 'open') params.delete('status')
+    else params.set('status', 'closed')
+    router.replace(`?${params.toString()}`, { scroll: false })
+    setSelectedId(null)
+    setMessages([])
+  }
 
   async function selectConversation(conv: Conversation) {
     setSelectedId(conv.id)
@@ -194,16 +260,20 @@ export default function MessagesPage() {
     }
   }
 
-  async function toggleStatus() {
-    if (!selectedId || !selectedConv) return
-    const next = selectedConv.status === 'open' ? 'closed' : 'open'
-    await fetch(`/api/admin/chat/conversation/${selectedId}/status`, {
+  async function closeConversation() {
+    if (!selectedId || !selectedConv || selectedConv.status !== 'open') return
+    const res = await fetch(`/api/admin/chat/conversation/${selectedId}/status`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status: next }),
+      body: JSON.stringify({ status: 'closed' }),
     })
+    if (!res.ok) {
+      toast.error('Failed to close conversation')
+      return
+    }
+    const closedAt = new Date().toISOString()
     setConversations((prev) =>
-      prev.map((c) => (c.id === selectedId ? { ...c, status: next } : c))
+      prev.map((c) => (c.id === selectedId ? { ...c, status: 'closed', closed_at: closedAt } : c))
     )
   }
 
@@ -229,16 +299,46 @@ export default function MessagesPage() {
         </h1>
       </div>
 
+      {/* Status tabs */}
+      <div className="mb-3 flex items-center gap-1 border-b border-border">
+        {(['open', 'closed'] as const).map((tab) => {
+          const count = tab === 'open' ? openCount : closedCount
+          const active = statusTab === tab
+          return (
+            <button
+              key={tab}
+              onClick={() => setStatusTab(tab)}
+              className={cn(
+                '-mb-px border-b-2 px-4 py-2 font-sans text-sm capitalize transition-colors',
+                active
+                  ? 'border-gold text-white'
+                  : 'border-transparent text-muted hover:text-white'
+              )}
+            >
+              {tab}
+              <span className="ml-1.5 font-sans text-[11px] opacity-70">({count})</span>
+            </button>
+          )
+        })}
+      </div>
+
       {/* Filter bar */}
       <div className="mb-3 flex flex-wrap items-center gap-3">
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search name, email, or visitor ID"
+          className="w-64 rounded-md border border-border bg-graphite/30 px-3 py-1.5 font-sans text-xs text-white outline-none placeholder:text-muted focus:border-gold/50"
+        />
         <div className="flex items-center gap-1 rounded-md border border-border bg-graphite/30 p-0.5">
           {(['all', 'unanswered', 'answered'] as const).map((f) => (
             <button
               key={f}
-              onClick={() => setStatusFilter(f)}
+              onClick={() => setAnswerFilter(f)}
               className={cn(
                 'rounded px-3 py-1 font-sans text-xs capitalize transition-colors',
-                statusFilter === f
+                answerFilter === f
                   ? 'bg-gold text-white'
                   : 'text-muted hover:text-white'
               )}
@@ -276,14 +376,18 @@ export default function MessagesPage() {
         </div>
       </div>
 
-      <div className="flex h-[calc(100vh-16rem)] overflow-hidden rounded-lg border border-border">
+      <div className="flex h-[calc(100vh-18rem)] overflow-hidden rounded-lg border border-border">
         {/* Conversation list */}
         <div className="w-72 flex-shrink-0 overflow-y-auto border-r border-border bg-graphite/50">
           {filteredConversations.length === 0 && (
             <div className="flex flex-col items-center justify-center gap-3 py-16 px-4">
               <MessageCircle className="h-8 w-8 text-muted/30" />
               <p className="text-center font-sans text-xs text-muted">
-                {conversations.length === 0 ? 'No conversations yet' : 'No conversations match these filters'}
+                {conversations.length === 0
+                  ? 'No conversations yet'
+                  : statusTab === 'closed'
+                    ? 'No closed conversations match these filters'
+                    : 'No conversations match these filters'}
               </p>
             </div>
           )}
@@ -303,9 +407,6 @@ export default function MessagesPage() {
                   {conv.visitor_name || 'Visitor'}
                 </span>
                 <div className="flex flex-shrink-0 items-center gap-1.5">
-                  {conv.status === 'closed' && (
-                    <span className="font-sans text-[10px] uppercase tracking-wide text-muted">closed</span>
-                  )}
                   {conv.unread_admin > 0 && (
                     <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-gold px-1 font-sans text-[10px] font-bold text-white">
                       {conv.unread_admin}
@@ -320,7 +421,9 @@ export default function MessagesPage() {
                 <p className="mt-0.5 truncate font-sans text-xs text-muted">{conv.visitor_email}</p>
               )}
               <p className="mt-1 font-sans text-[10px] text-muted/50">
-                {formatDistanceToNow(new Date(conv.updated_at), { addSuffix: true })}
+                {conv.status === 'closed' && conv.closed_at
+                  ? `Closed ${formatDistanceToNow(new Date(conv.closed_at), { addSuffix: true })}`
+                  : formatDistanceToNow(new Date(conv.updated_at), { addSuffix: true })}
               </p>
             </button>
           ))}
@@ -350,21 +453,14 @@ export default function MessagesPage() {
                     <p className="font-sans text-xs text-muted">{selectedConv.visitor_email}</p>
                   )}
                 </div>
-                <button
-                  onClick={() => void toggleStatus()}
-                  className={cn(
-                    'flex items-center gap-1.5 rounded-md border px-3 py-1.5 font-sans text-xs transition-colors',
-                    selectedConv?.status === 'open'
-                      ? 'border-border text-muted hover:border-red-500/40 hover:text-red-400'
-                      : 'border-border text-muted hover:border-gold/40 hover:text-gold'
-                  )}
-                >
-                  {selectedConv?.status === 'open' ? (
-                    <><XCircle className="h-3.5 w-3.5" /> Close</>
-                  ) : (
-                    <><CheckCheck className="h-3.5 w-3.5" /> Reopen</>
-                  )}
-                </button>
+                {selectedConv?.status === 'open' && (
+                  <button
+                    onClick={() => void closeConversation()}
+                    className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 font-sans text-xs text-muted transition-colors hover:border-red-500/40 hover:text-red-400"
+                  >
+                    <XCircle className="h-3.5 w-3.5" /> Close
+                  </button>
+                )}
               </div>
 
               {/* Messages */}
@@ -375,35 +471,46 @@ export default function MessagesPage() {
                 {!loadingMsgs && messages.length === 0 && (
                   <p className="py-8 text-center font-sans text-xs text-muted">No messages yet</p>
                 )}
-                {messages.map((msg) => (
-                  <div
-                    key={msg.id}
-                    className={cn('flex', msg.sender === 'admin' ? 'justify-end' : 'justify-start')}
-                  >
-                    <div className="flex flex-col gap-1">
-                      <div
-                        className={cn(
-                          'max-w-[75%] rounded-lg px-3 py-2 font-sans text-sm leading-relaxed',
-                          msg.sender === 'admin'
-                            ? 'bg-gold text-white'
-                            : 'border border-border bg-graphite text-white'
-                        )}
-                      >
-                        {msg.body}
+                {messages.map((msg) => {
+                  if (msg.sender === 'system') {
+                    return (
+                      <div key={msg.id} className="flex justify-center">
+                        <p className="font-sans text-[10px] uppercase tracking-wide text-muted/60">
+                          {msg.body}
+                        </p>
                       </div>
-                      <p className={cn(
-                        'font-sans text-[10px] text-muted/50',
-                        msg.sender === 'admin' ? 'text-right' : 'text-left'
-                      )}>
-                        {formatDistanceToNow(new Date(msg.created_at), { addSuffix: true })}
-                      </p>
+                    )
+                  }
+                  return (
+                    <div
+                      key={msg.id}
+                      className={cn('flex', msg.sender === 'admin' ? 'justify-end' : 'justify-start')}
+                    >
+                      <div className="flex flex-col gap-1">
+                        <div
+                          className={cn(
+                            'max-w-[75%] rounded-lg px-3 py-2 font-sans text-sm leading-relaxed',
+                            msg.sender === 'admin'
+                              ? 'bg-gold text-white'
+                              : 'border border-border bg-graphite text-white'
+                          )}
+                        >
+                          {msg.body}
+                        </div>
+                        <p className={cn(
+                          'font-sans text-[10px] text-muted/50',
+                          msg.sender === 'admin' ? 'text-right' : 'text-left'
+                        )}>
+                          {formatDistanceToNow(new Date(msg.created_at), { addSuffix: true })}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                })}
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Reply input */}
+              {/* Reply input — only when open */}
               {selectedConv?.status === 'open' && (
                 <div className="flex items-end gap-2 border-t border-border px-4 py-3">
                   <textarea
@@ -428,10 +535,7 @@ export default function MessagesPage() {
               {selectedConv?.status === 'closed' && (
                 <div className="border-t border-border px-4 py-3">
                   <p className="font-sans text-xs text-muted text-center">
-                    Conversation closed.{' '}
-                    <button onClick={() => void toggleStatus()} className="text-gold hover:underline">
-                      Reopen
-                    </button>
+                    Conversation closed.
                   </p>
                 </div>
               )}

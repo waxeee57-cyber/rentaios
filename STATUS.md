@@ -14,10 +14,10 @@ READ THIS AT THE START OF EVERY SESSION.
 - **Started:** [none]
 
 ### Dominik
-- **Branch:** [none]
-- **Files:** [none]
-- **Description:** [none]
-- **Started:** [none]
+- **Branch:** feature/auto-close-and-closed-tab
+- **Files:** supabase/migrations/16_chat_auto_close.sql, app/api/chat/message/route.ts, app/api/admin/chat/conversation/[id]/status/route.ts, app/api/admin/chat/conversations/route.ts, app/(admin)/admin/(protected)/messages/page.tsx, components/chat/ChatWidget.tsx
+- **Description:** Chat: simplify auto-reply, lazy auto-close after 1h + admin manual close, admin Open/Closed tabs with search, widget closed-state handling
+- **Started:** 2026-05-13
 
 ---
 

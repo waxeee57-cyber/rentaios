@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
 
   const { data, error } = await supabaseAdmin
     .from('chat_conversations')
-    .select('id, session_id, visitor_name, visitor_short_id, visitor_email, status, unread_admin, last_message_sender, created_at, updated_at')
+    .select('id, session_id, visitor_name, visitor_short_id, visitor_email, status, unread_admin, last_message_sender, created_at, updated_at, closed_at')
     .order('updated_at', { ascending: false })
     .limit(100)
 
