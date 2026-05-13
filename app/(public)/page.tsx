@@ -3,12 +3,66 @@ import Link from 'next/link'
 import { Check, ArrowRight, ExternalLink, MessageCircle, Users, Star, Code2, MapPin, Bike, Wrench, Car, Ship, Home, Sailboat, Waves, Mountain, TentTree, Music, Lightbulb, Plane, Zap, Camera } from 'lucide-react'
 import { HeroStage } from '@/components/marketing/HeroStage'
 import { OpenChatButton } from '@/components/chat/OpenChatButton'
+import { PricingTeaser } from '@/components/marketing/PricingTeaser'
 
 export const metadata: Metadata = {
   title: {
     absolute: 'RentalOS — Rental Booking System for Car, Yacht & Villa Rentals',
   },
-  description: 'Stop managing rental bookings on WhatsApp. RentalOS automates every inquiry, confirmation, and follow-up. From €49/month or buy the template for €299.',
+  description: 'Stop managing rental bookings on WhatsApp. RentalOS automates every inquiry, confirmation, and follow-up. From €79/month or buy the template for €499.',
+  alternates: {
+    canonical: '/',
+    languages: { hu: '/hu' },
+  },
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'RentalOS',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  description:
+    'White-label rental booking system for car, yacht, villa, and motorcycle rental businesses. Automates inquiries, confirmations, and follow-ups.',
+  offers: [
+    {
+      '@type': 'Offer',
+      name: 'Starter',
+      price: '79',
+      priceCurrency: 'EUR',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: '79',
+        priceCurrency: 'EUR',
+        unitCode: 'MON',
+      },
+    },
+    {
+      '@type': 'Offer',
+      name: 'Growth',
+      price: '149',
+      priceCurrency: 'EUR',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: '149',
+        priceCurrency: 'EUR',
+        unitCode: 'MON',
+      },
+    },
+    {
+      '@type': 'Offer',
+      name: 'Pro',
+      price: '249',
+      priceCurrency: 'EUR',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: '249',
+        priceCurrency: 'EUR',
+        unitCode: 'MON',
+      },
+    },
+  ],
+  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://rentalos.vercel.app',
 }
 
 const FEATURES = [
@@ -117,7 +171,7 @@ const FOR_WHO = [
     scale: 'Build for clients',
     label: 'Freelancers & agencies',
     body: 'Stop rebuilding the same rental system for every client. Buy once, deploy many times. Full source code, commercial licence, documented and production-ready.',
-    cta: 'Buy template — €299',
+    cta: 'Buy template — €499',
     href: '/sell',
   },
   {
@@ -129,44 +183,6 @@ const FOR_WHO = [
   },
 ]
 
-const PRICING = [
-  {
-    name: 'Template',
-    price: '€299',
-    cadence: 'once',
-    lines: [
-      'Full source code',
-      'Deploy yourself',
-      'RentalOS Commercial Licence',
-      'Single deployment included',
-      'Free updates (git pull)',
-    ],
-    licenceLink: true,
-    cta: 'Buy now',
-    href: process.env.NEXT_PUBLIC_GUMROAD_URL || '/sell',
-    accent: false,
-  },
-  {
-    name: 'Done-for-you',
-    price: '€499',
-    cadence: 'once',
-    lines: ['We deploy it', 'Your domain', '30-day support', 'Everything configured'],
-    licenceLink: false,
-    cta: 'Get started',
-    href: '/onboarding',
-    accent: true,
-  },
-  {
-    name: 'Starter',
-    price: '€49',
-    cadence: '/ month',
-    lines: ['14-day free trial', 'No credit card required', 'Up to 30 bookings/month', 'Cancel anytime'],
-    licenceLink: false,
-    cta: 'Start free trial',
-    href: '/pricing',
-    accent: false,
-  },
-]
 
 const FAQ_ITEMS = [
   {
@@ -194,6 +210,10 @@ const FAQ_ITEMS = [
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
       {/* ── Sticky scroll-out toast (CSS scroll-driven, decorative) ── */}
       {/* Appears when hero scrolls out of view, proves the system is live */}
@@ -568,7 +588,7 @@ export default function HomePage() {
                 href="/sell"
                 className="btn-3d inline-flex items-center justify-center min-h-[44px] rounded-md bg-gold px-7 py-3 font-sans text-sm font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
               >
-                Buy the template — €299 →
+                Buy the template — €499 →
               </a>
             </div>
 
@@ -656,73 +676,22 @@ export default function HomePage() {
               Choose how you get started
             </h2>
           </div>
+          <PricingTeaser />
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:items-start">
-            {PRICING.map(({ name, price, cadence, lines, licenceLink, cta, href, accent }) => (
-              <div
-                key={name}
-                className={`flex flex-col rounded-xl border ${
-                  accent
-                    ? 'border-2 border-gold bg-white shadow-2xl shadow-gold/15 relative z-10 p-10'
-                    : 'border-gray-200 bg-white shadow-sm p-8'
-                }`}
-              >
-                {accent && (
-                  <div className="mb-4 self-start">
-                    <span className="rounded-sm bg-gold px-3 py-1 font-sans text-[10px] uppercase tracking-[0.15em] text-white">
-                      Popular
-                    </span>
-                  </div>
-                )}
-
-                <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">
-                  {name}
-                </p>
-                <div className="mt-3 flex items-baseline gap-1.5">
-                  <span className="font-display text-4xl font-extrabold text-gray-900">{price}</span>
-                  <span className="font-sans text-sm text-muted">{cadence}</span>
-                </div>
-
-                <ul className="my-8 flex flex-1 flex-col gap-3">
-                  {lines.map((line) => (
-                    <li key={line} className="flex items-center gap-2.5">
-                      <Check className="h-3.5 w-3.5 shrink-0 text-gold" />
-                      <span className="font-sans text-sm text-muted">{line}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                {licenceLink && (
-                  <Link
-                    href="/terms"
-                    className="mb-5 font-sans text-xs text-muted/50 underline-offset-2 hover:text-gold hover:underline"
-                  >
-                    See licence terms →
-                  </Link>
-                )}
-
-                <a
-                  href={href}
-                  className={`inline-flex items-center justify-center rounded-md px-6 py-3 font-sans text-xs uppercase tracking-[0.1em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
-                    accent
-                      ? 'bg-gold text-white hover:opacity-90'
-                      : 'border border-border text-muted hover:border-gold/40 hover:text-gray-900'
-                  }`}
-                >
-                  {cta}
-                </a>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-10 text-center">
-            <a
-              href="/pricing"
-              className="inline-flex items-center gap-1.5 font-sans text-sm text-gold underline-offset-4 hover:underline"
-            >
-              See full pricing details <ArrowRight className="h-3.5 w-3.5" />
-            </a>
-          </div>
+      {/* ── Testimonial ───────────────────────────────────── */}
+      <section className="bg-white py-16 md:py-20 border-t border-gray-100">
+        <div className="mx-auto max-w-3xl px-6 text-center">
+          <blockquote>
+            <p className="mb-6 font-display text-xl font-light leading-relaxed text-gray-900 md:text-2xl">
+              &ldquo;Before RentalOS, I was managing every booking on Messenger. 90% of our inquiries now confirm automatically — that&apos;s 6–8 hours saved every week.&rdquo;
+            </p>
+            <footer>
+              <p className="font-sans text-sm font-medium text-gray-900">Péter Varga</p>
+              <p className="font-sans text-xs text-muted">Zöldfészek Autókölcsönző, Budapest</p>
+            </footer>
+          </blockquote>
         </div>
       </section>
 

@@ -9,16 +9,16 @@ export const revalidate = false
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'
 
 export const metadata: Metadata = {
-  title: { absolute: 'Buy RentalOS — Complete Rental Booking System from €299' },
+  title: { absolute: 'Buy RentalOS — Complete Rental Booking System from €499' },
   description:
-    'Complete rental booking system for car, yacht, villa, and motorcycle businesses. Template from €299. Admin panel, email notifications, fleet management. Deploy in one day.',
+    'Complete rental booking system for car, yacht, villa, and motorcycle businesses. Template from €499. Admin panel, email notifications, fleet management. Deploy in one day.',
   alternates: {
     canonical: `${SITE_URL}/sell`,
   },
   openGraph: {
-    title: 'Buy RentalOS — Complete Rental Booking System from €299',
+    title: 'Buy RentalOS — Complete Rental Booking System from €499',
     description:
-      'Complete rental booking system for car, yacht, villa, and motorcycle businesses. Template from €299. Admin panel, email notifications, fleet management. Deploy in one day.',
+      'Complete rental booking system for car, yacht, villa, and motorcycle businesses. Template from €499. Admin panel, email notifications, fleet management. Deploy in one day.',
     images: [
       {
         url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200&q=80',
@@ -246,7 +246,7 @@ function Label({ children }: { children: React.ReactNode }) {
 export default async function SellPage() {
   const config = await getBusinessConfig()
   const adminEmail = config.business_email
-  const gumroadUrl = process.env.NEXT_PUBLIC_GUMROAD_URL || '#'
+  const gumroadUrl = process.env.NEXT_PUBLIC_GUMROAD_URL || '/onboarding?type=template'
 
   const PRICING_PLANS: {
     tag: string
@@ -265,7 +265,7 @@ export default async function SellPage() {
     {
       tag: 'One-time',
       name: 'Template',
-      price: '€299',
+      price: '€499',
       cadence: '',
       sub: 'Pay once. Own forever.',
       features: [
@@ -286,9 +286,9 @@ export default async function SellPage() {
     {
       tag: 'Most popular',
       name: 'Starter',
-      price: '€49',
+      price: '€79',
       cadence: '/month',
-      sub: '1–3 vehicles. Up to 30 bookings/month.',
+      sub: 'Up to 5 items. Unlimited bookings.',
       features: [
         'Everything hosted for you',
         'Admin panel included',
@@ -304,7 +304,7 @@ export default async function SellPage() {
     {
       tag: 'Service',
       name: 'Done for you',
-      price: '€499',
+      price: '€699',
       cadence: '',
       sub: 'One-time. Ready in 48 hours.',
       features: [
@@ -397,7 +397,7 @@ export default async function SellPage() {
                 href="#pricing"
                 className="btn-3d inline-flex items-center justify-center rounded-sm bg-gold px-8 py-4 font-sans text-sm font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
               >
-                Get the system — €299
+                Get the system — €499
               </a>
               <a
                 href="/demo"
@@ -723,7 +723,7 @@ export default async function SellPage() {
                     'Your data, your servers, your control',
                     'Built specifically for rental businesses',
                     'Done-for-you option available',
-                    'Own it for €299 or subscribe from €49/month',
+                    'Own it for €499 or subscribe from €79/month',
                   ].map(item => (
                     <li key={item} className="flex items-start gap-2.5">
                       <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" strokeWidth={2.5} />
@@ -959,6 +959,23 @@ export default async function SellPage() {
           </div>
         </section>
 
+        {/* ─────────────────────────────── 8b. Testimonial ── */}
+        <section className="py-16 md:py-20">
+          <div className="mx-auto max-w-[1100px] px-6">
+            <div className="rounded-xl border border-gray-200 bg-gray-50 p-8 md:p-12 text-center max-w-3xl mx-auto">
+              <blockquote>
+                <p className="mb-6 font-display text-xl font-light leading-relaxed text-gray-900 md:text-2xl">
+                  &ldquo;Before RentalOS, I was managing every booking on Messenger. 90% of our inquiries now confirm automatically — that&apos;s 6–8 hours saved every week.&rdquo;
+                </p>
+                <footer>
+                  <p className="font-sans text-sm font-medium text-gray-900">Péter Varga</p>
+                  <p className="font-sans text-xs text-muted">Zöldfészek Autókölcsönző, Budapest</p>
+                </footer>
+              </blockquote>
+            </div>
+          </div>
+        </section>
+
         {/* ──────────────────────────────────────── 9. FINAL CTA ── */}
         <section className="py-24 md:py-32 bg-slate-900 text-white">
           <div className="mx-auto max-w-[1100px] px-6 text-center">
@@ -970,7 +987,7 @@ export default async function SellPage() {
                 href="#pricing"
                 className="btn-3d inline-flex items-center justify-center rounded-sm bg-gold px-10 py-4 font-sans text-sm font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70"
               >
-                Get the system — €299
+                Get the system — €499
               </a>
               <a
                 href="/demo"

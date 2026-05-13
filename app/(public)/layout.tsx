@@ -2,6 +2,7 @@ import { Header } from '@/components/marketing/Header'
 import { Footer } from '@/components/marketing/Footer'
 import { ChatWidget } from '@/components/chat/ChatWidget'
 import { CookieBanner } from '@/components/brand/CookieBanner'
+import { ExitIntentModal } from '@/components/ExitIntentModal'
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -12,6 +13,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <Footer />
       <ChatWidget />
       <CookieBanner />
+      <ExitIntentModal />
     </>
   )
 }

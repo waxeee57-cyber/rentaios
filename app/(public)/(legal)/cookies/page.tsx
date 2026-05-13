@@ -5,7 +5,7 @@ export const metadata: Metadata = {
 }
 
 export default function CookiesPage() {
-  const email = process.env.ADMIN_EMAIL ?? 'hello@domrol.com'
+  const email = process.env.ADMIN_EMAIL ?? 'info@domrol.com'
   return (
     <>
       <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-3">Legal</p>

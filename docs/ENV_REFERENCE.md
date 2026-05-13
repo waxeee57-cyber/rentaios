@@ -15,7 +15,7 @@ Missing required vars throw at server startup (`lib/env.ts → requireEnv()`).
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | JWT string | `lib/supabase.ts`, `lib/supabase-server.ts` | App fails to start |
 | `SUPABASE_SERVICE_ROLE_KEY` | Yes | JWT string | `lib/supabase.ts` (supabaseAdmin) — bypasses RLS | App fails to start |
 | `NEXT_PUBLIC_SITE_URL` | Yes | `https://yourdomain.com` | Email templates, Stripe redirects, sitemap, webhooks | `https://localhost:3000` |
-| `ADMIN_EMAIL` | Yes | Email address | `lib/resend.ts` — all admin alert emails | `hello@rentaios.com` |
+| `ADMIN_EMAIL` | Yes | Email address | `lib/resend.ts` — all admin alert emails | `hello@rentalos.com` |
 
 ---
 
@@ -24,7 +24,7 @@ Missing required vars throw at server startup (`lib/env.ts → requireEnv()`).
 | Variable | Required | Format | Used by | Fallback |
 |----------|----------|--------|---------|----------|
 | `RESEND_API_KEY` | Yes (for emails) | `re_...` | `lib/resend.ts` | Email silently skipped |
-| `RESEND_FROM_EMAIL` | No | Email address | `lib/resend.ts` FROM address | `noreply@rentaios.com` |
+| `RESEND_FROM_EMAIL` | No | Email address | `lib/resend.ts` FROM address | `noreply@rentalos.com` |
 | `RESEND_FROM_NAME` | No | String | `lib/resend.ts` FROM display name | `RentalOS` |
 
 ---

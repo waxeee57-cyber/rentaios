@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   },
 }
 
-const CONTACT_EMAIL = process.env.ADMIN_EMAIL ?? 'hello@domrol.com'
+const CONTACT_EMAIL = process.env.ADMIN_EMAIL ?? 'info@domrol.com'
 
 export default function AboutPage() {
   return (

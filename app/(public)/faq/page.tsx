@@ -27,7 +27,7 @@ const FAQ_CATEGORIES = [
       },
       {
         q: "What if I'm not technical?",
-        a: "Choose the done-for-you plan (€499 one-time). We handle everything — database, domain, email, configuration. You receive your login details within 48 hours.",
+        a: "Choose the done-for-you plan (€699 one-time). We handle everything — database, domain, email, configuration. You receive your login details within 48 hours.",
       },
       {
         q: 'Is there a free trial?',
@@ -85,7 +85,7 @@ const FAQ_CATEGORIES = [
     items: [
       {
         q: 'How much does it cost?',
-        a: 'From €49/month (Starter), or buy the template outright for €299. Done-for-you setup is €499 one-time. See /pricing for full details.',
+        a: 'From €79/month (Starter), or buy the template outright for €499. Done-for-you setup is €699 one-time. See /pricing for full details.',
       },
       {
         q: 'Can I cancel anytime?',

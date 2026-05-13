@@ -3,7 +3,7 @@ import { PricingClient } from './PricingClient'
 
 export const metadata: Metadata = {
   title: 'Pricing',
-  description: 'RentalOS plans from €49/month. 14-day free trial, no credit card required. Starter, Growth, Pro, and Agency tiers.',
+  description: 'RentalOS plans from €79/month. 14-day free trial, no credit card required. Starter, Growth, and Pro tiers.',
   alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'}/pricing` },
 }
 

@@ -77,7 +77,7 @@ export async function Footer() {
             </p>
             {showPoweredBy && (
               <a
-                href={process.env.NEXT_PUBLIC_SITE_URL ?? 'https://rentaios.vercel.app'}
+                href={process.env.NEXT_PUBLIC_SITE_URL ?? 'https://rentalos.vercel.app'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs font-sans text-muted/40 hover:text-muted/70 transition-colors mt-1 inline-block"
