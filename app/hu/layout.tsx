@@ -29,7 +29,7 @@ export default function HuLayout({ children }: { children: React.ReactNode }) {
       <a href="#main-content" className="skip-nav">Ugrás a tartalomra</a>
       <Header />
       <main id="main-content" className="flex-1 pt-16 animate-page-enter">{children}</main>
-      <Footer />
+      <Footer locale="hu" />
       <ChatWidget />
       <CookieBanner />
       <ExitIntentModal />
