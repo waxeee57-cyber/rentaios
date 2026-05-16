@@ -30,5 +30,5 @@ export async function GET() {
     return_url: `${siteUrl}/admin/billing`,
   })
 
-  return NextResponse.json({ url: session.url })
+  return NextResponse.redirect(session.url)
 }

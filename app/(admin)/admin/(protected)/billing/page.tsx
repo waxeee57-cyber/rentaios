@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic'
 
 import { supabaseAdmin } from '@/lib/supabase'
 import { AddonsSection } from './AddonsSection'
+import { BillingCheckoutButton } from './BillingCheckoutButton'
 
 const STRIPE_CONFIGURED = !!process.env.STRIPE_SECRET_KEY
 const TWILIO_CONFIGURED = !!process.env.TWILIO_ACCOUNT_SID
@@ -142,19 +143,25 @@ export default async function BillingPage() {
 
       {/* Upgrade options */}
       {!isActive && (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mb-6">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 mb-6">
           <UpgradeCard
             name="Starter"
-            price="€99/mo"
-            features={['Up to 50 bookings/month', '1 vehicle category', 'Email notifications', 'Admin panel']}
+            price="€79/mo"
+            features={['Up to 5 items', 'Unlimited bookings', 'Email notifications', 'Admin panel']}
             plan="starter"
           />
           <UpgradeCard
-            name="Pro"
-            price="€199/mo"
-            features={['Unlimited bookings', 'Unlimited vehicles', 'Transfer/delivery feature', 'Priority support']}
-            plan="pro"
+            name="Growth"
+            price="€149/mo"
+            features={['Up to 20 items', 'Transfer/delivery', 'Weekly report email', 'Priority support 48h']}
+            plan="growth"
             highlight
+          />
+          <UpgradeCard
+            name="Pro"
+            price="€249/mo"
+            features={['Unlimited items', 'Custom domain setup', 'Custom design & branding', 'Priority support']}
+            plan="pro"
           />
         </div>
       )}
@@ -210,7 +217,7 @@ function UpgradeCard({
   name: string
   price: string
   features: string[]
-  plan: 'starter' | 'pro'
+  plan: 'starter' | 'growth' | 'pro'
   highlight?: boolean
 }) {
   return (
@@ -219,31 +226,13 @@ function UpgradeCard({
         <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">{name}</p>
         <p className="font-display text-2xl font-light text-white mt-1">{price}</p>
       </div>
-      <ul className="flex flex-col gap-2">
+      <ul className="flex flex-col gap-2 flex-1">
         {features.map((f) => (
           <li key={f} className="font-sans text-xs text-muted">{f}</li>
         ))}
       </ul>
-      <CheckoutButton plan={plan} highlight={highlight} />
+      <BillingCheckoutButton plan={plan} highlight={highlight} />
     </div>
-  )
-}
-
-function CheckoutButton({ plan, highlight }: { plan: 'starter' | 'pro'; highlight?: boolean }) {
-  return (
-    <form action={`/api/billing/create-checkout`} method="POST">
-      <input type="hidden" name="plan" value={plan} />
-      <button
-        type="submit"
-        className={`w-full min-h-[40px] rounded-md font-sans text-xs uppercase tracking-[0.1em] transition-colors ${
-          highlight
-            ? 'bg-gold text-black hover:opacity-90'
-            : 'border border-gold/40 text-gold hover:bg-gold hover:text-black'
-        }`}
-      >
-        Start 14-day free trial
-      </button>
-    </form>
   )
 }
 
