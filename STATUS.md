@@ -8,10 +8,10 @@ READ THIS AT THE START OF EVERY SESSION.
 ## Active Work
 
 ### Roland
-- **Branch:** [none]
-- **Files:** [none]
-- **Description:** [none]
-- **Started:** [none]
+- **Branch:** feature/complete-sprint-tasks
+- **Files:** app/, components/, lib/ (teljes audit)
+- **Description:** Full audit — TypeScript, build, live Supabase, UI/UX konzisztencia
+- **Started:** 2026-05-16
 
 ### Dominik
 - **Branch:** [none]

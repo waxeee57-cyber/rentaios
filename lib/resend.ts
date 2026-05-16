@@ -31,7 +31,6 @@ export async function sendEmail({
   replyTo?: string
 }): Promise<{ success: boolean; error?: string }> {
   if (!resend) {
-    console.log('[Resend] No API key — email skipped:', { subject })
     return { success: false, error: 'No API key configured' }
   }
 
@@ -49,7 +48,6 @@ export async function sendEmail({
       return { success: false, error: error.message }
     }
 
-    console.log('[Resend] Sent:', { subject })
     return { success: true }
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error'
