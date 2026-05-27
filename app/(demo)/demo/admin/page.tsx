@@ -1,6 +1,6 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import Link from 'next/link'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { formatPrice } from '@/lib/formatters'
 import { DemoTabs } from '@/app/(demo)/DemoTabs'
 
@@ -134,7 +134,7 @@ export default async function DemoAdminPage() {
               Run <code className="font-mono text-gold">supabase/demo-seed.sql</code> to populate sample bookings.
             </p>
             <Link href="/pricing" className="inline-flex items-center min-h-[40px] rounded-md bg-gold px-6 font-sans text-sm font-medium text-white hover:opacity-90 transition-opacity">
-              Start free trial — your data, not sample data
+              Start free trial â€” your data, not sample data
             </Link>
           </div>
         )}
@@ -153,9 +153,9 @@ export default async function DemoAdminPage() {
                     {booking.car ? `${booking.car.brand} ${booking.car.model} ${booking.car.year}` : 'Vehicle'}
                   </p>
                   <p className="font-sans text-xs text-muted/60">
-                    {booking.customer?.full_name ?? 'Customer'} ·{' '}
-                    {new Date(booking.start_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} →{' '}
-                    {new Date(booking.end_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} ·{' '}
+                    {booking.customer?.full_name ?? 'Customer'} Â·{' '}
+                    {new Date(booking.start_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} â†’{' '}
+                    {new Date(booking.end_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} Â·{' '}
                     {formatPrice(booking.total_eur)}
                   </p>
                 </div>
@@ -190,10 +190,10 @@ export default async function DemoAdminPage() {
         </p>
         <div className="flex flex-wrap gap-4">
           <Link href="/onboarding" className="inline-flex items-center min-h-[44px] rounded-md bg-gold px-6 font-sans text-sm font-medium text-white hover:opacity-90 transition-opacity">
-            Get this running in 48 hours →
+            Get this running in 48 hours â†’
           </Link>
           <Link href="/pricing" className="inline-flex items-center min-h-[44px] rounded-md border border-border px-6 font-sans text-sm text-muted hover:border-gold/30 hover:text-gray-900 transition-colors">
-            See pricing →
+            See pricing â†’
           </Link>
         </div>
       </div>

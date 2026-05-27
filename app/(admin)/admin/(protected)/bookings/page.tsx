@@ -1,8 +1,8 @@
-export const dynamic = 'force-dynamic'
+﻿export const dynamic = 'force-dynamic'
 
 import { Suspense } from 'react'
 import Link from 'next/link'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { BookingsList } from '@/components/admin/BookingsList'
 import { Plus, AlertTriangle } from 'lucide-react'
 import { formatInTimeZone } from 'date-fns-tz'
@@ -158,7 +158,7 @@ export default async function AdminBookingsPage({ searchParams }: PageProps) {
             <p className="font-sans text-xs text-muted mt-1">{bookingsError}</p>
             <p className="font-sans text-xs text-muted mt-1">
               Check Vercel function logs for details. If the transfer migration was just run,
-              try reloading — Supabase schema cache refreshes within a few seconds.
+              try reloading â€” Supabase schema cache refreshes within a few seconds.
             </p>
           </div>
         </div>

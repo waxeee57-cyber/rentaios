@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase'
+﻿import { NextRequest, NextResponse } from 'next/server'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { sendEmail, ADMIN_EMAIL } from '@/lib/resend'
 import { rateLimit, getClientIp } from '@/lib/rate-limit'
 
@@ -22,13 +22,13 @@ export async function POST(req: NextRequest) {
   const buyerName = params.get('buyer_name') ?? params.get('full_name')
   const priceStr = params.get('price') // cents
 
-  // Validate seller — graceful if not configured (dev mode)
+  // Validate seller â€” graceful if not configured (dev mode)
   if (GUMROAD_SELLER_ID && sellerId !== GUMROAD_SELLER_ID) {
     console.error('[Gumroad] seller_id mismatch:', sellerId)
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
   if (!GUMROAD_SELLER_ID) {
-    console.warn('[Gumroad] GUMROAD_SELLER_ID not set — accepting without seller validation')
+    console.warn('[Gumroad] GUMROAD_SELLER_ID not set â€” accepting without seller validation')
   }
 
   if (!buyerEmail || !saleId) {
@@ -81,10 +81,10 @@ export async function POST(req: NextRequest) {
       <ol style="font-size: 14px; line-height: 2; color: #a3a3a3; padding-left: 20px;">
         <li>Download the ZIP from your Gumroad library</li>
         <li>Follow the setup guide: <a href="${SITE_URL}/docs" style="color: #C8A96B;">${SITE_URL}/docs</a></li>
-        <li>Questions? Reply to this email — 30-day support included</li>
+        <li>Questions? Reply to this email â€” 30-day support included</li>
       </ol>
       <p style="font-size: 14px; color: #a3a3a3; line-height: 1.7;">
-        Deploy time: about 1–2 hours following the guide.
+        Deploy time: about 1â€“2 hours following the guide.
       </p>
       <p style="font-size: 14px; color: #a3a3a3; margin-top: 32px;">
         ${senderName}<br/>
@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
 
   await sendEmail({
     to: buyerEmail,
-    subject: 'Your RentalOS template — setup guide inside',
+    subject: 'Your RentalOS template â€” setup guide inside',
     html: welcomeHtml,
     replyTo: ADMIN_EMAIL,
   })
@@ -109,8 +109,8 @@ export async function POST(req: NextRequest) {
   // Alert admin
   await sendEmail({
     to: ADMIN_EMAIL,
-    subject: `New template sale — ${buyerEmail}`,
-    html: `<p>New Gumroad sale: <strong>${buyerName ?? buyerEmail}</strong> (${buyerEmail}) — €${amountEur ?? '?'}</p>`,
+    subject: `New template sale â€” ${buyerEmail}`,
+    html: `<p>New Gumroad sale: <strong>${buyerName ?? buyerEmail}</strong> (${buyerEmail}) â€” â‚¬${amountEur ?? '?'}</p>`,
   })
 
   console.log('[Gumroad] Processed sale:', saleId)

@@ -1,5 +1,5 @@
-import type { MetadataRoute } from 'next'
-import { supabaseAdmin } from '@/lib/supabase'
+﻿import type { MetadataRoute } from 'next'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'
 

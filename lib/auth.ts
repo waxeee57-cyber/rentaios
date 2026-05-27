@@ -1,5 +1,5 @@
-import { getAuthUser } from '@/lib/supabase-server'
-import { supabaseAdmin } from '@/lib/supabase'
+﻿import { getAuthUser } from '@/lib/supabase-server'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { NextResponse } from 'next/server'
 
 export async function requireAdmin(): Promise<

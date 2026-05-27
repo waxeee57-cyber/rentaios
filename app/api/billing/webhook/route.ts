@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase'
+﻿import { NextRequest, NextResponse } from 'next/server'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { sendEmail, ADMIN_EMAIL } from '@/lib/resend'
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
 
       await sendEmail({
         to: ADMIN_EMAIL,
-        subject: `New subscriber — ${plan} plan`,
+        subject: `New subscriber â€” ${plan} plan`,
         html: `<p>A new subscription has started: <strong>${plan}</strong>.<br>Customer: ${session.customer_email ?? session.customer}</p>`,
       })
       break
@@ -87,7 +87,7 @@ export async function POST(req: NextRequest) {
         html: `
           <p>Your RentalOS subscription has been cancelled.</p>
           <p>Your data will be kept for 30 days. You can reactivate anytime.</p>
-          <p><a href="${SITE_URL}/pricing">Reactivate your account →</a></p>
+          <p><a href="${SITE_URL}/pricing">Reactivate your account â†’</a></p>
           <p style="color:#888; font-size:12px; margin-top:24px;">
             Why did you cancel? Reply with a number:<br>
             1. Too expensive<br>
@@ -141,17 +141,17 @@ export async function POST(req: NextRequest) {
 
       // Send receipt
       const amountFormatted = invoice.amount_paid
-        ? `€${(invoice.amount_paid / 100).toFixed(2)}`
+        ? `â‚¬${(invoice.amount_paid / 100).toFixed(2)}`
         : ''
       const invoiceUrl = invoice.hosted_invoice_url
 
       await sendEmail({
         to: ADMIN_EMAIL,
-        subject: `Your RentalOS receipt${amountFormatted ? ` — ${amountFormatted}` : ''}`,
+        subject: `Your RentalOS receipt${amountFormatted ? ` â€” ${amountFormatted}` : ''}`,
         html: `
-          <p>Thank you — your payment has been processed.</p>
+          <p>Thank you â€” your payment has been processed.</p>
           ${amountFormatted ? `<p>Amount: <strong>${amountFormatted}</strong></p>` : ''}
-          ${invoiceUrl ? `<p><a href="${invoiceUrl}">View invoice →</a></p>` : ''}
+          ${invoiceUrl ? `<p><a href="${invoiceUrl}">View invoice â†’</a></p>` : ''}
         `,
       })
       break

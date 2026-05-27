@@ -1,6 +1,6 @@
-export const dynamic = 'force-dynamic'
+﻿export const dynamic = 'force-dynamic'
 
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { ManualBookingForm } from '@/components/admin/ManualBookingForm'
 
 async function getCars() {

@@ -1,6 +1,6 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import Link from 'next/link'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { formatPrice } from '@/lib/formatters'
 import { TrackEventOnMount } from '@/components/TrackEventOnMount'
 import { DemoTabs } from '@/app/(demo)/DemoTabs'
@@ -69,7 +69,7 @@ export default async function DemoFleetPage() {
 
       {!result.ok ? (
         <div className="rounded-md border border-border bg-white shadow-sm p-12 text-center">
-          <p className="font-sans text-sm text-gray-900 mb-2">Demo is loading…</p>
+          <p className="font-sans text-sm text-gray-900 mb-2">Demo is loadingâ€¦</p>
           <p className="font-sans text-xs text-muted mb-6">
             The demo fleet initialises daily. Check back in a moment or start your free trial now.
           </p>
@@ -124,10 +124,10 @@ export default async function DemoFleetPage() {
                 {/* Info */}
                 <div className="p-5">
                   <p className="font-display text-lg font-bold text-gray-900">{car.brand} {car.model}</p>
-                  <p className="font-sans text-xs text-muted mt-0.5 mb-4">{car.year} · {car.category}</p>
+                  <p className="font-sans text-xs text-muted mt-0.5 mb-4">{car.year} Â· {car.category}</p>
                   <div className="flex items-center justify-between">
                     <p className="font-sans text-sm text-gray-900">{formatPrice(car.daily_price_eur)}<span className="text-muted text-xs ml-1">/day</span></p>
-                    <span className="font-sans text-xs text-gold group-hover:underline underline-offset-4">View details →</span>
+                    <span className="font-sans text-xs text-gold group-hover:underline underline-offset-4">View details â†’</span>
                   </div>
                 </div>
               </Link>
@@ -142,10 +142,10 @@ export default async function DemoFleetPage() {
         </p>
         <div className="flex flex-wrap gap-4 justify-center">
           <Link href="/onboarding" className="inline-flex items-center min-h-[44px] rounded-md bg-gold px-8 font-sans text-sm font-medium text-white hover:opacity-90 transition-opacity">
-            Get this for your business →
+            Get this for your business â†’
           </Link>
           <Link href="/demo/admin" className="inline-flex items-center min-h-[44px] rounded-md border border-border px-8 font-sans text-sm text-muted hover:border-gold/30 hover:text-gray-900 transition-colors">
-            View admin panel →
+            View admin panel â†’
           </Link>
         </div>
       </div>

@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase'
+﻿import { NextRequest, NextResponse } from 'next/server'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { sendEmail, ADMIN_EMAIL } from '@/lib/resend'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'
@@ -59,7 +59,7 @@ export async function GET(req: NextRequest) {
 
     await sendEmail({
       to: ADMIN_EMAIL,
-      subject: `${isExpired ? 'EXPIRED' : 'Expiring soon'} — ${typeLabel} for ${carLabel}`,
+      subject: `${isExpired ? 'EXPIRED' : 'Expiring soon'} â€” ${typeLabel} for ${carLabel}`,
       html: `
         <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;padding:32px 16px;">
           <p style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#C8A96B;margin:0 0 16px;">${BUSINESS_NAME}</p>
@@ -74,7 +74,7 @@ export async function GET(req: NextRequest) {
             Update it in your admin panel before the vehicle goes out on its next booking.
           </p>
           <a href="${SITE_URL}/admin/cars" style="display:inline-block;margin-top:24px;padding:12px 24px;background:#C8A96B;color:#000;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:1px;">
-            Open Fleet →
+            Open Fleet â†’
           </a>
         </div>
       `,
@@ -97,7 +97,7 @@ export async function GET(req: NextRequest) {
 
     await sendEmail({
       to: ADMIN_EMAIL,
-      subject: `${isExpired ? 'EXPIRED' : 'Expiring soon'} — ${typeLabel} for ${customerName}`,
+      subject: `${isExpired ? 'EXPIRED' : 'Expiring soon'} â€” ${typeLabel} for ${customerName}`,
       html: `
         <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;padding:32px 16px;">
           <p style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#C8A96B;margin:0 0 16px;">${BUSINESS_NAME}</p>
@@ -112,7 +112,7 @@ export async function GET(req: NextRequest) {
             Check the customer's documents in the booking detail before their next pickup.
           </p>
           <a href="${SITE_URL}/admin/bookings" style="display:inline-block;margin-top:24px;padding:12px 24px;background:#C8A96B;color:#000;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:1px;">
-            Open Bookings →
+            Open Bookings â†’
           </a>
         </div>
       `,

@@ -1,7 +1,7 @@
-export const revalidate = 60
+﻿export const revalidate = 60
 
 import { notFound } from 'next/navigation'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { CarDetailClient } from './CarDetailClient'
 
 interface PageProps {
@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: PageProps) {
     title,
     description,
     openGraph: {
-      title: `${car.brand} ${car.model} — Car Rental`,
+      title: `${car.brand} ${car.model} â€” Car Rental`,
       description,
       ...(car.photos?.[0]?.url && {
         images: [{ url: car.photos[0].url, width: 1200, height: 800, alt: `${car.brand} ${car.model}` }],

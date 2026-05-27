@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server'
+﻿import { NextRequest, NextResponse } from 'next/server'
 import { requireAdmin } from '@/lib/auth'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { revalidateTag } from 'next/cache'
 import { z } from 'zod'
 
 const schema = z.object({
   business_slug: z.string().regex(/^[a-z0-9-]{3,30}$/, {
-    message: 'Slug must be 3–30 characters: lowercase letters, numbers, and hyphens only.',
+    message: 'Slug must be 3â€“30 characters: lowercase letters, numbers, and hyphens only.',
   }),
 })
 

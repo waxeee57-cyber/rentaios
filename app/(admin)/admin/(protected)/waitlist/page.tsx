@@ -1,6 +1,6 @@
-export const dynamic = 'force-dynamic'
+﻿export const dynamic = 'force-dynamic'
 
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 
 async function getWaitlist() {
   const { data } = await supabaseAdmin
@@ -73,9 +73,9 @@ export default async function WaitlistPage() {
                   <tr key={e.id}>
                     <td className="py-3 pr-4 font-sans text-sm text-white">{e.email}</td>
                     <td className="py-3 pr-4 font-sans text-xs text-muted capitalize">
-                      {e.vertical?.replace('_', ' ') ?? '—'}
+                      {e.vertical?.replace('_', ' ') ?? 'â€”'}
                     </td>
-                    <td className="py-3 pr-4 font-sans text-xs text-muted">{e.source_page ?? '—'}</td>
+                    <td className="py-3 pr-4 font-sans text-xs text-muted">{e.source_page ?? 'â€”'}</td>
                     <td className="py-3 font-sans text-xs text-muted">
                       {new Date(e.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                     </td>

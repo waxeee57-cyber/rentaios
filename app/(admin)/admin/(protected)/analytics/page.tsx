@@ -1,6 +1,6 @@
-export const dynamic = 'force-dynamic'
+﻿export const dynamic = 'force-dynamic'
 
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 
 async function getAnalytics() {
   const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
@@ -85,7 +85,7 @@ export default async function AnalyticsPage() {
       {/* Daily bar chart */}
       {days.length > 0 && (
         <div className="rounded-md border border-border bg-graphite/30 p-5 mb-6">
-          <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-muted mb-4">Daily events — last 14 days</p>
+          <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-muted mb-4">Daily events â€” last 14 days</p>
           <div className="flex items-end gap-1 h-24">
             {days.map(({ date, total }) => (
               <div key={date} className="flex-1 flex flex-col items-center gap-1 group relative">
@@ -109,7 +109,7 @@ export default async function AnalyticsPage() {
       {/* Top pages */}
       {topPages.length > 0 && (
         <div className="rounded-md border border-border bg-graphite/30 p-5 mb-6">
-          <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-muted mb-4">Top pages — last 7 days</p>
+          <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-muted mb-4">Top pages â€” last 7 days</p>
           <div className="flex flex-col gap-2">
             {topPages.map(([page, count]) => (
               <div key={page} className="flex items-center justify-between">

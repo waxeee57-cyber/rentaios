@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase'
+﻿import { NextRequest, NextResponse } from 'next/server'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { sendWeeklyReport } from '@/lib/email/send'
 import { ADMIN_EMAIL } from '@/lib/resend'
 
@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
   const weekEnd = now.toLocaleDateString('en-GB', {
     weekday: 'short', day: 'numeric', month: 'short',
   })
-  const dateRange = `${weekStart} – ${weekEnd}`
+  const dateRange = `${weekStart} â€“ ${weekEnd}`
 
   const [inquiriesRes, confirmedRes, revenueRes, pickupsRes] = await Promise.all([
     supabaseAdmin

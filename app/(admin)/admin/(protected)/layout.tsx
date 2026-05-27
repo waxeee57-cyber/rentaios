@@ -1,7 +1,7 @@
-import Link from 'next/link'
+﻿import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { getAuthUser } from '@/lib/supabase-server'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { getBusinessConfig } from '@/lib/config'
 import { AdminNav } from '@/components/admin/AdminNav'
 
@@ -38,7 +38,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <AdminNav />
       <main>{children}</main>
 
-      {/* Account suspension overlay — shown when payment is overdue */}
+      {/* Account suspension overlay â€” shown when payment is overdue */}
       {isLocked && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-6">
           <div className="w-full max-w-md rounded-md border border-danger/30 bg-graphite p-8 text-center">
@@ -53,7 +53,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               href="/admin/billing"
               className="inline-flex items-center justify-center rounded-md bg-gold px-8 py-3 font-sans text-sm font-medium text-black hover:opacity-90 transition-opacity"
             >
-              Reactivate account →
+              Reactivate account â†’
             </Link>
           </div>
         </div>

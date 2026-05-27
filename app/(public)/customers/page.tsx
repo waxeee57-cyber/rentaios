@@ -1,11 +1,11 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import Link from 'next/link'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'
 
 export const metadata: Metadata = {
-  title: { absolute: 'Built with RentalOS — Customer Showcase' },
+  title: { absolute: 'Built with RentalOS â€” Customer Showcase' },
   description: 'Rental businesses running on RentalOS worldwide. Car rental, yacht charter, villa rental, and more.',
   alternates: { canonical: `${BASE}/customers` },
 }
@@ -64,7 +64,7 @@ export default async function CustomersPage() {
           <div className="rounded-lg border border-border bg-surface p-8 text-center">
             <p className="font-sans text-sm text-muted mb-2">The first live deployment will be featured here.</p>
             <p className="font-sans text-xs text-muted/60">
-              Operators can opt in to the showcase from Admin → Settings.
+              Operators can opt in to the showcase from Admin â†’ Settings.
             </p>
           </div>
         ) : (
@@ -94,7 +94,7 @@ export default async function CustomersPage() {
           <p className="font-sans text-sm text-muted">
             Want to be featured?{' '}
             <Link href="/contact" className="text-gold hover:underline underline-offset-4">
-              Contact us →
+              Contact us â†’
             </Link>
           </p>
         </div>

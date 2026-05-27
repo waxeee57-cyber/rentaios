@@ -1,8 +1,8 @@
-export const revalidate = 60
+﻿export const revalidate = 60
 
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { FleetGrid } from '@/components/marketing/FleetGrid'
 import { FleetFilters } from '@/components/marketing/FleetFilters'
 

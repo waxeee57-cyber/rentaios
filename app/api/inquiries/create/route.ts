@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase'
+﻿import { NextRequest, NextResponse } from 'next/server'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { generateBookingCode } from '@/lib/booking-code'
 import { isFutureOrToday, TZ } from '@/lib/formatters'
 import { sendInquiryEmails } from '@/lib/email/send'
@@ -18,7 +18,7 @@ const schema = z.object({
   email:              z.string().email(),
   phone:              z.string().min(5),
   country:            z.string().min(1),
-  // Strict HH:MM format — prevents invalid Date construction downstream
+  // Strict HH:MM format â€” prevents invalid Date construction downstream
   pickup_time:        z.string().regex(/^\d{2}:\d{2}$/, 'pickup_time must be HH:MM'),
   message:            z.string().optional(),
   transfer_requested: z.boolean().default(false),
@@ -98,7 +98,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Could not save customer. Please try again.' }, { status: 500 })
   }
 
-  // Build timestamps — convert pickup date + time to UTC
+  // Build timestamps â€” convert pickup date + time to UTC
   const pickupDateStr = formatInTimeZone(startDate, TZ, 'yyyy-MM-dd')
   const startUtc = new Date(`${pickupDateStr}T${pickup_time}:00`).toISOString()
   const endDateStr = formatInTimeZone(endDate, TZ, 'yyyy-MM-dd')
@@ -117,7 +117,7 @@ export async function POST(req: NextRequest) {
         booking_code,
         car_id: car.id,
         customer_id: customer.id,
-        pickup_location: transfer_requested ? 'Custom — see transfer address' : pickup_location,
+        pickup_location: transfer_requested ? 'Custom â€” see transfer address' : pickup_location,
         dropoff_location: pickup_location,
         start_at: startUtc,
         end_at: endUtc,
@@ -158,7 +158,7 @@ export async function POST(req: NextRequest) {
     startAt: startUtc,
     endAt: endUtc,
     days,
-    pickupLocation: transfer_requested ? 'Custom — see transfer address' : pickup_location,
+    pickupLocation: transfer_requested ? 'Custom â€” see transfer address' : pickup_location,
     pickupTime: pickup_time,
     totalEur: total,
     depositEur: car.deposit_eur,

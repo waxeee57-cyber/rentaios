@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server'
+﻿import { NextRequest, NextResponse } from 'next/server'
 import { requireAdmin } from '@/lib/auth'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { rateLimit, getClientIp } from '@/lib/rate-limit'
 import { z } from 'zod'
 
@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
         })
         stripeItemId = item.id
       } catch {
-        // Stripe not critical — record the addon anyway
+        // Stripe not critical â€” record the addon anyway
       }
     }
   }

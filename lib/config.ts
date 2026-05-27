@@ -1,5 +1,5 @@
 import { unstable_cache } from 'next/cache'
-import { supabaseAdmin } from './supabase'
+import { supabaseAdmin } from './supabase-admin'
 
 export type BusinessConfig = {
   id: string

@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase'
+﻿import { NextRequest, NextResponse } from 'next/server'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { rateLimit, getClientIp } from '@/lib/rate-limit'
 
 export async function POST(req: NextRequest) {
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
 
   if (!booking) {
     // Return 404 (not 403) so callers cannot distinguish "code doesn't exist"
-    // from "code exists but wrong email" — prevents oracle enumeration.
+    // from "code exists but wrong email" â€” prevents oracle enumeration.
     return NextResponse.json({ error: 'Booking not found.' }, { status: 404 })
   }
 
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
     .single()
 
   if (!customer || customer.email.toLowerCase() !== email.toLowerCase()) {
-    // Unified 404 — same status as "booking not found" to prevent oracle attacks
+    // Unified 404 â€” same status as "booking not found" to prevent oracle attacks
     return NextResponse.json({ error: 'Booking not found.' }, { status: 404 })
   }
 
