@@ -246,3 +246,35 @@ Simulated prod's *current* `admin_users` on the branch (reverted to `{id,role,fu
 - `docs/PROD_EXECUTION.md` — single ordered human-run runbook (every SQL block marked branch-proven + human-run).
 - `docs/GDPR_CHAT_INCIDENT.md` — incident-note draft template (fill-in fields marked; no invented dates).
 - Dev branch deleted; **prod untouched.**
+
+---
+
+# Phase 3 — PROD apply of 17 + 18 (2026-05-31 20:16:57 UTC)
+
+Scoped prod-write run (raw `execute_sql`, no `db push`/`apply_migration` — prod history left empty). Backup confirmed by owner before any write.
+
+## P3.1 — Pre-flight (read-only) — matched expected, no drift
+admin_users `{id,role,full_name,created_at}`, 1 row (Dominik `6a2eb005…`); anon chat policies 0; `rls_auto_enable` anon+auth EXECUTE true; auth.users 3; `waxee@icloud.com`=`fac5e812…` confirmed.
+
+## P3.2 — Step 2 applied: migration 17 + owner row (one transaction)
+Verified immediately after COMMIT:
+- `admin_users` now has `user_id` + `email` (drift cols = 2).
+- **2 rows, both linked** (`user_id = id`): Dominik (`dominik.ihm@gmail.com`) + Owner (`waxee@icloud.com`).
+- `requireAdmin` lookup resolves for both uids (`fac5e812…` → waxee, `6a2eb005…` → Dominik).
+
+## P3.3 — Step 3 applied: advisor hardening / migration 18 (one transaction)
+Verified immediately after COMMIT (read-only, no function call):
+- `has_function_privilege` for `rls_auto_enable()` EXECUTE: **anon = false, authenticated = false**.
+- All 4 functions (`set_updated_at`, `update_business_config_updated_at`, `set_client_leads_updated_at`, `upsert_customer`) have `proconfig = {search_path=""}`.
+- `get_advisors(security)` on prod: the `rls_auto_enable` anon/authenticated-executable WARNs and all 4 `function_search_path_mutable` WARNs are **gone**. Remaining (accepted/owner): deny-by-default `rls_enabled_no_policy` INFOs, `auth_all_*` + `page_events` permissive policies, `btree_gist` in public, leaked-password.
+
+## P3.4 — Final consolidated verify (read-only) — all green
+`applied_at = 2026-05-31 20:16:57 UTC` · admin_drift_cols=2 · admin_rows=2 · linked=2 · both_admins_resolve=true · anon_chat_policies=0 · anon/auth rls_auto_enable EXECUTE=false · functions_pinned=4 · auth_users=3 (no new auth users). `upsert_customer` not called on prod (no test rows written).
+
+## P3.5 — Remaining OWNER steps (not done by agent)
+1. **Set the password** for `waxee@icloud.com` in the dashboard (Authentication ▸ Users) — it already authenticates 200, so only needed if the owner wants to (re)set it. Agent never sets passwords.
+2. **Enable Leaked-password protection** (Authentication ▸ Password) — https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection
+3. **Login test:** sign in as `waxee@icloud.com` → reaches `/admin` (no redirect loop), confirming the 42703 fail-closed is gone.
+4. **ChatWidget deploy state:** confirm the live deployment is on commit `9fb2526`+ (committed widget has no anon Realtime subscription); redeploy Vercel if an older build is live, since 16 is already live and the old anon realtime push is degraded.
+
+> No other prod changes were made. `btree_gist` relocation remains a deferred, separately-scheduled hardening item (risky on the in-use `no_overlap` constraint).
