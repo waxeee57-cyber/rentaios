@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { createClient } from '@supabase/supabase-js'
 import { MessageCircle, X, Send, ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -13,11 +12,6 @@ type Message = {
 }
 
 const SESSION_KEY = 'chat_session_id'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
 
 export function ChatWidget() {
   const [open, setOpen] = useState(false)
@@ -58,29 +52,10 @@ export function ChatWidget() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  useEffect(() => {
-    if (!conversationId) return
-    const channel = supabase
-      .channel(`chat:${conversationId}`)
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'chat_messages',
-          filter: `conversation_id=eq.${conversationId}`,
-        },
-        (payload) => {
-          const msg = payload.new as Message
-          if (msg.sender === 'admin') {
-            setMessages((prev) => [...prev, msg])
-            if (!open) setUnread((n) => n + 1)
-          }
-        }
-      )
-      .subscribe()
-    return () => { supabase.removeChannel(channel) }
-  }, [conversationId, open])
+  // Live visitor push intentionally removed: chat tables are no longer
+  // readable by the anon role (migration 16, P0 RLS lockdown). Admin replies
+  // appear when the visitor reopens the widget — loadConversation() refetches
+  // the thread via the service-role server route. No anon Realtime, no token.
 
   async function loadConversation(sid: string) {
     setLoading(true)

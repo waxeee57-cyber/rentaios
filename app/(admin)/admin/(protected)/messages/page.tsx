@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { createClient } from '@supabase/supabase-js'
+import { createBrowserClient } from '@supabase/ssr'
 import { cn } from '@/lib/utils'
 import { Send, CheckCheck, XCircle, MessageCircle } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
@@ -24,7 +24,12 @@ type Message = {
   created_at: string
 }
 
-const supabase = createClient(
+// Authenticated browser client: reads the admin's Supabase Auth session from
+// cookies (set by the login flow's createBrowserClient), so the Realtime
+// connection runs as the `authenticated` role and is covered by the existing
+// auth_all_conversations / auth_all_messages policies (14_chat.sql). No anon
+// chat read access is reintroduced.
+const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
