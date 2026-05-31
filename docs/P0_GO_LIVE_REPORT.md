@@ -204,3 +204,45 @@ Revoke `anon`/`authenticated EXECUTE` on `public.rls_auto_enable()` (or make it 
 - ✅ **Prod untouched** (read-only only); branch deleted after proof.
 - ✅ **get_advisors prod list** captured with remediation links (A.5).
 - ✅ **Go-live runbook** rewritten for the real prod state (empty history + 16-already-live), ready for human execution.
+
+---
+
+# Phase 2 — review, advisor fixes, prod-SQL drift proof (2026-05-31)
+
+Second autonomous pass. Dev branch `p0-proof2` (`lkxwrqxgdvdmrqtgclly`, deleted after proof). Prod read-only only.
+
+## P2.1 — Code review + admin-seed fix (Task 1)
+- Full branch diff reviewed; the P0 artifacts (01, 01b, 16, 17, smoke, probe) are correct, idempotent, and chain-ordered 01→17. No already-applied migration was edited.
+- **`admin_users` consumers = exactly two**, both filter by `user_id`: `lib/auth.ts` `requireAdmin` (`select id,email`) and the admin layout (`select id`). Migration 17 supplies both columns → **no further admin_users drift.**
+- **Fixed `supabase/admin-seed.sql`:** now seeds `waxee@icloud.com` (canonical owner) instead of the lookalike `waxeee57@gmail.com`. Behaviour unchanged (copies an existing auth user only; no password).
+
+## P2.2 — Advisor fixes written + proven (Task 2) → migration `18_advisor_hardening.sql`
+- **`rls_auto_enable()` SECURITY DEFINER, anon-executable — RED→GREEN:**
+  - RED: `has_function_privilege('anon','public.rls_auto_enable()','EXECUTE') = true`.
+  - Fix: `REVOKE EXECUTE … FROM anon, authenticated, PUBLIC`.
+  - GREEN: privilege `false`; as `anon`, `SELECT public.rls_auto_enable()` → **`42501: permission denied for function rls_auto_enable`**.
+- **4 mutable-search_path functions pinned** (`set_updated_at`, `update_business_config_updated_at`, `set_client_leads_updated_at`, `upsert_customer`): all now `search_path=""`; proven still working (3 triggers fire via sentinel-overwrite test; `upsert_customer` inserts and returns a uuid — `customers` schema-qualified).
+- **`get_advisors(security)` on the post-18 branch:** the `anon`/`authenticated` SECURITY-DEFINER-executable warnings and all 4 `function_search_path_mutable` warnings are **gone**. Remaining are intentional/accepted: deny-by-default `rls_enabled_no_policy` INFOs, `auth_all_*` + `page_events` permissive policies, `btree_gist` in public, leaked-password (auth toggle).
+- **Full P0 re-run with hardening in place stayed green:** anon probe post-16+18 = 0/0/0/0; `requireAdmin` resolves for **both** Dominik and waxee; `subscriptions.access_locked` resolves.
+- **Documented (not auto-applied):** `btree_gist` relocation (risky on the in-use `no_overlap` constraint) and leaked-password protection (dashboard) → owner steps in `docs/PROD_EXECUTION.md`.
+
+## P2.3 — Prod-bound additive SQL is drift-free (Task 3)
+Simulated prod's *current* `admin_users` on the branch (reverted to `{id,role,full_name,created_at}` + the single Dominik row, with Dominik + waxee seeded in `auth.users`), then ran the **exact additive prod SQL** from `PROD_EXECUTION.md` Step 2. Result vs. the tested migration-17 schema:
+
+| | migration 17 (tested) | additive prod SQL |
+|---|---|---|
+| columns | id, role, full_name, created_at, user_id, email | **identical** |
+| indexes | pkey(id), user_id_key(user_id) | **identical** |
+| FKs | id→auth.users CASCADE, user_id→auth.users CASCADE | **identical** |
+
+→ **Zero schema drift** between what was tested and what the human runs. Resulting rows: Dominik (linked, `dominik.ihm@gmail.com`) + Owner/`waxee@icloud.com` (linked).
+
+## P2.4 — Prod read-only re-verify (Task 3)
+`admin_users` still `{id,role,full_name,created_at}`, **0** `user_id`/`email` cols, **1** row (Dominik); `anon_chat_policies = 0` (16 live); `auth.users = 3`; `rls_auto_enable` anon-EXECUTE **still true on prod** (confirms migration 18 is a pending prod step). No unexpected diffs vs. the branch target.
+
+## P2.5 — Deliverables
+- `supabase/migrations/18_advisor_hardening.sql` (new, branch-proven).
+- `supabase/admin-seed.sql` (fixed to `waxee@icloud.com`).
+- `docs/PROD_EXECUTION.md` — single ordered human-run runbook (every SQL block marked branch-proven + human-run).
+- `docs/GDPR_CHAT_INCIDENT.md` — incident-note draft template (fill-in fields marked; no invented dates).
+- Dev branch deleted; **prod untouched.**
