@@ -108,6 +108,13 @@ The DB-touching steps (Task A live diagnosis, dev-branch `db reset`, red→green
 ---
 
 ## 5. Production deployment order (HUMAN runs every step)
+
+> ⚠️ **SUPERSEDED (2026-05-31).** This section assumed prod was CLI-migration-managed
+> and that 16/17 were both unapplied. Live read-only diagnosis proved otherwise:
+> prod's migration history is **empty** and **migration 16 is already live**. Use the
+> rewritten **"ÉLES GO-LIVE RUNBOOK"** in `docs/P0_GO_LIVE_REPORT.md` instead — in
+> particular do **NOT** `supabase db push` to prod (empty history would replay 01→17
+> on the live DB). The steps below are kept for historical context only.
 1. **Backup** prod DB (dashboard snapshot / `pg_dump`).
 2. **Staging/dev-branch dry run:** `supabase db reset` on a branch → full chain green → seed → app boots → admin login OK → `npm run probe`/`npm run smoke` green.
 3. **Prod migration history:** `supabase migration repair --status applied 01 01b` (so the new base migrations are not re-executed on prod).

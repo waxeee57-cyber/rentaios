@@ -1,5 +1,12 @@
 # P0 Security — Phase 0 Report
 
+> ✅ **Live proof delivered (2026-05-31).** The "pending CI" / source-only caveats
+> below were closed by an executed red→green proof on a disposable Supabase dev
+> branch. See `docs/P0_GO_LIVE_REPORT.md` for captured output, the prod
+> `get_advisors` list, and the corrected go-live runbook. Key correction: prod's
+> migration history is empty and **migration 16 is already live on prod** (chat PII
+> leak already closed); only migration 17 + the owner's admin_users row remain.
+
 **Branch:** `fix/p0-security-rls` · **Date:** 2026-05-31 · **Scope:** single-tenant; no `tenant_id`, no multi-tenant refactor, no provisioning.
 
 ## TL;DR
