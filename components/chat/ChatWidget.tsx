@@ -22,6 +22,8 @@ export function ChatWidget() {
   const [sending, setSending] = useState(false)
   const [loading, setLoading] = useState(false)
   const [unread, setUnread] = useState(0)
+  const [error, setError] = useState<string | null>(null)
+  const [loadFailed, setLoadFailed] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const loadedRef = useRef(false)
@@ -59,27 +61,39 @@ export function ChatWidget() {
 
   async function loadConversation(sid: string) {
     setLoading(true)
+    setLoadFailed(false)
     try {
       const res = await fetch(`/api/chat/conversation/${sid}`)
       if (res.ok) {
         const data = await res.json()
         setConversationId(data.conversation_id)
         setMessages(data.messages ?? [])
+      } else if (res.status !== 404) {
+        // 404 = unknown/expired session: treat as a fresh conversation (no error).
+        // Any other status is a real failure worth surfacing.
+        setLoadFailed(true)
       }
+    } catch {
+      setLoadFailed(true)
     } finally {
       setLoading(false)
     }
+  }
+
+  function retryLoad() {
+    loadedRef.current = true
+    if (sessionId) void loadConversation(sessionId)
   }
 
   async function sendMessage() {
     const text = input.trim()
     if (!text || sending) return
     setSending(true)
-    setInput('')
+    setError(null)
 
+    let optimisticId: string | null = null
     try {
       let sid = sessionId
-      let cid = conversationId
 
       if (!sid) {
         const res = await fetch('/api/chat/conversation', {
@@ -87,29 +101,54 @@ export function ChatWidget() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({}),
         })
-        if (!res.ok) { setSending(false); return }
+        if (!res.ok) {
+          // Keep the user's text so they can retry — never silently drop it.
+          setError("Couldn't start the chat. Please try again.")
+          setSending(false)
+          return
+        }
         const data = await res.json()
         sid = data.session_id as string
-        cid = data.conversation_id as string
+        const cid = data.conversation_id as string
         localStorage.setItem(SESSION_KEY, sid)
         setSessionId(sid)
         setConversationId(cid)
         loadedRef.current = true
       }
 
+      // Optimistic render, then clear the input only once the send is in flight.
+      optimisticId = `temp-${Date.now()}`
       const optimistic: Message = {
-        id: `temp-${Date.now()}`,
+        id: optimisticId,
         sender: 'visitor',
         body: text,
         created_at: new Date().toISOString(),
       }
       setMessages((prev) => [...prev, optimistic])
+      setInput('')
 
-      await fetch('/api/chat/message', {
+      const res = await fetch('/api/chat/message', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ session_id: sid, body: text }),
       })
+
+      if (!res.ok) {
+        // Roll back the optimistic bubble, restore the text, show a retry hint.
+        setMessages((prev) => prev.filter((m) => m.id !== optimisticId))
+        setInput(text)
+        setError(
+          res.status === 429
+            ? 'You are sending messages too quickly. Please wait a moment.'
+            : "Message not sent. Please try again."
+        )
+      }
+    } catch {
+      if (optimisticId) {
+        setMessages((prev) => prev.filter((m) => m.id !== optimisticId))
+      }
+      setInput(text)
+      setError('Connection error. Please try again.')
     } finally {
       setSending(false)
     }
@@ -144,7 +183,20 @@ export function ChatWidget() {
             {loading && (
               <p className="py-8 text-center font-sans text-xs text-muted">Loading…</p>
             )}
-            {!loading && messages.length === 0 && (
+            {!loading && loadFailed && (
+              <div className="flex h-full flex-col items-center justify-center gap-3 py-10">
+                <p className="text-center font-sans text-xs text-muted">
+                  Couldn&apos;t load your conversation.
+                </p>
+                <button
+                  onClick={retryLoad}
+                  className="rounded-md border border-gray-300 px-3 py-1.5 font-sans text-xs text-gray-700 hover:bg-gray-100"
+                >
+                  Try again
+                </button>
+              </div>
+            )}
+            {!loading && !loadFailed && messages.length === 0 && (
               <div className="flex h-full flex-col items-center justify-center gap-3 py-10">
                 <MessageCircle className="h-8 w-8 text-gray-300" />
                 <p className="text-center font-sans text-xs text-muted">
@@ -171,6 +223,12 @@ export function ChatWidget() {
             ))}
             <div ref={messagesEndRef} />
           </div>
+
+          {error && (
+            <div className="border-t border-red-100 bg-red-50 px-3 py-2">
+              <p role="alert" className="font-sans text-xs text-red-600">{error}</p>
+            </div>
+          )}
 
           <div className="flex items-end gap-2 border-t border-gray-200 bg-white px-3 py-2">
             <textarea

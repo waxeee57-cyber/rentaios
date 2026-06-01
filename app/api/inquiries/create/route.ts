@@ -106,6 +106,26 @@ export async function POST(req: NextRequest) {
 
   const total = car.daily_price_eur * days
 
+  // Idempotency: a double-submit / network retry must not create a second
+  // inquiry for the same car + customer + date range. Return the existing
+  // booking code instead. Works on the current schema (no migration needed);
+  // migration 19 adds a partial unique index to make this race-safe.
+  const { data: existingInquiry } = await supabaseAdmin
+    .from('bookings')
+    .select('booking_code')
+    .eq('car_id', car.id)
+    .eq('customer_id', customer.id)
+    .eq('start_at', startUtc)
+    .eq('end_at', endUtc)
+    .eq('status', 'inquiry')
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+
+  if (existingInquiry?.booking_code) {
+    return NextResponse.json({ booking_code: existingInquiry.booking_code, idempotent: true })
+  }
+
   // Generate booking code with retry
   let booking_code = ''
   let inserted = null
@@ -138,10 +158,28 @@ export async function POST(req: NextRequest) {
       inserted = data
       break
     }
-    if (error.code !== '23505') { // not a unique violation
-      console.error('[inquiries/create] insert failed', error)
-      return NextResponse.json({ error: 'Could not create booking. Please try again.' }, { status: 500 })
+    if (error.code === '23505') {
+      // Unique violation. Two distinct cases share this code:
+      //  - booking_code collision  -> retry with a new code (loop continues)
+      //  - inquiry_dedup_idx hit (migration 19) -> a concurrent request already
+      //    created the row; fetch and return it idempotently.
+      const { data: raceWinner } = await supabaseAdmin
+        .from('bookings')
+        .select('booking_code')
+        .eq('car_id', car.id)
+        .eq('customer_id', customer.id)
+        .eq('start_at', startUtc)
+        .eq('end_at', endUtc)
+        .eq('status', 'inquiry')
+        .limit(1)
+        .maybeSingle()
+      if (raceWinner?.booking_code) {
+        return NextResponse.json({ booking_code: raceWinner.booking_code, idempotent: true })
+      }
+      continue // booking_code collision — try a fresh code
     }
+    console.error('[inquiries/create] insert failed', error.code)
+    return NextResponse.json({ error: 'Could not create booking. Please try again.' }, { status: 500 })
   }
 
   if (!inserted) {

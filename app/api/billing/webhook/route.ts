@@ -28,6 +28,24 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
   }
 
+  // Idempotency: Stripe redelivers events (at-least-once). Record the event id
+  // before doing any side-effect (DB write, email). A duplicate delivery hits
+  // the primary-key conflict and short-circuits, so emails never double-send.
+  // Degrades gracefully if migration 19 (stripe_events) has not been applied:
+  // an undefined_table error (42P01) just means "no dedup yet", so we proceed.
+  const { error: ledgerErr } = await supabaseAdmin
+    .from('stripe_events')
+    .insert({ event_id: event.id, type: event.type })
+  if (ledgerErr) {
+    if (ledgerErr.code === '23505') {
+      return NextResponse.json({ received: true, duplicate: true })
+    }
+    if (ledgerErr.code !== '42P01') {
+      console.error('[billing/webhook] event ledger insert failed', ledgerErr.code)
+    }
+    // 42P01 (table missing pre-migration-19): proceed without dedup.
+  }
+
   switch (event.type) {
     case 'checkout.session.completed': {
       const session = event.data.object as import('stripe').Stripe.Checkout.Session
