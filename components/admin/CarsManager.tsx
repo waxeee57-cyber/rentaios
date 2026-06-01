@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react'
 import Image from 'next/image'
 import { Camera, ChevronUp, ChevronDown, X } from 'lucide-react'
-import { formatPrice } from '@/lib/formatters'
+import { formatPrice, formatCategory, formatVehicleSpecs } from '@/lib/formatters'
 import { cn } from '@/lib/utils'
 import { VehicleDocuments } from '@/components/admin/VehicleDocuments'
 
@@ -224,8 +224,8 @@ function CarCard({ car, expanded, onExpand, onUpdate }: CarCardProps) {
           <p className="font-display text-base font-medium text-white leading-tight truncate">
             {car.brand} {car.model} {car.year}
           </p>
-          <p className="font-sans text-xs text-muted mt-0.5 truncate capitalize">
-            {car.category} · {car.transmission} · {car.fuel}
+          <p className="font-sans text-xs text-muted mt-0.5 truncate">
+            {formatVehicleSpecs(car)}
           </p>
           <p className="font-sans text-xs text-muted mt-0.5">
             {formatPrice(car.daily_price_eur)}/day · dep. {formatPrice(car.deposit_eur)}
@@ -255,7 +255,7 @@ function CarCard({ car, expanded, onExpand, onUpdate }: CarCardProps) {
                 { label: 'Brand', value: car.brand },
                 { label: 'Model', value: car.model },
                 { label: 'Year', value: car.year },
-                { label: 'Category', value: car.category },
+                { label: 'Category', value: formatCategory(car.category) },
                 { label: 'Transmission', value: car.transmission },
                 { label: 'Fuel', value: car.fuel },
                 { label: 'Seats', value: car.seats },
