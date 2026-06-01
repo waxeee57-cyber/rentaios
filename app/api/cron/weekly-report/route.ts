@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
   const weekEnd = now.toLocaleDateString('en-GB', {
     weekday: 'short', day: 'numeric', month: 'short',
   })
-  const dateRange = `${weekStart} â€“ ${weekEnd}`
+  const dateRange = `${weekStart} – ${weekEnd}`
 
   const [inquiriesRes, confirmedRes, revenueRes, pickupsRes] = await Promise.all([
     supabaseAdmin

@@ -59,7 +59,7 @@ function daysUntil(isoDate: string | null): number | null {
 
 function PlanBadge({ plan, status }: { plan: string | null; status: string }) {
   const label = plan
-    ? `${plan.replace('_', ' ')} â€” ${status}`
+    ? `${plan.replace('_', ' ')} — ${status}`
     : status
   return (
     <span className="rounded-sm border border-gold/30 bg-gold/10 px-2.5 py-1 font-sans text-xs uppercase tracking-[0.1em] text-gold">
@@ -79,14 +79,14 @@ export default async function BillingPage() {
             Add your Stripe keys to enable subscription billing. All features remain available while unconfigured.
           </p>
           <div className="rounded-md border border-border bg-black/40 p-4 font-mono text-xs text-muted space-y-1">
-            <p>STRIPE_SECRET_KEY â€” from Stripe Dashboard â†’ API keys</p>
-            <p>STRIPE_WEBHOOK_SECRET â€” from Stripe Dashboard â†’ Webhooks</p>
-            <p>STRIPE_STARTER_PRICE_ID â€” price_...</p>
-            <p>STRIPE_PRO_PRICE_ID â€” price_...</p>
-            <p>NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY â€” from Stripe Dashboard â†’ API keys</p>
+            <p>STRIPE_SECRET_KEY — from Stripe Dashboard → API keys</p>
+            <p>STRIPE_WEBHOOK_SECRET — from Stripe Dashboard → Webhooks</p>
+            <p>STRIPE_STARTER_PRICE_ID — price_...</p>
+            <p>STRIPE_PRO_PRICE_ID — price_...</p>
+            <p>NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY — from Stripe Dashboard → API keys</p>
           </div>
           <p className="mt-4 font-sans text-xs text-muted">
-            Set these in Vercel â†’ Project â†’ Settings â†’ Environment Variables, then redeploy.
+            Set these in Vercel → Project → Settings → Environment Variables, then redeploy.
           </p>
         </div>
       </div>
@@ -146,20 +146,20 @@ export default async function BillingPage() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 mb-6">
           <UpgradeCard
             name="Starter"
-            price="â‚¬79/mo"
+            price="€79/mo"
             features={['Up to 5 items', 'Unlimited bookings', 'Email notifications', 'Admin panel']}
             plan="starter"
           />
           <UpgradeCard
             name="Growth"
-            price="â‚¬149/mo"
+            price="€149/mo"
             features={['Up to 20 items', 'Transfer/delivery', 'Weekly report email', 'Priority support 48h']}
             plan="growth"
             highlight
           />
           <UpgradeCard
             name="Pro"
-            price="â‚¬249/mo"
+            price="€249/mo"
             features={['Unlimited items', 'Custom domain setup', 'Custom design & branding', 'Priority support']}
             plan="pro"
           />
@@ -184,7 +184,7 @@ export default async function BillingPage() {
             {invoices.map((inv) => (
               <div key={inv.id} className="flex items-center justify-between py-3">
                 <div>
-                  <p className="font-sans text-sm text-white">â‚¬{inv.amount.toFixed(2)}</p>
+                  <p className="font-sans text-sm text-white">€{inv.amount.toFixed(2)}</p>
                   <p className="font-sans text-xs text-muted">{inv.date}</p>
                 </div>
                 <div className="flex items-center gap-3">

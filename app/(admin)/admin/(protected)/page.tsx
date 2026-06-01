@@ -86,7 +86,7 @@ export default async function AdminDashboardPage() {
               <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-muted mb-1.5">Plan</p>
               <p className="font-sans text-sm font-medium text-white group-hover:text-gold transition-colors">
                 {stats.isTrialing && stats.trialDaysLeft !== null
-                  ? `Free trial â€” ${stats.trialDaysLeft}d left`
+                  ? `Free trial — ${stats.trialDaysLeft}d left`
                   : stats.plan
                   ? `${stats.plan.replace('_', ' ')}`
                   : 'Trial'}
@@ -98,7 +98,7 @@ export default async function AdminDashboardPage() {
                 <p className="font-sans text-sm font-medium text-white tabular-nums">{formatPrice(stats.mrr)}</p>
               ) : (
                 <p className="font-sans text-sm text-muted" title={!STRIPE_CONFIGURED ? 'Connect Stripe in /admin/billing' : undefined}>
-                  {STRIPE_CONFIGURED ? formatPrice(stats.mrr) : 'â€”'}
+                  {STRIPE_CONFIGURED ? formatPrice(stats.mrr) : '—'}
                 </p>
               )}
             </div>
@@ -141,7 +141,7 @@ export default async function AdminDashboardPage() {
         </Link>
       )}
 
-      {/* Context stats â€” compact strip, no cards */}
+      {/* Context stats — compact strip, no cards */}
       <div className="flex items-stretch divide-x divide-border mb-8">
         <Link href="/admin/bookings?filter=active" className="pr-6 group">
           <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-muted mb-1.5">Active</p>
@@ -173,7 +173,7 @@ export default async function AdminDashboardPage() {
         </Link>
       </div>
 
-      {/* Documents widget â€” only when actionable */}
+      {/* Documents widget — only when actionable */}
       {(stats.expiredVehicleDocs > 0 || stats.soonVehicleDocs > 0 || stats.unverifiedCustomerDocs > 0) && (
         <div className="mt-8 rounded-md border border-warning/30 bg-warning/5 px-4 py-4">
           <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-warning mb-3">Documents needing attention</p>

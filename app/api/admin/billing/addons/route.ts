@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
         })
         stripeItemId = item.id
       } catch {
-        // Stripe not critical â€” record the addon anyway
+        // Stripe not critical — record the addon anyway
       }
     }
   }

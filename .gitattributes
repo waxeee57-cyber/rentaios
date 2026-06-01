@@ -1,0 +1,28 @@
+# Normalize text files to LF in the repo (prevents cp1252/CRLF surprises from
+# mixed Windows/Unix editors). Binary assets are excluded from text handling.
+* text=auto eol=lf
+
+*.ts    text
+*.tsx   text
+*.js    text
+*.jsx   text
+*.mjs   text
+*.mts   text
+*.json  text
+*.sql   text
+*.md    text
+*.css   text
+*.html  text
+*.yml   text
+*.yaml  text
+
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.webp  binary
+*.ico   binary
+*.svg   text
+*.woff  binary
+*.woff2 binary
+*.pdf   binary

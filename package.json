@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "node scripts/secret-guard.mjs && next build",
+    "build": "node scripts/secret-guard.mjs && node scripts/lint-mojibake.mjs && next build",
     "start": "next start",
     "lint": "eslint",
     "secret-guard": "node scripts/secret-guard.mjs",
     "secret-guard:test": "node scripts/secret-guard.test.mjs",
+    "lint:mojibake": "node scripts/lint-mojibake.mjs",
     "backup": "node scripts/backup.mjs",
     "backup:check": "node scripts/backup.mjs --check",
     "restore": "node scripts/restore.mjs",

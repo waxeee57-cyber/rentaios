@@ -20,7 +20,7 @@ const bodySchema = z.object({
   leads: z.array(leadSchema).min(1).max(100),
 })
 
-const UNSUBSCRIBE_LINE = `\n\nâ€”\nIf you'd prefer not to hear from us, reply with 'unsubscribe' and I'll remove you immediately.`
+const UNSUBSCRIBE_LINE = `\n\n—\nIf you'd prefer not to hear from us, reply with 'unsubscribe' and I'll remove you immediately.`
 
 async function generateEmail(
   firstName: string,
@@ -32,8 +32,8 @@ async function generateEmail(
 
   if (!ANTHROPIC_API_KEY) {
     return {
-      subject: `Your ${businessType} bookings â€” quick question`,
-      body: `Hi ${firstName},\n\nRunning a ${businessType} business in ${location} usually means juggling bookings across WhatsApp, messages, and spreadsheets â€” and things fall through the cracks.\n\nRentalOS replaces that with a proper booking system: inquiries captured automatically, confirmations sent instantly, everything tracked in one admin panel.\n\nWould you have 10 minutes to take a look? There's a live demo at ${SITE_URL}/demo â€” no signup needed.\n\n${senderName}\nRentalOS${UNSUBSCRIBE_LINE}`,
+      subject: `Your ${businessType} bookings — quick question`,
+      body: `Hi ${firstName},\n\nRunning a ${businessType} business in ${location} usually means juggling bookings across WhatsApp, messages, and spreadsheets — and things fall through the cracks.\n\nRentalOS replaces that with a proper booking system: inquiries captured automatically, confirmations sent instantly, everything tracked in one admin panel.\n\nWould you have 10 minutes to take a look? There's a live demo at ${SITE_URL}/demo — no signup needed.\n\n${senderName}\nRentalOS${UNSUBSCRIBE_LINE}`,
     }
   }
 
@@ -50,7 +50,7 @@ async function generateEmail(
         max_tokens: 400,
         messages: [{
           role: 'user',
-          content: `Write a short, personal cold email to ${firstName} who runs ${companyName}, a ${businessType} business in ${location}.\n\nYou are writing on behalf of RentalOS â€” a booking management system that helps rental businesses replace WhatsApp and spreadsheets with a proper automated system.\n\nRules:\n- Exactly 4-5 sentences total\n- First sentence: specific observation about their business type or location\n- Second sentence: one specific pain point they likely have\n- Third sentence: what RentalOS does (one line, no features list)\n- Fourth sentence: soft CTA â€” ask if they have 10 minutes\n- Optional fifth: mention the live demo at ${SITE_URL}/demo\n- DO NOT include a subject line\n- DO NOT use: 'I hope this finds you well', 'I wanted to reach out', 'synergy', 'revolutionary'\n- Tone: direct, peer-to-peer, as if from another business owner\n- Sign off: '${senderName}\\nRentalOS'\n\nBusiness: ${companyName}\nType: ${businessType}\nLocation: ${location}\nFirst name: ${firstName}`,
+          content: `Write a short, personal cold email to ${firstName} who runs ${companyName}, a ${businessType} business in ${location}.\n\nYou are writing on behalf of RentalOS — a booking management system that helps rental businesses replace WhatsApp and spreadsheets with a proper automated system.\n\nRules:\n- Exactly 4-5 sentences total\n- First sentence: specific observation about their business type or location\n- Second sentence: one specific pain point they likely have\n- Third sentence: what RentalOS does (one line, no features list)\n- Fourth sentence: soft CTA — ask if they have 10 minutes\n- Optional fifth: mention the live demo at ${SITE_URL}/demo\n- DO NOT include a subject line\n- DO NOT use: 'I hope this finds you well', 'I wanted to reach out', 'synergy', 'revolutionary'\n- Tone: direct, peer-to-peer, as if from another business owner\n- Sign off: '${senderName}\\nRentalOS'\n\nBusiness: ${companyName}\nType: ${businessType}\nLocation: ${location}\nFirst name: ${firstName}`,
         }],
       }),
     }),
@@ -78,7 +78,7 @@ async function generateEmail(
   const emailSubject = (subjectJson?.content?.[0]?.text ?? '').trim().replace(/^["']|["']$/g, '')
 
   return {
-    subject: emailSubject || `Your ${businessType} bookings â€” quick question`,
+    subject: emailSubject || `Your ${businessType} bookings — quick question`,
     body: emailBody
       ? emailBody + UNSUBSCRIBE_LINE
       : `Hi ${firstName},\n\nWould you have 10 minutes to look at how RentalOS handles bookings for ${businessType} businesses in ${location}?\n\nDemo: ${SITE_URL}/demo\n\n${senderName}\nRentalOS${UNSUBSCRIBE_LINE}`,
@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
   const auth = await requireAdmin()
   if ('error' in auth) return auth.error
 
-  // 5 send requests per hour â€” prevents accidental spam blast
+  // 5 send requests per hour — prevents accidental spam blast
   const ip = getClientIp(req)
   if (!rateLimit(`outreach_send:${ip}`, 5, 3_600_000)) {
     return NextResponse.json({ error: 'Rate limit: max 5 send requests per hour' }, { status: 429 })

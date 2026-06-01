@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
         html: `
           <p>Your RentalOS subscription has been suspended due to a failed payment.</p>
           <p>Your data is safe and will be kept for 30 days.</p>
-          <p><a href="${portalUrl}">Reactivate your account â†’</a></p>
+          <p><a href="${portalUrl}">Reactivate your account →</a></p>
         `,
       })
       processed++
@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
         html: `
           <p>Your subscription payment is still outstanding.</p>
           <p>Access will be suspended in ${7 - daysPastDue} day${7 - daysPastDue === 1 ? '' : 's'} if not resolved.</p>
-          <p><a href="${portalUrl}">Update payment method â†’</a></p>
+          <p><a href="${portalUrl}">Update payment method →</a></p>
         `,
       })
       processed++
@@ -70,7 +70,7 @@ export async function GET(req: NextRequest) {
         html: `
           <p>We had trouble processing your last payment.</p>
           <p>Please update your payment method to keep your account active.</p>
-          <p><a href="${portalUrl}">Update payment method â†’</a></p>
+          <p><a href="${portalUrl}">Update payment method →</a></p>
         `,
       })
       processed++
