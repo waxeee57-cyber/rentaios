@@ -19,6 +19,17 @@ READ THIS AT THE START OF EVERY SESSION.
 - **Description:** [none]
 - **Started:** [none]
 
+### Loki (autonomous — Roland-assigned)
+- **Branch:** feat/phase1-prod-ready
+- **Files:** lib/, app/api/health, app/api/ops, scripts/, supabase/, instrumentation
+- **Description:** BLOKK 1 — production-ready alap: secret-guard CI, guest-flow
+  error handling + idempotency, /api/health + Ops + alert-stub, Sentry
+  (placeholder DSN), backup/restore scripts + runbook. PROD read-only.
+- **Started:** 2026-06-01
+- **Note:** Roland "feature/complete-sprint-tasks" entry above is stale
+  (2026-05-16); P0 work has since continued on fix/p0-security-rls which this
+  branch builds on. Flagged for Roland to confirm/clear.
+
 ---
 
 ## Rules
