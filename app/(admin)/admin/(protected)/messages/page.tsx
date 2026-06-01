@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { createClient } from '@supabase/supabase-js'
 import { cn } from '@/lib/utils'
 import { Send, XCircle, MessageCircle } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
@@ -32,9 +31,7 @@ type Message = {
 type AnswerFilter = 'all' | 'unanswered' | 'answered'
 type StatusTab = 'open' | 'closed'
 
-const supabase = process.env.NEXT_PUBLIC_SUPABASE_URL
-  ? createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
-  : null
+const POLL_MS = 5000
 
 function visitorLabel(c: Pick<Conversation, 'visitor_name' | 'visitor_short_id'>): string {
   const name = c.visitor_name || 'Visitor'
@@ -58,12 +55,10 @@ export default function MessagesPage() {
   const [search, setSearch] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const replyRef = useRef<HTMLTextAreaElement>(null)
-  const selectedIdRef = useRef<string | null>(null)
   const conversationsRef = useRef<Conversation[]>([])
 
   const selectedConv = conversations.find((c) => c.id === selectedId) ?? null
 
-  useEffect(() => { selectedIdRef.current = selectedId }, [selectedId])
   useEffect(() => { conversationsRef.current = conversations }, [conversations])
 
   const loadConversations = useCallback(async () => {
@@ -80,75 +75,63 @@ export default function MessagesPage() {
     if ('Notification' in window && Notification.permission === 'default') {
       Notification.requestPermission()
     }
+  }, [loadConversations])
 
-    if (!supabase) return
+  // Live updates via service-role polling — NOT anon Realtime. The chat tables
+  // are closed to the anon role by the P0 RLS lockdown (migration 19), so the
+  // admin dashboard never holds an anon client. We poll the admin conversations
+  // route (service role) and surface a toast/notification when a visitor's new
+  // message bumps unread_admin for any conversation.
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch('/api/admin/chat/conversations')
+        if (!res.ok) return
+        const data = await res.json()
+        const next: Conversation[] = data.conversations ?? []
 
-    const channel = supabase
-      .channel('admin-chat')
-      .on(
-        'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'chat_messages' },
-        (payload) => {
-          const msg = payload.new as Message & { conversation_id: string }
-          setConversations((prev) =>
-            prev.map<Conversation>((c) => {
-              if (c.id !== msg.conversation_id) return c
-              if (msg.sender === 'visitor') {
-                return {
-                  ...c,
-                  unread_admin: c.unread_admin + 1,
-                  updated_at: msg.created_at,
-                  last_message_sender: 'visitor',
-                }
-              }
-              if (msg.sender === 'admin') {
-                return { ...c, updated_at: msg.created_at, last_message_sender: 'admin' }
-              }
-              // system message: don't change last_message_sender (DB constraint
-              // disallows it, and the admin filter ignores system events).
-              return { ...c, updated_at: msg.created_at }
-            }).sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
-          )
-          if (msg.conversation_id === selectedIdRef.current) {
-            setMessages((prev) => (prev.some((m) => m.id === msg.id) ? prev : [...prev, msg]))
-          }
-          if (msg.sender === 'visitor') {
-            const conv = conversationsRef.current.find((c) => c.id === msg.conversation_id)
-            const label = conv ? visitorLabel(conv) : 'Visitor'
-            toast(`${label}: ${msg.body.slice(0, 60)}`, { description: 'New chat message' })
-            if (
-              document.hidden &&
-              'Notification' in window &&
-              Notification.permission === 'granted'
-            ) {
-              new Notification('New chat message', { body: msg.body.slice(0, 80) })
+        const prevById = new Map(conversationsRef.current.map((c) => [c.id, c]))
+        for (const c of next) {
+          const prevUnread = prevById.get(c.id)?.unread_admin ?? 0
+          if (c.unread_admin > prevUnread && c.last_message_sender === 'visitor') {
+            const label = visitorLabel(c)
+            toast(label, { description: 'New chat message' })
+            if (document.hidden && 'Notification' in window && Notification.permission === 'granted') {
+              new Notification('New chat message', { body: label })
             }
           }
         }
-      )
-      .on(
-        'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'chat_conversations' },
-        () => { loadConversations() }
-      )
-      .on(
-        'postgres_changes',
-        { event: 'UPDATE', schema: 'public', table: 'chat_conversations' },
-        (payload) => {
-          const next = payload.new as Conversation
-          setConversations((prev) => {
-            const exists = prev.some((c) => c.id === next.id)
-            if (!exists) return prev
-            return prev
-              .map((c) => (c.id === next.id ? { ...c, ...next } : c))
-              .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
-          })
-        }
-      )
-      .subscribe()
+        setConversations(next)
+      } catch {
+        // Silent: the next tick retries. No anon read.
+      }
+    }, POLL_MS)
+    return () => clearInterval(interval)
+  }, [])
 
-    return () => { supabase.removeChannel(channel) }
-  }, [loadConversations])
+  // Poll the selected thread so admin sees new visitor replies live, fetched
+  // through the service-role conversation route (filtered to its session).
+  useEffect(() => {
+    if (!selectedId) return
+    const interval = setInterval(async () => {
+      const conv = conversationsRef.current.find((c) => c.id === selectedId)
+      if (!conv) return
+      try {
+        const res = await fetch(`/api/chat/conversation/${conv.session_id}`)
+        if (!res.ok) return
+        const data = await res.json()
+        const incoming: Message[] = data.messages ?? []
+        setMessages((prev) => {
+          const known = new Set(prev.map((m) => m.id))
+          const additions = incoming.filter((m) => !known.has(m.id))
+          return additions.length ? [...prev, ...additions] : prev
+        })
+      } catch {
+        // Silent: the next tick retries.
+      }
+    }, POLL_MS)
+    return () => clearInterval(interval)
+  }, [selectedId])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'auto', block: 'end' })

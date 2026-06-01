@@ -1,6 +1,6 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import Link from 'next/link'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'
 

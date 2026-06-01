@@ -1,6 +1,6 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import Link from 'next/link'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { formatPrice } from '@/lib/formatters'
 import { TrackEventOnMount } from '@/components/TrackEventOnMount'
 import { DemoTabs } from '@/app/(demo)/DemoTabs'

@@ -7,6 +7,11 @@ export const metadata: Metadata = {
   robots: { index: false },
 }
 
-export default function OnboardingPage() {
-  return <OnboardingForm />
+export default async function OnboardingPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ type?: string }>
+}) {
+  const { type } = await searchParams
+  return <OnboardingForm type={type} />
 }

@@ -1,6 +1,6 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import { getAuthUser } from '@/lib/supabase-server'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { ReferralPublicForm } from './ReferralPublicForm'
 import { ReferralAdminDashboard } from './ReferralAdminDashboard'
 

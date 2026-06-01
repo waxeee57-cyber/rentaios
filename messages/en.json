@@ -1,0 +1,57 @@
+{
+  "nav": {
+    "demo": "Demo",
+    "pricing": "Pricing",
+    "faq": "FAQ",
+    "about": "About",
+    "talkToUs": "Talk to us",
+    "getStarted": "Get started"
+  },
+  "home": {
+    "title": "RentalOS — Rental Booking System for Car, Yacht & Villa Rentals",
+    "description": "Stop managing rental bookings on WhatsApp. RentalOS automates every inquiry, confirmation, and follow-up. From €79/month or buy the template for €499.",
+    "heroHeadline": "Your rental business, fully automated.",
+    "heroSub": "Bookings, confirmations, and follow-ups — handled automatically so you can focus on the rental.",
+    "getStartedCta": "Get started — 14-day free trial",
+    "seePricingCta": "See pricing"
+  },
+  "pricing": {
+    "title": "Simple, transparent pricing",
+    "description": "Start free for 14 days. No credit card required.",
+    "monthly": "Monthly",
+    "annual": "Annual — save 2 months",
+    "mostPopular": "Most popular",
+    "perMonth": "/ month",
+    "perYear": "/ year",
+    "monthlyEquiv": "/mo equiv.",
+    "save": "Save",
+    "startFreeTrial": "Start free trial →",
+    "seeFullPricing": "See full pricing details",
+    "starter": {
+      "name": "Starter",
+      "items": "Up to 5 items",
+      "features": ["Unlimited bookings", "Email notifications", "Admin panel", "14-day free trial"]
+    },
+    "growth": {
+      "name": "Growth",
+      "items": "Up to 20 items",
+      "features": ["Everything in Starter", "Transfer/delivery", "Weekly report email", "Referral program"]
+    },
+    "pro": {
+      "name": "Pro",
+      "items": "Unlimited items",
+      "features": ["Everything in Growth", "Custom domain included", "Custom design & branding", "Priority support"]
+    }
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "q1": "How long does setup take?",
+    "a1": "For self-serve plans, you can be live in under an hour. For Done-for-you setup, we deploy within 48 hours of receiving your business details.",
+    "q2": "What rental types does it support?",
+    "a2": "Car rental, yacht charter, villa rental, motorcycle rental, and any other time-based item rental. The platform is category-agnostic.",
+    "q3": "Can I use my own domain?",
+    "a3": "Yes. The Pro plan includes a custom domain setup. Starter and Growth plans can add a custom domain for €199 once.",
+    "q4": "Is there a free trial?",
+    "a4": "Yes — all subscription plans include a 14-day free trial. No credit card required to start."
+  }
+}

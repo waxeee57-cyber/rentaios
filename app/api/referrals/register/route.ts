@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server'
+﻿import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { rateLimit, getClientIp } from '@/lib/rate-limit'
 import { sendEmail, ADMIN_EMAIL } from '@/lib/resend'
 
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     .select('referrer_code')
     .eq('referrer_email', email)
     .limit(1)
-    .single()
+    .maybeSingle()
 
   let code: string
 

@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase'
+﻿import { NextRequest, NextResponse } from 'next/server'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { requireAdmin } from '@/lib/auth'
 import { sendCancellationEmail } from '@/lib/email/send'
 
@@ -22,7 +22,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const now = new Date().toISOString()
   const newHistory = [...(booking.status_history ?? []), { status: 'cancelled', at: now, by: auth.user.email }]
 
-  await supabaseAdmin.from('bookings').update({ status: 'cancelled', status_history: newHistory, updated_at: now }).eq('id', id)
+  const { error } = await supabaseAdmin.from('bookings').update({ status: 'cancelled', status_history: newHistory, updated_at: now }).eq('id', id)
+  if (error) return NextResponse.json({ error: 'Update failed' }, { status: 500 })
 
   sendCancellationEmail({
     customerName: booking.customer.full_name,

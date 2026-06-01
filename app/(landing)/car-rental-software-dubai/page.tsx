@@ -7,11 +7,11 @@ const AED_RATE = parseFloat(process.env.NEXT_PUBLIC_AED_RATE ?? '4.1')
 
 export const metadata: Metadata = {
   title: 'Car Rental Software Dubai | Manage Fleet & Bookings',
-  description: 'Car rental management software built for Dubai and UAE operators. Automate bookings, send confirmations, manage your luxury fleet. From €49/month.',
+  description: 'Car rental management software built for Dubai and UAE operators. Automate bookings, send confirmations, manage your luxury fleet. From €79/month.',
   alternates: { canonical: `${BASE}/car-rental-software-dubai` },
   openGraph: {
     title: 'Car Rental Software Dubai | RentalOS',
-    description: 'Automate your Dubai luxury car rental. Bookings, confirmations, fleet management — from €49/month.',
+    description: 'Automate your Dubai luxury car rental. Bookings, confirmations, fleet management — from €79/month.',
   },
 }
 
@@ -173,7 +173,7 @@ export default function DubaiPage() {
       <section className="bg-surface py-20">
         <div className="mx-auto max-w-3xl px-6">
           <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">Pricing</p>
-          <h2 className="mb-4 font-display text-3xl font-bold text-gray-900 md:text-4xl">From €49/month</h2>
+          <h2 className="mb-4 font-display text-3xl font-bold text-gray-900 md:text-4xl">From €79/month</h2>
           <p className="mb-1 font-sans text-sm text-muted">
             Approximately AED {aedPrice(49)}/month. 14-day free trial, no credit card required.
           </p>

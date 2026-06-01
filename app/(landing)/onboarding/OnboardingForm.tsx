@@ -45,7 +45,7 @@ const INITIAL: FormData = {
   domain_name: '',
   preferred_language: 'English',
   logo_url: '',
-  brand_color: '#2563EB',
+  brand_color: '#C8A96B',
   tagline: '',
   delivery_location: '',
   delivery_radius: '25 km',
@@ -133,7 +133,8 @@ function RadioCard({ label, checked, onChange }: { label: string; checked: boole
   )
 }
 
-export function OnboardingForm() {
+export function OnboardingForm({ type }: { type?: string }) {
+  const isTemplate = type === 'template'
   const router = useRouter()
   const [step, setStep] = useState(1)
 
@@ -210,23 +211,37 @@ export function OnboardingForm() {
       {/* Reassurance banner */}
       <div className="border-b border-gold/10 bg-gold/5 px-6 py-4">
         <div className="mx-auto max-w-lg">
-          <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-gold mb-2">
-            You don&apos;t need to do anything technical.
-          </p>
-          <div className="flex flex-col gap-1.5">
-            {[
-              { day: 'Day 0', text: 'You fill in this form (5 minutes)' },
-              { day: 'Day 0–1', text: 'We read it and clarify if needed' },
-              { day: 'Day 1–2', text: 'We deploy your complete system' },
-              { day: 'Day 2', text: 'Your login details arrive by email' },
-            ].map(({ day, text }) => (
-              <div key={day} className="flex items-center gap-2">
-                <span className="font-sans text-[10px] tabular-nums text-gold/50 shrink-0 w-12">{day}</span>
-                <span className="font-sans text-xs text-muted/80">{text}</span>
+          {isTemplate ? (
+            <>
+              <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-gold mb-2">
+                Template purchase
+              </p>
+              <p className="font-sans text-xs text-muted/80 mb-1">
+                We&apos;ll send you download instructions and the full codebase within 24 hours.
+              </p>
+              <p className="mt-2 font-sans text-[10px] text-muted/50">Complete source code · Commercial licence · 30-day support included</p>
+            </>
+          ) : (
+            <>
+              <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-gold mb-2">
+                You don&apos;t need to do anything technical.
+              </p>
+              <div className="flex flex-col gap-1.5">
+                {[
+                  { day: 'Day 0', text: 'You fill in this form (5 minutes)' },
+                  { day: 'Day 0–1', text: 'We read it and clarify if needed' },
+                  { day: 'Day 1–2', text: 'We deploy your complete system' },
+                  { day: 'Day 2', text: 'Your login details arrive by email' },
+                ].map(({ day, text }) => (
+                  <div key={day} className="flex items-center gap-2">
+                    <span className="font-sans text-[10px] tabular-nums text-gold/50 shrink-0 w-12">{day}</span>
+                    <span className="font-sans text-xs text-muted/80">{text}</span>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          <p className="mt-2 font-sans text-[10px] text-muted/50">No servers. No code. No configuration.</p>
+              <p className="mt-2 font-sans text-[10px] text-muted/50">No servers. No code. No configuration.</p>
+            </>
+          )}
         </div>
       </div>
 
@@ -350,11 +365,11 @@ export function OnboardingForm() {
                       const hex = v.startsWith('#') ? v : `#${v}`
                       if (/^#[0-9A-Fa-f]{0,6}$/.test(hex)) update('brand_color', hex)
                     }}
-                    placeholder="#2563EB"
+                    placeholder="#C8A96B"
                   />
                   <div
                     className="h-12 w-12 shrink-0 rounded-md border border-border"
-                    style={{ background: /^#[0-9A-Fa-f]{6}$/.test(form.brand_color) ? form.brand_color : '#2563EB' }}
+                    style={{ background: /^#[0-9A-Fa-f]{6}$/.test(form.brand_color) ? form.brand_color : '#C8A96B' }}
                   />
                 </div>
               </div>

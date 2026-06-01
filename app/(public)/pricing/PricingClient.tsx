@@ -50,13 +50,13 @@ const TIERS: Tier[] = [
   {
     key: 'starter',
     name: 'Starter',
-    monthlyEur: 49,
-    annualEur: 490,
-    annualSavingEur: 98,
+    monthlyEur: 79,
+    annualEur: 790,
+    annualSavingEur: 158,
     highlight: false,
     features: [
-      '1–3 items',
-      'Up to 30 bookings per month',
+      'Up to 5 items',
+      'Unlimited bookings',
       'Email notifications',
       'Admin panel',
       'Mobile-friendly public site',
@@ -68,13 +68,13 @@ const TIERS: Tier[] = [
   {
     key: 'growth',
     name: 'Growth',
-    monthlyEur: 99,
-    annualEur: 990,
-    annualSavingEur: 198,
+    monthlyEur: 149,
+    annualEur: 1490,
+    annualSavingEur: 298,
     highlight: true,
     badge: 'Most popular',
     features: [
-      '4–10 items',
+      'Up to 20 items',
       'Unlimited bookings',
     ],
     everything: 'Starter',
@@ -90,9 +90,9 @@ const TIERS: Tier[] = [
   {
     key: 'pro',
     name: 'Pro',
-    monthlyEur: 199,
-    annualEur: 1990,
-    annualSavingEur: 398,
+    monthlyEur: 249,
+    annualEur: 2490,
+    annualSavingEur: 498,
     highlight: false,
     features: [
       'Unlimited items',
@@ -101,9 +101,9 @@ const TIERS: Tier[] = [
     everything: 'Growth',
     extras: [
       'Custom domain setup included',
-      'SMS notifications add-on available',
-      'Agency reseller eligible',
       'Custom design and branding',
+      'Priority support',
+      'Agency reseller eligible',
     ],
     cta: 'Start free trial',
     href: '/admin/billing',
@@ -140,14 +140,14 @@ const COMPARISON_ROWS: Array<{
   {
     feature: 'Items',
     tooltip: 'How many rentable items you can list on your public booking site.',
-    starter: '1–3',
-    growth: '4–10',
+    starter: 'Up to 5',
+    growth: 'Up to 20',
     pro: 'Unlimited',
   },
   {
     feature: 'Bookings per month',
     tooltip: 'Confirmed reservations taken via your booking site.',
-    starter: '30',
+    starter: 'Unlimited',
     growth: 'Unlimited',
     pro: 'Unlimited',
   },
@@ -198,7 +198,7 @@ const COMPARISON_ROWS: Array<{
 const ONE_TIME = [
   {
     name: 'Custom Domain Setup',
-    price: '€149',
+    price: '€199',
     cadence: 'once',
     desc: 'We connect your domain to your RentalOS site. Includes SSL, DNS guidance, and email forwarding. Completed within 24 hours.',
     cta: 'Request setup',
@@ -206,7 +206,7 @@ const ONE_TIME = [
   },
   {
     name: 'Done-for-you Setup',
-    price: '€499',
+    price: '€699',
     cadence: 'once',
     desc: 'We deploy and configure your complete RentalOS system. Your admin login details delivered within 48 hours.',
     cta: 'Get started',
@@ -214,7 +214,7 @@ const ONE_TIME = [
   },
   {
     name: 'Template',
-    price: '€299',
+    price: '€499',
     cadence: 'once',
     desc: 'Full source code. Deploy it yourself. Commercial licence — use it commercially, resell to clients, white-label freely.',
     cta: 'Buy template',
@@ -254,45 +254,72 @@ const CURRENCY_LABELS: Record<CurrencyCode, string> = {
 }
 
 function RoiCalculator() {
+  const [bookingValue, setBookingValue] = useState(300)
+  const RENTALOS_YEAR = 790
+  const MISSED = [1, 2, 5]
+
+  function fmt(n: number): string {
+    return '€' + Math.round(n).toLocaleString('de-DE')
+  }
+
+  const monthsToPayback = Math.ceil(RENTALOS_YEAR / bookingValue)
+
   return (
     <div className="mb-10 max-w-xl">
       <h3 className="mb-6 font-display text-2xl font-bold text-gray-900">
         What does one missed booking cost you?
       </h3>
-      <div className="mb-2">
-        <span className="font-display leading-none text-gold" style={{ fontSize: '4rem' }}>€300</span>
-        <p className="mt-2 font-sans text-sm text-muted">The average value of one missed booking.</p>
+
+      {/* Slider */}
+      <div className="mb-8">
+        <label className="block font-sans text-xs uppercase tracking-[0.15em] text-muted mb-3">
+          Average booking value
+        </label>
+        <div className="flex items-center gap-4">
+          <span className="font-display text-3xl font-bold text-gold leading-none min-w-[5rem]">
+            {fmt(bookingValue)}
+          </span>
+          <input
+            type="range"
+            min={50}
+            max={2000}
+            step={50}
+            value={bookingValue}
+            onChange={(e) => setBookingValue(parseInt(e.target.value))}
+            className="flex-1 accent-[oklch(0.78_0.12_65)]"
+          />
+        </div>
       </div>
-      <div className="mt-8 rounded-lg border border-border overflow-hidden">
+
+      <div className="rounded-lg border border-border overflow-hidden">
         <table className="w-full">
           <thead>
             <tr className="border-b border-border bg-surface">
               <th className="py-2.5 px-4 text-left font-sans text-[10px] uppercase tracking-[0.15em] text-muted">Missed / month</th>
               <th className="py-2.5 px-4 text-right font-sans text-[10px] uppercase tracking-[0.15em] text-muted">Lost / year</th>
               <th className="py-2.5 px-4 text-right font-sans text-[10px] uppercase tracking-[0.15em] text-gold">RentalOS / year</th>
+              <th className="py-2.5 px-4 text-right font-sans text-[10px] uppercase tracking-[0.15em] text-muted">ROI</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
-            <tr>
-              <td className="py-3 px-4 font-sans text-sm text-gray-900">1</td>
-              <td className="py-3 px-4 text-right font-sans text-sm text-muted">€3,600</td>
-              <td className="py-3 px-4 text-right font-sans text-sm text-gold">€588</td>
-            </tr>
-            <tr>
-              <td className="py-3 px-4 font-sans text-sm text-gray-900">2</td>
-              <td className="py-3 px-4 text-right font-sans text-sm text-muted">€7,200</td>
-              <td className="py-3 px-4 text-right font-sans text-sm text-gold">€588</td>
-            </tr>
-            <tr>
-              <td className="py-3 px-4 font-sans text-sm text-gray-900">5</td>
-              <td className="py-3 px-4 text-right font-sans text-sm text-muted">€18,000</td>
-              <td className="py-3 px-4 text-right font-sans text-sm text-gold">€588</td>
-            </tr>
+            {MISSED.map((n) => {
+              const lost = n * bookingValue * 12
+              const roi = Math.round(lost / RENTALOS_YEAR)
+              return (
+                <tr key={n}>
+                  <td className="py-3 px-4 font-sans text-sm text-gray-900">{n}</td>
+                  <td className="py-3 px-4 text-right font-sans text-sm text-muted">{fmt(lost)}</td>
+                  <td className="py-3 px-4 text-right font-sans text-sm text-gold">€790</td>
+                  <td className="py-3 px-4 text-right font-sans text-sm font-medium text-gray-900">{roi}×</td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>
-      <p className="mt-4 font-sans text-xs text-muted/60 leading-relaxed">
-        RentalOS costs €588/year. One recovered booking pays for it.
+      <p className="mt-4 rounded-md bg-gold/5 border border-gold/20 px-4 py-3 font-sans text-sm text-gray-900 leading-relaxed">
+        At {fmt(bookingValue)} per booking, one recovered booking pays for{' '}
+        <strong>{monthsToPayback} month{monthsToPayback !== 1 ? 's' : ''}</strong> of RentalOS.
       </p>
     </div>
   )
@@ -338,7 +365,6 @@ export function PricingClient({
   const [currency, setCurrency] = useState<CurrencyCode>('EUR')
   const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null)
   const [checkoutError, setCheckoutError] = useState<string | null>(null)
-  const [showMore, setShowMore] = useState(false)
 
   async function handleCheckout(tierKey: string) {
     const priceIdMap: Record<string, string | null> = {
@@ -406,122 +432,124 @@ export function PricingClient({
         </div>
       </section>
 
-      {/* Pricing cards */}
+      {/* Pricing cards — SaaS tiers */}
       <section id="pricing-table" className="bg-white py-16 md:py-24">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-5xl px-6">
 
-          {/* 3 main cards */}
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 mb-8">
-
-            {/* Self-hosted */}
-            <div className="flex flex-col rounded-lg border border-border bg-white p-8 shadow-sm">
-              <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">Self-hosted</p>
-              <div className="mt-3 flex items-baseline gap-1.5">
-                <span className="font-display text-4xl font-extrabold text-gray-900">€299</span>
-                <span className="font-sans text-sm text-muted">one-time</span>
-              </div>
-              <p className="mt-2 mb-6 font-sans text-sm text-muted">Buy the code. Deploy yourself.</p>
-              <ul className="flex flex-1 flex-col gap-3 mb-8">
-                {['Full source code', 'RentalOS Commercial Licence', 'Free updates (git pull)', 'Deploy on your own Vercel'].map((f) => (
-                  <li key={f} className="flex items-center gap-2.5">
-                    <Check className="h-3.5 w-3.5 shrink-0 text-gold" />
-                    <span className="font-sans text-sm text-muted">{f}</span>
-                  </li>
-                ))}
-              </ul>
-              <a
-                href={process.env.NEXT_PUBLIC_GUMROAD_URL || '/sell'}
-                className="inline-flex w-full items-center justify-center min-h-[44px] rounded-md border border-border px-6 font-sans text-xs uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-              >
-                Buy template →
-              </a>
-            </div>
-
-            {/* Done-for-you — committed blue (the dominant choice) */}
-            <div className="relative flex flex-col rounded-lg border-2 border-gold bg-gold p-8 shadow-2xl">
-              <div className="mb-4">
-                <span className="rounded-sm bg-white/20 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-white">
-                  Recommended
-                </span>
-              </div>
-              <p className="font-sans text-xs uppercase tracking-[0.2em] text-white/70">Done-for-you</p>
-              <div className="mt-3 flex items-baseline gap-1.5">
-                <span className="font-display text-4xl font-extrabold text-white">€499</span>
-                <span className="font-sans text-sm text-white/70">one-time</span>
-              </div>
-              <p className="mt-2 mb-6 font-sans text-sm text-white/75">We build it. You run it.</p>
-              <ul className="flex flex-1 flex-col gap-3 mb-8">
-                {['We deploy everything', 'Your domain configured', '30-day support included', 'Live in 48 hours'].map((f) => (
-                  <li key={f} className="flex items-center gap-2.5">
-                    <Check className="h-3.5 w-3.5 shrink-0 text-white/90" />
-                    <span className="font-sans text-sm text-white/85">{f}</span>
-                  </li>
-                ))}
-              </ul>
-              <Link
-                href="/onboarding"
-                className="inline-flex w-full items-center justify-center min-h-[44px] rounded-md bg-white px-6 font-sans text-xs uppercase tracking-[0.1em] text-gold transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-gold"
-              >
-                Get started →
-              </Link>
-            </div>
-
-            {/* Monthly */}
-            <div className="flex flex-col rounded-lg border border-border bg-white p-8 shadow-sm">
-              <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">Monthly</p>
-              <div className="mt-3 flex items-baseline gap-1.5">
-                <span className="font-display text-4xl font-extrabold text-gray-900">From €49</span>
-                <span className="font-sans text-sm text-muted">/ month</span>
-              </div>
-              <p className="mt-2 mb-6 font-sans text-sm text-muted">Start free. Cancel anytime.</p>
-              <ul className="flex flex-1 flex-col gap-3 mb-8">
-                {['14-day free trial', 'No credit card required', 'Everything included', 'Cancel from admin panel'].map((f) => (
-                  <li key={f} className="flex items-center gap-2.5">
-                    <Check className="h-3.5 w-3.5 shrink-0 text-gold" />
-                    <span className="font-sans text-sm text-muted">{f}</span>
-                  </li>
-                ))}
-              </ul>
-              {stripeConfigured && starterPriceId ? (
+          {/* Cadence + currency toggles */}
+          <div className="flex flex-col gap-4 mb-10 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-1 rounded-md border border-border bg-white p-1 self-start shadow-sm">
+              {(['monthly', 'annual'] as Cadence[]).map((c) => (
                 <button
-                  onClick={() => handleCheckout('starter')}
-                  disabled={checkoutLoading === 'starter'}
-                  className="inline-flex w-full items-center justify-center min-h-[44px] rounded-md border border-border px-6 font-sans text-xs uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                  key={c}
+                  onClick={() => setCadence(c)}
+                  className={`px-4 py-1.5 rounded font-sans text-xs uppercase tracking-[0.1em] transition-colors ${
+                    cadence === c ? 'bg-gold text-white' : 'text-muted hover:text-gray-900'
+                  }`}
                 >
-                  {checkoutLoading === 'starter' ? 'Redirecting…' : 'Start free trial →'}
+                  {c === 'monthly' ? 'Monthly' : 'Annual — save 2 months'}
                 </button>
-              ) : (
-                <Link
-                  href="/admin/billing"
-                  className="inline-flex w-full items-center justify-center min-h-[44px] rounded-md border border-border px-6 font-sans text-xs uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-                >
-                  Start free trial →
-                </Link>
-              )}
+              ))}
             </div>
-          </div>
-
-          {/* DFY timeline */}
-          <div className="mt-2 mb-8 rounded-md border border-gold/20 bg-gold/5 px-6 py-5">
-            <p className="font-sans text-xs uppercase tracking-[0.15em] text-gold mb-5">How done-for-you works</p>
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-              {[
-                { day: 'Day 0', title: 'You fill in the form', sub: '5 minutes, no technical knowledge needed' },
-                { day: 'Day 0–1', title: 'We review your requirements', sub: 'We may ask one or two clarifying questions' },
-                { day: 'Day 1–2', title: 'We deploy your system', sub: 'Domain, branding, inventory — fully configured' },
-                { day: 'Day 2', title: 'You receive your login', sub: 'Take real bookings from day two' },
-              ].map(({ day, title, sub }, i) => (
-                <div key={day} className="relative flex flex-col gap-1">
-                  {i < 3 && (
-                    <div className="absolute top-3 left-full hidden h-px w-full bg-gold/15 md:block" style={{ width: 'calc(100% - 1rem)', left: '50%' }} />
-                  )}
-                  <p className="font-sans text-[10px] uppercase tracking-[0.15em] text-gold/60">{day}</p>
-                  <p className="font-sans text-sm font-medium text-gray-900 leading-snug">{title}</p>
-                  <p className="font-sans text-xs text-muted leading-relaxed">{sub}</p>
-                </div>
+            <div className="flex items-center gap-1 rounded-md border border-border bg-white p-1 self-start shadow-sm">
+              {CURRENCIES.map((c) => (
+                <button
+                  key={c}
+                  onClick={() => handleCurrencyChange(c)}
+                  className={`px-3 py-1.5 rounded font-sans text-xs transition-colors ${
+                    currency === c ? 'bg-gold/20 text-gold' : 'text-muted hover:text-gray-900'
+                  }`}
+                >
+                  {CURRENCY_LABELS[c]}
+                </button>
               ))}
             </div>
           </div>
+
+          {/* Starter / Growth / Pro */}
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 mb-8">
+            {TIERS.filter((t) => !t.agency).map((t) => {
+              const p = displayPrice(t)
+              const pid = cadence === 'annual'
+                ? (t.key === 'starter' ? starterAnnualPriceId : t.key === 'growth' ? growthAnnualPriceId : proAnnualPriceId)
+                : (t.key === 'starter' ? starterPriceId : t.key === 'growth' ? growthPriceId : proPriceId)
+
+              return (
+                <div
+                  key={t.key}
+                  className={`relative flex flex-col rounded-lg p-8 ${
+                    t.highlight
+                      ? 'border-2 border-gold bg-white shadow-2xl shadow-gold/10 z-10'
+                      : 'border border-border bg-white shadow-sm'
+                  }`}
+                >
+                  {t.badge && (
+                    <div className="mb-4">
+                      <span className="rounded-sm bg-gold/15 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold">
+                        {t.badge}
+                      </span>
+                    </div>
+                  )}
+                  <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">{t.name}</p>
+                  <div className="mt-3">
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="font-display text-4xl font-extrabold text-gray-900">{p.main}</span>
+                      {cadence === 'monthly' && <span className="font-sans text-sm text-muted">/ month</span>}
+                    </div>
+                    {p.sub && <p className="font-sans text-xs text-muted mt-0.5">{p.sub} equiv.</p>}
+                    {p.save && (
+                      <span className="inline-block mt-1 rounded-sm bg-gold/10 px-2 py-0.5 font-sans text-[10px] text-gold">
+                        {p.save}
+                      </span>
+                    )}
+                  </div>
+                  <ul className="my-8 flex flex-1 flex-col gap-3">
+                    {[...t.features, ...(t.extras ?? [])].map((f) => (
+                      <li key={f} className="flex items-center gap-2.5">
+                        <Check className="h-3.5 w-3.5 shrink-0 text-gold" />
+                        <span className="font-sans text-sm text-muted">{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  {stripeConfigured && pid ? (
+                    <button
+                      onClick={() => handleCheckout(t.key)}
+                      disabled={checkoutLoading === t.key}
+                      className={`inline-flex w-full items-center justify-center min-h-[44px] rounded-md px-6 font-sans text-xs uppercase tracking-[0.1em] transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
+                        t.highlight
+                          ? 'bg-gold text-white hover:opacity-90'
+                          : 'border border-border text-muted hover:border-gold/40 hover:text-gray-900'
+                      }`}
+                    >
+                      {checkoutLoading === t.key ? 'Redirecting…' : t.cta}
+                    </button>
+                  ) : (
+                    <Link
+                      href={t.href}
+                      className={`inline-flex w-full items-center justify-center min-h-[44px] rounded-md px-6 font-sans text-xs uppercase tracking-[0.1em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
+                        t.highlight
+                          ? 'bg-gold text-white hover:opacity-90'
+                          : 'border border-border text-muted hover:border-gold/40 hover:text-gray-900'
+                      }`}
+                    >
+                      {t.cta}
+                    </Link>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+
+          {cadence === 'annual' && (
+            <p className="mb-8 font-sans text-xs text-muted text-center">
+              Annual plans are billed once per year. Cancel before renewal for a full refund within 30 days.
+            </p>
+          )}
+          {currency !== 'EUR' && (
+            <p className="mb-6 font-sans text-xs text-muted/60 text-center">
+              All plans billed in EUR. {currency} prices shown for reference and may vary with exchange rates.
+            </p>
+          )}
 
           {checkoutError && (
             <p className="mb-6 font-sans text-sm text-center" style={{ color: 'oklch(0.65 0.18 25)' }}>
@@ -543,170 +571,6 @@ export function PricingClient({
               proPriceId={proPriceId}
               stripeConfigured={stripeConfigured}
             />
-          </div>
-
-          {/* More options collapsible */}
-          <div className="mt-4">
-            <button
-              onClick={() => setShowMore((s) => !s)}
-              className="font-sans text-sm text-muted transition-colors hover:text-gray-900 flex items-center gap-1.5"
-            >
-              Looking for more options? <span className="text-gold">{showMore ? '▲' : '▼'}</span>
-            </button>
-
-            {showMore && (
-              <div className="mt-8">
-                {/* Billing cadence + currency */}
-                <div className="flex flex-col gap-4 mb-8 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="flex items-center gap-1 rounded-md border border-border bg-white p-1 self-start shadow-sm">
-                    {(['monthly', 'annual'] as Cadence[]).map((c) => (
-                      <button
-                        key={c}
-                        onClick={() => setCadence(c)}
-                        className={`px-4 py-1.5 rounded font-sans text-xs uppercase tracking-[0.1em] transition-colors ${
-                          cadence === c ? 'bg-gold text-white' : 'text-muted hover:text-gray-900'
-                        }`}
-                      >
-                        {c === 'monthly' ? 'Monthly' : 'Annual — save 17%'}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="flex items-center gap-1 rounded-md border border-border bg-white p-1 self-start shadow-sm">
-                    {CURRENCIES.map((c) => (
-                      <button
-                        key={c}
-                        onClick={() => handleCurrencyChange(c)}
-                        className={`px-3 py-1.5 rounded font-sans text-xs transition-colors ${
-                          currency === c ? 'bg-gold/20 text-gold' : 'text-muted hover:text-gray-900'
-                        }`}
-                      >
-                        {CURRENCY_LABELS[c]}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {/* Growth */}
-                  {(() => {
-                    const t = TIERS.find((x) => x.key === 'growth')!
-                    const p = displayPrice(t)
-                    const pid = cadence === 'annual' ? growthAnnualPriceId : growthPriceId
-                    return (
-                      <div className="relative flex flex-col rounded-md border border-gold/50 bg-gold/5 ring-1 ring-gold/10 p-6">
-                        <div className="mb-3">
-                          <span className="rounded-sm bg-gold/15 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold">Most popular</span>
-                        </div>
-                        <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">{t.name}</p>
-                        <div className="mt-2 mb-1">
-                          <div className="flex items-baseline gap-1.5">
-                            <span className="font-display text-2xl font-bold text-gray-900">{p.main}</span>
-                            {cadence === 'monthly' && <span className="font-sans text-sm text-muted">/ month</span>}
-                          </div>
-                          {p.sub && <p className="font-sans text-xs text-muted mt-0.5">{p.sub} equiv.</p>}
-                          {p.save && <span className="inline-block mt-1 rounded-sm bg-gold/10 px-2 py-0.5 font-sans text-[10px] text-gold">{p.save}</span>}
-                        </div>
-                        <ul className="flex flex-1 flex-col gap-2 mt-4 mb-6">
-                          {[...t.features, ...(t.extras ?? [])].map((f) => (
-                            <li key={f} className="flex items-start gap-2">
-                              <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
-                              <span className="font-sans text-sm text-muted">{f}</span>
-                            </li>
-                          ))}
-                        </ul>
-                        {stripeConfigured && pid ? (
-                          <button onClick={() => handleCheckout('growth')} disabled={checkoutLoading === 'growth'}
-                            className="inline-flex items-center justify-center min-h-[44px] rounded-md bg-gold px-5 font-sans text-xs uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed">
-                            {checkoutLoading === 'growth' ? 'Redirecting…' : t.cta}
-                          </button>
-                        ) : (
-                          <Link href={t.href} className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border text-muted px-5 font-sans text-xs uppercase tracking-[0.1em] hover:border-gold/40 hover:text-gray-900 transition-colors">
-                            {t.cta}
-                          </Link>
-                        )}
-                      </div>
-                    )
-                  })()}
-
-                  {/* Pro */}
-                  {(() => {
-                    const t = TIERS.find((x) => x.key === 'pro')!
-                    const p = displayPrice(t)
-                    const pid = cadence === 'annual' ? proAnnualPriceId : proPriceId
-                    return (
-                      <div className="flex flex-col rounded-lg border border-border bg-white p-6 shadow-sm">
-                        <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">{t.name}</p>
-                        <div className="mt-2 mb-1">
-                          <div className="flex items-baseline gap-1.5">
-                            <span className="font-display text-2xl font-bold text-gray-900">{p.main}</span>
-                            {cadence === 'monthly' && <span className="font-sans text-sm text-muted">/ month</span>}
-                          </div>
-                          {p.sub && <p className="font-sans text-xs text-muted mt-0.5">{p.sub} equiv.</p>}
-                          {p.save && <span className="inline-block mt-1 rounded-sm bg-gold/10 px-2 py-0.5 font-sans text-[10px] text-gold">{p.save}</span>}
-                        </div>
-                        <ul className="flex flex-1 flex-col gap-2 mt-4 mb-6">
-                          {[...t.features, ...(t.extras ?? [])].map((f) => (
-                            <li key={f} className="flex items-start gap-2">
-                              <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
-                              <span className="font-sans text-sm text-muted">{f}</span>
-                            </li>
-                          ))}
-                        </ul>
-                        {stripeConfigured && pid ? (
-                          <button onClick={() => handleCheckout('pro')} disabled={checkoutLoading === 'pro'}
-                            className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border text-muted px-5 font-sans text-xs uppercase tracking-[0.1em] hover:border-gold/40 hover:text-gray-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                            {checkoutLoading === 'pro' ? 'Redirecting…' : t.cta}
-                          </button>
-                        ) : (
-                          <Link href={t.href} className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-border text-muted px-5 font-sans text-xs uppercase tracking-[0.1em] hover:border-gold/40 hover:text-gray-900 transition-colors">
-                            {t.cta}
-                          </Link>
-                        )}
-                      </div>
-                    )
-                  })()}
-
-                  {/* Agency */}
-                  {(() => {
-                    const t = TIERS.find((x) => x.key === 'agency')!
-                    return (
-                      <div className="flex flex-col rounded-lg border border-gold/30 bg-white p-6 shadow-sm">
-                        <div className="mb-3">
-                          <span className="rounded-sm border border-gold/30 px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.15em] text-gold">For agencies</span>
-                        </div>
-                        <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted">{t.name}</p>
-                        <div className="mt-2 mb-1 flex items-baseline gap-1.5">
-                          <span className="font-display text-2xl font-bold text-gray-900">{fmtPrice(499, currency)}</span>
-                          <span className="font-sans text-sm text-muted">/ month</span>
-                        </div>
-                        <ul className="flex flex-1 flex-col gap-2 mt-4 mb-6">
-                          {t.features.map((f) => (
-                            <li key={f} className="flex items-start gap-2">
-                              <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
-                              <span className="font-sans text-sm text-muted">{f}</span>
-                            </li>
-                          ))}
-                        </ul>
-                        <Link href={t.href} className="inline-flex items-center justify-center min-h-[44px] rounded-md border border-gold/40 text-gold px-5 font-sans text-xs uppercase tracking-[0.1em] hover:bg-gold hover:text-black transition-colors">
-                          {t.cta}
-                        </Link>
-                      </div>
-                    )
-                  })()}
-                </div>
-
-                {cadence === 'annual' && (
-                  <p className="mt-6 font-sans text-xs text-muted text-center">
-                    Annual plans are billed once per year. Cancel before renewal for a full refund within 30 days.
-                  </p>
-                )}
-                {currency !== 'EUR' && (
-                  <p className="mt-3 font-sans text-xs text-muted/60 text-center">
-                    All plans billed in EUR. {currency} prices shown for reference and may vary with exchange rates.
-                  </p>
-                )}
-              </div>
-            )}
           </div>
 
           {/* Chat CTA */}

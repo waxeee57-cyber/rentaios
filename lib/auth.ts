@@ -1,5 +1,5 @@
-import { getAuthUser } from '@/lib/supabase-server'
-import { supabaseAdmin } from '@/lib/supabase'
+﻿import { getAuthUser } from '@/lib/supabase-server'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { NextResponse } from 'next/server'
 
 export async function requireAdmin(): Promise<
@@ -13,8 +13,8 @@ export async function requireAdmin(): Promise<
 
   const { data: adminUser, error } = await supabaseAdmin
     .from('admin_users')
-    .select('id')
-    .eq('id', user.id)
+    .select('id, email')
+    .eq('user_id', user.id)
     .single()
 
   if (error || !adminUser) {

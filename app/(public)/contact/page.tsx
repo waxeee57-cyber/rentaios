@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 }
 
 export default function ContactPage() {
-  const email = process.env.ADMIN_EMAIL ?? 'hello@domrol.com'
+  const email = process.env.ADMIN_EMAIL ?? 'info@domrol.com'
 
   return (
     <div className="min-h-screen bg-white py-24">
@@ -71,8 +71,8 @@ export default function ContactPage() {
               {[
                 { label: 'Read the FAQ', href: '/faq', note: 'Most questions answered here' },
                 { label: 'See the demo', href: '/demo', note: 'Live system, no signup required' },
-                { label: 'View pricing', href: '/pricing', note: 'Plans from €49/month' },
-                { label: 'Done-for-you setup', href: '/onboarding', note: '€499 — ready in 48 hours' },
+                { label: 'View pricing', href: '/pricing', note: 'Plans from €79/month' },
+                { label: 'Done-for-you setup', href: '/onboarding', note: '€699 — ready in 48 hours' },
               ].map(({ label, href, note }) => (
                 <Link
                   key={href}

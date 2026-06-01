@@ -95,9 +95,9 @@ function AddClientModal({ agencyCode, siteUrl, onAdd, onClose }: {
               onChange={e => setForm(f => ({ ...f, client_plan: e.target.value }))}
               className="h-10 rounded-md border border-border bg-black/40 px-3 font-sans text-sm text-white focus:border-gold/40 focus:outline-none"
             >
-              <option value="starter">Starter — €49/mo</option>
-              <option value="growth">Growth — €99/mo</option>
-              <option value="pro">Pro — €199/mo</option>
+              <option value="starter">Starter — €79/mo</option>
+              <option value="growth">Growth — €149/mo</option>
+              <option value="pro">Pro — €249/mo</option>
             </select>
           </div>
           <div className="flex items-center gap-3 pt-2">

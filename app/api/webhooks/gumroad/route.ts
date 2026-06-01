@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase'
+﻿import { NextRequest, NextResponse } from 'next/server'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { sendEmail, ADMIN_EMAIL } from '@/lib/resend'
 import { rateLimit, getClientIp } from '@/lib/rate-limit'
 
@@ -113,6 +113,6 @@ export async function POST(req: NextRequest) {
     html: `<p>New Gumroad sale: <strong>${buyerName ?? buyerEmail}</strong> (${buyerEmail}) — €${amountEur ?? '?'}</p>`,
   })
 
-  console.log('[Gumroad] Processed sale:', saleId, 'for', buyerEmail)
+  console.log('[Gumroad] Processed sale:', saleId)
   return NextResponse.json({ success: true })
 }

@@ -34,7 +34,7 @@ const faqSchema = {
     {
       '@type': 'Question',
       name: 'Can I use it without a website developer?',
-      acceptedAnswer: { '@type': 'Answer', text: 'If you choose the done-for-you option (€499 one-time), we handle everything. Otherwise the template requires basic technical knowledge to deploy.' },
+      acceptedAnswer: { '@type': 'Answer', text: 'If you choose the done-for-you option (€699 one-time), we handle everything. Otherwise the template requires basic technical knowledge to deploy.' },
     },
     {
       '@type': 'Question',
@@ -209,7 +209,7 @@ function LandingPage() {
         <div className="space-y-8">
           {[
             ['Does this work for any size of car rental business?', 'Yes. It works from 1 vehicle to 50+. The admin panel is designed to be used on a phone in the field.'],
-            ['Can I use it without a developer?', 'If you choose the done-for-you option (€499 one-time), we handle everything. Otherwise the template requires basic technical knowledge.'],
+            ['Can I use it without a developer?', 'If you choose the done-for-you option (€699 one-time), we handle everything. Otherwise the template requires basic technical knowledge.'],
             ['Does it replace my current booking system?', 'Yes. It replaces WhatsApp chaos, spreadsheet juggling, and expensive platforms that charge per booking.'],
             ['Is there a free trial?', '14 days, no credit card required. Or explore the live demo first.'],
           ].map(([q, a]) => (

@@ -16,7 +16,7 @@ const onest = Onest({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://rentaios.vercel.app'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://rentalos.vercel.app'),
   title: {
     default: 'RentalOS — Rental Booking System',
     template: '%s — RentalOS',

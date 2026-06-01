@@ -6,7 +6,7 @@ const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'
 
 export const metadata: Metadata = {
   title: 'Yacht Charter Software | Booking System for Charter Operators',
-  description: 'Booking and management system for yacht charter businesses. Automate inquiries, send confirmations, manage your fleet. From €49/month. Built for Mediterranean operators.',
+  description: 'Booking and management system for yacht charter businesses. Automate inquiries, send confirmations, manage your fleet. From €79/month. Built for Mediterranean operators.',
   alternates: { canonical: `${BASE}/yacht-charter-software-mediterranean` },
   keywords: ['yacht charter software', 'day charter booking system', 'sailing boat rental software', 'ibiza yacht charter management'],
   openGraph: {
@@ -175,7 +175,7 @@ export default function MediterraneanPage() {
       <section className="bg-surface py-20">
         <div className="mx-auto max-w-3xl px-6">
           <p className="mb-3 font-sans text-xs uppercase tracking-[0.2em] text-gold">Pricing</p>
-          <h2 className="mb-4 font-display text-3xl font-bold text-gray-900 md:text-4xl">From €49/month</h2>
+          <h2 className="mb-4 font-display text-3xl font-bold text-gray-900 md:text-4xl">From €79/month</h2>
           <p className="mb-8 font-sans text-sm text-muted">14-day free trial, no credit card required.</p>
           <Link href="/onboarding" className="inline-flex items-center justify-center min-h-[48px] rounded-md bg-gold px-8 font-sans text-xs uppercase tracking-[0.15em] text-white hover:opacity-90 transition-opacity">
             Start free trial

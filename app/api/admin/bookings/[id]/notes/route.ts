@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase'
+﻿import { NextRequest, NextResponse } from 'next/server'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { requireAdmin } from '@/lib/auth'
 import { z } from 'zod'
 
@@ -18,10 +18,11 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   if (!parsed.success) return NextResponse.json({ error: 'Invalid' }, { status: 400 })
 
   const { field, value } = parsed.data
-  await supabaseAdmin
+  const { error } = await supabaseAdmin
     .from('bookings')
     .update({ [field]: value, updated_at: new Date().toISOString() })
     .eq('id', id)
 
+  if (error) return NextResponse.json({ error: 'Update failed' }, { status: 500 })
   return NextResponse.json({ ok: true })
 }

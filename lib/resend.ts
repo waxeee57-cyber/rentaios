@@ -10,13 +10,13 @@ export const FROM =
   }>`
 
 export const ADMIN_EMAIL =
-  process.env.ADMIN_EMAIL ?? 'hello@domrol.com'
+  process.env.ADMIN_EMAIL ?? 'info@domrol.com'
 
 export async function getAdminEmail(): Promise<string> {
   if (process.env.ADMIN_EMAIL) return process.env.ADMIN_EMAIL
   const { getBusinessConfig } = await import('./config')
   const config = await getBusinessConfig()
-  return config.business_email || 'hello@domrol.com'
+  return config.business_email || 'info@domrol.com'
 }
 
 export async function sendEmail({
@@ -31,7 +31,6 @@ export async function sendEmail({
   replyTo?: string
 }): Promise<{ success: boolean; error?: string }> {
   if (!resend) {
-    console.log('[Resend] No API key — email skipped:', { subject })
     return { success: false, error: 'No API key configured' }
   }
 
@@ -49,7 +48,6 @@ export async function sendEmail({
       return { success: false, error: error.message }
     }
 
-    console.log('[Resend] Sent:', { subject })
     return { success: true }
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error'

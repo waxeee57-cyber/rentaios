@@ -1,16 +1,16 @@
-import { NextResponse } from 'next/server'
+﻿import { NextResponse } from 'next/server'
 import { requireAdmin } from '@/lib/auth'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
 
 export async function GET() {
+  const auth = await requireAdmin()
+  if ('error' in auth) return auth.error
+
   if (!STRIPE_SECRET_KEY) {
     return NextResponse.json({ error: 'Billing not configured' }, { status: 400 })
   }
-
-  const auth = await requireAdmin()
-  if ('error' in auth) return auth.error
 
   const { data: subscription } = await supabaseAdmin
     .from('subscriptions')
@@ -30,5 +30,5 @@ export async function GET() {
     return_url: `${siteUrl}/admin/billing`,
   })
 
-  return NextResponse.json({ url: session.url })
+  return NextResponse.redirect(session.url)
 }

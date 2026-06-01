@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { createClient } from '@supabase/supabase-js'
 import { MessageCircle, X, Send, ChevronDown, Clock, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -32,10 +31,6 @@ function generateShortId(): string {
   return id
 }
 
-const supabase = process.env.NEXT_PUBLIC_SUPABASE_URL
-  ? createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
-  : null
-
 export function ChatWidget() {
   const [open, setOpen] = useState(false)
   const [sessionId, setSessionId] = useState<string | null>(null)
@@ -48,6 +43,8 @@ export function ChatWidget() {
   const [visitorName, setVisitorName] = useState<string | null>(null)
   const [visitorShortId, setVisitorShortId] = useState<string | null>(null)
   const [nameInput, setNameInput] = useState('')
+  const [error, setError] = useState<string | null>(null)
+  const [loadFailed, setLoadFailed] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const nameInputRef = useRef<HTMLInputElement>(null)
@@ -86,32 +83,40 @@ export function ChatWidget() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
+  // Live admin-reply delivery via the service-role server route — NOT anon
+  // Realtime. The chat tables are no longer readable by the anon role
+  // (P0 RLS lockdown, migration 19), so the widget never holds an anon client
+  // or subscribes to postgres_changes. Instead, while the widget is open we
+  // poll /api/chat/conversation/<sid> (service role) and merge in any new
+  // admin/system messages, scoped to the visitor's own session.
   useEffect(() => {
-    if (!conversationId || !supabase) return
-    const channel = supabase
-      .channel(`chat:${conversationId}`)
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'chat_messages',
-          filter: `conversation_id=eq.${conversationId}`,
-        },
-        (payload) => {
-          const msg = payload.new as Message
-          if (msg.sender === 'admin' || msg.sender === 'system') {
-            setMessages((prev) => (prev.some((m) => m.id === msg.id) ? prev : [...prev, msg]))
-            if (msg.sender === 'admin' && !open) setUnread((n) => n + 1)
-          }
-        }
-      )
-      .subscribe()
-    return () => { supabase!.removeChannel(channel) }
-  }, [conversationId, open])
+    if (!open || !sessionId || !conversationId) return
+    const interval = setInterval(() => { void pollAdminMessages(sessionId) }, 5000)
+    return () => clearInterval(interval)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, sessionId, conversationId])
+
+  async function pollAdminMessages(sid: string) {
+    try {
+      const res = await fetch(`/api/chat/conversation/${sid}`)
+      if (!res.ok) return
+      const data = await res.json()
+      const incoming: Message[] = data.messages ?? []
+      setMessages((prev) => {
+        const known = new Set(prev.map((m) => m.id))
+        const additions = incoming.filter(
+          (m) => (m.sender === 'admin' || m.sender === 'system') && !known.has(m.id)
+        )
+        return additions.length ? [...prev, ...additions] : prev
+      })
+    } catch {
+      // Silent: the next poll tick retries. No anon read, no token exposure.
+    }
+  }
 
   async function loadConversation(sid: string) {
     setLoading(true)
+    setLoadFailed(false)
     try {
       const res = await fetch(`/api/chat/conversation/${sid}`)
       if (res.ok) {
@@ -126,10 +131,21 @@ export function ChatWidget() {
           sessionStorage.setItem(SHORT_ID_KEY, data.visitor_short_id)
           setVisitorShortId(data.visitor_short_id)
         }
+      } else if (res.status !== 404) {
+        // 404 = unknown/expired session: treat as a fresh conversation (no error).
+        // Any other status is a real failure worth surfacing.
+        setLoadFailed(true)
       }
+    } catch {
+      setLoadFailed(true)
     } finally {
       setLoading(false)
     }
+  }
+
+  function retryLoad() {
+    loadedRef.current = true
+    if (sessionId) void loadConversation(sessionId)
   }
 
   function submitName() {
@@ -148,11 +164,11 @@ export function ChatWidget() {
     const text = input.trim()
     if (!text || sending || !visitorName || !visitorShortId) return
     setSending(true)
-    setInput('')
+    setError(null)
 
+    let optimisticId: string | null = null
     try {
       let sid = sessionId
-      let cid = conversationId
 
       if (!sid) {
         const res = await fetch('/api/chat/conversation', {
@@ -163,10 +179,15 @@ export function ChatWidget() {
             visitor_short_id: visitorShortId,
           }),
         })
-        if (!res.ok) { setSending(false); return }
+        if (!res.ok) {
+          // Keep the user's text so they can retry — never silently drop it.
+          setError("Couldn't start the chat. Please try again.")
+          setSending(false)
+          return
+        }
         const data = await res.json()
         sid = data.session_id as string
-        cid = data.conversation_id as string
+        const cid = data.conversation_id as string
         localStorage.setItem(SESSION_KEY, sid)
         setSessionId(sid)
         setConversationId(cid)
@@ -177,19 +198,22 @@ export function ChatWidget() {
         !sessionStorage.getItem(AUTO_REPLY_KEY) &&
         messages.filter((m) => m.sender === 'visitor').length === 0
 
-      const tempId = `temp-${Date.now()}`
+      // Optimistic render, then clear the input only once the send is in flight.
+      optimisticId = `temp-${Date.now()}`
       const optimistic: Message = {
-        id: tempId,
+        id: optimisticId,
         sender: 'visitor',
         body: text,
         created_at: new Date().toISOString(),
         status: 'sent',
       }
       setMessages((prev) => [...prev, optimistic])
+      setInput('')
 
+      const deliveredId = optimisticId
       setTimeout(() => {
         setMessages((prev) =>
-          prev.map((m) => (m.id === tempId ? { ...m, status: 'delivered' } : m))
+          prev.map((m) => (m.id === deliveredId ? { ...m, status: 'delivered' } : m))
         )
       }, 800)
 
@@ -214,38 +238,54 @@ export function ChatWidget() {
         body: JSON.stringify({ session_id: sid, body: text }),
       })
 
+      if (!res.ok) {
+        // Roll back the optimistic bubble, restore the text, show a retry hint.
+        setMessages((prev) => prev.filter((m) => m.id !== optimisticId))
+        setInput(text)
+        setError(
+          res.status === 429
+            ? 'You are sending messages too quickly. Please wait a moment.'
+            : 'Message not sent. Please try again.'
+        )
+        return
+      }
+
       // Backend may roll the visitor over to a fresh conversation if their
       // last one was auto-closed (>1h idle) or manually closed by admin.
-      if (res.ok) {
-        const data = await res.json().catch(() => null) as
-          | { new_session_id?: string; new_conversation_id?: string }
-          | null
-        if (data?.new_session_id && data?.new_conversation_id) {
-          localStorage.setItem(SESSION_KEY, data.new_session_id)
-          sessionStorage.removeItem(AUTO_REPLY_KEY)
-          setSessionId(data.new_session_id)
-          setConversationId(data.new_conversation_id)
-          // Fresh-history mode: drop prior optimistic + history; reload from
-          // the new conversation so the visitor sees only the new thread.
-          loadedRef.current = true
-          await loadConversation(data.new_session_id)
-          setTimeout(() => {
-            setMessages((prev) => {
-              if (prev.some((m) => m.sender === 'auto')) return prev
-              return [
-                ...prev,
-                {
-                  id: `auto-${Date.now()}`,
-                  sender: 'auto',
-                  body: AUTO_REPLY_TEXT,
-                  created_at: new Date().toISOString(),
-                },
-              ]
-            })
-            sessionStorage.setItem(AUTO_REPLY_KEY, '1')
-          }, 700)
-        }
+      const data = await res.json().catch(() => null) as
+        | { new_session_id?: string; new_conversation_id?: string }
+        | null
+      if (data?.new_session_id && data?.new_conversation_id) {
+        localStorage.setItem(SESSION_KEY, data.new_session_id)
+        sessionStorage.removeItem(AUTO_REPLY_KEY)
+        setSessionId(data.new_session_id)
+        setConversationId(data.new_conversation_id)
+        // Fresh-history mode: drop prior optimistic + history; reload from
+        // the new conversation so the visitor sees only the new thread.
+        loadedRef.current = true
+        await loadConversation(data.new_session_id)
+        setTimeout(() => {
+          setMessages((prev) => {
+            if (prev.some((m) => m.sender === 'auto')) return prev
+            return [
+              ...prev,
+              {
+                id: `auto-${Date.now()}`,
+                sender: 'auto',
+                body: AUTO_REPLY_TEXT,
+                created_at: new Date().toISOString(),
+              },
+            ]
+          })
+          sessionStorage.setItem(AUTO_REPLY_KEY, '1')
+        }, 700)
       }
+    } catch {
+      if (optimisticId) {
+        setMessages((prev) => prev.filter((m) => m.id !== optimisticId))
+      }
+      setInput(text)
+      setError('Connection error. Please try again.')
     } finally {
       setSending(false)
     }
@@ -321,7 +361,20 @@ export function ChatWidget() {
                 {loading && (
                   <p className="py-8 text-center font-sans text-xs text-muted">Loading…</p>
                 )}
-                {!loading && messages.length === 0 && (
+                {!loading && loadFailed && (
+                  <div className="flex h-full flex-col items-center justify-center gap-3 py-10">
+                    <p className="text-center font-sans text-xs text-muted">
+                      Couldn&apos;t load your conversation.
+                    </p>
+                    <button
+                      onClick={retryLoad}
+                      className="rounded-md border border-gray-300 px-3 py-1.5 font-sans text-xs text-gray-700 hover:bg-gray-100"
+                    >
+                      Try again
+                    </button>
+                  </div>
+                )}
+                {!loading && !loadFailed && messages.length === 0 && (
                   <div className="flex h-full flex-col items-center justify-center gap-3 py-10">
                     <MessageCircle className="h-8 w-8 text-gray-300" />
                     <p className="text-center font-sans text-xs text-muted">
@@ -376,6 +429,12 @@ export function ChatWidget() {
                 ))}
                 <div ref={messagesEndRef} />
               </div>
+
+              {error && (
+                <div className="border-t border-red-100 bg-red-50 px-3 py-2">
+                  <p role="alert" className="font-sans text-xs text-red-600">{error}</p>
+                </div>
+              )}
 
               <div className="flex items-end gap-2 border-t border-gray-200 bg-white px-3 py-2">
                 <textarea

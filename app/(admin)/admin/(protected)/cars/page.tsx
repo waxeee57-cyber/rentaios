@@ -1,8 +1,8 @@
-export const dynamic = 'force-dynamic'
+﻿export const dynamic = 'force-dynamic'
 
 import Link from 'next/link'
 import { Plus } from 'lucide-react'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { CarsManager } from '@/components/admin/CarsManager'
 
 interface PageProps {

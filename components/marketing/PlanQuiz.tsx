@@ -56,25 +56,25 @@ type RecConfig = {
 const REC_CONFIG: Record<Rec, RecConfig> = {
   starter: {
     name: 'Starter',
-    price: '€49 / month',
-    features: ['1–3 items', 'Up to 30 bookings per month', '14-day free trial'],
+    price: '€79 / month',
+    features: ['Up to 5 items', 'Unlimited bookings', '14-day free trial'],
     cta: 'Start free trial',
   },
   growth: {
     name: 'Growth',
-    price: '€99 / month',
-    features: ['Up to 10 items', 'Unlimited bookings', 'Weekly automated report'],
+    price: '€149 / month',
+    features: ['Up to 20 items', 'Unlimited bookings', 'Weekly automated report'],
     cta: 'Start free trial',
   },
   pro: {
     name: 'Pro',
-    price: '€199 / month',
-    features: ['Unlimited items', 'Custom domain setup included', 'Agency reseller eligible'],
+    price: '€249 / month',
+    features: ['Unlimited items', 'Custom domain setup included', 'Priority support'],
     cta: 'Start free trial',
   },
   dfy: {
     name: 'Done-for-you Setup',
-    price: '€499 once',
+    price: '€699 once',
     features: ['Full deployment within 48 hours', 'Every setting configured for you', 'Growth plan included for 1 month'],
     cta: 'Get started',
   },

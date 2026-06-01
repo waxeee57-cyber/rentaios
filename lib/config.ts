@@ -1,5 +1,5 @@
 import { unstable_cache } from 'next/cache'
-import { supabaseAdmin } from './supabase'
+import { supabaseAdmin } from './supabase-admin'
 
 export type BusinessConfig = {
   id: string
@@ -43,7 +43,7 @@ const SAFE_BUSINESS_NAME = _envName && !_envName.startsWith('http') ? _envName :
 export const DEFAULT_CONFIG: BusinessConfig = {
   id: '',
   business_name: SAFE_BUSINESS_NAME,
-  business_email: process.env.ADMIN_EMAIL ?? 'hello@domrol.com',
+  business_email: process.env.ADMIN_EMAIL ?? 'info@domrol.com',
   business_phone: process.env.NEXT_PUBLIC_BUSINESS_PHONE ?? null,
   business_whatsapp: process.env.NEXT_PUBLIC_BUSINESS_WHATSAPP ?? null,
   business_address: null,

@@ -5,11 +5,11 @@ import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import { Logo } from '@/components/brand/Logo'
+import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { cn } from '@/lib/utils'
 
 const navLinks = [
   { href: '/demo/fleet', label: 'Demo' },
-  { href: '/pricing', label: 'Pricing' },
   { href: '/faq', label: 'FAQ' },
   { href: '/about', label: 'About' },
 ]
@@ -49,6 +49,7 @@ export function Header() {
           >
             Talk to us
           </button>
+          <LanguageSwitcher />
           <Link
             href="/pricing"
             className="rounded-md bg-gold px-5 py-2 font-sans text-xs font-medium uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
@@ -104,6 +105,9 @@ export function Header() {
           >
             Get started →
           </Link>
+          <div className="flex justify-start pt-1">
+            <LanguageSwitcher />
+          </div>
         </nav>
       </div>
     </header>

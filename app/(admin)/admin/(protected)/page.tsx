@@ -1,13 +1,13 @@
-export const dynamic = 'force-dynamic'
+﻿export const dynamic = 'force-dynamic'
 
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { formatPrice } from '@/lib/formatters'
 import { formatInTimeZone } from 'date-fns-tz'
 import { TZ } from '@/lib/formatters'
 
-const PLAN_MRR: Record<string, number> = { starter: 99, pro: 199, white_glove: 299 }
+const PLAN_MRR: Record<string, number> = { starter: 79, growth: 149, pro: 249, white_glove: 299 }
 const STRIPE_CONFIGURED = !!process.env.STRIPE_SECRET_KEY
 
 async function getDashboardStats() {

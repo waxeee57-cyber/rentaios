@@ -34,7 +34,7 @@ const faqSchema = {
     {
       '@type': 'Question',
       name: 'Can you deploy this for my Marbella rental business?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. The done-for-you setup service (€499 one-time) deploys and configures everything for you within 48 hours.' },
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes. The done-for-you setup service (€699 one-time) deploys and configures everything for you within 48 hours.' },
     },
     {
       '@type': 'Question',
@@ -152,12 +152,12 @@ function LandingPage() {
           <blockquote className="font-display text-2xl font-light text-gray-700 italic mb-4">
             "A live Marbella luxury car rental business runs entirely on RentalOS."
           </blockquote>
-          <p className="font-sans text-xs text-muted">Real deployment. Costa del Sol. Running since 2024.</p>
+          <p className="font-sans text-xs text-muted">Real deployment. Costa del Sol. Running since 2026.</p>
         </div>
       </section>
 
       <section className="border-t border-border mx-auto max-w-4xl px-6 py-20">
-        <p className="font-sans text-sm text-muted mb-4">From €99/month. 14-day free trial. No credit card required.</p>
+        <p className="font-sans text-sm text-muted mb-4">From €79/month. 14-day free trial. No credit card required.</p>
         <Link href="/pricing" className="font-sans text-sm text-gold hover:underline underline-offset-4">See all plans →</Link>
       </section>
 
@@ -166,7 +166,7 @@ function LandingPage() {
         <div className="space-y-8">
           {[
             ['Is RentalOS used by real businesses in Marbella?', 'Yes. It is live at a luxury car rental business operating in Marbella and along the Costa del Sol.'],
-            ['Can you deploy this for my business?', 'Yes. The done-for-you setup (€499 one-time) deploys and configures everything within 48 hours.'],
+            ['Can you deploy this for my business?', 'Yes. The done-for-you setup (€699 one-time) deploys and configures everything within 48 hours.'],
             ['Does it support multiple pickup locations across the Costa del Sol?', 'Yes. List as many locations as you serve. Delivery to custom addresses is also supported.'],
             ['What languages are supported?', 'English, Spanish, French, German, Italian — configurable per deployment.'],
           ].map(([q, a]) => (

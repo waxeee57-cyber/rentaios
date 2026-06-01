@@ -1,8 +1,8 @@
-export const dynamic = 'force-dynamic'
+﻿export const dynamic = 'force-dynamic'
 
 import { Suspense } from 'react'
 import Link from 'next/link'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { BookingsList } from '@/components/admin/BookingsList'
 import { Plus, AlertTriangle } from 'lucide-react'
 import { formatInTimeZone } from 'date-fns-tz'

@@ -17,10 +17,5 @@ function validUrl(val: string): string {
 // preventing the server from starting with broken configuration.
 const supabaseUrl = validUrl(requireEnv('NEXT_PUBLIC_SUPABASE_URL') || FALLBACK_URL)
 const supabaseAnonKey = requireEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY') || FALLBACK_KEY
-const supabaseServiceKey = requireEnv('SUPABASE_SERVICE_ROLE_KEY') || FALLBACK_KEY
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
-
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
-  auth: { autoRefreshToken: false, persistSession: false },
-})

@@ -1,7 +1,7 @@
-import Link from 'next/link'
+﻿import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { getAuthUser } from '@/lib/supabase-server'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { getBusinessConfig } from '@/lib/config'
 import { AdminNav } from '@/components/admin/AdminNav'
 import { Toaster } from 'sonner'
@@ -9,6 +9,13 @@ import { Toaster } from 'sonner'
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const user = await getAuthUser()
   if (!user) redirect('/admin/login')
+
+  const { data: adminRow } = await supabaseAdmin
+    .from('admin_users')
+    .select('id')
+    .eq('user_id', user.id)
+    .maybeSingle()
+  if (!adminRow) redirect('/admin/login')
 
   const [config, subResult] = await Promise.all([
     getBusinessConfig(),

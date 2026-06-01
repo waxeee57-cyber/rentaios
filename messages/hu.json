@@ -1,0 +1,57 @@
+{
+  "nav": {
+    "demo": "Demo",
+    "pricing": "Árak",
+    "faq": "GYIK",
+    "about": "Rólunk",
+    "talkToUs": "Írj nekünk",
+    "getStarted": "Kezdés"
+  },
+  "home": {
+    "title": "RentalOS — Bérlési Foglalórendszer Autó-, Jacht- és Villabérlőknek",
+    "description": "Hagyd el a WhatsApp-os foglaláskezelést. A RentalOS automatizál minden érdeklődést, visszaigazolást és utókövetést. Havi 29 000 Ft-tól, vagy vedd meg a sablont 179 900 Ft-ért.",
+    "heroHeadline": "A bérlési vállalkozásod, teljesen automatizálva.",
+    "heroSub": "A foglalások, visszaigazolások és utókövetések automatikusan mennek — te a bérlésre koncentrálhatsz.",
+    "getStartedCta": "Kezdés — 14 napos ingyenes próba",
+    "seePricingCta": "Árak megtekintése"
+  },
+  "pricing": {
+    "title": "Egyszerű, átlátható árazás",
+    "description": "Próbáld ki 14 napig ingyen. Nem kell bankkártya.",
+    "monthly": "Havi",
+    "annual": "Éves — 2 hónap ingyen",
+    "mostPopular": "Legnépszerűbb",
+    "perMonth": "/ hó",
+    "perYear": "/ év",
+    "monthlyEquiv": "/hó egyenértéke",
+    "save": "Megtakarítás",
+    "startFreeTrial": "Ingyenes próba →",
+    "seeFullPricing": "Részletes árak megtekintése",
+    "starter": {
+      "name": "Starter",
+      "items": "Legfeljebb 5 tétel",
+      "features": ["Korlátlan foglalás", "E-mail értesítések", "Admin felület", "14 napos ingyenes próba"]
+    },
+    "growth": {
+      "name": "Growth",
+      "items": "Legfeljebb 20 tétel",
+      "features": ["Minden, ami a Starterben", "Átadás/szállítás kezelés", "Heti riport e-mail", "Ajánlói program"]
+    },
+    "pro": {
+      "name": "Pro",
+      "items": "Korlátlan tétel",
+      "features": ["Minden, ami a Growth-ban", "Egyéni domain beállítás", "Egyéni design és arculat", "Elsőbbségi támogatás"]
+    }
+  },
+  "faq": {
+    "title": "Gyakran ismételt kérdések",
+    "q1": "Mennyi ideig tart a beállítás?",
+    "a1": "Önkiszolgáló csomagokhoz kevesebb mint egy óra alatt élesíthetsz. A „Csináljuk helyetted" szolgáltatásnál az adatok megkapása után 48 órán belül telepítünk.",
+    "q2": "Milyen bérlési típusokat támogat?",
+    "a2": "Autóbérlés, jachtbérlés, villabérlés, motorbérlés és bármilyen időalapú tárgyat bérlő vállalkozás. A platform kategória-független.",
+    "q3": "Használhatom a saját domainnevemet?",
+    "a3": "Igen. A Pro csomag tartalmazza az egyéni domain beállítást. A Starter és Growth csomagokhoz 69 900 Ft egyszer hozzáadható.",
+    "q4": "Van ingyenes próbaidőszak?",
+    "a4": "Igen — minden előfizetéses csomag tartalmaz 14 napos ingyenes próbát. A kezdéshez nem kell bankkártya."
+  }
+}
