@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
         brand: 'Porsche', model: '911 Carrera', year: 2024, category: 'sport',
         daily_price_eur: 480, deposit_eur: 6000, status: 'available', is_demo: true,
         features: ['3.0L Flat-6 Turbo', 'PDK 8-speed', 'Sport Chrono', 'PASM suspension', 'Bose sound'],
-        description: 'The Porsche 911 Carrera â€” the icon that set the benchmark for sports cars. 385 hp, rear-wheel drive.',
+        description: 'The Porsche 911 Carrera — the icon that set the benchmark for sports cars. 385 hp, rear-wheel drive.',
       },
     ])
     .select('id, slug')
@@ -76,8 +76,8 @@ export async function GET(req: NextRequest) {
 
   const { error: bookingsError } = await supabaseAdmin.from('bookings').insert([
     { booking_code: 'DEMO-001', car_id: ferrari, customer_id: c1, pickup_location: 'Marbella', dropoff_location: 'Marbella', start_at: day(3), end_at: day(6), days: 3, total_eur: 2550, deposit_eur: 10000, status: 'inquiry', is_demo: true, source: 'web' },
-    { booking_code: 'DEMO-002', car_id: bentley, customer_id: c2, pickup_location: 'MĂˇlaga Airport', dropoff_location: 'Marbella', start_at: day(1), end_at: day(5), days: 4, total_eur: 2600, deposit_eur: 8000, status: 'confirmed', is_demo: true, source: 'web' },
-    { booking_code: 'DEMO-003', car_id: porsche, customer_id: c3, pickup_location: 'Puerto BanĂşs', dropoff_location: 'Puerto BanĂşs', start_at: day(-2), end_at: day(3), days: 5, total_eur: 2400, deposit_eur: 6000, status: 'picked_up', is_demo: true, source: 'web' },
+    { booking_code: 'DEMO-002', car_id: bentley, customer_id: c2, pickup_location: 'Málaga Airport', dropoff_location: 'Marbella', start_at: day(1), end_at: day(5), days: 4, total_eur: 2600, deposit_eur: 8000, status: 'confirmed', is_demo: true, source: 'web' },
+    { booking_code: 'DEMO-003', car_id: porsche, customer_id: c3, pickup_location: 'Puerto Banús', dropoff_location: 'Puerto Banús', start_at: day(-2), end_at: day(3), days: 5, total_eur: 2400, deposit_eur: 6000, status: 'picked_up', is_demo: true, source: 'web' },
     { booking_code: 'DEMO-004', car_id: ferrari, customer_id: c2, pickup_location: 'Estepona', dropoff_location: 'Estepona', start_at: day(-10), end_at: day(-7), days: 3, total_eur: 2550, deposit_eur: 10000, status: 'completed', is_demo: true, source: 'web' },
     { booking_code: 'DEMO-005', car_id: bentley, customer_id: c1, pickup_location: 'Marbella', dropoff_location: 'Marbella', start_at: day(-8), end_at: day(-5), days: 3, total_eur: 1950, deposit_eur: 8000, status: 'cancelled', is_demo: true, source: 'web' },
   ])

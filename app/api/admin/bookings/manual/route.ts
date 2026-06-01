@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
   const maxDays = config.max_rental_days ?? 14
 
   const days = differenceInCalendarDays(endDate, startDate)
-  if (days <= 0 || days > maxDays) return NextResponse.json({ error: `Invalid date range (1â€“${maxDays} days)` }, { status: 400 })
+  if (days <= 0 || days > maxDays) return NextResponse.json({ error: `Invalid date range (1–${maxDays} days)` }, { status: 400 })
 
   const { data: car } = await supabaseAdmin
     .from('cars')

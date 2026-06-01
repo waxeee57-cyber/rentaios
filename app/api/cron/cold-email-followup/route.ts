@@ -5,7 +5,7 @@ import { sendEmail, ADMIN_EMAIL } from '@/lib/resend'
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://localhost:3000'
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY
 
-const UNSUBSCRIBE_LINE = `\n\nâ€”\nIf you'd prefer not to hear from us, reply with 'unsubscribe' and I'll remove you immediately.`
+const UNSUBSCRIBE_LINE = `\n\n—\nIf you'd prefer not to hear from us, reply with 'unsubscribe' and I'll remove you immediately.`
 
 async function generateFollowUp(
   seq: 1 | 2,
@@ -19,11 +19,11 @@ async function generateFollowUp(
     if (seq === 1) {
       return `Hi ${firstName},\n\nJust following up on my note about managing ${businessType} bookings more efficiently.\n\nDid you have a chance to look at it?\n\n${senderName}\nRentalOS${UNSUBSCRIBE_LINE}`
     }
-    return `Hi ${firstName},\n\nThis is the last email I'll send on this.\n\nIf you ever want to take a look, the demo is at ${SITE_URL}/demo â€” no signup required, always available.\n\n${senderName}\nRentalOS${UNSUBSCRIBE_LINE}`
+    return `Hi ${firstName},\n\nThis is the last email I'll send on this.\n\nIf you ever want to take a look, the demo is at ${SITE_URL}/demo — no signup required, always available.\n\n${senderName}\nRentalOS${UNSUBSCRIBE_LINE}`
   }
 
   const prompt = seq === 1
-    ? `Write a 2-sentence cold email follow-up to ${firstName} who runs a ${businessType} business in ${location}.\nThe previous email was about RentalOS â€” a system that replaces WhatsApp bookings with an automated booking flow.\nReference the previous email briefly. Ask if they had a chance to look at it. No pressure.\nSign off: '${senderName}\\nRentalOS'\nDO NOT include a subject line.`
+    ? `Write a 2-sentence cold email follow-up to ${firstName} who runs a ${businessType} business in ${location}.\nThe previous email was about RentalOS — a system that replaces WhatsApp bookings with an automated booking flow.\nReference the previous email briefly. Ask if they had a chance to look at it. No pressure.\nSign off: '${senderName}\\nRentalOS'\nDO NOT include a subject line.`
     : `Write a 3-sentence final cold email to ${firstName} who runs a ${businessType} business in ${location}.\nThis is the last email you'll send them about RentalOS.\nSay this is the last email. Leave the door open warmly. Mention the live demo at ${SITE_URL}/demo.\nKeep it warm, not bitter or guilt-tripping.\nSign off: '${senderName}\\nRentalOS'\nDO NOT include a subject line.`
 
   try {

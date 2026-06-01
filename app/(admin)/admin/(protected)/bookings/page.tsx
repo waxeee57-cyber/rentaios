@@ -158,7 +158,7 @@ export default async function AdminBookingsPage({ searchParams }: PageProps) {
             <p className="font-sans text-xs text-muted mt-1">{bookingsError}</p>
             <p className="font-sans text-xs text-muted mt-1">
               Check Vercel function logs for details. If the transfer migration was just run,
-              try reloading â€” Supabase schema cache refreshes within a few seconds.
+              try reloading — Supabase schema cache refreshes within a few seconds.
             </p>
           </div>
         </div>

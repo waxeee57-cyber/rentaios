@@ -6,7 +6,7 @@ import { z } from 'zod'
 
 const schema = z.object({
   business_slug: z.string().regex(/^[a-z0-9-]{3,30}$/, {
-    message: 'Slug must be 3â€“30 characters: lowercase letters, numbers, and hyphens only.',
+    message: 'Slug must be 3–30 characters: lowercase letters, numbers, and hyphens only.',
   }),
 })
 

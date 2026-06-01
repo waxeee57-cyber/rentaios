@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: PageProps) {
     title,
     description,
     openGraph: {
-      title: `${car.brand} ${car.model} â€” Car Rental`,
+      title: `${car.brand} ${car.model} — Car Rental`,
       description,
       ...(car.photos?.[0]?.url && {
         images: [{ url: car.photos[0].url, width: 1200, height: 800, alt: `${car.brand} ${car.model}` }],

@@ -60,7 +60,7 @@ export default async function DemoCarDetailPage({ params }: { params: Promise<{ 
     <div className="mx-auto max-w-5xl px-6 py-12">
       {/* Back */}
       <Link href="/demo/fleet" className="inline-flex items-center gap-1.5 font-sans text-xs text-muted hover:text-gray-900 transition-colors mb-10">
-        â† Back to demo fleet
+        ← Back to demo fleet
       </Link>
 
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
@@ -90,7 +90,7 @@ export default async function DemoCarDetailPage({ params }: { params: Promise<{ 
 
         {/* Details */}
         <div>
-          <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-2">{car.year} Â· {car.category}</p>
+          <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-2">{car.year} · {car.category}</p>
           <h1 className="font-display text-4xl font-bold text-gray-900 mb-2">{car.brand} {car.model}</h1>
           <p className="font-sans text-2xl text-gray-900 mb-1">{formatPrice(car.daily_price_eur)}<span className="text-muted text-sm ml-1">/day</span></p>
           <p className="font-sans text-xs text-muted mb-8">Deposit: {formatPrice(car.deposit_eur)} (refundable)</p>
