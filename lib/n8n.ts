@@ -1,3 +1,5 @@
+import 'server-only'
+
 export interface InquiryPayload {
   event: 'inquiry' | 'confirmed'
   booking_code: string
@@ -19,7 +21,8 @@ export interface InquiryPayload {
 export async function notifyInquiry(payload: InquiryPayload): Promise<void> {
   const url = process.env.N8N_WEBHOOK_URL
   if (!url) {
-    console.log('[n8n:dev] webhook skipped — N8N_WEBHOOK_URL not configured', payload)
+    // No PII in logs — booking code only (see CLAUDE.md logging rule).
+    console.log('[n8n:dev] webhook skipped — N8N_WEBHOOK_URL not configured', payload.booking_code)
     return
   }
 
