@@ -1,40 +1,32 @@
-﻿import { NextRequest, NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase-admin'
+import { NextRequest, NextResponse } from 'next/server'
+import { getHealthDetails, pingDb } from '@/lib/health'
 
+// Always run on-demand; never cached.
+export const dynamic = 'force-dynamic'
+
+/**
+ * GET /api/health
+ *
+ * Public (no/invalid x-health-secret):
+ *   { status: 'ok' | 'degraded' }   — 200 if ok, 503 if degraded.
+ *   Reveals nothing else: no env names, no service inventory, no versions.
+ *
+ * Privileged (x-health-secret matches HEALTH_SECRET):
+ *   Full HealthDetails — DB ping, env completeness + missing keys, Resend/Stripe
+ *   configured flags, schema version, release sha.
+ */
 export async function GET(req: NextRequest) {
   const healthSecret = process.env.HEALTH_SECRET
+  const authorized =
+    !!healthSecret && req.headers.get('x-health-secret') === healthSecret
 
-  // If HEALTH_SECRET is not configured, or the request header doesn't match,
-  // return a minimal response that reveals nothing about service state.
-  if (!healthSecret || req.headers.get('x-health-secret') !== healthSecret) {
-    return NextResponse.json({ ok: true })
+  if (!authorized) {
+    // Minimal public probe — only liveness, nothing descriptive.
+    const db = await pingDb()
+    const status = db ? 'ok' : 'degraded'
+    return NextResponse.json({ status }, { status: db ? 200 : 503 })
   }
 
-  const checks: Record<string, boolean | string> = {
-    supabase: false,
-    resend: false,
-    n8n_url_configured: false,
-  }
-
-  // Supabase ping
-  try {
-    const { error } = await supabaseAdmin.from('cars').select('id').limit(1)
-    checks.supabase = !error
-  } catch {
-    checks.supabase = false
-  }
-
-  // Resend configured (non-empty, non-dev)
-  const resendKey = process.env.RESEND_API_KEY ?? ''
-  checks.resend = resendKey.length > 0 && resendKey !== 'dev'
-
-  // n8n webhook URL configured
-  checks.n8n_url_configured = !!process.env.N8N_WEBHOOK_URL
-
-  const allOk = checks.supabase === true && checks.resend === true
-
-  return NextResponse.json(
-    { ok: allOk, checks, ts: new Date().toISOString() },
-    { status: allOk ? 200 : 503 }
-  )
+  const details = await getHealthDetails()
+  return NextResponse.json(details, { status: details.status === 'ok' ? 200 : 503 })
 }
