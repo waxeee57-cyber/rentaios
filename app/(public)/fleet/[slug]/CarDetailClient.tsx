@@ -20,7 +20,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { formatPrice } from '@/lib/formatters'
 import { buildCarInquiryLink } from '@/lib/whatsapp'
 import { cn } from '@/lib/utils'
-import { PICKUP_LOCATIONS, DEFAULT_PICKUP } from '@/lib/locations'
+import { PICKUP_LOCATIONS, DEFAULT_PICKUP, categoryLabel } from '@/lib/locations'
 
 interface Car {
   id: string
@@ -225,7 +225,7 @@ export function CarDetailClient({
             <div className="space-y-10">
               {/* Title */}
               <div>
-                <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-2">{car.category}</p>
+                <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-2">{categoryLabel(car.category)}</p>
                 <h1 className="font-display text-5xl font-light text-white tracking-tight">
                   {car.brand} {car.model}
                 </h1>

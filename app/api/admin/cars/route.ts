@@ -7,7 +7,7 @@ const createCarSchema = z.object({
   brand:           z.string().trim().min(1).max(100),
   model:           z.string().trim().min(1).max(100),
   year:            z.coerce.number().int().min(1900).max(new Date().getFullYear() + 2),
-  category:        z.enum(['sport', 'suv', 'sedan', 'convertible', 'luxury']),
+  category:        z.enum(['sport', 'suv', 'sedan', 'convertible', 'luxury', 'mpv', 'furgon']),
   daily_price_eur: z.coerce.number().positive(),
   deposit_eur:     z.coerce.number().positive(),
   transmission:    z.enum(['Automatic', 'Manual']).default('Automatic'),

@@ -7,3 +7,16 @@ export const PICKUP_LOCATIONS: string[] = [
 ]
 
 export const DEFAULT_PICKUP: string = PICKUP_LOCATIONS[0]
+
+// Vehicle category → Hungarian display label (used in cards, detail chip, filters).
+export const CATEGORY_LABELS: Record<string, string> = {
+  sedan: 'Személyautó',
+  mpv: 'Egyterű',
+  furgon: 'Furgon',
+  suv: 'SUV',
+  sport: 'Sport',
+  convertible: 'Kabrió',
+  luxury: 'Luxus',
+}
+
+export const categoryLabel = (c: string): string => CATEGORY_LABELS[c] ?? c

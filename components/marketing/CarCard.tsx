@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Users, Zap, Fuel } from 'lucide-react'
 import { formatPrice, formatPriceDecimals } from '@/lib/formatters'
+import { categoryLabel } from '@/lib/locations'
 import { differenceInCalendarDays } from 'date-fns'
 
 interface Car {
@@ -66,7 +67,7 @@ export function CarCard({ car, startDate, endDate, pickupLocation, priority = fa
           {/* Category chip */}
           <div className="absolute top-3 left-3">
             <span className="rounded-sm bg-black/70 px-2 py-1 text-[10px] font-sans uppercase tracking-[0.15em] text-muted backdrop-blur-sm">
-              {car.category}
+              {categoryLabel(car.category)}
             </span>
           </div>
         </div>

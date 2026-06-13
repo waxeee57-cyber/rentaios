@@ -13,7 +13,8 @@ import { PICKUP_LOCATIONS } from '@/lib/locations'
 
 const CATEGORIES: Array<{ value: string; label: string }> = [
   { value: 'sedan', label: 'Személyautó' },
-  { value: 'suv', label: 'Egyterű / furgon' },
+  { value: 'mpv', label: 'Egyterű' },
+  { value: 'furgon', label: 'Furgon' },
 ]
 
 interface FleetFiltersProps {

@@ -96,6 +96,8 @@ export default function NewCarPage() {
                 <option value="sedan">Sedan</option>
                 <option value="convertible">Convertible</option>
                 <option value="luxury">Luxury</option>
+                <option value="mpv">Egyterű (MPV)</option>
+                <option value="furgon">Furgon</option>
               </select>
             </div>
           </div>
