@@ -53,3 +53,7 @@ rentaios-phase*.md
 skills-lock.json
 
 .claude/
+
+# local test artifacts
+.playwright-mcp/
+*-check.jpeg
