@@ -4,12 +4,12 @@ import { cn } from '@/lib/utils'
 type BookingStatus = 'inquiry' | 'confirmed' | 'picked_up' | 'returned' | 'completed' | 'cancelled'
 
 const CUSTOMER_LABELS: Record<BookingStatus, string> = {
-  inquiry:   'Pending',
-  confirmed: 'Confirmed',
-  picked_up: 'Active',
-  returned:  'Active',
-  completed: 'Completed',
-  cancelled: 'Cancelled',
+  inquiry:   'Függőben',
+  confirmed: 'Visszaigazolva',
+  picked_up: 'Aktív',
+  returned:  'Aktív',
+  completed: 'Lezárva',
+  cancelled: 'Lemondva',
 }
 
 const ADMIN_LABELS: Record<BookingStatus, string> = {

@@ -7,8 +7,8 @@ import { FleetGrid } from '@/components/marketing/FleetGrid'
 import { FleetFilters } from '@/components/marketing/FleetFilters'
 
 export const metadata: Metadata = {
-  title: 'Fleet',
-  description: 'Browse our rental fleet. Hotel delivery included.',
+  title: 'Autóink',
+  description: 'Böngéssze autóflottánkat Szegeden. Belföldi autópályadíj az árban, akár áfa nélkül.',
 }
 
 interface PageProps {
@@ -20,6 +20,7 @@ async function getAvailableCars(startDate?: string, endDate?: string, category?:
     .from('cars')
     .select('id, slug, brand, model, year, category, daily_price_eur, deposit_eur, transmission, fuel, seats, photos')
     .eq('status', 'available')
+    .eq('is_demo', false)
     .order('daily_price_eur', { ascending: false })
 
   if (category) {
@@ -76,8 +77,8 @@ async function AvailableCarsGrid({ start, end, pickup, category }: { start?: str
       {start && end && (
         <p className="mb-6 font-sans text-sm text-muted">
           {cars.length === 0
-            ? 'No cars available for these dates.'
-            : `${cars.length} car${cars.length !== 1 ? 's' : ''} available`}
+            ? 'Nincs szabad autó ezekre a napokra.'
+            : `${cars.length} szabad autó`}
         </p>
       )}
       <FleetGrid
@@ -85,7 +86,7 @@ async function AvailableCarsGrid({ start, end, pickup, category }: { start?: str
         startDate={start}
         endDate={end}
         pickupLocation={pickup}
-        emptyMessage="No cars available for these dates. Try adjusting your dates or message us on WhatsApp."
+        emptyMessage="Nincs szabad autó ezekre a napokra. Próbáljon másik időpontot, vagy írjon nekünk WhatsApp-on."
       />
     </>
   )
@@ -126,9 +127,9 @@ export default async function FleetPage({ searchParams }: PageProps) {
       {/* Page header */}
       <div className="border-b border-border bg-white pt-12 pb-8 md:pt-16 md:pb-10">
         <div className="mx-auto max-w-7xl px-6">
-          <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-2">Our Fleet</p>
+          <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-2">Autóink</p>
           <h1 className="font-display text-4xl font-bold text-gray-900 tracking-tight md:text-5xl">
-            {start && end ? 'Available cars' : 'Our Fleet'}
+            {start && end ? 'Szabad autók' : 'Autóink Szegeden'}
           </h1>
         </div>
       </div>

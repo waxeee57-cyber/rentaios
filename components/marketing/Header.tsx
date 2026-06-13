@@ -8,10 +8,7 @@ import { Logo } from '@/components/brand/Logo'
 import { cn } from '@/lib/utils'
 
 const navLinks = [
-  { href: '/demo/fleet', label: 'Demo' },
-  { href: '/pricing', label: 'Pricing' },
-  { href: '/faq', label: 'FAQ' },
-  { href: '/about', label: 'About' },
+  { href: '/fleet', label: 'Autóink' },
 ]
 
 function openChat() {
@@ -47,13 +44,13 @@ export function Header() {
             onClick={openChat}
             className="rounded-md border border-border px-5 py-2 font-sans text-xs font-medium uppercase tracking-[0.1em] text-muted transition-colors hover:border-gold/40 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
           >
-            Talk to us
+            Írjon nekünk
           </button>
           <Link
-            href="/pricing"
+            href="/fleet"
             className="rounded-md bg-gold px-5 py-2 font-sans text-xs font-medium uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
           >
-            Get started →
+            Foglalás →
           </Link>
         </nav>
 
@@ -95,14 +92,14 @@ export function Header() {
             onClick={() => { setOpen(false); openChat() }}
             className="mt-1 inline-flex items-center justify-center rounded-md border border-gold/30 px-5 py-2.5 font-sans text-xs font-medium uppercase tracking-[0.1em] text-gold transition-colors hover:bg-gold/10"
           >
-            Talk to us
+            Írjon nekünk
           </button>
           <Link
-            href="/pricing"
+            href="/fleet"
             onClick={() => setOpen(false)}
             className="inline-flex items-center justify-center rounded-md bg-gold px-5 py-2.5 font-sans text-xs font-medium uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
           >
-            Get started →
+            Foglalás →
           </Link>
         </nav>
       </div>

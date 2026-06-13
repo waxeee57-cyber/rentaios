@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { DayPicker, type DateRange } from 'react-day-picker'
 import { format, differenceInCalendarDays, addDays } from 'date-fns'
+import { hu } from 'date-fns/locale'
 import { CalendarDays, ChevronDown } from 'lucide-react'
 import { Popover } from '@radix-ui/react-popover'
 import * as PopoverPrimitive from '@radix-ui/react-popover'
@@ -22,7 +23,7 @@ export function DateRangePicker({
   value,
   onChange,
   className,
-  placeholder = 'Select dates',
+  placeholder = 'Válasszon dátumot',
   maxDays = 14,
   id,
 }: DateRangePickerProps) {
@@ -45,9 +46,9 @@ export function DateRangePicker({
 
   const label =
     range?.from && range?.to
-      ? `${format(range.from, 'd MMM')} → ${format(range.to, 'd MMM yyyy')}`
+      ? `${format(range.from, 'MMM d', { locale: hu })} → ${format(range.to, 'yyyy. MMM d', { locale: hu })}`
       : range?.from
-        ? `${format(range.from, 'd MMM')} → ...`
+        ? `${format(range.from, 'MMM d', { locale: hu })} → ...`
         : placeholder
 
   const today = new Date()
@@ -87,6 +88,7 @@ export function DateRangePicker({
         >
           <DayPicker
             mode="range"
+            locale={hu}
             selected={range}
             onSelect={handleSelect}
             disabled={{ before: today }}
@@ -113,7 +115,7 @@ export function DateRangePicker({
           />
           {maxDays && (
             <p className="border-t border-border pt-2 mt-1 text-[11px] text-muted px-2 pb-1 font-sans">
-              Maximum {maxDays} days. For longer rentals, contact us via WhatsApp.
+              Legfeljebb {maxDays} nap. Hosszabb bérléshez írjon nekünk WhatsApp-on.
             </p>
           )}
         </PopoverPrimitive.Content>

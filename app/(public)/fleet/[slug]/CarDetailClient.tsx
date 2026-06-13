@@ -20,11 +20,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { formatPrice } from '@/lib/formatters'
 import { buildCarInquiryLink } from '@/lib/whatsapp'
 import { cn } from '@/lib/utils'
-
-const PICKUP_LOCATIONS = [
-  'Alicante', 'Almeria', 'Marbella', 'Puerto Banús', 'Málaga Airport', 'Estepona',
-  'San Juan de los Terreros',
-]
+import { PICKUP_LOCATIONS, DEFAULT_PICKUP } from '@/lib/locations'
 
 interface Car {
   id: string
@@ -69,7 +65,7 @@ export function CarDetailClient({
       ? { from: new Date(initialStart), to: new Date(initialEnd) }
       : undefined
   )
-  const [pickup, setPickup] = useState(initialPickup ?? 'Marbella')
+  const [pickup, setPickup] = useState(initialPickup ?? DEFAULT_PICKUP)
   const [photoIdx, setPhotoIdx] = useState(0)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [isAvailable, setIsAvailable] = useState(initialAvailable)
@@ -111,7 +107,7 @@ export function CarDetailClient({
     startDate: startStr,
     endDate: endStr,
     pickupLocation: pickup,
-    totalFormatted: days > 0 ? `€${car.daily_price_eur * days}` : 'TBD',
+    totalFormatted: days > 0 ? formatPrice(car.daily_price_eur * days) : 'TBD',
   })
 
   const photos = car.photos ?? []
@@ -245,15 +241,15 @@ export function CarDetailClient({
 
               {/* Specs */}
               <div>
-                <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-4">Specifications</p>
+                <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-4">Műszaki adatok</p>
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                   {[
-                    { icon: Zap, label: 'Transmission', value: car.transmission },
-                    { icon: Fuel, label: 'Fuel', value: car.fuel },
-                    { icon: Users, label: 'Seats', value: String(car.seats) },
-                    { icon: Gauge, label: 'Daily mileage', value: `${car.mileage_included_per_day} km` },
-                    { icon: User, label: 'Min. age', value: `${car.min_driver_age} years` },
-                    { icon: IdCard, label: 'Min. license', value: `${car.min_license_years} years` },
+                    { icon: Zap, label: 'Váltó', value: car.transmission },
+                    { icon: Fuel, label: 'Üzemanyag', value: car.fuel },
+                    { icon: Users, label: 'Férőhely', value: String(car.seats) },
+                    { icon: Gauge, label: 'Napi km-keret', value: `${car.mileage_included_per_day} km` },
+                    { icon: User, label: 'Min. életkor', value: `${car.min_driver_age} év` },
+                    { icon: IdCard, label: 'Jogosítvány', value: `${car.min_license_years} év` },
                   ].map(({ icon: Icon, label, value }) => (
                     <div key={label} className="rounded-md border border-border bg-graphite p-4">
                       <p className="text-[10px] font-sans uppercase tracking-[0.15em] text-muted mb-1">{label}</p>
@@ -266,7 +262,7 @@ export function CarDetailClient({
               {/* Features */}
               {car.features?.length > 0 && (
                 <div>
-                  <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-4">What's included</p>
+                  <p className="font-sans text-xs uppercase tracking-[0.2em] text-gold mb-4">Felszereltség</p>
                   <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                     {car.features.map((f: string) => (
                       <div key={f} className="flex items-center gap-2.5">
@@ -286,24 +282,24 @@ export function CarDetailClient({
                 <div>
                   <p className="font-sans text-2xl font-medium text-gold">
                     {formatPrice(car.daily_price_eur)}
-                    <span className="text-base font-normal text-muted ml-1">/ day</span>
+                    <span className="text-base font-normal text-muted ml-1">/ nap</span>
                   </p>
                 </div>
 
                 {/* Date picker */}
                 <div className="space-y-1.5" role="group" aria-labelledby="label-dates">
-                  <p id="label-dates" className="text-[10px] font-sans uppercase tracking-[0.15em] text-muted">Dates</p>
+                  <p id="label-dates" className="text-[10px] font-sans uppercase tracking-[0.15em] text-muted">Időpont</p>
                   <DateRangePicker
                     value={range}
                     onChange={handleRangeChange}
-                    placeholder="Select dates"
+                    placeholder="Válasszon dátumot"
                     maxDays={14}
                   />
                 </div>
 
                 {/* Location */}
                 <div className="space-y-1.5">
-                  <label htmlFor="pickup-select" className="text-[10px] font-sans uppercase tracking-[0.15em] text-muted">Pickup location</label>
+                  <label htmlFor="pickup-select" className="text-[10px] font-sans uppercase tracking-[0.15em] text-muted">Átvétel helye</label>
                   <Select value={pickup} onValueChange={setPickup}>
                     <SelectTrigger id="pickup-select">
                       <SelectValue />
@@ -319,7 +315,7 @@ export function CarDetailClient({
                   <div className="flex items-start gap-2 rounded-md border border-danger/30 bg-danger/10 px-3 py-3">
                     <AlertTriangle className="h-4 w-4 text-danger shrink-0 mt-0.5" />
                     <p className="font-sans text-xs text-danger">
-                      Not available for these dates. Try different dates or message us on WhatsApp.
+                      Ezekre a napokra nem elérhető. Válasszon másik időpontot, vagy írjon nekünk.
                     </p>
                   </div>
                 )}
@@ -341,7 +337,7 @@ export function CarDetailClient({
                     onClick={() => setDrawerOpen(true)}
                     disabled={checking}
                   >
-                    {checking ? 'Checking...' : 'Request This Car'}
+                    {checking ? 'Ellenőrzés...' : 'Foglalom ezt az autót'}
                   </Button>
                   <a
                     href={whatsappHref}
@@ -359,7 +355,7 @@ export function CarDetailClient({
                 </div>
 
                 <p className="text-center text-[11px] font-sans text-muted">
-                  We confirm reservations personally. Payment in person at pickup.
+                  A foglalásokat személyesen visszaigazoljuk. Fizetés átvételkor.
                 </p>
               </div>
             </div>

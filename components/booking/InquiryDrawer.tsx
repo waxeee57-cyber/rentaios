@@ -19,6 +19,7 @@ import { CostBreakdown } from './CostBreakdown'
 import { formatDate, formatPriceDecimals, TZ } from '@/lib/formatters'
 import { buildWhatsAppLink } from '@/lib/whatsapp'
 import { cn } from '@/lib/utils'
+import { PICKUP_LOCATIONS } from '@/lib/locations'
 
 const PICKUP_TIMES = Array.from({ length: 29 }, (_, i) => {
   const hour = Math.floor(i / 2) + 8
@@ -27,29 +28,23 @@ const PICKUP_TIMES = Array.from({ length: 29 }, (_, i) => {
 })
 
 const COUNTRIES = [
-  'United Kingdom', 'Germany', 'Spain', 'Norway', 'Sweden', 'Denmark', 'Finland',
-  'Netherlands', 'France', 'Italy', 'United Arab Emirates', 'Saudi Arabia',
-  'Qatar', 'United States', 'Other',
-]
-
-const PICKUP_LOCATIONS = [
-  'Alicante', 'Almeria', 'Marbella', 'Puerto Banús', 'Málaga Airport', 'Estepona',
-  'San Juan de los Terreros',
+  'Magyarország', 'Románia', 'Szerbia', 'Szlovákia', 'Ausztria', 'Németország',
+  'Horvátország', 'Szlovénia', 'Ukrajna', 'Egyéb',
 ]
 
 const schema = z.object({
-  full_name:          z.string().min(2, 'Full name required'),
-  email:              z.string().email('Valid email required'),
-  phone:              z.string().min(5, 'Phone number required'),
-  country:            z.string().min(1, 'Country required'),
-  pickup_location:    z.string().min(1, 'Pickup location required'),
-  pickup_time:        z.string().min(1, 'Pickup time required'),
+  full_name:          z.string().min(2, 'Név megadása kötelező'),
+  email:              z.string().email('Érvényes e-mail szükséges'),
+  phone:              z.string().min(5, 'Telefonszám megadása kötelező'),
+  country:            z.string().min(1, 'Ország megadása kötelező'),
+  pickup_location:    z.string().min(1, 'Átvételi hely megadása kötelező'),
+  pickup_time:        z.string().min(1, 'Időpont megadása kötelező'),
   message:            z.string().optional(),
   transfer_requested: z.boolean(),
   transfer_address:   z.string().optional(),
 }).refine(
   (d) => !d.transfer_requested || (d.transfer_address ?? '').trim().length > 0,
-  { message: 'Delivery address required', path: ['transfer_address'] }
+  { message: 'Kiszállítási cím megadása kötelező', path: ['transfer_address'] }
 )
 
 type FormData = z.infer<typeof schema>
@@ -145,7 +140,7 @@ export function InquiryDrawer({
 
   const onSubmit = async (data: FormData) => {
     if (!drawerStart || !drawerEnd || drawerDays <= 0) {
-      setErrorMsg('Please select pickup and return dates.')
+      setErrorMsg('Kérjük, válassza ki az átvétel és a visszahozás dátumát.')
       return
     }
 
@@ -168,7 +163,7 @@ export function InquiryDrawer({
 
       if (!res.ok) {
         setErrorCount((c) => c + 1)
-        setErrorMsg(json.error ?? 'Something went wrong. Please try again.')
+        setErrorMsg(json.error ?? 'Hiba történt. Kérjük, próbálja újra.')
         setSubmitting(false)
         return
       }
@@ -177,7 +172,7 @@ export function InquiryDrawer({
       router.push(`/booking/${json.booking_code}?email=${encodeURIComponent(data.email)}`)
     } catch {
       setErrorCount((c) => c + 1)
-      setErrorMsg('Connection error. Please try again.')
+      setErrorMsg('Kapcsolati hiba. Kérjük, próbálja újra.')
       setSubmitting(false)
     }
   }
@@ -185,10 +180,10 @@ export function InquiryDrawer({
   if (!open) return null
 
   const headerSubtitle = drawerStart && drawerEnd
-    ? `${formatDate(drawerStart)} → ${formatDate(drawerEnd)} · ${transferRequested ? 'Custom delivery' : pickupLocation}`
-    : `Select your dates · ${transferRequested ? 'Custom delivery' : pickupLocation}`
+    ? `${formatDate(drawerStart)} → ${formatDate(drawerEnd)} · ${transferRequested ? 'Egyedi kiszállítás' : pickupLocation}`
+    : `Válasszon dátumot · ${transferRequested ? 'Egyedi kiszállítás' : pickupLocation}`
 
-  const waMessage = `Hi, I'd like to request the ${car.brand} ${car.model}${drawerStart ? ` from ${formatDate(drawerStart)} to ${drawerEnd ? formatDate(drawerEnd) : '...'}` : ''}.`
+  const waMessage = `Üdv, szeretném igényelni a(z) ${car.brand} ${car.model} autót${drawerStart ? `, ${formatDate(drawerStart)} – ${drawerEnd ? formatDate(drawerEnd) : '...'}` : ''}.`
 
   return (
     <>
@@ -212,7 +207,7 @@ export function InquiryDrawer({
         <div className="flex items-center justify-between border-b border-border px-6 py-5 shrink-0">
           <div>
             <h2 id="inquiry-drawer-title" className="font-display text-xl font-medium text-white">
-              Request {car.brand} {car.model}
+              Foglalás: {car.brand} {car.model}
             </h2>
             <p className="mt-0.5 font-sans text-xs text-muted">
               {headerSubtitle}
@@ -233,12 +228,12 @@ export function InquiryDrawer({
 
           {/* Date selection — mobile: native inputs, desktop: calendar picker */}
           <div className="space-y-2">
-            <p className="text-[10px] font-sans uppercase tracking-[0.15em] text-muted">Dates</p>
+            <p className="text-[10px] font-sans uppercase tracking-[0.15em] text-muted">Időpont</p>
 
             {/* Mobile */}
             <div className="md:hidden space-y-3">
               <div className="space-y-1.5">
-                <Label htmlFor="start-date-mobile">Pick-up date</Label>
+                <Label htmlFor="start-date-mobile">Átvétel dátuma</Label>
                 <input
                   id="start-date-mobile"
                   type="date"
@@ -252,7 +247,7 @@ export function InquiryDrawer({
                 />
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="end-date-mobile">Return date</Label>
+                <Label htmlFor="end-date-mobile">Visszahozás dátuma</Label>
                 <input
                   id="end-date-mobile"
                   type="date"
@@ -272,7 +267,7 @@ export function InquiryDrawer({
               </div>
               {drawerStart && drawerEnd && drawerDays > 0 && (
                 <p className="text-xs font-sans text-gold">
-                  {drawerDays} day{drawerDays !== 1 ? 's' : ''} · {formatPriceDecimals(drawerDays * car.daily_price_eur)} estimated total
+                  {drawerDays} nap · {formatPriceDecimals(drawerDays * car.daily_price_eur)} becsült összesen
                 </p>
               )}
             </div>
@@ -289,7 +284,7 @@ export function InquiryDrawer({
 
           {/* Cost reference */}
           <div className="space-y-2">
-            <p className="text-[10px] font-sans uppercase tracking-[0.15em] text-muted">Cost reference</p>
+            <p className="text-[10px] font-sans uppercase tracking-[0.15em] text-muted">Árajánlat</p>
             {drawerDays > 0 ? (
               <CostBreakdown
                 dailyRate={car.daily_price_eur}
@@ -299,7 +294,7 @@ export function InquiryDrawer({
               />
             ) : (
               <div className="rounded-md border border-border bg-black/40 px-4 py-3">
-                <p className="font-sans text-sm text-muted">Select dates to see price estimate</p>
+                <p className="font-sans text-sm text-muted">Válasszon dátumot az ár megtekintéséhez</p>
               </div>
             )}
           </div>
@@ -307,10 +302,10 @@ export function InquiryDrawer({
           {/* Form */}
           <form id="inquiry-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-1.5">
-              <Label htmlFor="full_name">Full name</Label>
+              <Label htmlFor="full_name">Teljes név</Label>
               <Input
                 id="full_name"
-                placeholder="As on your passport"
+                placeholder="A személyi okmány szerint"
                 {...register('full_name')}
               />
               {errors.full_name && (
@@ -332,11 +327,11 @@ export function InquiryDrawer({
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="phone">Phone (with country code)</Label>
+              <Label htmlFor="phone">Telefon (országkóddal)</Label>
               <Input
                 id="phone"
                 type="tel"
-                placeholder="+44 7700 000000"
+                placeholder="+36 30 123 4567"
                 {...register('phone')}
               />
               {errors.phone && (
@@ -345,14 +340,14 @@ export function InquiryDrawer({
             </div>
 
             <div className="space-y-1.5">
-              <Label>Country of residence</Label>
+              <Label>Lakóhely országa</Label>
               <Controller
                 name="country"
                 control={control}
                 render={({ field }) => (
                   <Select value={field.value ?? ''} onValueChange={field.onChange}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select country" />
+                      <SelectValue placeholder="Válasszon országot" />
                     </SelectTrigger>
                     <SelectContent>
                       {COUNTRIES.map((c) => (
@@ -370,7 +365,7 @@ export function InquiryDrawer({
             {/* Pickup location — hidden when transfer is on */}
             {!transferRequested && (
               <div className="space-y-1.5">
-                <Label>Pickup location</Label>
+                <Label>Átvétel helye</Label>
                 <Controller
                   name="pickup_location"
                   control={control}
@@ -379,7 +374,7 @@ export function InquiryDrawer({
                       <SelectTrigger>
                         <span className="flex items-center gap-2">
                           <MapPin className="h-4 w-4 text-gold shrink-0" />
-                          <SelectValue placeholder="Select location" />
+                          <SelectValue placeholder="Válasszon helyet" />
                         </span>
                       </SelectTrigger>
                       <SelectContent>
@@ -404,10 +399,10 @@ export function InquiryDrawer({
                 render={({ field }) => (
                   <label className="flex items-center justify-between cursor-pointer select-none gap-4">
                     <div>
-                      <p className="font-sans text-sm text-white">Deliver to a custom address</p>
+                      <p className="font-sans text-sm text-white">Kiszállítás megadott címre</p>
                       <p className="font-sans text-xs text-muted mt-0.5">
-                        An additional transfer fee applies. We will confirm the amount before your
-                        reservation is finalised.
+                        Kiszállítási díj kerülhet felszámításra. A pontos összeget a foglalás
+                        véglegesítése előtt visszaigazoljuk.
                       </p>
                     </div>
                     <button
@@ -434,7 +429,7 @@ export function InquiryDrawer({
               {transferRequested && (
                 <div className="space-y-1.5">
                   <Input
-                    placeholder="Enter full delivery address (hotel name, villa, area...)"
+                    placeholder="Adja meg a pontos kiszállítási címet"
                     {...register('transfer_address')}
                   />
                   {errors.transfer_address && (
@@ -445,14 +440,14 @@ export function InquiryDrawer({
             </div>
 
             <div className="space-y-1.5">
-              <Label>Preferred pickup time (Marbella / Madrid time)</Label>
+              <Label>Átvétel időpontja</Label>
               <Controller
                 name="pickup_time"
                 control={control}
                 render={({ field }) => (
                   <Select value={field.value ?? ''} onValueChange={field.onChange}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select time" />
+                      <SelectValue placeholder="Válasszon időpontot" />
                     </SelectTrigger>
                     <SelectContent>
                       {PICKUP_TIMES.map((t) => (
@@ -468,10 +463,10 @@ export function InquiryDrawer({
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="message">Anything we should know? (optional)</Label>
+              <Label htmlFor="message">Egyéb megjegyzés (nem kötelező)</Label>
               <Textarea
                 id="message"
-                placeholder="Special requests, questions, preferred contact method..."
+                placeholder="Különleges kérések, kérdések, preferált elérhetőség..."
                 {...register('message')}
               />
             </div>
@@ -492,7 +487,7 @@ export function InquiryDrawer({
               className="flex items-center gap-2 text-xs font-sans text-whatsapp"
             >
               <MessageCircle className="h-4 w-4" />
-              Having trouble? Message us on WhatsApp
+              Nem sikerült? Írjon nekünk WhatsApp-on
             </a>
           )}
 
@@ -502,11 +497,11 @@ export function InquiryDrawer({
             className="w-full"
             disabled={submitting}
           >
-            {submitting ? 'Sending...' : 'Send Request'}
+            {submitting ? 'Küldés...' : 'Foglalás elküldése'}
           </Button>
 
           <p className="text-center text-[11px] font-sans text-muted">
-            We confirm reservations personally. Payment in person at pickup.
+            A foglalásokat személyesen visszaigazoljuk. Fizetés átvételkor.
           </p>
         </div>
       </div>

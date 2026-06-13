@@ -29,31 +29,31 @@ interface BookingData {
 }
 
 const STATUS_HEADLINES: Record<BookingStatus, (data: BookingData) => string> = {
-  inquiry:   () => 'We have your request. The owner will be in touch shortly to confirm.',
+  inquiry:   () => 'Megkaptuk a foglalási igényét. Hamarosan felvesszük Önnel a kapcsolatot a visszaigazoláshoz.',
   confirmed: (d) => {
     const now = new Date()
     const pickup = new Date(d.start_at)
     const daysUntil = Math.ceil((pickup.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
-    return daysUntil > 0 ? `Your reservation is confirmed. Pickup in ${daysUntil} day${daysUntil !== 1 ? 's' : ''}.` : 'Your reservation is confirmed. Pickup today.'
+    return daysUntil > 0 ? `A foglalása visszaigazolva. Átvétel ${daysUntil} nap múlva.` : 'A foglalása visszaigazolva. Átvétel ma.'
   },
-  picked_up: () => "You're on the road. Enjoy the coast.",
-  returned:  () => 'Vehicle returned. Finalising paperwork.',
-  completed: () => 'Thank you for your reservation. We would love to see you again.',
-  cancelled: () => 'This reservation has been cancelled.',
+  picked_up: () => 'Jó utat kívánunk!',
+  returned:  () => 'Az autót visszahozta. A papírmunka véglegesítése folyamatban.',
+  completed: () => 'Köszönjük a foglalását. Reméljük, hamarosan újra látjuk!',
+  cancelled: () => 'Ezt a foglalást lemondták.',
 }
 
 function NextStepsPanel({ status, booking }: { status: BookingStatus; booking: BookingData }) {
   if (status === 'inquiry') {
     return (
       <div className="rounded-md border border-border bg-graphite p-5 space-y-3">
-        <p className="text-[10px] font-sans uppercase tracking-[0.2em] text-gold">What happens next</p>
+        <p className="text-[10px] font-sans uppercase tracking-[0.2em] text-gold">Mi a következő lépés</p>
         <ol className="space-y-2">
           {[
-            { text: "We'll WhatsApp or email you to confirm", active: true },
-            { text: "At pickup: bring driver's license + passport" },
-            { text: "At pickup: payment in person (card or bank transfer)" },
-            { text: "We hold your refundable deposit" },
-            { text: "Drive away" },
+            { text: 'WhatsApp-on vagy e-mailben visszaigazoljuk', active: true },
+            { text: 'Átvételkor: hozza a jogosítványát és személyi okmányát' },
+            { text: 'Átvételkor: fizetés személyesen (kártya vagy átutalás)' },
+            { text: 'A visszajáró kauciót zároljuk' },
+            { text: 'Indulhat is' },
           ].map(({ text, active }, i) => (
             <li key={i} className={`flex gap-3 font-sans text-sm ${active ? 'text-white font-medium' : 'text-muted'}`}>
               <span className="font-medium text-gold shrink-0">{i + 1}.</span>
@@ -68,14 +68,14 @@ function NextStepsPanel({ status, booking }: { status: BookingStatus; booking: B
   if (status === 'confirmed') {
     return (
       <div className="rounded-md border border-border bg-graphite p-5 space-y-3">
-        <p className="text-[10px] font-sans uppercase tracking-[0.2em] text-gold">What happens next</p>
+        <p className="text-[10px] font-sans uppercase tracking-[0.2em] text-gold">Mi a következő lépés</p>
         <ol className="space-y-2">
           {[
-            { text: "We'll WhatsApp or email you to confirm" },
-            { text: `At pickup ${formatDate(booking.start_at)}: bring driver's license + passport`, active: true },
-            { text: "At pickup: payment in person (card or bank transfer)", active: true },
-            { text: "We hold your refundable deposit" },
-            { text: "Drive away" },
+            { text: 'WhatsApp-on vagy e-mailben visszaigazoljuk' },
+            { text: `Átvételkor (${formatDate(booking.start_at)}): hozza a jogosítványát és személyi okmányát`, active: true },
+            { text: 'Átvételkor: fizetés személyesen (kártya vagy átutalás)', active: true },
+            { text: 'A visszajáró kauciót zároljuk' },
+            { text: 'Indulhat is' },
           ].map(({ text, active }, i) => (
             <li key={i} className={`flex gap-3 font-sans text-sm ${active ? 'text-white font-medium' : 'text-muted'}`}>
               <span className="font-medium text-gold shrink-0">{i + 1}.</span>
@@ -91,8 +91,8 @@ function NextStepsPanel({ status, booking }: { status: BookingStatus; booking: B
     return (
       <div className="rounded-md border border-border bg-graphite p-5">
         <p className="font-sans text-sm text-muted">
-          Currently active until {formatDate(booking.end_at)}.{' '}
-          Need to extend? WhatsApp us.
+          A bérlés {formatDate(booking.end_at)}-ig tart.{' '}
+          Hosszabbítana? Írjon nekünk WhatsApp-on.
         </p>
       </div>
     )
@@ -102,7 +102,7 @@ function NextStepsPanel({ status, booking }: { status: BookingStatus; booking: B
     return (
       <div className="rounded-md border border-border bg-graphite p-5">
         <p className="font-sans text-sm text-muted">
-          The owner is reviewing the return. You will receive a final confirmation shortly.
+          Ellenőrizzük a visszahozott autót. Hamarosan végső visszaigazolást kap.
         </p>
       </div>
     )
@@ -135,12 +135,12 @@ export function BookingStatusClient({ code, emailParam }: BookingStatusClientPro
             setBooking(data)
             setAuthenticated(true)
           } else {
-            setError(data.error ?? 'Could not load booking.')
+            setError(data.error ?? 'A foglalás nem tölthető be.')
           }
           setLoading(false)
         })
         .catch(() => {
-          setError('Connection error.')
+          setError('Kapcsolati hiba.')
           setLoading(false)
         })
     }
@@ -148,7 +148,7 @@ export function BookingStatusClient({ code, emailParam }: BookingStatusClientPro
 
   if (loading) {
     return <div className="min-h-screen bg-black flex items-center justify-center">
-      <div className="font-sans text-sm text-muted">Loading...</div>
+      <div className="font-sans text-sm text-muted">Betöltés...</div>
     </div>
   }
 
@@ -159,7 +159,7 @@ export function BookingStatusClient({ code, emailParam }: BookingStatusClientPro
           {error && <p className="mb-4 text-xs font-sans text-danger">{error}</p>}
           <CodeEmailLookup
             initialCode={code}
-            title="Verify your booking"
+            title="Foglalás ellenőrzése"
           />
         </div>
       </div>
@@ -188,7 +188,7 @@ export function BookingStatusClient({ code, emailParam }: BookingStatusClientPro
 
             {/* Trip details */}
             <div className="space-y-4">
-              <p className="text-[10px] font-sans uppercase tracking-[0.2em] text-gold">Trip details</p>
+              <p className="text-[10px] font-sans uppercase tracking-[0.2em] text-gold">Foglalás részletei</p>
               <div className="rounded-md border border-border bg-graphite p-5 space-y-3">
                 {booking.car && (
                   <div className="flex items-center gap-3 pb-3 border-b border-border">
@@ -213,35 +213,35 @@ export function BookingStatusClient({ code, emailParam }: BookingStatusClientPro
                 )}
                 <div className="grid grid-cols-2 gap-3 text-sm font-sans">
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-muted mb-0.5">Dates</p>
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-muted mb-0.5">Időpont</p>
                     <p className="text-white">{formatDateRange(booking.start_at, booking.end_at)}</p>
                   </div>
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-muted mb-0.5">Pickup</p>
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-muted mb-0.5">Átvétel</p>
                     <p className="text-white">{booking.pickup_location}</p>
                     {booking.transfer_requested && booking.transfer_address && (
                       <p className="text-xs text-muted mt-0.5">{booking.transfer_address}</p>
                     )}
                   </div>
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-muted mb-0.5">Duration</p>
-                    <p className="text-white">{booking.days} day{booking.days !== 1 ? 's' : ''}</p>
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-muted mb-0.5">Időtartam</p>
+                    <p className="text-white">{booking.days} nap</p>
                   </div>
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-muted mb-0.5">Estimated total</p>
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-muted mb-0.5">Becsült összeg</p>
                     <p className="text-gold tabular-nums">{formatPriceDecimals(booking.total_eur)}</p>
                   </div>
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-muted mb-0.5">Deposit at pickup</p>
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-muted mb-0.5">Kaució átvételkor</p>
                     <p className="text-white tabular-nums">{formatPriceDecimals(booking.deposit_eur)}</p>
                   </div>
                   {booking.transfer_requested && (
                     <div>
-                      <p className="text-[10px] uppercase tracking-[0.15em] text-muted mb-0.5">Custom delivery fee</p>
+                      <p className="text-[10px] uppercase tracking-[0.15em] text-muted mb-0.5">Kiszállítási díj</p>
                       <p className="text-white tabular-nums">
                         {booking.transfer_fee_eur != null
                           ? formatPriceDecimals(booking.transfer_fee_eur)
-                          : 'To be confirmed'}
+                          : 'Visszaigazolás után'}
                       </p>
                     </div>
                   )}
@@ -254,7 +254,7 @@ export function BookingStatusClient({ code, emailParam }: BookingStatusClientPro
           <div className="space-y-4">
             {/* Booking code */}
             <div className="rounded-md border border-border bg-graphite p-5 text-center">
-              <p className="text-[10px] font-sans uppercase tracking-[0.2em] text-muted mb-2">Booking code</p>
+              <p className="text-[10px] font-sans uppercase tracking-[0.2em] text-muted mb-2">Foglalási kód</p>
               <p className="font-sans text-2xl font-medium text-white tracking-widest">{booking.booking_code}</p>
             </div>
 
@@ -266,12 +266,12 @@ export function BookingStatusClient({ code, emailParam }: BookingStatusClientPro
               className="flex items-center justify-center gap-2 w-full h-12 rounded-md bg-whatsapp text-white text-sm font-sans font-medium hover:opacity-90 transition-opacity"
             >
               <MessageCircle className="h-4 w-4 fill-white stroke-none" />
-              WhatsApp Us
+              Írjon nekünk
             </a>
 
             {booking.status !== 'cancelled' && booking.status !== 'completed' && (
               <p className="text-center text-[11px] font-sans text-muted">
-                Reference your booking code {booking.booking_code} in any message.
+                Hivatkozzon a foglalási kódjára ({booking.booking_code}) minden üzenetben.
               </p>
             )}
           </div>

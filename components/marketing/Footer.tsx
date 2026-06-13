@@ -3,18 +3,15 @@ import { Logo } from '@/components/brand/Logo'
 import { getBusinessConfig } from '@/lib/config'
 
 const nav = [
-  { href: '/pricing', label: 'Pricing' },
-  { href: '/demo', label: 'Demo' },
-  { href: '/faq', label: 'FAQ' },
-  { href: '/about', label: 'About' },
+  { href: '/fleet', label: 'Autóink' },
 ]
 
 const legal = [
-  { href: '/terms', label: 'Terms' },
-  { href: '/privacy', label: 'Privacy' },
-  { href: '/cookies', label: 'Cookies' },
-  { href: '/insurance', label: 'Insurance' },
-  { href: '/cancellation', label: 'Cancellation' },
+  { href: '/terms', label: 'ÁSZF' },
+  { href: '/privacy', label: 'Adatkezelés' },
+  { href: '/cookies', label: 'Sütik' },
+  { href: '/insurance', label: 'Biztosítás' },
+  { href: '/cancellation', label: 'Lemondás' },
 ]
 
 export async function Footer() {
@@ -25,7 +22,7 @@ export async function Footer() {
   const isOwnSite = siteUrl.includes('domrol.com') || businessName === '' || businessName === 'RentalOS'
   const showPoweredBy = !isOwnSite && config.show_powered_by !== false
   const displayEmail = process.env.ADMIN_EMAIL || config.business_email
-  const tagline = process.env.NEXT_PUBLIC_BUSINESS_TAGLINE || 'Your rental business, automated.'
+  const tagline = process.env.NEXT_PUBLIC_BUSINESS_TAGLINE || config.tagline || 'Megbízható autóbérlés.'
   const safeConfigName = (config.business_name && !config.business_name.includes('http') && !config.business_name.includes('.') && config.business_name.length <= 30) ? config.business_name : 'RentalOS'
 
   return (
@@ -40,7 +37,7 @@ export async function Footer() {
           </div>
 
           <div className="flex flex-col gap-3">
-            <p className="text-xs font-sans uppercase tracking-[0.15em] text-gold">Navigate</p>
+            <p className="text-xs font-sans uppercase tracking-[0.15em] text-gold">Menü</p>
             {nav.map((l) => (
               <Link
                 key={l.href}
@@ -53,27 +50,31 @@ export async function Footer() {
           </div>
 
           <div className="flex flex-col gap-3">
-            <p className="text-xs font-sans uppercase tracking-[0.15em] text-gold">Developers</p>
-            <Link href="/sell" className="text-sm font-sans text-muted hover:text-white transition-colors">
-              Source code →
-            </Link>
-          </div>
-
-          <div className="flex flex-col gap-3">
-            <p className="text-xs font-sans uppercase tracking-[0.15em] text-gold">Contact</p>
+            <p className="text-xs font-sans uppercase tracking-[0.15em] text-gold">Kapcsolat</p>
             <a
               href={`mailto:${displayEmail}`}
               className="text-sm font-sans text-muted hover:text-white transition-colors"
             >
               {displayEmail}
             </a>
+            {config.business_phone && (
+              <a
+                href={`tel:${config.business_phone.replace(/\s/g, '')}`}
+                className="text-sm font-sans text-muted hover:text-white transition-colors"
+              >
+                {config.business_phone}
+              </a>
+            )}
+            {config.business_address && (
+              <p className="max-w-xs text-sm font-sans text-muted">{config.business_address}</p>
+            )}
           </div>
         </div>
 
         <div className="mt-12 flex flex-col gap-4 border-t border-border pt-8 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="text-xs font-sans text-muted">
-              © {new Date().getFullYear()} {safeConfigName}. All rights reserved.
+              © {new Date().getFullYear()} {safeConfigName}. Minden jog fenntartva.
             </p>
             {showPoweredBy && (
               <a

@@ -9,12 +9,12 @@ import { DateRangePicker } from '@/components/booking/DateRangePicker'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { PICKUP_LOCATIONS } from '@/lib/locations'
 
-const PICKUP_LOCATIONS = [
-  'Alicante', 'Almeria', 'Marbella', 'Puerto Banús', 'Málaga Airport', 'Estepona',
-  'San Juan de los Terreros',
+const CATEGORIES: Array<{ value: string; label: string }> = [
+  { value: 'sedan', label: 'Személyautó' },
+  { value: 'suv', label: 'Egyterű / furgon' },
 ]
-const CATEGORIES = ['sport', 'suv', 'sedan', 'convertible', 'luxury']
 
 interface FleetFiltersProps {
   initialStart?: string
@@ -57,20 +57,20 @@ export function FleetFilters({ initialStart, initialEnd, initialPickup, initialC
       <div className="order-first md:order-last flex gap-2 overflow-x-auto pb-0.5 scrollbar-none md:flex-wrap">
         {CATEGORIES.map((c) => (
           <button
-            key={c}
+            key={c.value}
             onClick={() => {
-              const next = category === c ? '' : c
+              const next = category === c.value ? '' : c.value
               setCategory(next)
               apply({ category: next })
             }}
             className={cn(
               'rounded-sm border px-3 py-1.5 text-[10px] font-sans uppercase tracking-[0.15em] transition-colors',
-              category === c
+              category === c.value
                 ? 'border-gold text-gold'
                 : 'border-border text-muted hover:border-gold/50 hover:text-gray-900'
             )}
           >
-            {c}
+            {c.label}
           </button>
         ))}
         {(range || pickup || category) && (
@@ -83,7 +83,7 @@ export function FleetFilters({ initialStart, initialEnd, initialPickup, initialC
             }}
             className="text-[10px] font-sans text-muted hover:text-white underline-offset-2 hover:underline"
           >
-            Clear
+            Törlés
           </button>
         )}
       </div>
@@ -97,7 +97,7 @@ export function FleetFilters({ initialStart, initialEnd, initialPickup, initialC
               setRange(r)
               if (r?.from && r?.to) apply({ range: r })
             }}
-            placeholder="Any dates"
+            placeholder="Bármely dátum"
             maxDays={14}
           />
         </div>
@@ -108,11 +108,11 @@ export function FleetFilters({ initialStart, initialEnd, initialPickup, initialC
             <SelectTrigger>
               <span className="flex items-center gap-2">
                 <MapPin className="h-3.5 w-3.5 text-gold shrink-0" />
-                <SelectValue placeholder="Any location" />
+                <SelectValue placeholder="Bármely átvételi hely" />
               </span>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Any location</SelectItem>
+              <SelectItem value="all">Bármely átvételi hely</SelectItem>
               {PICKUP_LOCATIONS.map((l) => <SelectItem key={l} value={l}>{l}</SelectItem>)}
             </SelectContent>
           </Select>

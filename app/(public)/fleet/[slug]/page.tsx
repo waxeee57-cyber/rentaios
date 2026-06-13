@@ -39,15 +39,15 @@ export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params
   const car = await getCar(slug)
   if (!car) return {}
-  const title = `${car.brand} ${car.model} Rental Marbella & Costa del Sol`
+  const title = `${car.brand} ${car.model} bérlés Szegeden`
   const description = car.description
     ? car.description.slice(0, 155)
-    : `Hire a ${car.brand} ${car.model} (${car.year}) on the Costa del Sol. Hotel delivery, comprehensive insurance included. Personally confirmed reservation.`
+    : `${car.brand} ${car.model} (${car.year}) bérlése Szegeden. Belföldi autópályadíj az árban, teljes körű biztosítással, személyes visszaigazolással.`
   return {
     title,
     description,
     openGraph: {
-      title: `${car.brand} ${car.model} — Car Rental`,
+      title: `${car.brand} ${car.model} — Autóbérlés Szeged`,
       description,
       ...(car.photos?.[0]?.url && {
         images: [{ url: car.photos[0].url, width: 1200, height: 800, alt: `${car.brand} ${car.model}` }],
@@ -72,13 +72,13 @@ export default async function CarDetailPage({ params, searchParams }: PageProps)
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: `${car.brand} ${car.model} ${car.year}`,
-    description: car.description ?? `${car.brand} ${car.model} car rental in Marbella and the Costa del Sol`,
+    description: car.description ?? `${car.brand} ${car.model} autóbérlés Szegeden`,
     ...(car.photos?.[0]?.url && { image: car.photos[0].url }),
     brand: { '@type': 'Brand', name: car.brand },
     offers: {
       '@type': 'Offer',
       price: car.daily_price_eur,
-      priceCurrency: 'EUR',
+      priceCurrency: 'HUF',
       availability: 'https://schema.org/InStock',
       priceValidUntil: `${new Date().getFullYear() + 1}-12-31`,
       seller: { '@type': 'Organization', name: (() => { const n = process.env.NEXT_PUBLIC_BUSINESS_NAME ?? ''; return n && !n.startsWith('http') ? n : 'RentalOS' })() },

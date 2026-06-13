@@ -33,7 +33,7 @@ export function MobileStickyCTA({
           onClick={onReserve}
           disabled={!isAvailable}
         >
-          {isAvailable ? 'Reserve' : 'Unavailable'}
+          {isAvailable ? 'Foglalás' : 'Nem elérhető'}
         </Button>
         <a
           href={whatsappHref}
@@ -47,7 +47,7 @@ export function MobileStickyCTA({
       </div>
       {total && (
         <p className="px-4 pb-2 text-xs font-sans text-muted text-center -mt-1">
-          {formatPriceDecimals(total)} · {days} day{days !== 1 ? 's' : ''}
+          {formatPriceDecimals(total)} · {days} nap
         </p>
       )}
     </div>

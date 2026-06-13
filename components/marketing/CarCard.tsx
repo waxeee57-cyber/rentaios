@@ -89,22 +89,22 @@ export function CarCard({ car, startDate, endDate, pickupLocation, priority = fa
                     {formatPriceDecimals(total)}
                   </p>
                   <p className="font-sans text-xs text-muted mt-0.5">
-                    {days} day{days !== 1 ? 's' : ''}
+                    {days} nap
                   </p>
                 </>
               ) : (
                 <>
                   <p className="font-sans text-base font-medium text-gold">
-                    from {formatPrice(car.daily_price_eur)}
+                    {formatPrice(car.daily_price_eur)}
                   </p>
-                  <p className="font-sans text-xs text-muted mt-0.5">per day</p>
+                  <p className="font-sans text-xs text-muted mt-0.5">/ nap</p>
                 </>
               )}
             </div>
           </div>
 
           <p className="font-sans text-[11px] text-muted mt-2.5">
-            Includes insurance · Hotel delivery · No hidden fees
+            Biztosítással · Belföldi autópályadíj az árban · Rejtett költségek nélkül
           </p>
 
           {/* Specs */}
