@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200&q=80',
+        url: 'https://bnjnoofcyjldvygupvgp.supabase.co/storage/v1/object/public/vehicle-photos/ford-galaxy.jpg',
         width: 1200,
         height: 800,
         alt: BRAND,
