@@ -1,0 +1,204 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "Bérelj ki! — Home" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - text: Bérelj ki!
+      - navigation [ref=e6]:
+        - link "Autóink" [ref=e7] [cursor=pointer]:
+          - /url: /fleet
+        - button "Írjon nekünk" [ref=e8]
+        - link "Foglalás →" [ref=e9] [cursor=pointer]:
+          - /url: /fleet
+  - main [ref=e10]:
+    - generic [ref=e11]:
+      - generic [ref=e13]:
+        - paragraph [ref=e14]: Autóink
+        - heading "Autóink Szegeden" [level=1] [ref=e15]
+      - generic [ref=e18]:
+        - generic [ref=e19]:
+          - button "Személyautó" [ref=e20]
+          - button "Egyterű / furgon" [ref=e21]
+          - button "Törlés" [ref=e22]
+        - generic [ref=e23]:
+          - button "Bármely dátum" [ref=e25] [cursor=pointer]:
+            - generic [ref=e26]:
+              - img [ref=e27]
+              - text: Bármely dátum
+            - img [ref=e29]
+          - combobox [ref=e32]:
+            - generic [ref=e33]:
+              - img [ref=e34]
+              - text: Bármely átvételi hely
+            - img [ref=e37]
+      - generic [ref=e40]:
+        - link "Fiat Ducato furgon bérlés Szeged suv Fiat Ducato 2010 19 900 Ft / nap Biztosítással · Belföldi autópályadíj az árban · Rejtett költségek nélkül Manuális Dízel 7" [ref=e41] [cursor=pointer]:
+          - /url: /fleet/fiat-ducato
+          - generic [ref=e42]:
+            - generic [ref=e43]:
+              - img "Fiat Ducato furgon bérlés Szeged" [ref=e44]
+              - generic [ref=e46]: suv
+            - generic [ref=e47]:
+              - generic [ref=e48]:
+                - generic [ref=e49]:
+                  - heading "Fiat Ducato" [level=3] [ref=e50]
+                  - paragraph [ref=e51]: "2010"
+                - generic [ref=e52]:
+                  - paragraph [ref=e53]: 19 900 Ft
+                  - paragraph [ref=e54]: / nap
+              - paragraph [ref=e55]: Biztosítással · Belföldi autópályadíj az árban · Rejtett költségek nélkül
+              - generic [ref=e56]:
+                - generic [ref=e57]:
+                  - img [ref=e58]
+                  - text: Manuális
+                - generic [ref=e60]:
+                  - img [ref=e61]
+                  - text: Dízel
+                - generic [ref=e64]:
+                  - img [ref=e65]
+                  - text: "7"
+        - link "Opel Zafira 7 személyes bérlés Szeged suv Opel Zafira 2016 15 900 Ft / nap Biztosítással · Belföldi autópályadíj az árban · Rejtett költségek nélkül Manuális Dízel 7" [ref=e70] [cursor=pointer]:
+          - /url: /fleet/opel-zafira
+          - generic [ref=e71]:
+            - generic [ref=e72]:
+              - img "Opel Zafira 7 személyes bérlés Szeged" [ref=e73]
+              - generic [ref=e75]: suv
+            - generic [ref=e76]:
+              - generic [ref=e77]:
+                - generic [ref=e78]:
+                  - heading "Opel Zafira" [level=3] [ref=e79]
+                  - paragraph [ref=e80]: "2016"
+                - generic [ref=e81]:
+                  - paragraph [ref=e82]: 15 900 Ft
+                  - paragraph [ref=e83]: / nap
+              - paragraph [ref=e84]: Biztosítással · Belföldi autópályadíj az árban · Rejtett költségek nélkül
+              - generic [ref=e85]:
+                - generic [ref=e86]:
+                  - img [ref=e87]
+                  - text: Manuális
+                - generic [ref=e89]:
+                  - img [ref=e90]
+                  - text: Dízel
+                - generic [ref=e93]:
+                  - img [ref=e94]
+                  - text: "7"
+        - link "Ford Focus bérlés Szeged sedan Ford Focus 2018 13 900 Ft / nap Biztosítással · Belföldi autópályadíj az árban · Rejtett költségek nélkül Manuális Dízel 5" [ref=e99] [cursor=pointer]:
+          - /url: /fleet/ford-focus
+          - generic [ref=e100]:
+            - generic [ref=e101]:
+              - img "Ford Focus bérlés Szeged" [ref=e102]
+              - generic [ref=e104]: sedan
+            - generic [ref=e105]:
+              - generic [ref=e106]:
+                - generic [ref=e107]:
+                  - heading "Ford Focus" [level=3] [ref=e108]
+                  - paragraph [ref=e109]: "2018"
+                - generic [ref=e110]:
+                  - paragraph [ref=e111]: 13 900 Ft
+                  - paragraph [ref=e112]: / nap
+              - paragraph [ref=e113]: Biztosítással · Belföldi autópályadíj az árban · Rejtett költségek nélkül
+              - generic [ref=e114]:
+                - generic [ref=e115]:
+                  - img [ref=e116]
+                  - text: Manuális
+                - generic [ref=e118]:
+                  - img [ref=e119]
+                  - text: Dízel
+                - generic [ref=e122]:
+                  - img [ref=e123]
+                  - text: "5"
+        - link "Opel Astra bérlés Szeged sedan Opel Astra 2017 12 900 Ft / nap Biztosítással · Belföldi autópályadíj az árban · Rejtett költségek nélkül Manuális Dízel 5" [ref=e128] [cursor=pointer]:
+          - /url: /fleet/opel-astra
+          - generic [ref=e129]:
+            - generic [ref=e130]:
+              - img "Opel Astra bérlés Szeged" [ref=e131]
+              - generic [ref=e133]: sedan
+            - generic [ref=e134]:
+              - generic [ref=e135]:
+                - generic [ref=e136]:
+                  - heading "Opel Astra" [level=3] [ref=e137]
+                  - paragraph [ref=e138]: "2017"
+                - generic [ref=e139]:
+                  - paragraph [ref=e140]: 12 900 Ft
+                  - paragraph [ref=e141]: / nap
+              - paragraph [ref=e142]: Biztosítással · Belföldi autópályadíj az árban · Rejtett költségek nélkül
+              - generic [ref=e143]:
+                - generic [ref=e144]:
+                  - img [ref=e145]
+                  - text: Manuális
+                - generic [ref=e147]:
+                  - img [ref=e148]
+                  - text: Dízel
+                - generic [ref=e151]:
+                  - img [ref=e152]
+                  - text: "5"
+        - link "Opel Meriva bérlés Szeged suv Opel Meriva 2015 11 900 Ft / nap Biztosítással · Belföldi autópályadíj az árban · Rejtett költségek nélkül Manuális Benzin 5" [ref=e157] [cursor=pointer]:
+          - /url: /fleet/opel-meriva
+          - generic [ref=e158]:
+            - generic [ref=e159]:
+              - img "Opel Meriva bérlés Szeged" [ref=e160]
+              - generic [ref=e162]: suv
+            - generic [ref=e163]:
+              - generic [ref=e164]:
+                - generic [ref=e165]:
+                  - heading "Opel Meriva" [level=3] [ref=e166]
+                  - paragraph [ref=e167]: "2015"
+                - generic [ref=e168]:
+                  - paragraph [ref=e169]: 11 900 Ft
+                  - paragraph [ref=e170]: / nap
+              - paragraph [ref=e171]: Biztosítással · Belföldi autópályadíj az árban · Rejtett költségek nélkül
+              - generic [ref=e172]:
+                - generic [ref=e173]:
+                  - img [ref=e174]
+                  - text: Manuális
+                - generic [ref=e176]:
+                  - img [ref=e177]
+                  - text: Benzin
+                - generic [ref=e180]:
+                  - img [ref=e181]
+                  - text: "5"
+  - contentinfo [ref=e186]:
+    - generic [ref=e187]:
+      - generic [ref=e188]:
+        - generic [ref=e189]:
+          - link "Bérelj ki! — Home" [ref=e190] [cursor=pointer]:
+            - /url: /
+            - text: Bérelj ki!
+          - paragraph [ref=e191]: Megbízható autóbérlés Szegeden
+        - generic [ref=e192]:
+          - paragraph [ref=e193]: Menü
+          - link "Autóink" [ref=e194] [cursor=pointer]:
+            - /url: /fleet
+        - generic [ref=e195]:
+          - paragraph [ref=e196]: Kapcsolat
+          - link "bereljkiszeged@gmail.com" [ref=e197] [cursor=pointer]:
+            - /url: mailto:bereljkiszeged@gmail.com
+          - link "+36 70 616 5655" [ref=e198] [cursor=pointer]:
+            - /url: tel:+36706165655
+          - paragraph [ref=e199]: 6723 Szeged, Makkosházi körút 15.
+      - generic [ref=e200]:
+        - paragraph [ref=e202]: © 2026 Bérelj ki! Autókölcsönző. Minden jog fenntartva.
+        - generic [ref=e203]:
+          - link "ÁSZF" [ref=e204] [cursor=pointer]:
+            - /url: /terms
+          - link "Adatkezelés" [ref=e205] [cursor=pointer]:
+            - /url: /privacy
+          - link "Sütik" [ref=e206] [cursor=pointer]:
+            - /url: /cookies
+          - link "Biztosítás" [ref=e207] [cursor=pointer]:
+            - /url: /insurance
+          - link "Lemondás" [ref=e208] [cursor=pointer]:
+            - /url: /cancellation
+  - button "Open chat" [ref=e209]:
+    - img [ref=e211]
+  - generic [ref=e214]:
+    - paragraph [ref=e215]:
+      - text: We use essential cookies to keep the site working. No tracking or advertising cookies.
+      - link "Cookie policy" [ref=e216] [cursor=pointer]:
+        - /url: /cookies
+    - generic [ref=e217]:
+      - button "Reject" [ref=e218]
+      - button "Accept" [ref=e219]
+  - alert [ref=e220]

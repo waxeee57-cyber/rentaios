@@ -15,31 +15,34 @@ const onest = Onest({
   display: 'swap',
 })
 
+const _bn = (process.env.NEXT_PUBLIC_BUSINESS_NAME ?? '').trim()
+const BRAND = _bn && !_bn.includes('http') && _bn.length <= 40 ? _bn : 'RentalOS'
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://rentaios.vercel.app'),
   title: {
-    default: 'RentalOS — Rental Booking System',
-    template: '%s — RentalOS',
+    default: BRAND,
+    template: `%s — ${BRAND}`,
   },
   description:
-    'A complete rental booking system. Inquiry, confirm, pickup, return — all in one mobile-first admin panel. Built for car rental, yacht, villa, and motorcycle businesses.',
+    process.env.NEXT_PUBLIC_BUSINESS_TAGLINE ||
+    'Online autóbérlés gyors visszaigazolással.',
   keywords: [
-    'rental booking system',
-    'car rental booking software',
-    'nextjs rental saas',
-    'rental management software',
-    'rental booking template',
+    'autóbérlés',
+    'autókölcsönző',
+    'autóbérlés Szeged',
+    'online foglalás',
   ],
   openGraph: {
-    siteName: 'RentalOS',
-    locale: 'en_GB',
+    siteName: BRAND,
+    locale: 'hu_HU',
     type: 'website',
     images: [
       {
         url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200&q=80',
         width: 1200,
         height: 800,
-        alt: 'RentalOS — Rental Booking System',
+        alt: BRAND,
       },
     ],
   },

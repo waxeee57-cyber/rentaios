@@ -28,9 +28,9 @@ export function CookieBanner() {
          style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
       <div className="mx-auto flex max-w-5xl flex-col gap-3 px-6 py-4 md:flex-row md:items-center md:justify-between">
         <p className="font-sans text-xs leading-relaxed text-muted max-w-xl">
-          We use essential cookies to keep the site working. No tracking or advertising cookies.{' '}
+          Csak a működéshez szükséges sütiket használunk. Nincs nyomkövető vagy hirdetési süti.{' '}
           <Link href="/cookies" className="text-gold hover:underline underline-offset-4">
-            Cookie policy
+            Süti tájékoztató
           </Link>
         </p>
         <div className="flex gap-3 shrink-0">
@@ -38,13 +38,13 @@ export function CookieBanner() {
             onClick={reject}
             className="rounded-sm border border-border px-4 py-2 font-sans text-xs uppercase tracking-[0.12em] text-muted hover:text-white transition-colors"
           >
-            Reject
+            Elutasítom
           </button>
           <button
             onClick={accept}
             className="rounded-sm bg-gold px-4 py-2 font-sans text-xs uppercase tracking-[0.12em] text-black hover:bg-gold-hover transition-colors"
           >
-            Accept
+            Elfogadom
           </button>
         </div>
       </div>

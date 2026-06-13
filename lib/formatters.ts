@@ -1,6 +1,7 @@
 import { formatInTimeZone } from 'date-fns-tz'
+import { hu } from 'date-fns/locale'
 
-export const TZ = 'Europe/Madrid'
+export const TZ = 'Europe/Budapest'
 
 // Per-deploy white-label currency (matches the NEXT_PUBLIC_BUSINESS_* convention).
 // Defaults to EUR so existing deployments (e.g. CostaSol) are unaffected.
@@ -22,10 +23,10 @@ export const formatPriceDecimals = (amount: number, currency = DEFAULT_CURRENCY)
   }).format(amount)
 
 export const formatDate = (utc: string | Date) =>
-  formatInTimeZone(utc, TZ, 'd MMM yyyy')
+  formatInTimeZone(utc, TZ, 'yyyy. MMM d.', { locale: hu })
 
 export const formatDateTime = (utc: string | Date) =>
-  formatInTimeZone(utc, TZ, 'd MMM yyyy, HH:mm')
+  formatInTimeZone(utc, TZ, 'yyyy. MMM d. HH:mm', { locale: hu })
 
 export const formatTime = (utc: string | Date) =>
   formatInTimeZone(utc, TZ, 'HH:mm')
