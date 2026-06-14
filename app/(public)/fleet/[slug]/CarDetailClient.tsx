@@ -41,7 +41,10 @@ interface Car {
   description: string
   photos: Array<{ url: string; alt: string }>
   features: string[]
+  location_id?: string | null
 }
+
+interface LocationOption { id: string; name: string }
 
 interface CarDetailClientProps {
   car: Car
@@ -49,6 +52,9 @@ interface CarDetailClientProps {
   initialEnd?: string
   initialPickup?: string
   initialAvailable: boolean
+  multiLocation?: boolean
+  locations?: LocationOption[]
+  initialLocationId?: string
 }
 
 export function CarDetailClient({
@@ -57,8 +63,18 @@ export function CarDetailClient({
   initialEnd,
   initialPickup,
   initialAvailable,
+  multiLocation = false,
+  locations = [],
+  initialLocationId,
 }: CarDetailClientProps) {
   const router = useRouter()
+
+  const useLocations = multiLocation && locations.length > 0
+  const resolveInitialLocation = (): string => {
+    if (initialLocationId && locations.some((l) => l.id === initialLocationId)) return initialLocationId
+    if (car.location_id && locations.some((l) => l.id === car.location_id)) return car.location_id
+    return locations[0]?.id ?? ''
+  }
 
   const [range, setRange] = useState<DateRange | undefined>(
     initialStart && initialEnd
@@ -66,6 +82,10 @@ export function CarDetailClient({
       : undefined
   )
   const [pickup, setPickup] = useState(initialPickup ?? DEFAULT_PICKUP)
+  const [locationId, setLocationId] = useState(resolveInitialLocation())
+  const locationName = (id: string): string => locations.find((l) => l.id === id)?.name ?? ''
+  // The pickup label used for booking + WhatsApp: telephely name when multi-location, else the Szeged pickup spot.
+  const effectivePickup = useLocations ? locationName(locationId) : pickup
   const [photoIdx, setPhotoIdx] = useState(0)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [isAvailable, setIsAvailable] = useState(initialAvailable)
@@ -78,10 +98,11 @@ export function CarDetailClient({
   const startStr = range?.from ? format(range.from, 'yyyy-MM-dd') : ''
   const endStr = range?.to ? format(range.to, 'yyyy-MM-dd') : ''
 
-  const checkAvailability = useCallback(async (start: string, end: string) => {
+  const checkAvailability = useCallback(async (start: string, end: string, loc?: string) => {
     setChecking(true)
     try {
-      const res = await fetch(`/api/cars/${car.slug}/availability?start=${start}&end=${end}`)
+      const locParam = loc ? `&location=${encodeURIComponent(loc)}` : ''
+      const res = await fetch(`/api/cars/${car.slug}/availability?start=${start}&end=${end}${locParam}`)
       const data = await res.json()
       setIsAvailable(data.available)
     } catch {
@@ -96,8 +117,9 @@ export function CarDetailClient({
     if (r?.from && r?.to) {
       const s = format(r.from, 'yyyy-MM-dd')
       const e = format(r.to, 'yyyy-MM-dd')
-      checkAvailability(s, e)
+      checkAvailability(s, e, useLocations ? locationId : undefined)
       const params = new URLSearchParams({ start: s, end: e, pickup })
+      if (useLocations && locationId) params.set('location', locationId)
       router.replace(`/fleet/${car.slug}?${params.toString()}`, { scroll: false })
     }
   }
@@ -106,7 +128,7 @@ export function CarDetailClient({
     carLabel: `${car.brand} ${car.model} ${car.year}`,
     startDate: startStr,
     endDate: endStr,
-    pickupLocation: pickup,
+    pickupLocation: effectivePickup,
     totalFormatted: days > 0 ? formatPrice(car.daily_price_eur * days) : 'TBD',
   })
 
@@ -297,17 +319,30 @@ export function CarDetailClient({
                   />
                 </div>
 
-                {/* Location */}
+                {/* Location / telephely */}
                 <div className="space-y-1.5">
-                  <label htmlFor="pickup-select" className="text-[10px] font-sans uppercase tracking-[0.15em] text-muted">Átvétel helye</label>
-                  <Select value={pickup} onValueChange={setPickup}>
-                    <SelectTrigger id="pickup-select">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {PICKUP_LOCATIONS.map((l) => <SelectItem key={l} value={l}>{l}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
+                  <label htmlFor="pickup-select" className="text-[10px] font-sans uppercase tracking-[0.15em] text-muted">
+                    {useLocations ? 'Telephely' : 'Átvétel helye'}
+                  </label>
+                  {useLocations ? (
+                    <Select value={locationId} onValueChange={setLocationId}>
+                      <SelectTrigger id="pickup-select">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {locations.map((l) => <SelectItem key={l.id} value={l.id}>{l.name}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <Select value={pickup} onValueChange={setPickup}>
+                      <SelectTrigger id="pickup-select">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {PICKUP_LOCATIONS.map((l) => <SelectItem key={l} value={l}>{l}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                  )}
                 </div>
 
                 {/* Availability banner */}
@@ -388,7 +423,10 @@ export function CarDetailClient({
           startDate={startStr}
           endDate={endStr}
           days={days}
-          pickupLocation={pickup}
+          pickupLocation={effectivePickup}
+          multiLocation={useLocations}
+          locations={locations}
+          locationId={useLocations ? locationId : undefined}
         />
       )}
     </>

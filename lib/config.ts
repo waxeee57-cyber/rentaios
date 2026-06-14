@@ -35,6 +35,19 @@ export type BusinessConfig = {
   white_label_fee_paid: boolean
   featured_on_showcase: boolean
   showcase_vehicle_type: string | null
+  // Additive multi-location flag. Absent on un-migrated single-location tenants,
+  // so always compare strictly with `=== true` before using location features.
+  multi_location_enabled: boolean
+}
+
+export type Location = {
+  id: string
+  name: string
+  slug: string | null
+  address: string | null
+  city: string | null
+  is_active: boolean
+  sort_order: number
 }
 
 const _envName = process.env.NEXT_PUBLIC_BUSINESS_NAME ?? ''
@@ -74,6 +87,7 @@ export const DEFAULT_CONFIG: BusinessConfig = {
   white_label_fee_paid: false,
   featured_on_showcase: false,
   showcase_vehicle_type: null,
+  multi_location_enabled: false,
 }
 
 export const getBusinessConfig = unstable_cache(
@@ -91,4 +105,26 @@ export const getBusinessConfig = unstable_cache(
   },
   ['business-config'],
   { revalidate: 3600, tags: ['business-config'] }
+)
+
+// Active locations for the storefront picker. Resilient by design: returns []
+// if the `locations` table does not exist yet (un-migrated single-location tenant)
+// or on any error, so callers never break when multi-location is off.
+export const getActiveLocations = unstable_cache(
+  async (): Promise<Location[]> => {
+    try {
+      const { data, error } = await supabaseAdmin
+        .from('locations')
+        .select('id, name, slug, address, city, is_active, sort_order')
+        .eq('is_active', true)
+        .order('sort_order', { ascending: true })
+        .order('name', { ascending: true })
+      if (error || !data) return []
+      return data as Location[]
+    } catch {
+      return []
+    }
+  },
+  ['active-locations'],
+  { revalidate: 300, tags: ['active-locations'] }
 )

@@ -15,6 +15,7 @@ const createCarSchema = z.object({
   seats:           z.coerce.number().int().min(1).max(20).default(2),
   license_plate:   z.string().trim().max(20).optional().nullable(),
   description:     z.string().trim().max(5000).optional().nullable(),
+  location_id:     z.string().uuid().optional().nullable(),
 })
 
 export async function GET() {
@@ -40,7 +41,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid request', details: parsed.error.issues }, { status: 400 })
   }
 
-  const { brand, model, year, category, daily_price_eur, deposit_eur, transmission, fuel, seats, license_plate, description } = parsed.data
+  const { brand, model, year, category, daily_price_eur, deposit_eur, transmission, fuel, seats, license_plate, description, location_id } = parsed.data
 
   // Generate slug with collision check
   const base = `${brand}-${model}-${year}`
@@ -63,24 +64,29 @@ export async function POST(req: NextRequest) {
     if (attempt > 10) return NextResponse.json({ error: 'Slug collision' }, { status: 500 })
   }
 
+  const insertData: Record<string, unknown> = {
+    brand,
+    model,
+    year,
+    category,
+    daily_price_eur,
+    deposit_eur,
+    transmission,
+    fuel,
+    seats,
+    license_plate: license_plate ?? null,
+    description: description ?? null,
+    slug,
+    status: 'hidden',
+    photos: [],
+  }
+  // Additive: only reference location_id when one was chosen, so the insert is
+  // byte-identical (and works) on un-migrated single-location databases.
+  if (location_id) insertData.location_id = location_id
+
   const { data, error } = await supabaseAdmin
     .from('cars')
-    .insert({
-      brand,
-      model,
-      year,
-      category,
-      daily_price_eur,
-      deposit_eur,
-      transmission,
-      fuel,
-      seats,
-      license_plate: license_plate ?? null,
-      description: description ?? null,
-      slug,
-      status: 'hidden',
-      photos: [],
-    })
+    .insert(insertData)
     .select()
     .single()
 

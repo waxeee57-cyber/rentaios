@@ -22,11 +22,16 @@ interface FleetFiltersProps {
   initialEnd?: string
   initialPickup?: string
   initialCategory?: string
+  // Multi-location (additive): when provided, a telephely picker replaces the
+  // single-location pickup dropdown and drives the `location` filter param.
+  locations?: Array<{ id: string; name: string }>
+  initialLocation?: string
 }
 
-export function FleetFilters({ initialStart, initialEnd, initialPickup, initialCategory }: FleetFiltersProps) {
+export function FleetFilters({ initialStart, initialEnd, initialPickup, initialCategory, locations, initialLocation }: FleetFiltersProps) {
   const router = useRouter()
   const [, startTransition] = useTransition()
+  const multiLocation = !!(locations && locations.length > 0)
 
   const [range, setRange] = useState<DateRange | undefined>(
     initialStart && initialEnd
@@ -35,17 +40,20 @@ export function FleetFilters({ initialStart, initialEnd, initialPickup, initialC
   )
   const [pickup, setPickup] = useState(initialPickup || 'all')
   const [category, setCategory] = useState(initialCategory ?? '')
+  const [location, setLocation] = useState(initialLocation || 'all')
 
-  const apply = (overrides?: { range?: DateRange; pickup?: string; category?: string }) => {
+  const apply = (overrides?: { range?: DateRange; pickup?: string; category?: string; location?: string }) => {
     const r = overrides?.range !== undefined ? overrides.range : range
     const p = overrides?.pickup !== undefined ? overrides.pickup : pickup
     const c = overrides?.category !== undefined ? overrides.category : category
+    const loc = overrides?.location !== undefined ? overrides.location : location
 
     const params = new URLSearchParams()
     if (r?.from) params.set('start', format(r.from, 'yyyy-MM-dd'))
     if (r?.to) params.set('end', format(r.to, 'yyyy-MM-dd'))
     if (p && p !== 'all') params.set('pickup', p)
     if (c) params.set('category', c)
+    if (loc && loc !== 'all') params.set('location', loc)
 
     startTransition(() => {
       router.push(`/fleet?${params.toString()}`)
@@ -74,12 +82,13 @@ export function FleetFilters({ initialStart, initialEnd, initialPickup, initialC
             {c.label}
           </button>
         ))}
-        {(range || pickup || category) && (
+        {(range || pickup !== 'all' || category || location !== 'all') && (
           <button
             onClick={() => {
               setRange(undefined)
               setPickup('all')
               setCategory('')
+              setLocation('all')
               router.push('/fleet')
             }}
             className="text-[10px] font-sans text-muted hover:text-white underline-offset-2 hover:underline"
@@ -103,21 +112,38 @@ export function FleetFilters({ initialStart, initialEnd, initialPickup, initialC
           />
         </div>
 
-        {/* Location */}
-        <div className="w-40 md:w-48 shrink-0">
-          <Select value={pickup} onValueChange={(v) => { setPickup(v); apply({ pickup: v }) }}>
-            <SelectTrigger>
-              <span className="flex items-center gap-2">
-                <MapPin className="h-3.5 w-3.5 text-gold shrink-0" />
-                <SelectValue placeholder="Bármely átvételi hely" />
-              </span>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Bármely átvételi hely</SelectItem>
-              {PICKUP_LOCATIONS.map((l) => <SelectItem key={l} value={l}>{l}</SelectItem>)}
-            </SelectContent>
-          </Select>
-        </div>
+        {/* Location: telephely picker (multi-location) or single-location pickup dropdown */}
+        {multiLocation ? (
+          <div className="w-44 md:w-56 shrink-0">
+            <Select value={location} onValueChange={(v) => { setLocation(v); apply({ location: v }) }}>
+              <SelectTrigger>
+                <span className="flex items-center gap-2">
+                  <MapPin className="h-3.5 w-3.5 text-gold shrink-0" />
+                  <SelectValue placeholder="Összes telephely" />
+                </span>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Összes telephely</SelectItem>
+                {locations!.map((l) => <SelectItem key={l.id} value={l.id}>{l.name}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </div>
+        ) : (
+          <div className="w-40 md:w-48 shrink-0">
+            <Select value={pickup} onValueChange={(v) => { setPickup(v); apply({ pickup: v }) }}>
+              <SelectTrigger>
+                <span className="flex items-center gap-2">
+                  <MapPin className="h-3.5 w-3.5 text-gold shrink-0" />
+                  <SelectValue placeholder="Bármely átvételi hely" />
+                </span>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Bármely átvételi hely</SelectItem>
+                {PICKUP_LOCATIONS.map((l) => <SelectItem key={l} value={l}>{l}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
       </div>
     </div>
   )

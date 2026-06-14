@@ -3,6 +3,7 @@ export const revalidate = 60
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { supabaseAdmin } from '@/lib/supabase'
+import { getBusinessConfig, getActiveLocations, type Location } from '@/lib/config'
 import { FleetGrid } from '@/components/marketing/FleetGrid'
 import { FleetFilters } from '@/components/marketing/FleetFilters'
 
@@ -11,11 +12,13 @@ export const metadata: Metadata = {
   description: 'Böngéssze autóflottánkat Szegeden. Belföldi autópályadíj az árban, akár áfa nélkül.',
 }
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
 interface PageProps {
-  searchParams: Promise<{ start?: string; end?: string; pickup?: string; category?: string }>
+  searchParams: Promise<{ start?: string; end?: string; pickup?: string; category?: string; location?: string }>
 }
 
-async function getAvailableCars(startDate?: string, endDate?: string, category?: string) {
+async function getAvailableCars(startDate?: string, endDate?: string, category?: string, locationId?: string) {
   let query = supabaseAdmin
     .from('cars')
     .select('id, slug, brand, model, year, category, daily_price_eur, deposit_eur, transmission, fuel, seats, photos')
@@ -25,6 +28,12 @@ async function getAvailableCars(startDate?: string, endDate?: string, category?:
 
   if (category) {
     query = query.eq('category', category)
+  }
+
+  // Multi-location filter (only reached when the flag is ON, i.e. DB is migrated):
+  // show cars at the selected location OR with no location (available everywhere).
+  if (locationId && UUID_RE.test(locationId)) {
+    query = query.or(`location_id.eq.${locationId},location_id.is.null`)
   }
 
   const { data: allCars } = await query
@@ -70,8 +79,8 @@ function FleetGridSkeleton() {
   )
 }
 
-async function AvailableCarsGrid({ start, end, pickup, category }: { start?: string; end?: string; pickup?: string; category?: string }) {
-  const cars = await getAvailableCars(start, end, category)
+async function AvailableCarsGrid({ start, end, pickup, category, location }: { start?: string; end?: string; pickup?: string; category?: string; location?: string }) {
+  const cars = await getAvailableCars(start, end, category, location)
   return (
     <>
       {start && end && (
@@ -86,6 +95,7 @@ async function AvailableCarsGrid({ start, end, pickup, category }: { start?: str
         startDate={start}
         endDate={end}
         pickupLocation={pickup}
+        location={location}
         emptyMessage="Nincs szabad autó ezekre a napokra. Próbáljon másik időpontot, vagy írjon nekünk WhatsApp-on."
       />
     </>
@@ -103,7 +113,14 @@ async function getAllCarsForSchema() {
 
 export default async function FleetPage({ searchParams }: PageProps) {
   const params = await searchParams
-  const { start, end, pickup, category } = params
+  const { start, end, pickup, category, location } = params
+
+  // Multi-location is additive + flag-gated. When OFF (default / un-migrated tenant)
+  // nothing below changes the existing single-location behaviour.
+  const config = await getBusinessConfig()
+  const multiLocation = config.multi_location_enabled === true
+  const locations: Location[] = multiLocation ? await getActiveLocations() : []
+  const selectedLocation = multiLocation && location && UUID_RE.test(location) ? location : undefined
 
   const schemaCars = await getAllCarsForSchema()
   const itemListSchema = {
@@ -143,6 +160,8 @@ export default async function FleetPage({ searchParams }: PageProps) {
               initialEnd={end}
               initialPickup={pickup}
               initialCategory={category}
+              locations={multiLocation ? locations.map((l) => ({ id: l.id, name: l.name })) : undefined}
+              initialLocation={selectedLocation}
             />
           </Suspense>
         </div>
@@ -151,7 +170,7 @@ export default async function FleetPage({ searchParams }: PageProps) {
       {/* Grid with skeleton fallback */}
       <div className="mx-auto max-w-7xl px-6 py-12">
         <Suspense fallback={<FleetGridSkeleton />}>
-          <AvailableCarsGrid start={start} end={end} pickup={pickup} category={category} />
+          <AvailableCarsGrid start={start} end={end} pickup={pickup} category={category} location={selectedLocation} />
         </Suspense>
       </div>
     </div>

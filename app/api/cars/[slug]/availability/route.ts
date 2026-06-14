@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
+import { getBusinessConfig } from '@/lib/config'
 import { rateLimit, getClientIp } from '@/lib/rate-limit'
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 export async function GET(
   req: NextRequest,
@@ -15,20 +18,31 @@ export async function GET(
   const { searchParams } = new URL(req.url)
   const start = searchParams.get('start')
   const end = searchParams.get('end')
+  const location = searchParams.get('location')
 
   if (!start || !end) {
     return NextResponse.json({ error: 'start and end required' }, { status: 400 })
   }
 
-  // Get car id from slug
+  // `location` is only present when multi-location is on. Select location_id only
+  // in that case so the query stays identical on un-migrated single-location DBs.
+  const carColumns = location ? 'id, location_id' : 'id'
   const { data: car } = await supabaseAdmin
     .from('cars')
-    .select('id')
+    .select(carColumns)
     .eq('slug', slug)
-    .single()
+    .single<{ id: string; location_id?: string | null }>()
 
   if (!car) {
     return NextResponse.json({ error: 'Car not found' }, { status: 404 })
+  }
+
+  // If a telephely is selected, a car pinned to another location is not available there.
+  if (location && UUID_RE.test(location)) {
+    const config = await getBusinessConfig()
+    if (config.multi_location_enabled === true && car.location_id && car.location_id !== location) {
+      return NextResponse.json({ available: false })
+    }
   }
 
   const startUtc = new Date(start).toISOString()

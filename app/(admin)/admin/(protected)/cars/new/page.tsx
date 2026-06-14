@@ -1,9 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
+
+interface LocationOption { id: string; name: string }
 
 const INPUT = 'w-full bg-black border border-border rounded-md px-3 py-3 font-sans text-sm text-white placeholder:text-muted/40 focus:outline-none focus:ring-1 focus:ring-gold focus:border-gold'
 const SELECT = 'w-full bg-black border border-border rounded-md px-3 py-3 font-sans text-sm text-white focus:outline-none focus:ring-1 focus:ring-gold focus:border-gold'
@@ -25,7 +27,19 @@ export default function NewCarPage() {
     seats: 2,
     license_plate: '',
     description: '',
+    location_id: '',
   })
+  const [locations, setLocations] = useState<LocationOption[]>([])
+
+  useEffect(() => {
+    // Best-effort: empty/unavailable (single-location tenants) simply hides the picker.
+    fetch('/api/admin/locations')
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data) => {
+        if (Array.isArray(data)) setLocations(data.map((l: { id: string; name: string }) => ({ id: l.id, name: l.name })))
+      })
+      .catch(() => {})
+  }, [])
 
   const set = (field: string, value: string | number) =>
     setForm((prev) => ({ ...prev, [field]: value }))
@@ -44,6 +58,7 @@ export default function NewCarPage() {
         daily_price_eur: Number(form.daily_price_eur),
         deposit_eur: Number(form.deposit_eur),
         seats: Number(form.seats),
+        location_id: form.location_id || null,
       }),
     })
 
@@ -147,6 +162,18 @@ export default function NewCarPage() {
               <input id="car-plate" value={form.license_plate} onChange={(e) => set('license_plate', e.target.value)} placeholder="1234 ABC" className={INPUT} />
             </div>
           </div>
+
+          {locations.length > 0 && (
+            <div>
+              <label htmlFor="car-location" className={LABEL}>Location (telephely)</label>
+              <select id="car-location" value={form.location_id} onChange={(e) => set('location_id', e.target.value)} className={SELECT}>
+                <option value="">— Available everywhere —</option>
+                {locations.map((l) => (
+                  <option key={l.id} value={l.id}>{l.name}</option>
+                ))}
+              </select>
+            </div>
+          )}
 
           <div>
             <label htmlFor="car-description" className={LABEL}>Description</label>

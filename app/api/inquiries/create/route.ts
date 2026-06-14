@@ -23,6 +23,9 @@ const schema = z.object({
   message:            z.string().optional(),
   transfer_requested: z.boolean().default(false),
   transfer_address:   z.string().optional(),
+  // Additive multi-location FKs (only used when the tenant flag is on).
+  pickup_location_id:  z.string().uuid().optional().nullable(),
+  dropoff_location_id: z.string().uuid().optional().nullable(),
 })
 
 export async function POST(req: NextRequest) {
@@ -45,7 +48,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid request', details: parsed.error.issues }, { status: 400 })
   }
 
-  const { car_slug, start_date, end_date, pickup_location, full_name, email, phone, country, pickup_time, message, transfer_requested, transfer_address } = parsed.data
+  const { car_slug, start_date, end_date, pickup_location, full_name, email, phone, country, pickup_time, message, transfer_requested, transfer_address, pickup_location_id, dropoff_location_id } = parsed.data
+
+  const multiLoc = config.multi_location_enabled === true
 
   // Validate dates in Madrid TZ
   const startDate = parseISO(start_date)
@@ -106,6 +111,13 @@ export async function POST(req: NextRequest) {
 
   const total = car.daily_price_eur * days
 
+  // Multi-location FKs: only attached when the flag is ON (DB migrated) and an id
+  // was supplied — keeps the insert byte-identical on un-migrated single-location DBs.
+  const locationFks: Record<string, string> =
+    multiLoc && pickup_location_id
+      ? { pickup_location_id, dropoff_location_id: dropoff_location_id ?? pickup_location_id }
+      : {}
+
   // Generate booking code with retry
   let booking_code = ''
   let inserted = null
@@ -130,6 +142,7 @@ export async function POST(req: NextRequest) {
         source: 'web',
         transfer_requested,
         transfer_address: transfer_requested ? (transfer_address ?? null) : null,
+        ...locationFks,
       })
       .select('id')
       .single()

@@ -19,10 +19,11 @@ interface FleetGridProps {
   startDate?: string
   endDate?: string
   pickupLocation?: string
+  location?: string
   emptyMessage?: string
 }
 
-export function FleetGrid({ cars, startDate, endDate, pickupLocation, emptyMessage }: FleetGridProps) {
+export function FleetGrid({ cars, startDate, endDate, pickupLocation, location, emptyMessage }: FleetGridProps) {
   if (cars.length === 0) {
     return (
       <div className="flex flex-col items-center gap-4 py-24 text-center">
@@ -52,6 +53,7 @@ export function FleetGrid({ cars, startDate, endDate, pickupLocation, emptyMessa
           startDate={startDate}
           endDate={endDate}
           pickupLocation={pickupLocation}
+          location={location}
           priority={index === 0}
         />
       ))}

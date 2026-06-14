@@ -63,6 +63,11 @@ interface InquiryDrawerProps {
   endDate: string
   days: number
   pickupLocation: string
+  // Multi-location (additive): when true, the pickup dropdown lists telephelyek
+  // and the booking is saved with pickup/dropoff location FKs.
+  multiLocation?: boolean
+  locations?: Array<{ id: string; name: string }>
+  locationId?: string
 }
 
 export function InquiryDrawer({
@@ -72,6 +77,9 @@ export function InquiryDrawer({
   startDate,
   endDate,
   pickupLocation,
+  multiLocation = false,
+  locations = [],
+  locationId,
 }: InquiryDrawerProps) {
   const router = useRouter()
   const [submitting, setSubmitting] = useState(false)
@@ -126,9 +134,16 @@ export function InquiryDrawer({
     setDrawerEnd(r?.to ? format(r.to, 'yyyy-MM-dd') : '')
   }
 
-  const defaultPickup = PICKUP_LOCATIONS.includes(pickupLocation) ? pickupLocation : PICKUP_LOCATIONS[0]
+  const useLocations = multiLocation && locations.length > 0
+  const locName = (id: string): string => locations.find((l) => l.id === id)?.name ?? ''
+  const initialLoc = locationId && locations.some((l) => l.id === locationId) ? locationId : (locations[0]?.id ?? '')
+  const [selectedLoc, setSelectedLoc] = useState(initialLoc)
 
-  const { register, handleSubmit, control, watch, formState: { errors } } = useForm<FormData>({
+  const defaultPickup = useLocations
+    ? locName(initialLoc)
+    : (PICKUP_LOCATIONS.includes(pickupLocation) ? pickupLocation : PICKUP_LOCATIONS[0])
+
+  const { register, handleSubmit, control, watch, setValue, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       pickup_location: defaultPickup,
@@ -156,6 +171,9 @@ export function InquiryDrawer({
           car_slug: car.slug,
           start_date: drawerStart,
           end_date: drawerEnd,
+          // Only sent when multi-location is on; the API stores the FKs and the
+          // text pickup_location stays the telephely name (back-compat).
+          ...(useLocations && selectedLoc ? { pickup_location_id: selectedLoc, dropoff_location_id: selectedLoc } : {}),
         }),
       })
 
@@ -365,26 +383,45 @@ export function InquiryDrawer({
             {/* Pickup location — hidden when transfer is on */}
             {!transferRequested && (
               <div className="space-y-1.5">
-                <Label>Átvétel helye</Label>
-                <Controller
-                  name="pickup_location"
-                  control={control}
-                  render={({ field }) => (
-                    <Select value={field.value ?? ''} onValueChange={field.onChange}>
-                      <SelectTrigger>
-                        <span className="flex items-center gap-2">
-                          <MapPin className="h-4 w-4 text-gold shrink-0" />
-                          <SelectValue placeholder="Válasszon helyet" />
-                        </span>
-                      </SelectTrigger>
-                      <SelectContent>
-                        {PICKUP_LOCATIONS.map((loc) => (
-                          <SelectItem key={loc} value={loc}>{loc}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  )}
-                />
+                <Label>{useLocations ? 'Telephely' : 'Átvétel helye'}</Label>
+                {useLocations ? (
+                  <Select
+                    value={selectedLoc}
+                    onValueChange={(v) => { setSelectedLoc(v); setValue('pickup_location', locName(v)) }}
+                  >
+                    <SelectTrigger>
+                      <span className="flex items-center gap-2">
+                        <MapPin className="h-4 w-4 text-gold shrink-0" />
+                        <SelectValue placeholder="Válasszon telephelyet" />
+                      </span>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {locations.map((loc) => (
+                        <SelectItem key={loc.id} value={loc.id}>{loc.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <Controller
+                    name="pickup_location"
+                    control={control}
+                    render={({ field }) => (
+                      <Select value={field.value ?? ''} onValueChange={field.onChange}>
+                        <SelectTrigger>
+                          <span className="flex items-center gap-2">
+                            <MapPin className="h-4 w-4 text-gold shrink-0" />
+                            <SelectValue placeholder="Válasszon helyet" />
+                          </span>
+                        </SelectTrigger>
+                        <SelectContent>
+                          {PICKUP_LOCATIONS.map((loc) => (
+                            <SelectItem key={loc} value={loc}>{loc}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                )}
                 {errors.pickup_location && (
                   <p className="text-xs font-sans text-danger">{errors.pickup_location.message}</p>
                 )}

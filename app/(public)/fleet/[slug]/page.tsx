@@ -2,11 +2,12 @@ export const revalidate = 60
 
 import { notFound } from 'next/navigation'
 import { supabaseAdmin } from '@/lib/supabase'
+import { getBusinessConfig, getActiveLocations, type Location } from '@/lib/config'
 import { CarDetailClient } from './CarDetailClient'
 
 interface PageProps {
   params: Promise<{ slug: string }>
-  searchParams: Promise<{ start?: string; end?: string; pickup?: string }>
+  searchParams: Promise<{ start?: string; end?: string; pickup?: string; location?: string }>
 }
 
 async function getCar(slug: string) {
@@ -61,7 +62,12 @@ export default async function CarDetailPage({ params, searchParams }: PageProps)
   const car = await getCar(slug)
   if (!car) notFound()
 
-  const { start, end, pickup } = sp
+  const { start, end, pickup, location } = sp
+
+  // Multi-location is additive + flag-gated.
+  const config = await getBusinessConfig()
+  const multiLocation = config.multi_location_enabled === true
+  const locations: Location[] = multiLocation ? await getActiveLocations() : []
 
   let isAvailable = true
   if (start && end && car.id) {
@@ -94,6 +100,9 @@ export default async function CarDetailPage({ params, searchParams }: PageProps)
         initialEnd={end}
         initialPickup={pickup}
         initialAvailable={isAvailable}
+        multiLocation={multiLocation}
+        locations={multiLocation ? locations.map((l) => ({ id: l.id, name: l.name })) : []}
+        initialLocationId={location}
       />
     </>
   )

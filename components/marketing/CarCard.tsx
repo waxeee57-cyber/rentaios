@@ -23,10 +23,11 @@ interface CarCardProps {
   startDate?: string
   endDate?: string
   pickupLocation?: string
+  location?: string
   priority?: boolean
 }
 
-export function CarCard({ car, startDate, endDate, pickupLocation, priority = false }: CarCardProps) {
+export function CarCard({ car, startDate, endDate, pickupLocation, location, priority = false }: CarCardProps) {
   const hasDates = !!(startDate && endDate)
   const days = hasDates
     ? differenceInCalendarDays(new Date(endDate), new Date(startDate))
@@ -37,6 +38,7 @@ export function CarCard({ car, startDate, endDate, pickupLocation, priority = fa
   if (startDate) searchParams.set('start', startDate)
   if (endDate) searchParams.set('end', endDate)
   if (pickupLocation) searchParams.set('pickup', pickupLocation)
+  if (location) searchParams.set('location', location)
   const href = `/fleet/${car.slug}${searchParams.size ? `?${searchParams.toString()}` : ''}`
 
   const photo = car.photos?.[0]

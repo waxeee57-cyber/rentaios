@@ -29,7 +29,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <SignOutButton />
         </div>
       </header>
-      <AdminNav />
+      <AdminNav multiLocationEnabled={config.multi_location_enabled === true} />
       <main>{children}</main>
       <Toaster theme="dark" position="bottom-right" richColors />
 

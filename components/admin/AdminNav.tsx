@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { useState, useEffect } from 'react'
 
-const links = [
+const baseLinks = [
   { href: '/admin', label: 'Dashboard', exact: true },
   { href: '/admin/bookings', label: 'Bookings', exact: false },
   { href: '/admin/cars', label: 'Fleet', exact: false },
@@ -19,8 +19,17 @@ const links = [
   { href: '/admin/billing', label: 'Billing', exact: false },
 ]
 
-export function AdminNav() {
+export function AdminNav({ multiLocationEnabled = false }: { multiLocationEnabled?: boolean }) {
   const pathname = usePathname()
+  // Additive: the Locations tab only appears when multi-location is ON, so the
+  // admin nav is pixel-identical for single-location tenants.
+  const links = multiLocationEnabled
+    ? [
+        ...baseLinks.slice(0, 3),
+        { href: '/admin/locations', label: 'Locations', exact: false },
+        ...baseLinks.slice(3),
+      ]
+    : baseLinks
   const [unread, setUnread] = useState(0)
 
   useEffect(() => {
